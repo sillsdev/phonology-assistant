@@ -227,6 +227,8 @@
     <Compile Include="Filters\Filters.cs" />
     <Compile Include="Model\Migration\Migration0347.cs" />
     <Compile Include="Model\Migration\Migration0349.cs" />
+    <Compile Include="Model\Migration\Migration0350.cs" />
+    <Compile Include="Model\Migration\Migration0351.cs" />
     <Compile Include="UIAdapter\LocalizeAdapterItems.cs" />
     <Compile Include="Miscellaneous\AudioPlayer.cs" />
     <Compile Include="Miscellaneous\CIEBuilder.cs" />
@@ -1126,6 +1128,8 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\back_button.png" />
+    <None Include="Resources\Restore_default_layout.png" />
     <None Include="Resources\SimilarEnvironment.png" />
     <None Include="Resources\PaTMDefinition.xml" />
     <None Include="Resources\AddStackedTabGroup.png" />
@@ -1215,6 +1219,8 @@
     <EmbeddedResource Include="Model\Migration\UpdateFieldInfo.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0347.xslt" />
     <EmbeddedResource Include="Model\Migration\AddRhymeToDistribution.xslt" />
+    <EmbeddedResource Include="Model\Migration\UpdatePaUI0350.xslt" />
+    <EmbeddedResource Include="Model\Migration\UpdatePaUI0351.xslt" />
     <Content Include="pa.ico" />
     <None Include="Resources\CloseTab.png" />
     <None Include="Resources\DropDownArrowWithPadding.png" />

@@ -1,3 +1,12 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,5 +132,26 @@ namespace SIL.Pa.UI.Dialogs
 			if (tabOptions.SelectedTab.Controls.Count > 0 && tabOptions.SelectedTab.Controls[0] is IOptionsDlgPage)
 				App.ShowHelpTopic(((IOptionsDlgPage)tabOptions.SelectedTab.Controls[0]).HelpId);
 		}
+
+        protected override bool ProcessCmdKey(ref Message message, Keys keys)
+        {
+            switch (keys)
+            {
+                case Keys.Escape:
+                    {
+                        this.Close();
+                        return true;
+                    }
+                case Keys.Control | Keys.Tab:
+                    {
+                        return true;
+                    }
+                case Keys.Control | Keys.Shift | Keys.Tab:
+                    {
+                        return true;
+                    }
+            }
+            return base.ProcessCmdKey(ref message, keys);
+        }
 	}
 }

@@ -153,11 +153,11 @@ namespace SIL.Pa.DataSource
 			var prjFields = projectFields.ToArray();
 			var writingSystems = FwDataSourceInfo.GetWritingSystems().ToArray();
 			var defaultFieldNames = Settings.Default.DefaultMappedFw7Fields.Cast<string>()
-				.Where(n => n != PaField.kAudioFileFieldName && n != PaField.kPhoneticFieldName).ToList();
+				.Where(n => n != PaField.kAudioFileFieldName).ToList();
 
 			// Add a mapping for the phonetic field.
-			yield return new FieldMapping(prjFields.First(f => f.Type == FieldType.Phonetic), true)
-				{ FwWsId = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Id };
+			//yield return new FieldMapping(prjFields.First(f => f.Type == FieldType.Phonetic), true)
+			//	{ FwWsId = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Id };
 
 			// Add a mapping for the audio file field.
             var audioWs = FwDBUtils.GetDefaultAudioWritingSystem(writingSystems);

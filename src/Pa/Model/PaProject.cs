@@ -1,3 +1,12 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +29,7 @@ namespace SIL.Pa.Model
     /// ----------------------------------------------------------------------------------------
     public class PaProject : IDisposable
     {
-        public const string kCurrVersion = "3.4.10";
+        public const string kCurrVersion = "3.5.1";
 
         private Form _appWindow;
         private bool _newProject;
@@ -178,6 +187,18 @@ namespace SIL.Pa.Model
             if (error == null && prevVersion == "3.4.9")
             {
                 error = Migration0349.Migrate(filename, GetProjectPathFilePrefix);
+                prevVersion = "3.4.10";
+            }
+
+            if (error == null && prevVersion == "3.4.10")
+            {
+                error = Migration0350.Migrate(filename, GetProjectPathFilePrefix);
+                prevVersion = "3.5.0";
+            }
+
+            if (error == null && prevVersion == "3.5.0")
+            {
+                error = Migration0351.Migrate(filename, GetProjectPathFilePrefix);
                 prevVersion = kCurrVersion;
             }
 
@@ -388,12 +409,25 @@ namespace SIL.Pa.Model
 
             // Now remove any fields that no longer have a mapping and are not in the default set (i.e. custom).
             var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName).ToList();
-            var customfields = new Fw7CustomField();
 
             if (DataSources.Count > 0 && DataSources[0] != null)
             {
-                customfields = new Fw7CustomField(this.DataSources[0]);
-                var defaultFieldNames = PaField.GetDefaultFields(customfields).Select(f => f.Name).ToList();
+                Fw7CustomField cusfields = null;
+                foreach (var ds in this.DataSources)
+                {
+                    if (cusfields == null)
+                    {
+                        cusfields = new Fw7CustomField(ds);
+                    }
+                    else
+                    {
+                        cusfields.CustomFields.AddRange(
+                         new Fw7CustomField(ds).CustomFields.Where(p => cusfields.CustomFields.All(s => s.Name != p.Name)));
+                        cusfields.CustomValues.AddRange(
+                             new Fw7CustomField(ds).CustomValues.Where(p => cusfields.CustomValues.All(s => s.CustomFields != p.CustomFields)));
+                    }
+                }
+                var defaultFieldNames = PaField.GetDefaultFields(cusfields).Select(f => f.Name).ToList();
                 for (int i = fields.Count - 1; i >= 0; i--)
                 {
                     if (!mappedFieldNames.Contains(fields[i].Name) && !defaultFieldNames.Contains(fields[i].Name))

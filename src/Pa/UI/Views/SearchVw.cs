@@ -1,3 +1,12 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -159,6 +168,11 @@ namespace SIL.Pa.UI.Views
                         return true;
                     }
                 }
+            }
+            else if (keyData == (Keys)117) //Key-press "F6"
+            {
+                ptrnTextBox.Focus();
+                ptrnTextBox.SelectAll();
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -1065,8 +1079,6 @@ namespace SIL.Pa.UI.Views
             {
                 ptrnTextBox.SetSearchQuery(query);
                 m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
-                ptrnTextBox.Focus();
-                ptrnTextBox.SelectionLength = 0;
             }
         }
 
@@ -1512,6 +1524,18 @@ namespace SIL.Pa.UI.Views
             itemProps.Enabled = (m_rsltVwMngr.CurrentViewsGrid != null);
 
             return true;
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowHtmlChart(object args)
+        {
+            return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowHistogram(object args)
+        {
+            return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
         }
     }
 }

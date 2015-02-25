@@ -1,3 +1,12 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -101,56 +110,72 @@ namespace SIL.Pa.UI.Controls
 			return ((types & (int)IPASymbolSubType.tone) > 0);
 		}
 
+        /// ------------------------------------------------------------------------------------
+        protected static bool GetHasPitchPhonationType(int types)
+        {
+            return ((types & (int)IPASymbolSubType.pitchphonation) > 0);
+        }
 		#endregion
 
 		#region Methods for loading pickers
-		/// ------------------------------------------------------------------------------------
-		private IEnumerable<CharPicker> GetListOfPickersToShow(int typesToShow)
-		{
+        /// ------------------------------------------------------------------------------------
+        private IEnumerable<CharPicker> GetListOfPickersToShow(int typesToShow)
+        {
 			if (GetHasConsonantType(typesToShow))
-				yield return CreatePicker((int)IPASymbolType.consonant, "chrPickerVowels", false);
+                yield return CreatePicker((int) IPASymbolType.consonant, "chrPickerVowels", false);
 
 			if (GetHasVowelType(typesToShow))
-				yield return CreatePicker((int)IPASymbolType.vowel, "chrPickerVowels", false);
+                yield return CreatePicker((int)IPASymbolType.vowel, "chrPickerVowels", false);
 
 			if (GetHasDiacriticType(typesToShow))
-				yield return CreatePicker((int)IPASymbolType.diacritic, "chrPickerDiacritics", true);
+                yield return CreatePicker((int)IPASymbolType.diacritic, "chrPickerDiacritics", true);
 
 			if (GetHasStressType(typesToShow))
-				yield return CreatePicker((int)IPASymbolSubType.stress, "chrPickerStress", true);
+                yield return CreatePicker((int)IPASymbolSubType.stress, "chrPickerStress", true);
 
 			if (GetHasLengthType(typesToShow))
-				yield return CreatePicker((int)IPASymbolSubType.length, "chrPickerLength", true);
+                yield return CreatePicker((int)IPASymbolSubType.length, "chrPickerLength", true);
 
-			if (GetHasBoundaryType(typesToShow))
-				yield return CreatePicker((int)IPASymbolSubType.boundary, "chrPickerBoundaries", false);
+            if (GetHasBoundaryType(typesToShow))
+                yield return CreatePicker((int)IPASymbolSubType.boundary, "chrPickerBoundaries", false);
 
-			if (GetHasToneType(typesToShow))
-				yield return CreatePicker((int)IPASymbolSubType.tone, "chrPickerTone", true);
+            if (GetHasToneType(typesToShow))
+                yield return CreatePicker((int)IPASymbolSubType.tone, "chrPickerTone", true);
+
+            if (GetHasToneType(typesToShow))
+                yield return CreatePicker((int)IPASymbolSubType.pitchphonation, "chrPitchPhonation", true);
+
+            //pType = new int[4];
+            //pType[0] = (int)IPASymbolSubType.stress;
+            //pType[1] = (int)IPASymbolSubType.length;
+            //pType[2] = (int)IPASymbolSubType.boundary;
+            //pType[3] = (int)IPASymbolSubType.tone;
+            //if (GetHasPitchPhonationType(typesToShow))
+            //    yield return CreatePicker(pType, "chrPickerPitchPhonation", false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private CharPicker CreatePicker(int typeInfo, string name, bool makeBigFont)
-		{
-			var picker = new CharPicker();
-			picker.Name = name;
-			picker.CharPicked += HandleCharPicked;
-			picker.ItemDrag += HandleCharacterItemDrag;
-			picker.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
-			picker.CheckItemsOnClick = false;
-			picker.AutoSizeItems = true;
+        /// ------------------------------------------------------------------------------------
+        private CharPicker CreatePicker(int typeInfo, string name, bool makeBigFont)
+        {
+            var picker = new CharPicker();
+            picker.Name = name;
+            picker.CharPicked += HandleCharPicked;
+            picker.ItemDrag += HandleCharacterItemDrag;
+            picker.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
+            picker.CheckItemsOnClick = false;
+            picker.AutoSizeItems = true;
 
-			if (makeBigFont)
-			{
-				picker.Font = FontHelper.MakeFont(picker.Font, kBigFontSize);
-				picker.ItemSize = new Size(40, 46);
-			}
+            if (makeBigFont)
+            {
+                picker.Font = FontHelper.MakeFont(picker.Font, kBigFontSize);
+                picker.ItemSize = new Size(40, 46);
+            }
 
-			var item = Add(picker);
-			LocalizePickerButton(typeInfo, item.Button);
+            var item = Add(picker);
+            LocalizePickerButton(typeInfo, item.Button);
 
-			return picker;
-		}
+            return picker;
+        }
 
 		/// ------------------------------------------------------------------------------------
 		public virtual void Load(int typesToLoad)
@@ -213,6 +238,12 @@ namespace SIL.Pa.UI.Controls
 				LocalizationManager.GetString("CommonControls.CharacterPicker.ToneHeading",
 					"Tone", null, button);
 			}
+            if (GetHasPitchPhonationType(typeInfo))
+            {
+                button.Text = "Pitch-Phonation";
+                LocalizationManager.GetString("CommonControls.CharacterPicker.PitchPhonationHeading",
+                    "Pitch-Phonation", null, button);
+            }
 		}
 
 		/// ------------------------------------------------------------------------------------

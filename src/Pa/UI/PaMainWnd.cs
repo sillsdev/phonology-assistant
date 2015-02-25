@@ -1,3 +1,12 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -340,7 +349,7 @@ namespace SIL.Pa.UI
 					"Distribution Charts View Help"));
 
 			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartsTab",
-				"Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+X)", null, tab);
+				"Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+B)", null, tab);
 
 			vwTabGroup.AddTab(tab);
 			

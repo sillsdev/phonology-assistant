@@ -67,134 +67,134 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaMainWnd));
-			this.statusStrip = new System.Windows.Forms.StatusStrip();
-			this.sblblMain = new System.Windows.Forms.ToolStripStatusLabel();
-			this.sblblProgress = new System.Windows.Forms.ToolStripStatusLabel();
-			this.sblblPercent = new System.Windows.Forms.ToolStripStatusLabel();
-			this.sbProgress = new System.Windows.Forms.ToolStripProgressBar();
-			this.sblblFilter = new System.Windows.Forms.ToolStripStatusLabel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.vwTabGroup = new SIL.Pa.UI.Controls.ViewTabGroup();
-			this.statusStrip.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
-			this.SuspendLayout();
-			// 
-			// statusStrip
-			// 
-			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaMainWnd));
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.sblblMain = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sblblProgress = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sblblPercent = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sbProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.sblblFilter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.vwTabGroup = new SIL.Pa.UI.Controls.ViewTabGroup();
+            this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sblblMain,
             this.sblblProgress,
             this.sblblPercent,
             this.sbProgress,
             this.sblblFilter});
-			this.statusStrip.Location = new System.Drawing.Point(0, 516);
-			this.statusStrip.Name = "statusStrip";
-			this.statusStrip.Size = new System.Drawing.Size(794, 22);
-			this.statusStrip.TabIndex = 1;
-			// 
-			// sblblMain
-			// 
-			this.sblblMain.AutoSize = false;
-			this.sblblMain.BackColor = System.Drawing.SystemColors.Control;
-			this.locExtender.SetLocalizableToolTip(this.sblblMain, null);
-			this.locExtender.SetLocalizationComment(this.sblblMain, null);
-			this.locExtender.SetLocalizationPriority(this.sblblMain, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.sblblMain, "PaMainWnd.sblblMain");
-			this.sblblMain.Name = "sblblMain";
-			this.sblblMain.Size = new System.Drawing.Size(424, 17);
-			this.sblblMain.Spring = true;
-			this.sblblMain.Text = "#";
-			this.sblblMain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// sblblProgress
-			// 
-			this.sblblProgress.BackColor = System.Drawing.Color.Transparent;
-			this.sblblProgress.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-			this.sblblProgress.Image = global::SIL.Pa.Properties.Resources.LoadingWheel;
-			this.sblblProgress.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.locExtender.SetLocalizableToolTip(this.sblblProgress, null);
-			this.locExtender.SetLocalizationComment(this.sblblProgress, null);
-			this.locExtender.SetLocalizationPriority(this.sblblProgress, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.sblblProgress, "PaMainWnd.sblblProgress");
-			this.sblblProgress.Margin = new System.Windows.Forms.Padding(5, 3, 5, 2);
-			this.sblblProgress.Name = "sblblProgress";
-			this.sblblProgress.Size = new System.Drawing.Size(30, 17);
-			this.sblblProgress.Text = "#";
-			this.sblblProgress.VisibleChanged += new System.EventHandler(this.HandleProgressLabelVisibleChanged);
-			// 
-			// sblblPercent
-			// 
-			this.sblblPercent.BackColor = System.Drawing.Color.Transparent;
-			this.sblblPercent.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-			this.sblblPercent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.locExtender.SetLocalizableToolTip(this.sblblPercent, null);
-			this.locExtender.SetLocalizationComment(this.sblblPercent, null);
-			this.locExtender.SetLocalizationPriority(this.sblblPercent, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.sblblPercent, "PaMainWnd.sblblPercent");
-			this.sblblPercent.Name = "sblblPercent";
-			this.sblblPercent.Size = new System.Drawing.Size(14, 17);
-			this.sblblPercent.Text = "#";
-			// 
-			// sbProgress
-			// 
-			this.sbProgress.AutoSize = false;
-			this.sbProgress.Name = "sbProgress";
-			this.sbProgress.Size = new System.Drawing.Size(200, 16);
-			// 
-			// sblblFilter
-			// 
-			this.sblblFilter.AutoSize = false;
-			this.sblblFilter.Image = global::SIL.Pa.Properties.Resources.kimidFilter;
-			this.locExtender.SetLocalizableToolTip(this.sblblFilter, null);
-			this.locExtender.SetLocalizationComment(this.sblblFilter, null);
-			this.locExtender.SetLocalizationPriority(this.sblblFilter, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.sblblFilter, "PaMainWnd.sblblFilter");
-			this.sblblFilter.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
-			this.sblblFilter.Name = "sblblFilter";
-			this.sblblFilter.Size = new System.Drawing.Size(96, 17);
-			this.sblblFilter.Text = "FilterIndicator";
-			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationManagerId = "Pa";
-			// 
-			// vwTabGroup
-			// 
-			this.vwTabGroup.AllowDrop = true;
-			this.vwTabGroup.BackColor = System.Drawing.SystemColors.Control;
-			this.vwTabGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.locExtender.SetLocalizableToolTip(this.vwTabGroup, null);
-			this.locExtender.SetLocalizationComment(this.vwTabGroup, null);
-			this.locExtender.SetLocalizationPriority(this.vwTabGroup, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.vwTabGroup, "PaMainWnd.vwTabGroup");
-			this.vwTabGroup.Location = new System.Drawing.Point(0, 0);
-			this.vwTabGroup.Name = "vwTabGroup";
-			this.vwTabGroup.Size = new System.Drawing.Size(794, 516);
-			this.vwTabGroup.TabIndex = 5;
-			this.vwTabGroup.Visible = false;
-			// 
-			// PaMainWnd
-			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-			this.ClientSize = new System.Drawing.Size(794, 538);
-			this.Controls.Add(this.vwTabGroup);
-			this.Controls.Add(this.statusStrip);
-			this.DoubleBuffered = true;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.locExtender.SetLocalizableToolTip(this, null);
-			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "MainWindow.WindowTitle.WithOutProject");
-			this.Name = "PaMainWnd";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Phonology Assistant";
-			this.statusStrip.ResumeLayout(false);
-			this.statusStrip.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.statusStrip.Location = new System.Drawing.Point(0, 509);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(794, 29);
+            this.statusStrip.TabIndex = 1;
+            // 
+            // sblblMain
+            // 
+            this.sblblMain.AutoSize = false;
+            this.sblblMain.BackColor = System.Drawing.SystemColors.Control;
+            this.locExtender.SetLocalizableToolTip(this.sblblMain, null);
+            this.locExtender.SetLocalizationComment(this.sblblMain, null);
+            this.locExtender.SetLocalizationPriority(this.sblblMain, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this.sblblMain, "PaMainWnd.sblblMain");
+            this.sblblMain.Name = "sblblMain";
+            this.sblblMain.Size = new System.Drawing.Size(376, 24);
+            this.sblblMain.Spring = true;
+            this.sblblMain.Text = "#";
+            this.sblblMain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // sblblProgress
+            // 
+            this.sblblProgress.BackColor = System.Drawing.Color.Transparent;
+            this.sblblProgress.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.sblblProgress.Image = global::SIL.Pa.Properties.Resources.LoadingWheel;
+            this.sblblProgress.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.locExtender.SetLocalizableToolTip(this.sblblProgress, null);
+            this.locExtender.SetLocalizationComment(this.sblblProgress, null);
+            this.locExtender.SetLocalizationPriority(this.sblblProgress, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this.sblblProgress, "PaMainWnd.sblblProgress");
+            this.sblblProgress.Margin = new System.Windows.Forms.Padding(5, 3, 5, 2);
+            this.sblblProgress.Name = "sblblProgress";
+            this.sblblProgress.Size = new System.Drawing.Size(34, 24);
+            this.sblblProgress.Text = "#";
+            this.sblblProgress.VisibleChanged += new System.EventHandler(this.HandleProgressLabelVisibleChanged);
+            // 
+            // sblblPercent
+            // 
+            this.sblblPercent.BackColor = System.Drawing.Color.Transparent;
+            this.sblblPercent.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.sblblPercent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.locExtender.SetLocalizableToolTip(this.sblblPercent, null);
+            this.locExtender.SetLocalizationComment(this.sblblPercent, null);
+            this.locExtender.SetLocalizationPriority(this.sblblPercent, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this.sblblPercent, "PaMainWnd.sblblPercent");
+            this.sblblPercent.Name = "sblblPercent";
+            this.sblblPercent.Size = new System.Drawing.Size(18, 24);
+            this.sblblPercent.Text = "#";
+            // 
+            // sbProgress
+            // 
+            this.sbProgress.AutoSize = false;
+            this.sbProgress.Name = "sbProgress";
+            this.sbProgress.Size = new System.Drawing.Size(240, 23);
+            // 
+            // sblblFilter
+            // 
+            this.sblblFilter.AutoSize = false;
+            this.sblblFilter.Image = global::SIL.Pa.Properties.Resources.kimidFilter;
+            this.locExtender.SetLocalizableToolTip(this.sblblFilter, null);
+            this.locExtender.SetLocalizationComment(this.sblblFilter, null);
+            this.locExtender.SetLocalizationPriority(this.sblblFilter, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this.sblblFilter, "PaMainWnd.sblblFilter");
+            this.sblblFilter.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
+            this.sblblFilter.Name = "sblblFilter";
+            this.sblblFilter.Size = new System.Drawing.Size(96, 24);
+            this.sblblFilter.Text = "FilterIndicator";
+            // 
+            // locExtender
+            // 
+            this.locExtender.LocalizationManagerId = "Pa";
+            // 
+            // vwTabGroup
+            // 
+            this.vwTabGroup.AllowDrop = true;
+            this.vwTabGroup.BackColor = System.Drawing.SystemColors.Control;
+            this.vwTabGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.locExtender.SetLocalizableToolTip(this.vwTabGroup, null);
+            this.locExtender.SetLocalizationComment(this.vwTabGroup, null);
+            this.locExtender.SetLocalizationPriority(this.vwTabGroup, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this.vwTabGroup, "PaMainWnd.vwTabGroup");
+            this.vwTabGroup.Location = new System.Drawing.Point(0, 0);
+            this.vwTabGroup.Name = "vwTabGroup";
+            this.vwTabGroup.Size = new System.Drawing.Size(794, 509);
+            this.vwTabGroup.TabIndex = 5;
+            this.vwTabGroup.Visible = false;
+            // 
+            // PaMainWnd
+            // 
+            this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+            this.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.ClientSize = new System.Drawing.Size(794, 538);
+            this.Controls.Add(this.vwTabGroup);
+            this.Controls.Add(this.statusStrip);
+            this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.locExtender.SetLocalizableToolTip(this, null);
+            this.locExtender.SetLocalizationComment(this, null);
+            this.locExtender.SetLocalizingId(this, "MainWindow.WindowTitle.WithOutProject");
+            this.Name = "PaMainWnd";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "Phonology Assistant";
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 		#endregion

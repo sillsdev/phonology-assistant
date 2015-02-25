@@ -113,6 +113,10 @@ namespace SIL.Pa.Resources
             this.TMImages.Images.SetKeyName(67, "");
             this.TMImages.Images.SetKeyName(68, "");
             this.TMImages.Images.SetKeyName(69, "");
+            this.TMImages.Images.SetKeyName(70, "");
+            this.TMImages.Images.SetKeyName(71, "");
+            this.TMImages.Images.SetKeyName(72, "");
+            this.TMImages.Images.SetKeyName(73, "");
             // 
             // ResourceHelper
             // 

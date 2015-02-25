@@ -246,6 +246,8 @@ namespace SIL.Pa.UI.Dialogs
             this.cboVernacularOptions.Name = "cboVernacularOptions";
             this.cboVernacularOptions.Size = new System.Drawing.Size(235, 26);
             this.cboVernacularOptions.TabIndex = 8;
+            this.cboVernacularOptions.SelectedIndexChanged += new System.EventHandler(this.HandleVernacularOptionsChanged);
+           
             // 
             // grpFields
             // 

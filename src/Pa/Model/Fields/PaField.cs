@@ -1,4 +1,13 @@
-﻿using System;
+﻿// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -233,7 +242,7 @@ namespace SIL.Pa.Model
         public static bool GetIsReservedFieldName(string name)
         {
             return ((kCVPatternFieldName + ";" + kDataSourceFieldName + ";" +
-                     kDataSourcePathFieldName + ";" + kPhoneticSourceFieldName).Contains(name));
+                     kDataSourcePathFieldName + ";" + kPhoneticSourceFieldName).Split(';').Contains(name));
         }
 
         /// ------------------------------------------------------------------------------------
@@ -254,7 +263,21 @@ namespace SIL.Pa.Model
             s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
             if (project.DataSources.Count <= 0)
                 return GetDefaultFields();
-            var cusfields = new Fw7CustomField(project.DataSources[0]);
+            Fw7CustomField cusfields = null;
+            foreach (var ds in project.DataSources)
+            {
+                if (cusfields == null)
+                {
+                    cusfields = new Fw7CustomField(ds);
+                }
+                else
+                {
+                    cusfields.CustomFields.AddRange(
+                        new Fw7CustomField(ds).CustomFields.Where(p => cusfields.CustomFields.All(s => s.Name != p.Name)));
+                    cusfields.CustomValues.AddRange(
+                         new Fw7CustomField(ds).CustomValues.Where(p => cusfields.CustomValues.All(s => s.CustomFields != p.CustomFields)));
+                }
+            }
             var defaultFields = GetDefaultFields(cusfields);
             var path = GetFileForProject(project.ProjectPathFilePrefix);
 
@@ -343,6 +366,14 @@ namespace SIL.Pa.Model
                 foreach (var mFieldValue in mCustomfields.CustomFields.Select(s => s.Name))
                 {
                     var fd = new PaField(mFieldValue, FieldType.GeneralText);
+                    if (
+                        mFieldValue.Any(
+                            fieldName =>
+                                mCustomfields.FwWritingSystemType(mFieldValue) ==
+                                FwDBUtils.FwWritingSystemType.Vernacular))
+                    {
+                        fd.FwWsType = FwDBUtils.FwWritingSystemType.Vernacular;
+                    }
                     if (list.All(f => f.Name != mFieldValue))
                         list.Add(fd);
                     if (!Settings.Default.DefaultVisibleFields.Contains(fd.Name))

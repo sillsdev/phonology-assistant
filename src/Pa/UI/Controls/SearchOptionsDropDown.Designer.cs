@@ -45,26 +45,33 @@ namespace SIL.Pa.UI.Controls
             this.locExtender = new Localization.UI.LocalizationExtender(this.components);
             this._chkBoundary = new System.Windows.Forms.CheckBox();
             this._groupBoundary = new System.Windows.Forms.GroupBox();
+            this._chkPitchPhonation = new System.Windows.Forms.CheckBox();
+            this._groupPitchPhonation = new System.Windows.Forms.GroupBox();
+            this.lnkCancel = new System.Windows.Forms.LinkLabel();
+            this.lnkOk = new System.Windows.Forms.LinkLabel();
             this._panelStress = new System.Windows.Forms.Panel();
             this._panelLength = new System.Windows.Forms.Panel();
             this._panelTone = new System.Windows.Forms.Panel();
             this._panelBoundary = new System.Windows.Forms.Panel();
+            this._panelPitchPhonation = new System.Windows.Forms.Panel();
             this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this._linkClose = new System.Windows.Forms.LinkLabel();
             this._pickerStress = new SIL.Pa.UI.Controls.CharPicker();
             this._pickerLength = new SIL.Pa.UI.Controls.CharPicker();
             this._pickerTone = new SIL.Pa.UI.Controls.CharPicker();
             this._pickerBoundary = new SIL.Pa.UI.Controls.CharPicker();
+            this._pickerPitchPhonation = new SIL.Pa.UI.Controls.CharPicker();
             this._groupStress.SuspendLayout();
             this._groupTone.SuspendLayout();
             this._groupLength.SuspendLayout();
             this._groupUncertainties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
             this._groupBoundary.SuspendLayout();
+            this._groupPitchPhonation.SuspendLayout();
             this._panelStress.SuspendLayout();
             this._panelLength.SuspendLayout();
             this._panelTone.SuspendLayout();
             this._panelBoundary.SuspendLayout();
+            this._panelPitchPhonation.SuspendLayout();
             this._tableLayout.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -223,7 +230,7 @@ namespace SIL.Pa.UI.Controls
             this.locExtender.SetLocalizableToolTip(this._linkApplyToAll, null);
             this.locExtender.SetLocalizationComment(this._linkApplyToAll, null);
             this.locExtender.SetLocalizingId(this._linkApplyToAll, "Views.WordLists.SearchResults.SearchOptionsPopup.ApplyToAllLink");
-            this._linkApplyToAll.Location = new System.Drawing.Point(0, 409);
+            this._linkApplyToAll.Location = new System.Drawing.Point(0, 459);
             this._linkApplyToAll.Margin = new System.Windows.Forms.Padding(0, 4, 3, 0);
             this._linkApplyToAll.Name = "_linkApplyToAll";
             this._linkApplyToAll.Size = new System.Drawing.Size(115, 15);
@@ -240,7 +247,7 @@ namespace SIL.Pa.UI.Controls
             this.locExtender.SetLocalizableToolTip(this._linkHelp, null);
             this.locExtender.SetLocalizationComment(this._linkHelp, null);
             this.locExtender.SetLocalizingId(this._linkHelp, "Views.WordLists.SearchResults.SearchOptionsPopup.HelpLink");
-            this._linkHelp.Location = new System.Drawing.Point(200, 409);
+            this._linkHelp.Location = new System.Drawing.Point(239, 459);
             this._linkHelp.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
             this._linkHelp.Name = "_linkHelp";
             this._linkHelp.Size = new System.Drawing.Size(33, 15);
@@ -259,12 +266,12 @@ namespace SIL.Pa.UI.Controls
             this.locExtender.SetLocalizableToolTip(this._groupUncertainties, null);
             this.locExtender.SetLocalizationComment(this._groupUncertainties, null);
             this.locExtender.SetLocalizingId(this._groupUncertainties, "Views.WordLists.SearchResults.SearchOptionsPopup.UncertaintiesGroupBox");
-            this._groupUncertainties.Location = new System.Drawing.Point(0, 277);
+            this._groupUncertainties.Location = new System.Drawing.Point(0, 335);
             this._groupUncertainties.Margin = new System.Windows.Forms.Padding(0, 6, 0, 3);
             this._groupUncertainties.Name = "_groupUncertainties";
             this._groupUncertainties.Padding = new System.Windows.Forms.Padding(7, 10, 7, 7);
             this._groupUncertainties.Size = new System.Drawing.Size(250, 114);
-            this._groupUncertainties.TabIndex = 6;
+            this._groupUncertainties.TabIndex = 7;
             this._groupUncertainties.TabStop = false;
             this._groupUncertainties.Text = "Records with Uncertain Phones";
             // 
@@ -331,6 +338,7 @@ namespace SIL.Pa.UI.Controls
             this._chkBoundary.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this._chkBoundary.ThreeState = true;
             this._chkBoundary.UseVisualStyleBackColor = false;
+            this._chkBoundary.Click += new System.EventHandler(this.HandleIgnoreClick);
             // 
             // _groupBoundary
             // 
@@ -346,6 +354,72 @@ namespace SIL.Pa.UI.Controls
             this._groupBoundary.Size = new System.Drawing.Size(250, 49);
             this._groupBoundary.TabIndex = 5;
             this._groupBoundary.TabStop = false;
+            // 
+            // _chkPitchPhonation
+            // 
+            this._chkPitchPhonation.AutoSize = true;
+            this._chkPitchPhonation.BackColor = System.Drawing.Color.Transparent;
+            this._chkPitchPhonation.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this._chkPitchPhonation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this._chkPitchPhonation.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.locExtender.SetLocalizableToolTip(this._chkPitchPhonation, null);
+            this.locExtender.SetLocalizationComment(this._chkPitchPhonation, null);
+            this.locExtender.SetLocalizingId(this._chkPitchPhonation, "Views.WordLists.SearchResults.SearchOptionsPopup.PitchPhonationCheckbox");
+            this._chkPitchPhonation.Location = new System.Drawing.Point(10, 0);
+            this._chkPitchPhonation.Name = "_chkPitchPhonation";
+            this._chkPitchPhonation.Size = new System.Drawing.Size(151, 19);
+            this._chkPitchPhonation.TabIndex = 0;
+            this._chkPitchPhonation.Text = "Ignore &Pitch-Phonation";
+            this._chkPitchPhonation.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this._chkPitchPhonation.ThreeState = true;
+            this._chkPitchPhonation.UseVisualStyleBackColor = false;
+            this._chkPitchPhonation.Click += new System.EventHandler(this.HandleIgnoreClick);
+            // 
+            // _groupPitchPhonation
+            // 
+            this._groupPitchPhonation.Controls.Add(this._pickerPitchPhonation);
+            this.locExtender.SetLocalizableToolTip(this._groupPitchPhonation, null);
+            this.locExtender.SetLocalizationComment(this._groupPitchPhonation, null);
+            this.locExtender.SetLocalizationPriority(this._groupPitchPhonation, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this._groupPitchPhonation, "SearchOptionsDropDown.grpLength");
+            this._groupPitchPhonation.Location = new System.Drawing.Point(0, 2);
+            this._groupPitchPhonation.Margin = new System.Windows.Forms.Padding(0);
+            this._groupPitchPhonation.Name = "_groupPitchPhonation";
+            this._groupPitchPhonation.Padding = new System.Windows.Forms.Padding(7);
+            this._groupPitchPhonation.Size = new System.Drawing.Size(250, 49);
+            this._groupPitchPhonation.TabIndex = 6;
+            this._groupPitchPhonation.TabStop = false;
+            // 
+            // lnkCancel
+            // 
+            this.lnkCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkCancel.AutoSize = true;
+            this.locExtender.SetLocalizableToolTip(this.lnkCancel, null);
+            this.locExtender.SetLocalizationComment(this.lnkCancel, null);
+            this.locExtender.SetLocalizingId(this.lnkCancel, "CommonControls.ChartOptionsPopup.CancelLink");
+            this.lnkCancel.Location = new System.Drawing.Point(189, 461);
+            this.lnkCancel.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
+            this.lnkCancel.Name = "lnkCancel";
+            this.lnkCancel.Size = new System.Drawing.Size(40, 13);
+            this.lnkCancel.TabIndex = 11;
+            this.lnkCancel.TabStop = true;
+            this.lnkCancel.Text = "Cancel";
+            this.lnkCancel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleCloseClicked);
+            // 
+            // lnkOk
+            // 
+            this.lnkOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkOk.AutoSize = true;
+            this.locExtender.SetLocalizableToolTip(this.lnkOk, null);
+            this.locExtender.SetLocalizationComment(this.lnkOk, null);
+            this.locExtender.SetLocalizingId(this.lnkOk, "CommonControls.ChartOptionsPopup.OKLink");
+            this.lnkOk.Location = new System.Drawing.Point(157, 461);
+            this.lnkOk.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
+            this.lnkOk.Name = "lnkOk";
+            this.lnkOk.Size = new System.Drawing.Size(22, 13);
+            this.lnkOk.TabIndex = 10;
+            this.lnkOk.TabStop = true;
+            this.lnkOk.Text = "OK";
             // 
             // _panelStress
             // 
@@ -391,24 +465,37 @@ namespace SIL.Pa.UI.Controls
             this._panelBoundary.Size = new System.Drawing.Size(250, 51);
             this._panelBoundary.TabIndex = 5;
             // 
+            // _panelPitchPhonation
+            // 
+            this._tableLayout.SetColumnSpan(this._panelPitchPhonation, 4);
+            this._panelPitchPhonation.Controls.Add(this._chkPitchPhonation);
+            this._panelPitchPhonation.Controls.Add(this._groupPitchPhonation);
+            this._panelPitchPhonation.Location = new System.Drawing.Point(0, 275);
+            this._panelPitchPhonation.Margin = new System.Windows.Forms.Padding(0, 4, 0, 3);
+            this._panelPitchPhonation.Name = "_panelPitchPhonation";
+            this._panelPitchPhonation.Size = new System.Drawing.Size(250, 51);
+            this._panelPitchPhonation.TabIndex = 5;
+            // 
             // _tableLayout
             // 
             this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._tableLayout.ColumnCount = 4;
             this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this._tableLayout.Controls.Add(this.lnkCancel, 2, 11);
+            this._tableLayout.Controls.Add(this.lnkOk, 1, 11);
             this._tableLayout.Controls.Add(this._chkIgnoreDiacritics, 0, 4);
-            this._tableLayout.Controls.Add(this._linkClose, 3, 10);
             this._tableLayout.Controls.Add(this._chkShowAllWords, 0, 3);
             this._tableLayout.Controls.Add(this._panelStress, 0, 5);
             this._tableLayout.Controls.Add(this._panelTone, 0, 7);
             this._tableLayout.Controls.Add(this._panelLength, 0, 6);
-            this._tableLayout.Controls.Add(this._groupUncertainties, 0, 9);
-            this._tableLayout.Controls.Add(this._linkApplyToAll, 0, 10);
+            this._tableLayout.Controls.Add(this._groupUncertainties, 0, 10);
+            this._tableLayout.Controls.Add(this._linkApplyToAll, 0, 11);
             this._tableLayout.Controls.Add(this._panelBoundary, 0, 8);
-            this._tableLayout.Controls.Add(this._linkHelp, 2, 10);
+            this._tableLayout.Controls.Add(this._linkHelp, 3, 11);
+            this._tableLayout.Controls.Add(this._panelPitchPhonation, 0, 9);
             this._tableLayout.Location = new System.Drawing.Point(4, 4);
             this._tableLayout.Name = "_tableLayout";
             this._tableLayout.RowCount = 11;
@@ -423,24 +510,11 @@ namespace SIL.Pa.UI.Controls
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this._tableLayout.Size = new System.Drawing.Size(272, 424);
+            this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 123F));
+            this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this._tableLayout.Size = new System.Drawing.Size(272, 474);
             this._tableLayout.TabIndex = 0;
-            // 
-            // _linkClose
-            // 
-            this._linkClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._linkClose.AutoSize = true;
-            this.locExtender.SetLocalizableToolTip(this._linkClose, null);
-            this.locExtender.SetLocalizationComment(this._linkClose, null);
-            this.locExtender.SetLocalizingId(this._linkClose, "linkLabel1.linkLabel1");
-            this._linkClose.Location = new System.Drawing.Point(236, 411);
-            this._linkClose.Name = "_linkClose";
-            this._linkClose.Size = new System.Drawing.Size(33, 13);
-            this._linkClose.TabIndex = 9;
-            this._linkClose.TabStop = true;
-            this._linkClose.Text = "Close";
-            this._linkClose.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleCloseClicked);
             // 
             // _pickerStress
             // 
@@ -532,6 +606,30 @@ namespace SIL.Pa.UI.Controls
             this._pickerBoundary.Size = new System.Drawing.Size(236, 22);
             this._pickerBoundary.TabIndex = 0;
             this._pickerBoundary.Text = "charPicker1";
+            this._pickerBoundary.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
+            // 
+            // _pickerPitchPhonation
+            // 
+            this._pickerPitchPhonation.AutoSize = false;
+            this._pickerPitchPhonation.AutoSizeItems = false;
+            this._pickerPitchPhonation.BackColor = System.Drawing.Color.Transparent;
+            this._pickerPitchPhonation.CheckItemsOnClick = true;
+            this._pickerPitchPhonation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pickerPitchPhonation.FontSize = 14F;
+            this._pickerPitchPhonation.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this._pickerPitchPhonation.ItemSize = new System.Drawing.Size(30, 32);
+            this._pickerPitchPhonation.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.locExtender.SetLocalizableToolTip(this._pickerPitchPhonation, null);
+            this.locExtender.SetLocalizationComment(this._pickerPitchPhonation, null);
+            this.locExtender.SetLocalizationPriority(this._pickerPitchPhonation, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this._pickerPitchPhonation, "SearchOptionsDropDown.lengthPicker");
+            this._pickerPitchPhonation.Location = new System.Drawing.Point(7, 20);
+            this._pickerPitchPhonation.Name = "_pickerPitchPhonation";
+            this._pickerPitchPhonation.Padding = new System.Windows.Forms.Padding(0);
+            this._pickerPitchPhonation.Size = new System.Drawing.Size(236, 22);
+            this._pickerPitchPhonation.TabIndex = 0;
+            this._pickerPitchPhonation.Text = "charPicker1";
+            this._pickerPitchPhonation.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
             // 
             // SearchOptionsDropDown
             // 
@@ -548,13 +646,14 @@ namespace SIL.Pa.UI.Controls
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "SearchOptionsDropDown";
             this.Padding = new System.Windows.Forms.Padding(4, 4, 4, 0);
-            this.Size = new System.Drawing.Size(320, 442);
+            this.Size = new System.Drawing.Size(283, 483);
             this._groupStress.ResumeLayout(false);
             this._groupTone.ResumeLayout(false);
             this._groupLength.ResumeLayout(false);
             this._groupUncertainties.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
             this._groupBoundary.ResumeLayout(false);
+            this._groupPitchPhonation.ResumeLayout(false);
             this._panelStress.ResumeLayout(false);
             this._panelStress.PerformLayout();
             this._panelLength.ResumeLayout(false);
@@ -563,6 +662,8 @@ namespace SIL.Pa.UI.Controls
             this._panelTone.PerformLayout();
             this._panelBoundary.ResumeLayout(false);
             this._panelBoundary.PerformLayout();
+            this._panelPitchPhonation.ResumeLayout(false);
+            this._panelPitchPhonation.PerformLayout();
             this._tableLayout.ResumeLayout(false);
             this._tableLayout.PerformLayout();
             this.ResumeLayout(false);
@@ -595,7 +696,12 @@ namespace SIL.Pa.UI.Controls
 		protected System.Windows.Forms.CheckBox _chkBoundary;
 		protected System.Windows.Forms.GroupBox _groupBoundary;
 		private CharPicker _pickerBoundary;
+        private System.Windows.Forms.Panel _panelPitchPhonation;
+        protected System.Windows.Forms.CheckBox _chkPitchPhonation;
+        protected System.Windows.Forms.GroupBox _groupPitchPhonation;
+        private CharPicker _pickerPitchPhonation;
         protected System.Windows.Forms.TableLayoutPanel _tableLayout;
-        private System.Windows.Forms.LinkLabel _linkClose;
+        public System.Windows.Forms.LinkLabel lnkCancel;
+        public System.Windows.Forms.LinkLabel lnkOk;
 	}
 }

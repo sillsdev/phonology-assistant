@@ -1,3 +1,12 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -178,14 +187,22 @@ namespace SIL.Pa
 			if (!File.Exists(soundFile))
 				return null;
 
-			// Make sure SA can be found.
+            string fileName = soundFile;
+            string replaceFileName = Path.GetFileNameWithoutExtension(fileName);
+		    if (replaceFileName != null)
+		    {
+		        soundFile = fileName.Replace(replaceFileName, "tempaudiofile");
+		        File.Copy(fileName, soundFile, true);
+		    }
+            
+		    // Make sure SA can be found.
 			string saLoc = GetSaPath();
 			if (saLoc == null)
 			{
 				var msg = LocalizationManager.GetString("Miscellaneous.Messages.ProblemFindingSAForPlaybackMsg",
-					"Speech Analyzer 3.0.1 is required to playback utterances at speeds other than " +
-					"100%, but it is not installed. Please install Speech Analyzer 3.0.1 and try again.",
-					"Message displayed when SA 3.0.1 is not installed and the user is attempting to playback audio at a speed other than 100 percent.");
+					"Speech Analyzer 3.1 is required to playback utterances at speeds other than " +
+					"100%, but it is not installed. Please install Speech Analyzer 3.1 and try again.",
+					"Message displayed when SA 3.1 is not installed and the user is attempting to playback audio at a speed other than 100 percent.");
 
 				using (var dlg = new DownloadSaDlg(msg))
 					dlg.ShowDialog();
@@ -195,7 +212,7 @@ namespace SIL.Pa
 
 			// Create the contents for the SA list file.
 			string saListFileContent = string.Format(kSaListFileContentFmt,
-				new object[] { callingApp, soundFile, speed,
+                new object[] { callingApp, soundFile, speed,
 					(from >= 0 ? from.ToString() : string.Empty),
 					(to >= 0 && to > from ? to.ToString() : string.Empty)});
 

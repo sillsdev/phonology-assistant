@@ -112,54 +112,53 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>19, 8</value>
   </metadata>
-  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>118, 11</value>
   </metadata>
   <data name="lblInformation.Text" xml:space="preserve">
     <value>If a marker is not mapped to a field or you would like to map it to a field that does not appear in the drop-down list in the '{0}' column, then enter the name of your desired field in the '{1}' column next to the marker.</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnInformation.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB0AAAAQCAYAAADqDXTRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAACwwAAAsMAT9AIsgAAAAGYktHRAAhAGsAx0RgzhkAAAAHdElNRQfbAgsRBBB9044K
-        AAADrklEQVRIS4WU7W+TZRTGzz/A2PiiQtunT7tBQyjdmJtz0QQ0mvgSPwgbC2aUvW+OjTHaDWTY6oJB
-        Y5wQlRDiEmIyl+liJCjgBJQGhuuH4hIy0pYm/iWX17m7p93aoU9y5+757crz6+nOfYts8GzatV/WrWCL
-        VOxuLbLVuqK2VSr2HFIe4optCrbEmIuRx8hDG727jKloS2OvebnutW1fSM3ISlkdiGRlZzRrZMylmANz
-        IAc5AifTqOu4iGf3Dqc2N7Y/Xa6i5/aNG4HuVseC+IcfldXK/BHzRcLMgTmQ5VdkBdWRx6iOplFzOgPf
-        8SXsODCJzS+Ewxt26Hptwgh0dx2YFXsgWVYrswcXTYfMgTmQ5dfgIp6P5xA4kYa37zZ80WX4J1ZgHV3A
-        zraPUdncub7jZ17sE9fBWXF2/eztul1We/v/kPqTy8pTzEAXcyAHOZzHN7RE6RL8Y0lYQ7dgnfgT9tvR
-        VKFb7W7HO5OmKz71rrY52frutKmVO7Wn81exum+aLslBDuZADnJYA7fw1oV/8ObnOVhd1+EduQs7moD7
-        6C+wIgkE+y6h8uXefLf6cs/ha44UKt7akpcqd7XOiNauQzPi6TG5GDnIQQ5ykMMf/RvBWAZ1ZzKw+hfM
-        z+oZvpGXjt2BL/4QlXv7Y3kpx1+HRnc+KjVih6ts28Ersq3tO3F3zGtuSodHZeQgBzm+Xyz8urDfv2dk
-        ujzHbxip/9wjVO0byEv1/Fk9CbOvCi85YuVGSqGrfUZch2c1N0Wel1JIDnIjdh5HqkLP6G+wJhKonkqj
-        6pXBvFQfeygpetDXSAtiz5GrBaErPKe5GPMgLwjJ4e75qSjlJDtCz/jvsM8mEbiQRdWrQ0Wp6Zg3S4m0
-        INYOVejuntdcqO7I1/Adu286NMLuebh7fy5OL/+mHarQOnUHNV9msOeDH1W64UXh/E9L93oV8sVijSRk
-        +xsjqepTj83AOELygnT7aBqeY9eM0HfuIeovP8Hu9z4sHpnCb7z6oaHzvAQ+ygpHXniFydqagyFNn+SU
-        h8jBnDkaOjDk5nLQ6Q2OZ+Du+gG+T5fR+C356DS2vD7833dxQ895qfvsidRMZoRXmKyt7TNJ8Z5+oDxM
-        DubAHMhBDjv+F3xnl7Hrqyyap3NoiF5RYfk1WNqt1sH949I0NidN3+SEV9i6uvliTl66bHiIuRRzYA7k
-        IDerKX4Vte3x1P92WCrnDSI80MLzJRx3Ka05GKJLbxo9+HoO9VjolD5taNTxL+EXazls6RqAAAAAAElF
-        TkSuQmCC
+        AAADlklEQVRIS4WU/W+TVRTHzz8gbPyiQtunLxs0hNKNsjkXTUCjiS/xB3lbMKPsfXNsjNFuIMNWFwwa
+        44SohBCXEJO5DBcjQUXHi9DodP2huISMtKWJf8nX77lPn2eWDjzJyc359OZ+ettzj6wVT23bU5mRfbJu
+        +/6qel0Dc8dBZVFmijxFniJPkUfLxz059MANzb3u2tD2mdSPrFTV4URRtiaLRkaeIwc5yEGO8Ik8Gjsu
+        4Jldw7n1ze2Pl+vBz+4ed1erY0FCw/erapMJ80Xi5CAHmZ2JFdQlHqAumUf9qQKCx5awZe8k1j8Xj5c1
+        q6EHe16ZcFfP3lkJDGSrapODi8qj5CAHmZ2Di9iZLiF8PA9/3y0Ek8sITazAOrKArW0foqa1s/LGTz/f
+        J54Ds+6q6e+6VVX7+3+T2Ill5TkyaJKDHORwIji0ROkSQmNZWEM3YR2/g8CbyVxZZ99yy1uTZmXEPG1z
+        svHtaZc7ta/zJ7G6fzG3JAc5yEEOclgDN/HG+X/w+qclWF0/wz9yF4FkBt4jP8JKZBDpu4iaF3vt2+rh
+        vkPXHCmYsY37bKlyz/4Z0dpzcEZ8PWZfihzkIAc5yBFK/o1IqoDG0wVY/QvmZ/UNX7elY7cRTN9Dza7+
+        lEpM+2uT6MpQqRE7XGWbDlyWTW3fiLdjXvdNafOojBzkIMe3i+XflhF493cj0/Qdu26kobP3Ubt7wJbq
+        e7N6MmZlqPBieY0pN1IKPe0z4jk0q/umyG0pheQgN2InHKkKfaO/wprIoG4qj9qXBm2pRmAoax46w5G6
+        Yt/hq67QE5/TfSnuB7krJIe35/uyklJ2siP0jd9A4EwW4fNF1L48tCrV0MnC+K/UFTtCb/e87os2Hv4S
+        waN/rAq75+Ht/aGsZPfyM0donbyN+s8L2PHedypdc1CoZK2MqZAHizWSkc2vjeTqTj4wDeMIyctKYPNo
+        Hr6j14wwePYeYpceYvs7768+mUejqfOchD8oClteOMIqav5P0vJRSXmUHOTmaej/R26Gg3ZvZLwAb9cV
+        BD9eRvPX5KPT2PDq8JNncVPPOWn85KHUTxaEI6yiDpzOiv/Un8rj5CAHOchBjkD6LwTPLGPbF0W0TpfQ
+        lLyswuoxuFZE9oxLy9ictHxVEo6wirr1QkleuGR4lDxHDnKQg9xkS/oqGtrTuf+94aPBCSJ80ML3JWz3
+        qpqNYVInjT58fYf6LLRLH9c0IiL/AuEXaznH939JAAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="SampleOutputPhoneticColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="SampleOutputPhoneticColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="SampleOutputGlossColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="SampleOutputGlossColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="SampleOutputPartOfSpeechColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="SampleOutputPartOfSpeechColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>32</value>
   </metadata>
 </root>

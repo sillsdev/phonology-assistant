@@ -1,10 +1,9 @@
 // ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2009, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2009' company='SIL International'>
-//		Copyright (c) 2009, SIL International. All Rights Reserved.   
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
 //    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
 // </copyright> 
 #endregion
 // 
@@ -79,7 +78,8 @@ namespace SIL.Pa.Model
 		length = 128,
 		boundary = 256,
 		tone = 512,
-		All = stress | length | boundary | tone,
+        pitchphonation = 1024,
+        All = stress | length | boundary | tone | pitchphonation,
 	}
 
 	///// ----------------------------------------------------------------------------------------

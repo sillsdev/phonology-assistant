@@ -1,4 +1,14 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Windows.Forms;
 using Localization;
 using SilTools;
@@ -21,7 +31,8 @@ namespace SIL.Pa.UI.Controls
 			Canceled = false;
 			InitializeComponent();
 			_groupUncertainties.Visible = false;
-			
+		    lnkCancel.Visible = false;
+		    lnkOk.Visible = false;
 			SetupControls();
 			CIEOptions = (App.Project != null ? App.Project.CIEOptions.Clone() : new CIEOptions());
 		}
@@ -57,8 +68,8 @@ namespace SIL.Pa.UI.Controls
 			_linkApply.TabIndex = 10;
 			_linkApply.LinkClicked += delegate { Close(); };
 			_linkApply.Margin = new Padding(3, _linkHelp.Margin.Top, 3, _linkHelp.Margin.Bottom);
-			LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.ApplyLink",
-				"Apply", null, _linkApply);
+			LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.OKLink",
+                "OK", null, _linkApply);
 			_tableLayout.Controls.Add(_linkApply, 1, 10);
 
 			_linkCancel = new LinkLabel { AutoSize = true, Font = FontHelper.UIFont };
@@ -116,7 +127,9 @@ namespace SIL.Pa.UI.Controls
 			{
 				bool changed = false;
 
-				switch (_cieOptions.Type)
+			    if (_cieOptions == null) return false;
+
+                switch (_cieOptions.Type)
 				{
 					case CIEOptions.IdenticalType.After: changed = !_radioAfter.Checked; break;
 					case CIEOptions.IdenticalType.Before: changed = !_radioBefore.Checked; break;
@@ -139,7 +152,12 @@ namespace SIL.Pa.UI.Controls
 		{
 			Canceled = true;
 			base.HandleHelpClicked(sender, e);
-			App.ShowHelpTopic("hidMinimalPairsOptions");
+		    string _helpTopic = string.Empty;
+		    if(CIEBuilder.IsMinimalpair)
+		        _helpTopic = "hidMinimalPairsOptions";
+		    else
+		        _helpTopic = "hidSimilarEnvironmentsOptions";
+			App.ShowHelpTopic(_helpTopic);
 		}
 
 		/// ------------------------------------------------------------------------------------

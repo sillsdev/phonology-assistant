@@ -1,7 +1,17 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -187,6 +197,12 @@ namespace SIL.Pa.UI.Views
                     return true;
                 }
             }
+            else if (keyData == (Keys)117) //Key-press "F6"
+            {
+                ptrnBldrComponent.Focus();
+                ptrnBldrComponent.tabPatternBlding.SelectedTab = ptrnBldrComponent.tabPatternBlding.TabPages[0];
+
+            }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -219,6 +235,7 @@ namespace SIL.Pa.UI.Views
             if (_savedCharts == null)
                 return;
 
+            lvSavedCharts.Items.Clear();
             foreach (var layout in _savedCharts)
             {
                 var item = new ListViewItem(layout.Name);
@@ -746,6 +763,68 @@ namespace SIL.Pa.UI.Views
 
         /// ------------------------------------------------------------------------------------
         /// <summary>
+        /// Restore all the default Charts when the restore button is pressed.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        private void btnRestoreDefaultCharts_Click(object sender, EventArgs e)
+        {
+            var msg = LocalizationManager.GetString("Views.DistributionChart.ConfirmRestoreDefaultChartsMsg",
+                "Are you sure you want to restore default charts?");
+
+            if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            RestoreDefaultChartsItem();
+            SaveCharts();
+
+            int? selectedIndex = null;
+            if (lvSavedCharts.SelectedItems.Count != 0)
+                selectedIndex = lvSavedCharts.SelectedIndices[0];
+
+            LoadSavedChartsList();
+            LoadGridValue(selectedIndex);
+        }
+
+        private void LoadGridValue(int? selectedIndex)
+        {
+            if (selectedIndex.HasValue || lvSavedCharts.SelectedItems.Count != 0)
+            {
+                if (selectedIndex != null) lvSavedCharts.Items[(int) selectedIndex].Selected = true;
+                LoadSavedLayout(lvSavedCharts.SelectedItems[0]);
+            }
+        }
+
+        private void RestoreDefaultChartsItem()
+        {
+            var defaultChartFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+                "DefaultDistributionCharts.xml");
+            var defaultChart = XmlSerializationHelper.DeserializeFromFile<List<DistributionChart>>(defaultChartFile,
+                "distributionCharts");
+
+            List<DistributionChart> saveCustomCharts = _savedCharts.ToList();
+            foreach (var removeDefault in defaultChart)
+            {
+                foreach (var chartVal in _savedCharts)
+                {
+                    if (removeDefault.Name == chartVal.Name)
+                    {
+                        saveCustomCharts.Remove(chartVal);
+                        break;
+                    }
+                }
+            }
+            _savedCharts = new List<DistributionChart>();
+            _savedCharts = defaultChart;
+
+            foreach (var addCustomCharts in saveCustomCharts)
+            {
+                if (!_savedCharts.Contains(addCustomCharts))
+                    _savedCharts.Add(addCustomCharts);
+            }
+        }
+
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
         /// Remove the selected saved chart when the delete key is pressed. Load the saved
         /// chart into the grid when pressing enter and put the user into the edit mode
         /// in the saved charts list when he presses F2.
@@ -1208,6 +1287,17 @@ namespace SIL.Pa.UI.Views
         }
 
         /// ------------------------------------------------------------------------------------
+        protected bool OnResetChart(object args)
+        {
+            if (lvSavedCharts.SelectedIndices.Count <= 0 || _grid.ChartLayout.Name == null || !ActiveView)
+                return false;
+
+            ResetCurrentChart(_grid.ChartLayout);
+            return true;
+        }
+
+
+        /// ------------------------------------------------------------------------------------
         protected bool OnGridColumnDelete(object args)
         {
             int selectedColumn = _grid.CurrentCell.ColumnIndex;
@@ -1285,6 +1375,63 @@ namespace SIL.Pa.UI.Views
 
             SaveCharts();
             _grid.LoadFromLayout(layoutCopy);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Reset the current Chart Value in xml file.
+        /// </summary>
+        /// <param name="layoutToOverwrite">The layout to overwrite when saving. This should
+        /// be null if the layout is to be added to the list of saved layouts.</param>
+        /// ------------------------------------------------------------------------------------
+        private void ResetCurrentChart(DistributionChart layoutToOverwrite)
+        {
+            var defaultChartFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
+            var defaultChart = XmlSerializationHelper.DeserializeFromFile<List<DistributionChart>>(defaultChartFile, "distributionCharts");
+
+            ListViewItem item = null;
+            if (_savedCharts == null)
+                _savedCharts = new List<DistributionChart>();
+
+            // When the user wants to overwrite an existing layout, we need to find the
+            // item in the DefaultDistributionCharts file  list that corresponds to the one being overwritten.
+            if (layoutToOverwrite != null)
+            {
+                foreach (ListViewItem lvi in lvSavedCharts.Items)
+                {
+                    DistributionChart tmpLayout = lvi.Tag as DistributionChart;
+                    if (tmpLayout != null && tmpLayout.Name == layoutToOverwrite.Name)
+                    {
+                        item = lvi;
+                        break;
+                    }
+                }
+            }
+
+            if (item != null)
+            {
+                // Overwrite an existing layout.
+                int i = _savedCharts.IndexOf(item.Tag as DistributionChart);
+                foreach (var chartValue in defaultChart)
+                {
+                    if (_savedCharts[i].Name == chartValue.Name)
+                    {
+                        var msg = LocalizationManager.GetString("Views.DistributionChart.ConfirmResetChartMsg", "Are you sure you want to reset the chart?");
+                        if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+
+                        _savedCharts[i] = chartValue;
+                        item.Tag = chartValue;
+                        item.Text = chartValue.Name;
+
+                        SaveCharts();
+                        lvSavedCharts.Items[i].Selected = true;
+                        LoadSavedLayout(lvSavedCharts.SelectedItems[0]);
+
+                        break;
+                    }
+                }
+            }
         }
 
         /// ------------------------------------------------------------------------------------
@@ -1383,6 +1530,18 @@ namespace SIL.Pa.UI.Views
 
             return Export(ResultViewManger.HTMLExport, fmt, App.kstidFileTypeHTML, "html",
                 Settings.Default.OpenHtmlDistChartAfterExport, DistributionChartExporter.ToHtml);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowHtmlChart(object args)
+        {
+            return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowHistogram(object args)
+        {
+            return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
         }
 
         /// ------------------------------------------------------------------------------------

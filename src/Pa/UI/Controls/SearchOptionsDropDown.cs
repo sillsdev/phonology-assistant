@@ -1,3 +1,12 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,26 +28,34 @@ namespace SIL.Pa.UI.Controls
 		private SearchQuery m_query;
 		private bool m_showApplyToAll;
 
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the cancel link was clicked.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public bool Canceled { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public SearchOptionsDropDown()
 		{
 			InitializeComponent();
-
+            Canceled = false;
 			if (App.DesignMode)
 				return;
 
 			_linkApplyToAll.Font = FontHelper.UIFont;
 			_linkHelp.Font = FontHelper.UIFont;
-            _linkClose.Font = FontHelper.UIFont;
 			_chkIgnoreDiacritics.Font = FontHelper.UIFont;
 			_chkShowAllWords.Font = FontHelper.UIFont;
 			_chkLength.Font = FontHelper.UIFont;
 			_chkTone.Font = FontHelper.UIFont;
 			_chkStress.Font = FontHelper.UIFont;
 			_chkBoundary.Font = FontHelper.UIFont;
+            _chkPitchPhonation.Font = FontHelper.UIFont;
 			_groupUncertainties.Font = FontHelper.UIFont;
 			rbPrimaryOnly.Font = FontHelper.UIFont;
 			rbAllUncertainties.Font = FontHelper.UIFont;
+            lnkOk.LinkClicked += delegate { Close(); };
 
 			int fontsize = Settings.Default.SearchOptionsDropDownPickerLabelFontSize;
 			if (fontsize > 0)
@@ -48,21 +65,25 @@ namespace SIL.Pa.UI.Controls
 				_pickerLength.Font = fnt;
 				_pickerBoundary.Font = fnt;
 				_pickerTone.Font = fnt;
+			    _panelPitchPhonation.Font = fnt;
 			}
 
 			_chkStress.Tag = _pickerStress;
 			_chkTone.Tag = _pickerTone;
 			_chkLength.Tag = _pickerLength;
 			_chkBoundary.Tag = _pickerBoundary;
+            _chkPitchPhonation.Tag = _pickerPitchPhonation;
 			_pickerStress.Tag = _chkStress;
 			_pickerTone.Tag = _chkTone;
 			_pickerLength.Tag = _chkLength;
 			_pickerBoundary.Tag = _chkBoundary;
+		    _pickerPitchPhonation.Tag = _chkPitchPhonation;
 
 			_pickerStress.LoadCharacterType(IPASymbolSubType.stress);
 			_pickerTone.LoadCharacterType(IPASymbolSubType.tone);
 			_pickerBoundary.LoadCharacterType(IPASymbolSubType.boundary);
 			_pickerLength.LoadCharacterType(IPASymbolSubType.length);
+            _pickerPitchPhonation.LoadCharacterType(IPASymbolSubType.pitchphonation);
 
 			ShowApplyToAll = false;
 			m_query = new SearchQuery();
@@ -82,16 +103,19 @@ namespace SIL.Pa.UI.Controls
 			_groupLength.Width = _groupTone.Width;
 			_groupStress.Width = _groupTone.Width;
 			_groupUncertainties.Width = _groupTone.Width;
+            _groupPitchPhonation.Width = _groupTone.Width;
 
 			_groupStress.Height = _pickerStress.GetPreferredHeight() + _pickerStress.Top + _groupStress.Padding.Bottom;
 			_groupLength.Height = _pickerLength.GetPreferredHeight() + _pickerLength.Top + _groupLength.Padding.Bottom;
 			_groupBoundary.Height = _pickerBoundary.GetPreferredHeight() + _pickerBoundary.Top + _groupBoundary.Padding.Bottom;
 			_groupTone.Height = _pickerTone.GetPreferredHeight() + _pickerTone.Top + _groupTone.Padding.Bottom;
+            _groupPitchPhonation.Height = _pickerPitchPhonation.GetPreferredHeight() + _pickerPitchPhonation.Top + _groupPitchPhonation.Padding.Bottom;
 
 			_panelStress.AutoSize = true;
 			_panelLength.AutoSize = true;
 			_panelTone.AutoSize = true;
 			_panelBoundary.AutoSize = true;
+            _panelPitchPhonation.AutoSize = true;
 			_tableLayout.AutoSize = true;
 
 			// Add 2 to both dimensions because most of the time this is hosted on a drop-down
@@ -158,6 +182,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			set
 			{
+                Canceled = false;
 				m_query = value.Clone();
 				_chkShowAllWords.Checked = m_query.ShowAllOccurrences;
 				_chkIgnoreDiacritics.Checked = m_query.IgnoreDiacritics;
@@ -167,6 +192,7 @@ namespace SIL.Pa.UI.Controls
 				SetIgnoredChars(_chkTone, _pickerTone, querysIgnoredCharacters);
 				SetIgnoredChars(_chkLength, _pickerLength, querysIgnoredCharacters);
 				SetIgnoredChars(_chkBoundary, _pickerBoundary, querysIgnoredCharacters);
+                SetIgnoredChars(_chkPitchPhonation, _pickerPitchPhonation, querysIgnoredCharacters);
 
 				rbAllUncertainties.Checked = m_query.IncludeAllUncertainPossibilities;
 				rbPrimaryOnly.Checked = !rbAllUncertainties.Checked;
@@ -189,6 +215,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
+                if (Canceled)
+                    return false;
+
 				if ((bool)_chkShowAllWords.Tag != _chkShowAllWords.Checked ||
 					(bool)_chkIgnoreDiacritics.Tag != _chkIgnoreDiacritics.Checked ||
 					(bool)_groupUncertainties.Tag != rbAllUncertainties.Checked)
@@ -205,6 +234,9 @@ namespace SIL.Pa.UI.Controls
 				if (_pickerBoundary.Items.Cast<ToolStripButton>().Any(item => (bool)item.Tag != item.Checked))
 					return true;
 
+                if (_pickerPitchPhonation.Items.Cast<ToolStripButton>().Any(item => (bool)item.Tag != item.Checked))
+                    return true;
+
 				return _pickerLength.Items.Cast<ToolStripButton>().Any(item => (bool) item.Tag != item.Checked);
 			}
 		}
@@ -220,6 +252,7 @@ namespace SIL.Pa.UI.Controls
 			return GetIgnoredChars(_pickerStress) +
 				GetIgnoredChars(_pickerLength) +
 				GetIgnoredChars(_pickerBoundary) +
+                GetIgnoredChars(_pickerPitchPhonation) +
 				GetIgnoredChars(_pickerTone).TrimEnd(',');
 		}
 
@@ -288,6 +321,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleHelpClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
+            Canceled = true;
             Close();
             App.ShowHelpTopic("hidSearchOptionsOnFilters");
 		}
@@ -311,6 +345,7 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         protected virtual void HandleCloseClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            Canceled = true;
             Close();
         }
 	}

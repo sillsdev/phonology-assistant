@@ -1906,6 +1906,15 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset Chart.
+        /// </summary>
+        public static string kstidResetChartText {
+            get {
+                return ResourceManager.GetString("kstidResetChartText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Restore Defaults.
         /// </summary>
         public static string kstidRestoreDefaultsText {
@@ -2104,7 +2113,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Similar &amp;Environments.
+        ///   Looks up a localized string similar to Similar E&amp;nvironments.
         /// </summary>
         public static string kstidShowCIESimilarResultsText {
             get {
@@ -2113,7 +2122,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Similar Environments (Ctrl+E).
+        ///   Looks up a localized string similar to Similar Environments (Ctrl+Alt+N).
         /// </summary>
         public static string kstidShowCIESimilarResultsToolTip {
             get {
@@ -2154,6 +2163,64 @@ namespace SIL.Pa.ResourceStuff {
         public static string kstidShowGridLinesToolTip {
             get {
                 return ResourceManager.GetString("kstidShowGridLinesToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Histogram.
+        /// </summary>
+        public static string kstidShowHistogramText {
+            get {
+                return ResourceManager.GetString("kstidShowHistogramText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Histogram.
+        /// </summary>
+        public static string kstidShowHistogramToolTip {
+            get {
+                return ResourceManager.GetString("kstidShowHistogramToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle HTML View.
+        /// </summary>
+        public static string kstidShowHtmlChartText {
+            get {
+                return ResourceManager.GetString("kstidShowHtmlChartText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle HTML View (F4).
+        /// </summary>
+        public static string kstidShowHtmlChartToolTip {
+            get {
+                return ResourceManager.GetString("kstidShowHtmlChartToolTip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle Back to Default State.
+        /// </summary>
+        public static string kstidShowBackToEthnologueText
+        {
+            get
+            {
+                return ResourceManager.GetString("kstidShowBackToEthnologueText", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle Back to Default State.
+        /// </summary>
+        public static string kstidShowBackToEthnologueToolTip
+        {
+            get
+            {
+                return ResourceManager.GetString("kstidShowBackToEthnologueToolTip", resourceCulture);
             }
         }
         
@@ -2608,7 +2675,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Distribution Charts View (Ctrl+Alt+X).
+        ///   Looks up a localized string similar to Distri&amp;bution Charts View (Ctrl+Alt+B).
         /// </summary>
         public static string kstidXYChartToolTip {
             get {

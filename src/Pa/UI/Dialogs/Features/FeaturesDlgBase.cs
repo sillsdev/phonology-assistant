@@ -1,4 +1,13 @@
-﻿using System;
+﻿// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
@@ -223,6 +232,27 @@ namespace SIL.Pa.UI.Dialogs
 			var clrBottom = (selected ? _selectedItemBottomColor : _overrideHighlightBottomColor);
 			PaintingHelper.DrawGradientBackground(g, rc, clrTop, clrBottom, true);
 		}
+
+        protected override bool ProcessCmdKey(ref Message message, Keys keys)
+        {
+            switch (keys)
+            {
+                case Keys.Escape:
+                    {
+                        this.Close();
+                        return true;
+                    }
+                case Keys.Control | Keys.Tab:
+                    {
+                        return true;
+                    }
+                case Keys.Control | Keys.Shift | Keys.Tab:
+                    {
+                        return true;
+                    }
+            }
+            return base.ProcessCmdKey(ref message, keys);
+        }
 
 		#region Grid event handlers
 		/// ------------------------------------------------------------------------------------

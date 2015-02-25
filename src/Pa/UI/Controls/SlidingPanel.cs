@@ -1,3 +1,12 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -153,16 +162,22 @@ namespace SIL.Pa.UI.Controls
 			const TextFormatFlags kFlags = TextFormatFlags.SingleLine |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.LeftAndRightPadding |
 				TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPrefix;
-
-			using (var g = CreateGraphics())
-			{
-				var sz = TextRenderer.MeasureText(g, Tab.Text, FontHelper.UIFont, Size.Empty, kFlags);
-				sz.Height += 15;
-				m_pnlPlaceholder.Width = sz.Height + 7;
-				Size = new Size(sz.Height + 7, m_pnlPlaceholder.Height);
-				Location = m_pnlPlaceholder.Location;
-				Tab.Size = new Size(sz.Height, sz.Width);
-			}
+		    try
+		    {
+		        using (var g = CreateGraphics())
+		        {
+		            var sz = TextRenderer.MeasureText(g, Tab.Text, FontHelper.UIFont, Size.Empty, kFlags);
+		            sz.Height += 15;
+		            m_pnlPlaceholder.Width = sz.Height + 7;
+		            Size = new Size(sz.Height + 7, m_pnlPlaceholder.Height);
+		            Location = m_pnlPlaceholder.Location;
+		            Tab.Size = new Size(sz.Height, sz.Width);
+		        }
+		    }
+		    catch (Exception)
+		    {
+		        
+		    }
 		}
 
 		/// ------------------------------------------------------------------------------------

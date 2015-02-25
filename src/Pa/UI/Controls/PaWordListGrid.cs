@@ -1,3 +1,12 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
+//    
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
+// </copyright> 
+#endregion
+// 
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -164,7 +173,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public virtual void BuildColumns()
 		{
-            foreach (var field in App.Project.GetMappedFields().Where(f => f.DisplayIndexInGrid >= 0 && f.Note != "V"))
+            foreach (var field in App.Project.GetMappedFields().Where(f => f.DisplayIndexInGrid >= 0))
 				AddNewColumn(field);
 
 			RefreshColumnFonts(false);
@@ -209,7 +218,7 @@ namespace SIL.Pa.UI.Controls
 			Columns.Add(col);
 
 			// Save this because we'll need it later.
-			if (field.Type == FieldType.Phonetic)
+            if (field.Type == FieldType.Phonetic && col.DisplayIndex == 0)
 				_phoneticColName = field.Name;
 			else if (field.Type == FieldType.AudioFilePath)
 				_audioFileColName = field.Name;
@@ -2151,7 +2160,7 @@ namespace SIL.Pa.UI.Controls
 			while (col < ColumnCount && !Columns[col].Visible)
 				col++;
 
-			if (col < ColumnCount && Columns[col].Visible && Rows[row].Visible)
+			if (col < ColumnCount && row < RowCount && Columns[col].Visible && Rows[row].Visible)
 				CurrentCell = this[col, row];
 		}
 
@@ -2266,7 +2275,7 @@ namespace SIL.Pa.UI.Controls
             // This should never happen.
             if (cieCache == null)
             {
-                Utils.MsgBox(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsPopupMsg", "No minimal pairs to display."));
+                Utils.MsgBox(LocalizationManager.GetString("Views.WordLists.NoSimilarEnvironmentPopupMsg", "No Similar Environments to display."));
                 return false;
             }
 
@@ -2346,9 +2355,16 @@ namespace SIL.Pa.UI.Controls
 				_noCIEResultsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 				_noCIEResultsMsg.BackColor = Color.Transparent;
 				_noCIEResultsMsg.MouseDown += delegate { Focus(); };
+
+                string _resultMessage = string.Empty;
+                if (CIEBuilder.IsMinimalpair)
+                    _resultMessage = "minimal pairs";
+                else
+                    _resultMessage = "similar environments";
+
 				_noCIEResultsMsg.Text = Utils.ConvertLiteralNewLines(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsMsg",
-					"No minimal pairs to display.\nChange the minimal pairs options and try again.",
-					"Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show."));
+                    "No " + _resultMessage + " to display.\nChange the " + _resultMessage + " options and try again.",
+                    "Shows in place of a word list grid when the user has turned on " + _resultMessage + " and there aren't any to show."));
 
 				Controls.Add(_noCIEResultsMsg);
 				_noCIEResultsMsg.BringToFront();

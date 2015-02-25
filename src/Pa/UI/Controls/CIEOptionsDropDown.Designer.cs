@@ -28,18 +28,39 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.SuspendLayout();
-			// 
-			// CIEOptionsDropDown
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Margin = new System.Windows.Forms.Padding(4);
-			this.MinimumSize = new System.Drawing.Size(188, 2);
-			this.Name = "CIEOptionsDropDown";
-			this.Size = new System.Drawing.Size(248, 516);
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.SuspendLayout();
+            // 
+            // _groupStress
+            // 
+            this._groupStress.Size = new System.Drawing.Size(272, 29);
+            // 
+            // _groupTone
+            // 
+            this._groupTone.Size = new System.Drawing.Size(272, 29);
+            // 
+            // _groupLength
+            // 
+            this._groupLength.Size = new System.Drawing.Size(272, 29);
+            // 
+            // _groupBoundary
+            // 
+            this._groupBoundary.Size = new System.Drawing.Size(272, 29);
+            // 
+            // _groupPitchPhonation
+            // 
+            this._groupPitchPhonation.Size = new System.Drawing.Size(272, 29);
+            // 
+            // CIEOptionsDropDown
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(188, 2);
+            this.Name = "CIEOptionsDropDown";
+            this.Size = new System.Drawing.Size(288, 516);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
 		}
 
 		#endregion
