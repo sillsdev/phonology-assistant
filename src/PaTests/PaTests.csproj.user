@@ -11,4 +11,7 @@
     <StartArguments>C:\Projects\phonology-assistant\Output\Debug-Windows\PaTests.dll</StartArguments>
     <StartWorkingDirectory>C:\Projects\phonology-assistant\Output\Debug-Windows</StartWorkingDirectory>
   </PropertyGroup>
+  <PropertyGroup>
+    <ProjectView>ShowAllFiles</ProjectView>
+  </PropertyGroup>
 </Project>
