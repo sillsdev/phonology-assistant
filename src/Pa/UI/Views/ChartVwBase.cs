@@ -520,6 +520,7 @@ namespace SIL.Pa.UI.Views
                 var query = new SearchQuery();
                 query.Pattern = phone + "/" + environment;
                 query.IgnoreDiacritics = false;
+                query.IgnoredCharacters = string.Join(",", Project.IgnoredSymbolsInCVCharts);
 
                 // Check if the phone only exists as an uncertain phone. If so,
                 // then set the flag in the query to include searching words
