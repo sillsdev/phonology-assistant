@@ -19,9 +19,10 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class WordListCache : List<WordListCacheEntry>
 	{
-		private bool _isCIEList;
+	    private bool _isMinimalList;
+        private bool _isSimilarList;
 
-		#region Properties
+	    #region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the search pattern used to generate the contents of the cache. When
@@ -91,22 +92,37 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool IsForRegExpSearchResults { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		public bool IsCIEList
-		{
-			get { return _isCIEList; }
-			set
-			{
-				_isCIEList = value;
-				if (!_isCIEList)
-				{
-					foreach (var entry in this)
-						entry.ShowInList = true;
-				}
-			}
-		}
+	    /// ------------------------------------------------------------------------------------
+	    public bool IsMinimalPair
+	    {
+	        get { return _isMinimalList; }
+	        set
+	        {
+	            _isMinimalList = value;
+	            if (!_isMinimalList)
+	            {
+	                foreach (var entry in this)
+	                    entry.ShowInList = true;
+	            }
+	        }
+	    }
 
-		/// ------------------------------------------------------------------------------------
+	    /// ------------------------------------------------------------------------------------
+        public bool IsSimilarEnvironment
+        {
+            get { return _isSimilarList; }
+            set
+            {
+                _isSimilarList = value;
+                if (!_isSimilarList)
+                {
+                    foreach (var entry in this)
+                        entry.ShowInList = true;
+                }
+            }
+        }
+
+	    /// ------------------------------------------------------------------------------------
 		public bool IsEmpty
 		{
 			get { return Count == 0; }

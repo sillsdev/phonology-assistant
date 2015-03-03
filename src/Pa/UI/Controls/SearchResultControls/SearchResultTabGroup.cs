@@ -15,6 +15,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SilTools;
@@ -365,6 +366,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			bool viewWasInCIEView = tab.CIEOptionsButton.Visible;
+		    bool viewWasInCIESimilarView = tab.CIESimilarOptionsButton.Visible;
 
 			// Make sure that if tab already has a result view, it gets removed.
 			if (removePreviousResults)
@@ -389,6 +391,8 @@ namespace SIL.Pa.UI.Controls
 
 				if (viewWasInCIEView)
 					tab.CIEViewRefresh();
+                if(viewWasInCIESimilarView)
+                    tab.CIEViewSimilarRefresh();
 			}
 		}
 
@@ -1030,7 +1034,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			if (CurrentTab.CieOptionsDropDown == null)
-				CurrentTab.CieOptionsDropDown = new CIEOptionsDropDown();
+                CurrentTab.CieOptionsDropDown = new CIEOptionsDropDown(CIEOptions.CIEType.Minimal);
 
 			if (CurrentTab.CieOptionsDropDownContainer == null)
 			{
@@ -1075,7 +1079,7 @@ namespace SIL.Pa.UI.Controls
                 return;
 
             if (CurrentTab.CieSimilarOptionsDropDown == null)
-                CurrentTab.CieSimilarOptionsDropDown = new CIEOptionsDropDown();
+                CurrentTab.CieSimilarOptionsDropDown = new CIEOptionsDropDown(CIEOptions.CIEType.Similar);
 
             if (CurrentTab.CieSimilarOptionsDropDownContainer == null)
             {
@@ -1100,7 +1104,7 @@ namespace SIL.Pa.UI.Controls
                 // Save the options as the new defaults for the project.
                 App.Project.SaveCIEOptions(CurrentTab.CieSimilarOptionsDropDown.CIEOptions);
                 CurrentTab.ResultView.Grid.CIEOptions = CurrentTab.CieSimilarOptionsDropDown.CIEOptions;
-                CurrentTab.CIEViewRefresh();
+                CurrentTab.CIEViewSimilarRefresh();
             }
 
             CurrentTab.CieSimilarOptionsDropDownContainer.Closed -= m_cieSimilarOptionsDropDownContainer_Closed;

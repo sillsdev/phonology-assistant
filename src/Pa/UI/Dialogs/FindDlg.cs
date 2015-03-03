@@ -65,7 +65,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			LoadSettings();
 			btnFind.Enabled = (fldSelGridSrchCols.CheckedItemCount > 0);
-			chkSrchCollapsedGrps.Enabled = (grid.IsGroupedByField || grid.Cache.IsCIEList);
+            chkSrchCollapsedGrps.Enabled = (grid.IsGroupedByField || grid.Cache.IsMinimalPair || grid.Cache.IsSimilarEnvironment);
 
 			// Will prevent opening more than one FindDlg instance.
 			FindInfo.FindDlgIsOpen = true;

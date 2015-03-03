@@ -130,13 +130,14 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Refreshes the search results by performing the search again and rebuilding the
-		/// grid contents.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void RefreshResults()
+	    /// ------------------------------------------------------------------------------------
+	    /// <summary>
+	    /// Refreshes the search results by performing the search again and rebuilding the
+	    /// grid contents.
+	    /// </summary>
+	    /// <param name="cieType"></param>
+	    /// ------------------------------------------------------------------------------------
+	    public void RefreshResults(CIEOptions.CIEType cieType)
 		{
 			int savCurrRowIndex = 0;
 			int savCurrColIndex = 0;
@@ -160,6 +161,8 @@ namespace SIL.Pa.UI.Controls
 				savFirstRowIndex = _grid.FirstDisplayedScrollingRowIndex;
 				savSortOptions = _grid.SortOptions;
 				savCIEOptions = _grid.CIEOptions;
+			    if (savCIEOptions != null)
+			        savCIEOptions.CieType = cieType;
 			}
 
 			App.InitializeProgressBar(App.kstidQuerySearchingMsg);

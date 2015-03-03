@@ -75,8 +75,6 @@ namespace SIL.Pa.UI.Controls
 		private readonly List<SearchResultView> m_searchResultViews = new List<SearchResultView>();
 		private readonly Action<int> m_savePlaybackSpeedAction;
 		private int m_playbackSpeed;
-	    private bool m_SimilarEnvironment = false;
-        private bool m_MinimalPair = false;
 
 		/// ------------------------------------------------------------------------------------
 		public SearchResultsViewManager(ITabView view, ITMAdapter tmAdapter,
@@ -284,7 +282,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
-				CurrentViewsGrid.RowCount > 0 && !CurrentViewsGrid.Cache.IsCIEList);
+                CurrentViewsGrid.RowCount > 0 && !CurrentViewsGrid.Cache.IsMinimalPair && !CurrentViewsGrid.Cache.IsSimilarEnvironment);
 			
 			if (itemProps.Enabled != enable)
 			{
@@ -346,7 +344,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
-				CurrentViewsGrid.RowCount > 1 && !CurrentViewsGrid.Cache.IsCIEList);
+                CurrentViewsGrid.RowCount > 1 && !CurrentViewsGrid.Cache.IsMinimalPair && !CurrentViewsGrid.Cache.IsSimilarEnvironment);
 			
 			bool check = (enable && CurrentViewsGrid.IsGroupedByField);
 
@@ -389,7 +387,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.IsGroupedByField ||
-				(CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsCIEList &&
+                (CurrentViewsGrid.Cache != null && (CurrentViewsGrid.Cache.IsMinimalPair || CurrentViewsGrid.Cache.IsSimilarEnvironment) &&
 				!CurrentViewsGrid.Cache.IsEmpty)));
 
 			if (itemProps.Enabled != (enable && !CurrentViewsGrid.AllGroupsExpanded))
@@ -430,7 +428,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.IsGroupedByField ||
-				(CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsCIEList &&
+                (CurrentViewsGrid.Cache != null && (CurrentViewsGrid.Cache.IsMinimalPair || CurrentViewsGrid.Cache.IsSimilarEnvironment) &&
 				!CurrentViewsGrid.Cache.IsEmpty)));
 
 			if (itemProps.Enabled != (enable && !CurrentViewsGrid.AllGroupsCollapsed))
@@ -1437,8 +1435,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnShowCIEResults(object args)
 		{
 
-            m_SimilarEnvironment = false;
-            m_MinimalPair = !m_MinimalPair;
+            CurrentViewsGrid.Cache.IsSimilarEnvironment = false;
                 
         
         if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
@@ -1448,7 +1445,7 @@ namespace SIL.Pa.UI.Controls
 			FindInfo.ResetStartSearchCell(true);
 			FindInfo.CanFindAgain = true;
 
-			if (CurrentViewsGrid.Cache.IsCIEList && !CurrentViewsGrid.Cache.IsEmpty &&
+			if (CurrentViewsGrid.Cache.IsMinimalPair && !CurrentViewsGrid.Cache.IsEmpty &&
 				Settings.Default.WordListCollapseOnMinimalPairs)
 			{
 				CurrentViewsGrid.ToggleGroupExpansion(false);
@@ -1457,53 +1454,51 @@ namespace SIL.Pa.UI.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateShowCIEResults(object args)
-		{
-			var itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_view.ActiveView)
-				return false;
+	    /// ------------------------------------------------------------------------------------
+	    protected bool OnUpdateShowCIEResults(object args)
+	    {
+	        var itemProps = args as TMItemProperties;
+	        if (itemProps == null || !m_view.ActiveView)
+	            return false;
+	        bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+	                       CurrentViewsGrid.Cache.IsMinimalPair &&
+	                       !CurrentViewsGrid.IsGroupedByField);
 
-			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
-				(CurrentViewsGrid.RowCount > 2 || CurrentViewsGrid.Cache.IsCIEList) &&
-				!CurrentViewsGrid.IsGroupedByField);
+	        bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+	                      CurrentViewsGrid.Cache.IsMinimalPair);
 
-			bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
-				CurrentViewsGrid.Cache.IsCIEList);
+	        if (itemProps.Enabled != enable || itemProps.Checked != check)
+	        {
+	            itemProps.Visible = true;
+	            itemProps.Enabled = enable;
+	            itemProps.Checked = check;
+	            itemProps.Update = true;
+	        }
+	        if (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+	            CurrentViewsGrid.Cache.IsSimilarEnvironment)
+	        {
+	            itemProps.Enabled = false;
+	            itemProps.Update = true;
+	        }
+	        if (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+	            (!CurrentViewsGrid.Cache.IsMinimalPair &&
+                 !CurrentViewsGrid.Cache.IsSimilarEnvironment && !CurrentViewsGrid.IsGroupedByField))
+	        {
+                itemProps.Visible = true;
+	            itemProps.Enabled = true;
+	            itemProps.Checked = false;
+                itemProps.Update = true;
+	        }
+	        return true;
+	    }
 
-			if (itemProps.Enabled != enable || itemProps.Checked != check)
-			{
-				itemProps.Visible = true;
-				itemProps.Enabled = enable;
-				itemProps.Checked = check;
-				itemProps.Update = true;
-			}
-
-            if (itemProps.Enabled && m_MinimalPair)
-            {
-                itemProps.Enabled = enable;
-                itemProps.Checked = true;
-            }
-            else
-            {
-                itemProps.Enabled = enable;
-                itemProps.Checked = false;
-                if (m_SimilarEnvironment)
-                {
-                    itemProps.Enabled = false;
-                }
-            }
-			return true;
-		}
-
-		#endregion
+	    #endregion
 
         #region CIE (i.e. Similar Environment pair) methods
         /// ------------------------------------------------------------------------------------
         protected bool OnShowCIESimilarResults(object args)
         {
-            m_SimilarEnvironment = !m_SimilarEnvironment;
-            m_MinimalPair = false;
+            CurrentViewsGrid.Cache.IsMinimalPair = false;
 
             if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
                 return false;
@@ -1512,7 +1507,7 @@ namespace SIL.Pa.UI.Controls
             FindInfo.ResetStartSearchCell(true);
             FindInfo.CanFindAgain = true;
 
-            if (CurrentViewsGrid.Cache.IsCIEList && !CurrentViewsGrid.Cache.IsEmpty &&
+            if (CurrentViewsGrid.Cache.IsSimilarEnvironment && !CurrentViewsGrid.Cache.IsEmpty &&
                 Settings.Default.WordListCollapseOnMinimalPairs)
             {
                 CurrentViewsGrid.ToggleGroupExpansion(false);
@@ -1529,50 +1524,40 @@ namespace SIL.Pa.UI.Controls
                 return false;
 
             bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
-                (CurrentViewsGrid.RowCount > 2 || CurrentViewsGrid.Cache.IsCIEList) &&
-                !CurrentViewsGrid.IsGroupedByField);
+                           CurrentViewsGrid.Cache.IsSimilarEnvironment &&
+                           !CurrentViewsGrid.IsGroupedByField);
+           bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+               CurrentViewsGrid.Cache.IsSimilarEnvironment);
 
-            bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
-                CurrentViewsGrid.Cache.IsCIEList);
-
-           
-            if (itemProps.Enabled != enable || itemProps.Checked != check)
+            if (itemProps.Enabled != enable || itemProps.Checked != check)            {                itemProps.Visible = true;                itemProps.Enabled = enable;                itemProps.Checked = check;                itemProps.Update = true;            }
+            if (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsMinimalPair)
             {
-                itemProps.Visible = true;
-                itemProps.Enabled = enable;
-                itemProps.Checked = check;
+                itemProps.Enabled = false;
                 itemProps.Update = true;
             }
-
-            if (itemProps.Enabled && m_SimilarEnvironment)
+            if (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+                (!CurrentViewsGrid.Cache.IsMinimalPair &&
+                 !CurrentViewsGrid.Cache.IsSimilarEnvironment && !CurrentViewsGrid.IsGroupedByField))
             {
-                itemProps.Enabled = enable;
-                itemProps.Checked = true;
-            }
-            else
-            {
-                itemProps.Enabled = enable;
+                itemProps.Visible = true;
+                itemProps.Enabled = true;
                 itemProps.Checked = false;
-                if (m_MinimalPair)
-                {
-                    itemProps.Enabled = false;
-                }
+                itemProps.Update = true;
+            }
+            return true;
             }
 
+                #endregion
 
-            return true;
-        }
-
-        #endregion
-
-		#region Export Methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Attempts to export the manager's current grid contents to HTML and returns the
-		/// html file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string HTMLExport()
+                #region Export Methods
+                /// ------------------------------------------------------------------------------------
+                /// <summary>
+                /// Attempts to export the manager's current grid contents to HTML and returns the
+                /// html file.
+                /// </summary>
+                /// ------------------------------------------------------------------------------------
+            public
+            string HTMLExport()
 		{
 			var fmt = LocalizationManager.GetString("Views.WordLists.SearchResults.Export.DefaultHtmlExportFileAffix",
 				"{0}-{1}SearchResults.html");

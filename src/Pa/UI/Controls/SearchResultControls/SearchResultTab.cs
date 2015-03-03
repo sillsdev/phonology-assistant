@@ -245,7 +245,7 @@ namespace SIL.Pa.UI.Controls
 				FindInfo.CanFindAgain = false;
 				CIEOptionsButton.Visible = (m_resultView != null &&
 					m_resultView.Grid != null && m_resultView.Grid.Cache != null &&
-					m_resultView.Grid.Cache.IsCIEList);
+					m_resultView.Grid.Cache.IsMinimalPair);
 			}
 
             if (CIESimilarOptionsButton.Visible)
@@ -253,7 +253,7 @@ namespace SIL.Pa.UI.Controls
                 FindInfo.CanFindAgain = false;
                 CIESimilarOptionsButton.Visible = (m_resultView != null &&
                     m_resultView.Grid != null && m_resultView.Grid.Cache != null &&
-                    m_resultView.Grid.Cache.IsCIEList);
+                    m_resultView.Grid.Cache.IsSimilarEnvironment);
             }
 
 			AdjustWidth();
@@ -499,8 +499,18 @@ namespace SIL.Pa.UI.Controls
 				// has changed (since each field has it's own font).
 				if (OwningTabGroup != null && OwningTabGroup.RecordView != null)
 					OwningTabGroup.RecordView.UpdateFonts();
-
-				m_resultView.RefreshResults();
+			    var cietype = m_resultView.Cache == null
+			        ? CIEOptions.CIEType.None
+			        : m_resultView.Cache.IsMinimalPair
+			            ? CIEOptions.CIEType.Minimal
+			            : m_resultView.Cache.IsSimilarEnvironment ? CIEOptions.CIEType.Similar : CIEOptions.CIEType.None;
+			    if (cietype == CIEOptions.CIEType.None)
+			    {
+			        CIESimilarOptionsButton.Visible = false;
+			        CIEOptionsButton.Visible = false;
+			    }
+				m_resultView.RefreshResults(cietype);
+			  
 				SubscribeToGridEvents();
 				UpdateRecordView();
 			}
@@ -850,8 +860,8 @@ namespace SIL.Pa.UI.Controls
 					0, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
 			}
 
-			if (!CIEOptionsButton.Visible)
-				DrawImage(e.Graphics, ref rc);
+		    if (!CIEOptionsButton.Visible)
+		        DrawImage(e.Graphics, ref rc);
 			else
 			{
 				rc.X += (kleftImgMargin + CIEOptionsButton.Width);
@@ -977,7 +987,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (m_resultView != null && m_resultView.Grid != null && m_resultView.Grid.Cache != null)
 			{
-				if (m_resultView.Grid.Cache.IsCIEList)
+				if (m_resultView.Grid.Cache.IsMinimalPair)
 					m_resultView.Grid.CIEViewOff();
 				else
 					m_resultView.Grid.CIEViewOn();
@@ -985,7 +995,7 @@ namespace SIL.Pa.UI.Controls
 				// Force users to restart Find when toggling the CIEView
 				FindInfo.CanFindAgain = false;
 
-				CIEOptionsButton.Visible = m_resultView.Grid.Cache.IsCIEList;
+				CIEOptionsButton.Visible = m_resultView.Grid.Cache.IsMinimalPair;
 				AdjustWidth();
 				OwningTabGroup.AdjustTabContainerWidth();
 			}
@@ -1047,7 +1057,7 @@ namespace SIL.Pa.UI.Controls
         {
             if (m_resultView != null && m_resultView.Grid != null && m_resultView.Grid.Cache != null)
             {
-                if (m_resultView.Grid.Cache.IsCIEList)
+                if (m_resultView.Grid.Cache.IsSimilarEnvironment)
                     m_resultView.Grid.CIESimilarViewOff();
                 else
                     m_resultView.Grid.CIESimilarViewOn();
@@ -1055,7 +1065,7 @@ namespace SIL.Pa.UI.Controls
                 // Force users to restart Find when toggling the CIEView
                 FindInfo.CanFindAgain = false;
 
-                CIESimilarOptionsButton.Visible = m_resultView.Grid.Cache.IsCIEList;
+                CIESimilarOptionsButton.Visible = m_resultView.Grid.Cache.IsSimilarEnvironment;
                 AdjustWidth();
                 OwningTabGroup.AdjustTabContainerWidth();
             }
@@ -1064,7 +1074,7 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         internal void CIEViewSimilarRefresh()
         {
-            if (m_resultView.Grid == null || !m_resultView.Grid.CIEViewRefresh())
+            if (m_resultView.Grid == null || !m_resultView.Grid.CIESimilarViewRefresh())
             {
                 CIESimilarOptionsButton.Visible = false;
                 AdjustWidth();

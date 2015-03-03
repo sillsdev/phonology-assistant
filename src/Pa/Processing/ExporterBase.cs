@@ -96,7 +96,7 @@ namespace SIL.Pa.Processing
 			if (grid == null)
 				return;
 
-			if (grid.Cache.IsCIEList)
+            if (grid.Cache.IsMinimalPair || grid.Cache.IsSimilarEnvironment)
 				m_groupByColumn = grid.PhoneticColumn;
 			else if (grid.IsGroupedByField)
 				m_groupByColumn = grid.GroupByColumn;
@@ -118,7 +118,7 @@ namespace SIL.Pa.Processing
 												select x).Count();
 
 				var field = project.GetPhoneticField();
-				m_groupByField = (grid.Cache.IsCIEList ? field : ((PaWordListGrid)m_grid).GroupByField);
+                m_groupByField = (grid.Cache.IsMinimalPair || grid.Cache.IsSimilarEnvironment ? field : ((PaWordListGrid)m_grid).GroupByField);
 				m_groupedFieldName = ProcessHelper.MakeAlphaNumeric(m_groupByField.DisplayName);
 			}
 		}

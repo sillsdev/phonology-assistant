@@ -83,7 +83,7 @@ namespace SIL.Pa.Processing
 				return;
 			
 			var grid = m_grid as PaWordListGrid;
-			if (grid.GroupByColumn == grid.PhoneticColumn || grid.Cache.IsCIEList)
+            if (grid.GroupByColumn == grid.PhoneticColumn || grid.Cache.IsMinimalPair || grid.Cache.IsSimilarEnvironment)
 				return;
 
 			int groupByColIndex = m_groupByColumn.DisplayIndex;
@@ -132,7 +132,7 @@ namespace SIL.Pa.Processing
 		{
 			get
 			{
-				return (((PaWordListGrid)m_grid).Cache.IsCIEList ?
+                return (((PaWordListGrid)m_grid).Cache.IsMinimalPair || ((PaWordListGrid)m_grid).Cache.IsSimilarEnvironment ?
 					((PaWordListGrid)m_grid).CIEOptions.Type.ToString() : null);
 			}
 		}

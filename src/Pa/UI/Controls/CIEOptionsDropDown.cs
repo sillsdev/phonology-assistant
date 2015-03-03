@@ -22,11 +22,12 @@ namespace SIL.Pa.UI.Controls
 		private RadioButton _radioBoth;
 		private RadioButton _radioAfter;
 		private RadioButton _radioBefore;
+        private CIEOptions.CIEType _cieType;
 		public LinkLabel _linkApply;
 		public LinkLabel _linkCancel;
 
 		/// ------------------------------------------------------------------------------------
-		public CIEOptionsDropDown()
+		public CIEOptionsDropDown(CIEOptions.CIEType cieType)
 		{
 			Canceled = false;
 			InitializeComponent();
@@ -35,6 +36,7 @@ namespace SIL.Pa.UI.Controls
 		    lnkOk.Visible = false;
 			SetupControls();
 			CIEOptions = (App.Project != null ? App.Project.CIEOptions.Clone() : new CIEOptions());
+            _cieType = cieType;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,13 +96,13 @@ namespace SIL.Pa.UI.Controls
 					_cieOptions.Type = CIEOptions.IdenticalType.Both;
 
 				_cieOptions.SearchQuery = SearchQuery;
+			    _cieOptions.CieType = _cieType;
 				return _cieOptions;
 			}
 			set
 			{
 				_cieOptions = value;
 				Canceled = false;
-
 				if (_cieOptions != null)
 				{
 					SearchQuery = _cieOptions.SearchQuery;
@@ -127,7 +129,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				bool changed = false;
 
-			    if (_cieOptions == null) return false;
+                if (_cieOptions == null) return false;
 
                 switch (_cieOptions.Type)
 				{
@@ -135,7 +137,6 @@ namespace SIL.Pa.UI.Controls
 					case CIEOptions.IdenticalType.Before: changed = !_radioBefore.Checked; break;
 					case CIEOptions.IdenticalType.Both: changed = !_radioBoth.Checked; break;
 				}
-
 				return (!Canceled && (changed || base.OptionsChanged));
 			}
 		}
@@ -152,12 +153,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			Canceled = true;
 			base.HandleHelpClicked(sender, e);
-		    string _helpTopic = string.Empty;
-		    if(CIEBuilder.IsMinimalpair)
-		        _helpTopic = "hidMinimalPairsOptions";
-		    else
-		        _helpTopic = "hidSimilarEnvironmentsOptions";
-			App.ShowHelpTopic(_helpTopic);
+		    string helpTopic = _cieType == CIEOptions.CIEType.Minimal ? "hidMinimalPairsOptions" : "hidSimilarEnvironmentsOptions";
+			App.ShowHelpTopic(helpTopic);
 		}
 
 		/// ------------------------------------------------------------------------------------

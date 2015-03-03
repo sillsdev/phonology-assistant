@@ -124,48 +124,48 @@ namespace SIL.Pa.UI.Controls
 			if (m_cache == null || m_cache.Count < 2)
 				return;
 
-			if (m_cache.IsCIEList)
-			{
-				m_headingFont = FontHelper.MakeFont(App.PhoneticFont, FontStyle.Bold);
-				GroupMinimalPairs();
-			}
-			else if (m_grid.GroupByField != null)
-			{
-				m_headingFont = FontHelper.MakeFont(m_grid.GroupByField.Font, FontStyle.Bold);
+		    if (m_cache.IsMinimalPair || m_cache.IsSimilarEnvironment)
+		    {
+		        m_headingFont = FontHelper.MakeFont(App.PhoneticFont, FontStyle.Bold);
+		        GroupMinimalPairs();
+		    }
+		    else if (m_grid.GroupByField != null)
+		    {
+		        m_headingFont = FontHelper.MakeFont(m_grid.GroupByField.Font, FontStyle.Bold);
 
-				if (m_grid.GroupByField.Type != FieldType.Phonetic || !m_cache.IsForSearchResults)
-					GroupOnField(m_grid.GroupByField.Name);
-				else
-				{
-					// Should we group by the phonetic column's search item?
-					if (m_grid.SortOptions.AdvSortOrder[1] == 0)
-						GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.Name, 1);
-					else
-					{
-						bool matchBefore = (m_grid.SortOptions.AdvSortOrder[0] == 0);
+		        if (m_grid.GroupByField.Type != FieldType.Phonetic || !m_cache.IsForSearchResults)
+		            GroupOnField(m_grid.GroupByField.Name);
+		        else
+		        {
+		            // Should we group by the phonetic column's search item?
+		            if (m_grid.SortOptions.AdvSortOrder[1] == 0)
+		                GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.Name, 1);
+		            else
+		            {
+		                bool matchBefore = (m_grid.SortOptions.AdvSortOrder[0] == 0);
 
-						int numberPhonesToMatch = (matchBefore ?
-							Settings.Default.WordListGroupingPhonesToMatchBefore :
-							Settings.Default.WordListGroupingPhonesToMatchAfter);
+		                int numberPhonesToMatch = (matchBefore
+		                    ? Settings.Default.WordListGroupingPhonesToMatchBefore
+		                    : Settings.Default.WordListGroupingPhonesToMatchAfter);
 
-						if (numberPhonesToMatch == 0)
-						{
-							// Match exactly on the environment before or after.
-							GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.Name,
-								(matchBefore ? 0 : 2));
-						}
-						else
-						{
-							// Match on the environment before or after
-							// up to the specified number of phones.
-							GroupOnPhoneticEnvironment(m_grid.GroupByField.Name,
-								matchBefore, numberPhonesToMatch);
-						}
-					}
-				}
-			}
+		                if (numberPhonesToMatch == 0)
+		                {
+		                    // Match exactly on the environment before or after.
+		                    GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.Name,
+		                        (matchBefore ? 0 : 2));
+		                }
+		                else
+		                {
+		                    // Match on the environment before or after
+		                    // up to the specified number of phones.
+		                    GroupOnPhoneticEnvironment(m_grid.GroupByField.Name,
+		                        matchBefore, numberPhonesToMatch);
+		                }
+		            }
+		        }
+		    }
 
-			m_grid.GroupHeadingFont = m_headingFont;
+		    m_grid.GroupHeadingFont = m_headingFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -443,7 +443,7 @@ namespace SIL.Pa.UI.Controls
 				lastChild = i;
 			}
 		    FinishGrouping(
-		        CIEBuilder.IsMinimalpair
+		        m_cache.IsMinimalPair
 		            ? CIEBuilder.GetCIEPattern(m_cache[0], m_grid.CIEOptions)
 		            : CIEBuilder.GetCIESimilarPattern(m_cache[0], m_grid.CIEOptions), lastChild);
 		}

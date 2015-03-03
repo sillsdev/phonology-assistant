@@ -424,9 +424,17 @@ namespace SIL.Pa.UI.Controls
 			// SearchQuery is null when showing "Minimal Pairs"
 			if (m_cache.IsForSearchResults && m_cache.SearchQuery != null)
 			{
-				string fmt = (m_cache.IsCIEList ?
-					LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.SearchPatternForMinPairs", "Search Pattern:{0}{1}  (Minimal Pairs)", "The heading output for the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.") :
-					LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.SearchPatternNormal", "Search Pattern:{0}{1}", "The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."));
+			    string fmt = (m_cache.IsMinimalPair
+			        ? LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.SearchPatternForMinPairs",
+			            "Search Pattern:{0}{1}  (Minimal Pairs)",
+			            "The heading output for the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.")
+			        : m_cache.IsSimilarEnvironment
+                        ? LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.SearchPatternForSimilarPairs",
+                        "Search Pattern:{0}{1}  (Similar Pairs)",
+                        "The heading output for the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.")
+			            : LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.SearchPatternNormal",
+			                "Search Pattern:{0}{1}",
+			                "The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."));
 				
 				m_rtfBldr.AppendFormat(fmt,	ktab, m_cache.SearchQuery.Pattern);
 			}
@@ -758,7 +766,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (grid != null && grid.GroupByField != null)
 				groupFieldName = grid.GroupByField.Name;
-			else if (m_cache.IsCIEList)
+            else if (m_cache.IsMinimalPair || m_cache.IsSimilarEnvironment)
 				groupFieldName = m_project.GetPhoneticField().Name;
 			
 			int fontNumber = (string.IsNullOrEmpty(groupFieldName) ? 0 : m_fontNumbers[groupFieldName]);

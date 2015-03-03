@@ -23,7 +23,6 @@ namespace SIL.Pa
 	{
 		private readonly SortOptions _sortOptions;
 		private CIEOptions _cieOptions;
-	    public static bool IsMinimalpair = false;
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Constructs an object to find the list of minimal pairs within the specified cache.
@@ -62,7 +61,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public WordListCache FindMinimalPairs()
 		{
-		    IsMinimalpair = true;
 			if (Cache == null || !Cache.IsForSearchResults)
 				return null;
 
@@ -113,7 +111,7 @@ namespace SIL.Pa
 				cieGroupTexts[cieGroupId++] = grp.Key;
 			}
 
-			cieCache.IsCIEList = true;
+		    cieCache.IsMinimalPair = true;
 			cieCache.CIEGroupTexts = cieGroupTexts;
 			cieCache.IsForSearchResults = true;
 			cieCache.Sort(_sortOptions);
@@ -124,7 +122,6 @@ namespace SIL.Pa
         /// ------------------------------------------------------------------------------------
         public WordListCache FindSimilarPairs()
         {
-            IsMinimalpair = false;
             if (Cache == null || !Cache.IsForSearchResults)
                 return null;
 
@@ -173,7 +170,7 @@ namespace SIL.Pa
 
                 cieGroupTexts[cieGroupId++] = grp.Key;
             }
-            cieCache.IsCIEList = true;
+            cieCache.IsSimilarEnvironment = true;
             cieCache.CIEGroupTexts = cieGroupTexts;
             cieCache.IsForSearchResults = true;
             cieCache.Sort(_sortOptions);
@@ -318,12 +315,18 @@ namespace SIL.Pa
 			Before,
 			Both
 		}
-
+        public enum CIEType
+        {
+            Minimal,
+            Similar,
+            None
+        }
 		/// ------------------------------------------------------------------------------------
 		public CIEOptions()
 		{
 			SearchQuery = new SearchQuery();
 			Type = IdenticalType.Both;
+            CieType=CIEType.None;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -332,6 +335,7 @@ namespace SIL.Pa
 			var options = new CIEOptions();
 			options.SearchQuery = SearchQuery.Clone();
 			options.Type = Type;
+		    options.CieType = CieType;
 			return options;
 		}
 
@@ -341,6 +345,9 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery SearchQuery { get; set; }
+
+        /// ------------------------------------------------------------------------------------
+        public CIEType CieType { get; set; }
 	}
 
 	#endregion

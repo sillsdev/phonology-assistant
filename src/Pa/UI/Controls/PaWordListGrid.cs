@@ -2172,7 +2172,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool CIEViewRefresh()
 		{
-			if (_cache.IsCIEList)
+			if (_cache.IsMinimalPair)
 			{
 				_cache = _backupCache;
 				_backupCache = null;
@@ -2188,7 +2188,25 @@ namespace SIL.Pa.UI.Controls
 
 			return true;
 		}
+        /// ------------------------------------------------------------------------------------
+        public bool CIESimilarViewRefresh()
+        {
+            if (_cache.IsSimilarEnvironment)
+            {
+                _cache = _backupCache;
+                _backupCache = null;
 
+                if (!CIESimilarViewOn())
+                {
+                    ManageNoCIEResultsMessage(false);
+                    _cache.Sort(_sortOptions);
+                    RefreshRows(true);
+                    return false;
+                }
+            }
+
+            return true;
+        }
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Turns on showing minimal pairs from the grid's cache.
@@ -2196,12 +2214,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool CIEViewOn()
 		{
-			if (_cache.IsCIEList)
+			if (_cache.IsMinimalPair)
 				return false;
 
 			if (CIEOptions == null)
 				CIEOptions = App.Project.CIEOptions;
 
+            CIEOptions.CieType=CIEOptions.CIEType.Minimal;
 			var builder = new CIEBuilder(_cache, _sortOptions, CIEOptions);
 			var cieCache = builder.FindMinimalPairs();
 
@@ -2242,6 +2261,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void CIEViewOff()
 		{
+		    _cache.IsMinimalPair = false;
 			if (_backupCache != null)
 			{
 				if (_cellInfoPopup != null)
@@ -2263,12 +2283,12 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         public bool CIESimilarViewOn()
         {
-            if (_cache.IsCIEList)
+            if (_cache.IsSimilarEnvironment)
                 return false;
 
             if (CIEOptions == null)
                 CIEOptions = App.Project.CIEOptions;
-
+            CIEOptions.CieType = CIEOptions.CIEType.Similar;
             var builder = new CIEBuilder(_cache, _sortOptions, CIEOptions);
             var cieCache = builder.FindSimilarPairs();
 
@@ -2278,7 +2298,7 @@ namespace SIL.Pa.UI.Controls
                 Utils.MsgBox(LocalizationManager.GetString("Views.WordLists.NoSimilarEnvironmentPopupMsg", "No Similar Environments to display."));
                 return false;
             }
-
+            
             if (cieCache.Count > 1)
             {
                 if (_noCIEResultsMsg != null)
@@ -2298,7 +2318,6 @@ namespace SIL.Pa.UI.Controls
             _cache = cieCache;
             RefreshRows(true);
             App.MsgMediator.SendMessage("AfterWordListGroupingByCIE", this);
-
             return true;
         }
 
@@ -2309,6 +2328,7 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         public void CIESimilarViewOff()
         {
+            _cache.IsSimilarEnvironment = false;
             if (_backupCache != null)
             {
                 if (_cellInfoPopup != null)
@@ -2357,10 +2377,7 @@ namespace SIL.Pa.UI.Controls
 				_noCIEResultsMsg.MouseDown += delegate { Focus(); };
 
                 string _resultMessage = string.Empty;
-                if (CIEBuilder.IsMinimalpair)
-                    _resultMessage = "minimal pairs";
-                else
-                    _resultMessage = "similar environments";
+			    _resultMessage = CIEOptions.CieType == CIEOptions.CIEType.Minimal ? "minimal pairs" : "similar environments";
 
 				_noCIEResultsMsg.Text = Utils.ConvertLiteralNewLines(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsMsg",
                     "No " + _resultMessage + " to display.\nChange the " + _resultMessage + " options and try again.",
@@ -2399,8 +2416,8 @@ namespace SIL.Pa.UI.Controls
 
 			for (int i = 0; i < _cache.Count; i++)
 			{
-				if (!_cache.IsCIEList)
-					_cache[i].CIEGroupId = -1;
+			    if (!_cache.IsMinimalPair && !_cache.IsSimilarEnvironment)
+			        _cache[i].CIEGroupId = -1;
 
 				Rows.Add(new PaCacheGridRow(i));
 			}
@@ -2408,7 +2425,6 @@ namespace SIL.Pa.UI.Controls
 			if (groupRecords)
 				WordListGroupingBuilder.Group(this);
 		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Sort phonetically or based on the column clicked.
@@ -2441,25 +2457,25 @@ namespace SIL.Pa.UI.Controls
 
 			// UnGroup and ReGroup by new sort column
 			bool allGroupCollapsed = false;
-			if (IsGroupedByField && !Cache.IsCIEList)
-			{
-				allGroupCollapsed = AllGroupsCollapsed;
-				var groupByField = _groupByField;
-				//ToggleGroupExpansion(true);
-				_groupByField = null;
-				WordListGroupingBuilder.UnGroup(this);
-				_groupByField = groupByField;
+		    if (IsGroupedByField && !Cache.IsMinimalPair && !Cache.IsSimilarEnvironment)
+		    {
+		        allGroupCollapsed = AllGroupsCollapsed;
+		        var groupByField = _groupByField;
+		        //ToggleGroupExpansion(true);
+		        _groupByField = null;
+		        WordListGroupingBuilder.UnGroup(this);
+		        _groupByField = groupByField;
 
-				// This code is necessary for correctly changing the Group Headings
-				if (SortOptions.SortFields != null &&
-					SortOptions.SortFields.Count > 0)
-				{
-					_groupByField = SortOptions.SortFields[0].Field;
-				}
-			}
+		        // This code is necessary for correctly changing the Group Headings
+		        if (SortOptions.SortFields != null &&
+		            SortOptions.SortFields.Count > 0)
+		        {
+		            _groupByField = SortOptions.SortFields[0].Field;
+		        }
+		    }
 
-			// Can't be Grouped By Field and Minimal Pairs at the same time.
-			if (IsGroupedByField && !Cache.IsCIEList)
+		    // Can't be Grouped By Field and Minimal Pairs at the same time.
+            if (IsGroupedByField && !Cache.IsMinimalPair && !Cache.IsSimilarEnvironment)
 				WordListGroupingBuilder.Group(this);
 
 			// Recollapse all groups if needed
@@ -2492,7 +2508,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void ToggleGroupExpansion(bool expand, bool forceStateChange)
 		{
-			if (!IsGroupedByField && (!_cache.IsCIEList || _cache.IsEmpty))
+            if (!IsGroupedByField && ((!_cache.IsMinimalPair && !_cache.IsSimilarEnvironment) || _cache.IsEmpty))
 				return;
 
 			Utils.SetWindowRedraw(this, false, false);
@@ -2593,11 +2609,20 @@ namespace SIL.Pa.UI.Controls
 
 			if (cieOptions != null)
 			{
-				CIEOptions = cieOptions;
-				CIEViewOn();
+			    CIEOptions = cieOptions;
+
+			    switch (CIEOptions.CieType)
+			    {
+			        case CIEOptions.CIEType.Minimal:
+			            CIEViewOn();
+			            break;
+			        case CIEOptions.CIEType.Similar:
+			            CIESimilarViewOn();
+			            break;
+			    }
 			}
 
-			// Restore the first visible row.
+		    // Restore the first visible row.
 			if (firstRow < Rows.Count && firstRow >= 0 && Rows[firstRow].Visible)
 				FirstDisplayedScrollingRowIndex = firstRow;
 			
