@@ -77,6 +77,7 @@ namespace SIL.Pa
 			}
 
 			var cieGroups = new Dictionary<string, List<WordListCacheEntry>>();
+		    var noDups = new HashSet<string>();
 
 			foreach (var entry in Cache)
 			{
@@ -89,7 +90,13 @@ namespace SIL.Pa
 					cieGroups[pattern] = entryList;
 				}
 
-				entryList.Add(entry);
+			    var setItem = pattern + "+" + entry.SearchItem;
+
+			    if (!noDups.Contains(setItem))
+			    {
+			        noDups.Add(setItem);
+                    entryList.Add(entry);
+                }
 			}
 
 			// The groups are not guaranteed to be in any particular order, just the words within groups.
@@ -138,6 +145,7 @@ namespace SIL.Pa
             }
 
             var cieGroups = new Dictionary<string, List<WordListCacheEntry>>();
+            var noDups = new HashSet<string>();
 
             foreach (var entry in Cache)
             {
@@ -149,7 +157,12 @@ namespace SIL.Pa
                     entryList = new List<WordListCacheEntry>();
                     cieGroups[pattern] = entryList;
                 }
-                entryList.Add(entry);
+                var setItem = pattern + "+" + entry.SearchItem;
+                if (!noDups.Contains(setItem))
+                {
+                    noDups.Add(setItem);
+                    entryList.Add(entry);
+                }
             }
 
             // The groups are not guaranteed to be in any particular order, just the words within groups.
