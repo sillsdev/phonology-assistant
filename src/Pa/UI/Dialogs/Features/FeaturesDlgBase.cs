@@ -370,7 +370,8 @@ namespace SIL.Pa.UI.Dialogs
 			_listView.SetDefaultFeatures(_viewModel.GetListOfDefaultFeaturesForPhone((index)));
 			_listView.SetMaskFromPhoneInfo(_viewModel.GetPhoneInfo(index));
 			_buttonReset.Enabled = GetDoesPhoneHaveOverrides();
-			_gridPhones.InvalidateRow(index);
+            if (index >= 0 && index < _gridPhones.RowCount)
+			    _gridPhones.InvalidateRow(index);
 		}
 
 		/// ------------------------------------------------------------------------------------

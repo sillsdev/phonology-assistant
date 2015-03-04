@@ -427,7 +427,7 @@ namespace SIL.Pa.UI.Controls
 			get {return m_currMask;}
 			set
 			{
-				m_currMask = value;
+				m_currMask = value ?? _emptyMask;
 
 				// Loop through items in the feature list and set their state according to
 				// the specified mask.

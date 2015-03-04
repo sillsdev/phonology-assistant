@@ -71,7 +71,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public override void SetMaskFromPhoneInfo(IPhoneInfo phoneInfo)
 		{
-			CurrentMask = phoneInfo.AMask;
+			CurrentMask = phoneInfo != null ? phoneInfo.AMask : null;
 		}
 
 		/// ------------------------------------------------------------------------------------

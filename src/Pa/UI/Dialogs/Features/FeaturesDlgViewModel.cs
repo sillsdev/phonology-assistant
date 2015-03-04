@@ -70,6 +70,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> GetListOfDefaultFeaturesForPhone(int index)
 		{
+            if (index < 0 || index >= _phones.Length)
+                return Enumerable.Empty<string>();
+
 			return (_featureType == App.FeatureType.Articulatory ?
 				App.AFeatureCache.GetFeatureList(_phones[index].DefaultAMask) :
 				App.BFeatureCache.GetFeatureList(_phones[index].DefaultBMask));
