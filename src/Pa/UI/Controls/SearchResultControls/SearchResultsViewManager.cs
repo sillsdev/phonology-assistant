@@ -1498,10 +1498,10 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         protected bool OnShowCIESimilarResults(object args)
         {
-            CurrentViewsGrid.Cache.IsMinimalPair = false;
-
             if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
                 return false;
+
+            CurrentViewsGrid.Cache.IsMinimalPair = false;
 
             CurrentTabGroup.CurrentTab.ToggleCIESimilarView();
             FindInfo.ResetStartSearchCell(true);
@@ -1525,11 +1525,18 @@ namespace SIL.Pa.UI.Controls
 
             bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
                            CurrentViewsGrid.Cache.IsSimilarEnvironment &&
-                           !CurrentViewsGrid.IsGroupedByField);
+                           !CurrentViewsGrid.IsGroupedByField);
+
            bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
                CurrentViewsGrid.Cache.IsSimilarEnvironment);
 
-            if (itemProps.Enabled != enable || itemProps.Checked != check)            {                itemProps.Visible = true;                itemProps.Enabled = enable;                itemProps.Checked = check;                itemProps.Update = true;            }
+            if (itemProps.Enabled != enable || itemProps.Checked != check)
+            {
+                itemProps.Visible = true;
+                itemProps.Enabled = enable;
+                itemProps.Checked = check;
+                itemProps.Update = true;
+            }
             if (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsMinimalPair)
             {
                 itemProps.Enabled = false;
