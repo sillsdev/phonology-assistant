@@ -77,7 +77,7 @@ namespace SIL.Pa
 			}
 
 			var cieGroups = new Dictionary<string, List<WordListCacheEntry>>();
-            var noDups = new HashSet<string>()
+		    var noDups = new HashSet<string>();
 
 			foreach (var entry in Cache)
 			{
