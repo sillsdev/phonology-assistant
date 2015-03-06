@@ -77,7 +77,7 @@ namespace SIL.Pa
 			}
 
 			var cieGroups = new Dictionary<string, List<WordListCacheEntry>>();
-		    var noDups = new HashSet<string>();
+            var noDups = new HashSet<string>()
 
 			foreach (var entry in Cache)
 			{
@@ -98,6 +98,7 @@ namespace SIL.Pa
                     entryList.Add(entry);
                 }
 			}
+            noDups.Clear();
 
 			// The groups are not guaranteed to be in any particular order, just the words within groups.
 			// TODO: Sort groups by POA, or MOA, based on what's specified in _sortOptions.
@@ -164,6 +165,7 @@ namespace SIL.Pa
                     entryList.Add(entry);
                 }
             }
+            noDups.Clear();
 
             // The groups are not guaranteed to be in any particular order, just the words within groups.
             // TODO: Sort groups by POA, or MOA, based on what's specified in _sortOptions.
