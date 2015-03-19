@@ -321,15 +321,11 @@ namespace SIL.Pa
 
 			string[] addOnAssemblyFiles;
 
-			try
-			{
-				var addOnPath = Path.Combine(AssemblyPath, "AddOns");
-				addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
-			}
-			catch
-			{
-				return;
-			}
+			var addOnPath = Path.Combine(AssemblyPath, "AddOns");
+            if (!Directory.Exists(addOnPath))
+                return;
+
+			addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
 
 			if (addOnAssemblyFiles.Length == 0)
 				return;

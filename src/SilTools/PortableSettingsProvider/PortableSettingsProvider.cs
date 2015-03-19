@@ -177,20 +177,16 @@ namespace SilTools
 			value.IsDirty = false;
 			value.SerializedValue = string.Empty;
 
-			try
-			{
-				XmlNode node = m_settingsXml.SelectSingleNode(Root + "/" + setting.Name);
-
+			XmlNode node = m_settingsXml.SelectSingleNode(Root + "/" + setting.Name);
+            if (node != null)
+            {
 				if (!GetStringCollection(value, node))
 					if (!GetFormSettings(value, node))
 						if (!GetGridSettings(value, node))
 							value.SerializedValue = node.InnerText;
 			}
-			catch
-			{
-				if ((setting.DefaultValue != null))
+            else if (setting.DefaultValue != null)
 					value.SerializedValue = setting.DefaultValue.ToString();
-			}
 
 			return value;
 		}

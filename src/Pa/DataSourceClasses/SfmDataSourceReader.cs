@@ -57,6 +57,8 @@ namespace SIL.Pa.DataSource
 				return false;
 			}
 
+            recMarker += " ";
+
 			m_interlinearFields = m_dataSource.FieldMappings
 				.Where(m => m.IsInterlinear).Select(m => m.Field.Name);
 

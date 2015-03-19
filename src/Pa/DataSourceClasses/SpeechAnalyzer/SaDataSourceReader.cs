@@ -92,14 +92,14 @@ namespace SIL.Pa.DataSource.Sa
 		private void SetFieldValueFromObject(Type type, string fieldName, object srcObject,
 			Action<string, string> setValueAction)
 		{
-			try
-			{
+            if (type.GetProperty(fieldName) != null)
+            {
 				var value = type.InvokeMember(fieldName, BindingFlags.GetProperty |
 					BindingFlags.Instance | BindingFlags.Public, null, srcObject, null);
 				
-				setValueAction(fieldName, value.ToString());
+                if (value != null)
+				    setValueAction(fieldName, value.ToString());
 			}
-			catch { }
 		}
 
 		///// ------------------------------------------------------------------------------------
