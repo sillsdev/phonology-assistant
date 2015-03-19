@@ -69,7 +69,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool GetDoesPhoneHaveOverrides(int rowIndex)
 		{
-			return _viewModel.GetPhoneInfo(rowIndex).HasBFeatureOverrides;
+			return _viewModel.GetPhoneInfo(rowIndex).HasAFeatureOverrides;
 		}
 	}
 }
