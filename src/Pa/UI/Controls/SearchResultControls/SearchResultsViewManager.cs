@@ -1435,11 +1435,9 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnShowCIEResults(object args)
 		{
 
-            CurrentViewsGrid.Cache.IsSimilarEnvironment = false;
-                
-        
         if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
 				return false;
+        CurrentViewsGrid.Cache.IsSimilarEnvironment = false;
 
 			CurrentTabGroup.CurrentTab.ToggleCIEView();
 			FindInfo.ResetStartSearchCell(true);
