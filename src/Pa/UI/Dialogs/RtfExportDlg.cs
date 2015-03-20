@@ -242,9 +242,9 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this.grpFormat, null);
             this.locExtender.SetLocalizationComment(this.grpFormat, "Frame around export format options in RTF export dialog box.");
             this.locExtender.SetLocalizingId(this.grpFormat, "DialogBoxes.RtfExportDlg.FormatGroupBox");
-            this.grpFormat.Location = new System.Drawing.Point(305, 12);
+            this.grpFormat.Location = new System.Drawing.Point(301, 12);
             this.grpFormat.Name = "grpFormat";
-            this.grpFormat.Size = new System.Drawing.Size(77, 103);
+            this.grpFormat.Size = new System.Drawing.Size(143, 103);
             this.grpFormat.TabIndex = 1;
             this.grpFormat.TabStop = false;
             this.grpFormat.Text = "Format";
@@ -285,7 +285,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this.btnExport, null);
             this.locExtender.SetLocalizationComment(this.btnExport, "Button on RTF export dialog box.");
             this.locExtender.SetLocalizingId(this.btnExport, "DialogBoxes.RtfExportDlg.ExportButton");
-            this.btnExport.Location = new System.Drawing.Point(73, 8);
+            this.btnExport.Location = new System.Drawing.Point(112, 8);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(96, 30);
             this.btnExport.TabIndex = 1;
@@ -299,7 +299,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
             this.locExtender.SetLocalizationComment(this.btnCancel, "Button on RTF export dialog box.");
             this.locExtender.SetLocalizingId(this.btnCancel, "DialogBoxes.RtfExportDlg.CancelButton");
-            this.btnCancel.Location = new System.Drawing.Point(176, 8);
+            this.btnCancel.Location = new System.Drawing.Point(226, 8);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(96, 30);
             this.btnCancel.TabIndex = 2;
@@ -324,7 +324,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
             this.locExtender.SetLocalizationComment(this.btnHelp, "Button on RTF export dialog box.");
             this.locExtender.SetLocalizingId(this.btnHelp, "DialogBoxes.RtfExportDlg.HelpButton");
-            this.btnHelp.Location = new System.Drawing.Point(279, 8);
+            this.btnHelp.Location = new System.Drawing.Point(338, 8);
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(96, 30);
             this.btnHelp.TabIndex = 3;
@@ -338,9 +338,9 @@ namespace SIL.Pa.UI.Dialogs
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Controls.Add(this.btnHelp);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(10, 109);
+            this.panel1.Location = new System.Drawing.Point(10, 125);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(374, 46);
+            this.panel1.Size = new System.Drawing.Size(434, 46);
             this.panel1.TabIndex = 2;
             // 
             // locExtender
@@ -352,7 +352,7 @@ namespace SIL.Pa.UI.Dialogs
             this.AcceptButton = this.btnExport;
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(394, 155);
+            this.ClientSize = new System.Drawing.Size(454, 171);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.grpFormat);
             this.Controls.Add(this.grpTarget);
