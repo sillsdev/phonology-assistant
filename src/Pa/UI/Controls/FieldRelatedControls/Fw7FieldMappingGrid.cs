@@ -103,7 +103,8 @@ namespace SIL.Pa.UI.Controls
 		    var fldList = from fld in m_potentialFields
 		        where
 		            !fieldsAlreadyMapped.Any(f => f.Name == fld.Name) &&
-		            fld.Name != Fw7DataSourcePropertiesDlg.m_selectedvernacularItem.Name
+                     (Fw7DataSourcePropertiesDlg.m_selectedvernacularItem.Name == FwDBUtils.PhoneticStorageMethod.LexemeForm.ToString() ||
+		            fld.Name != Fw7DataSourcePropertiesDlg.m_selectedvernacularItem.Name)
 		        orderby fld.DisplayName
 		        select fld.DisplayName;
 
