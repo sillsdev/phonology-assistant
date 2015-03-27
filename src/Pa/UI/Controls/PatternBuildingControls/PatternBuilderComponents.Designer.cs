@@ -29,7 +29,7 @@ namespace SIL.Pa.UI.Controls
 			this.lvClasses = new SIL.Pa.UI.Controls.ClassListView();
 			this.tpgAFeatures = new System.Windows.Forms.TabPage();
 			this.tpgBFeatures = new System.Windows.Forms.TabPage();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.tabPatternBlding.SuspendLayout();
 			this.tpgCons.SuspendLayout();
 			this.tpgVows.SuspendLayout();
@@ -87,7 +87,7 @@ namespace SIL.Pa.UI.Controls
 			this.pnlConsonants.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlConsonants, null);
 			this.locExtender.SetLocalizationComment(this.pnlConsonants, null);
-			this.locExtender.SetLocalizationPriority(this.pnlConsonants, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlConsonants, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlConsonants, "PatternBuilderComponents.pnlConsonants");
 			this.pnlConsonants.Location = new System.Drawing.Point(5, 5);
 			this.pnlConsonants.MnemonicGeneratesClick = false;
@@ -127,7 +127,7 @@ namespace SIL.Pa.UI.Controls
 			this.pnlVowels.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlVowels, null);
 			this.locExtender.SetLocalizationComment(this.pnlVowels, null);
-			this.locExtender.SetLocalizationPriority(this.pnlVowels, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlVowels, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlVowels, "PatternBuilderComponents.pnlVowels");
 			this.pnlVowels.Location = new System.Drawing.Point(3, 3);
 			this.pnlVowels.MnemonicGeneratesClick = false;
@@ -167,7 +167,7 @@ namespace SIL.Pa.UI.Controls
 			this.charExplorer.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.charExplorer, null);
 			this.locExtender.SetLocalizationComment(this.charExplorer, null);
-			this.locExtender.SetLocalizationPriority(this.charExplorer, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.charExplorer, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.charExplorer, "PatternBuilderComponents.charExplorer");
 			this.charExplorer.Location = new System.Drawing.Point(3, 3);
 			this.charExplorer.MnemonicGeneratesClick = false;
@@ -198,7 +198,7 @@ namespace SIL.Pa.UI.Controls
 			this.lvClasses.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.lvClasses, null);
 			this.locExtender.SetLocalizationComment(this.lvClasses, null);
-			this.locExtender.SetLocalizationPriority(this.lvClasses, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lvClasses, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lvClasses, "PatternBuilderComponents.lvClasses");
 			this.lvClasses.Location = new System.Drawing.Point(5, 5);
 			this.lvClasses.MultiSelect = false;
@@ -249,7 +249,7 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this.tabPatternBlding);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "PatternBuilderComponents.PatternBuilderComponents");
 			this.Name = "PatternBuilderComponents";
 			this.Size = new System.Drawing.Size(391, 214);
@@ -276,6 +276,6 @@ namespace SIL.Pa.UI.Controls
 		private ClassListView lvClasses;
 		private System.Windows.Forms.TabPage tpgAFeatures;
 		private System.Windows.Forms.TabPage tpgBFeatures;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

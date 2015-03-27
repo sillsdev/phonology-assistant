@@ -36,7 +36,7 @@
 			this.lblShowFields = new System.Windows.Forms.Label();
 			this._buttonMoveDown = new System.Windows.Forms.Button();
 			this._buttonMoveUp = new System.Windows.Forms.Button();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.grpFieldSettings.SuspendLayout();
 			this._tableLayoutColDisplayOrder.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.fldSelGridRecView)).BeginInit();
@@ -108,7 +108,7 @@
 			this.fldSelGridRecView.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridRecView, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridRecView, null);
-			this.locExtender.SetLocalizationPriority(this.fldSelGridRecView, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.fldSelGridRecView, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.fldSelGridRecView, "RecordViewOptionsPage.fldSelGridRecView");
 			this.fldSelGridRecView.Location = new System.Drawing.Point(0, 35);
 			this.fldSelGridRecView.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -189,7 +189,7 @@
 			this.Controls.Add(this.grpFieldSettings);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "RecordViewOptionsPage.RecordViewOptionsPage");
 			this.Name = "RecordViewOptionsPage";
 			this.Size = new System.Drawing.Size(355, 263);
@@ -210,6 +210,6 @@
 		private System.Windows.Forms.Button _buttonMoveDown;
 		private System.Windows.Forms.Button _buttonMoveUp;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutColDisplayOrder;
-		protected Localization.UI.LocalizationExtender locExtender;
+		protected L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

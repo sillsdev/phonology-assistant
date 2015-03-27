@@ -36,7 +36,7 @@
             this._linkViewExceptionDetails = new System.Windows.Forms.LinkLabel();
             this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
             this._buttonLoadProject = new System.Windows.Forms.Button();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             this._tableLayoutPanel.SuspendLayout();
             this._groupBoxDestinationFolder.SuspendLayout();
             this._tableLayoutDestinationFolder.SuspendLayout();
@@ -186,7 +186,7 @@
             this._labelDefaultFolderValue.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.locExtender.SetLocalizableToolTip(this._labelDefaultFolderValue, null);
             this.locExtender.SetLocalizationComment(this._labelDefaultFolderValue, null);
-            this.locExtender.SetLocalizationPriority(this._labelDefaultFolderValue, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._labelDefaultFolderValue, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._labelDefaultFolderValue, "DialogBoxes.RestoreDlg.RestoreFolderValueLabel");
             this._labelDefaultFolderValue.Location = new System.Drawing.Point(23, 25);
             this._labelDefaultFolderValue.Margin = new System.Windows.Forms.Padding(23, 0, 0, 0);
@@ -221,7 +221,7 @@
             this._linkOtherFolderValue.BackColor = System.Drawing.Color.Transparent;
             this.locExtender.SetLocalizableToolTip(this._linkOtherFolderValue, "Click to select alternate destination folder");
             this.locExtender.SetLocalizationComment(this._linkOtherFolderValue, null);
-            this.locExtender.SetLocalizationPriority(this._linkOtherFolderValue, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._linkOtherFolderValue, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._linkOtherFolderValue, "DialogBoxes.RestoreDlg.OtherFolderValueLink");
             this._linkOtherFolderValue.Location = new System.Drawing.Point(23, 77);
             this._linkOtherFolderValue.Margin = new System.Windows.Forms.Padding(23, 0, 0, 0);
@@ -455,7 +455,7 @@
 		private System.Windows.Forms.Button _buttonClose;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
-		protected Localization.UI.LocalizationExtender locExtender;
+		protected L10NSharp.UI.L10NSharpExtender locExtender;
 		private SilTools.SilGrid _grid;
 		private System.Windows.Forms.Label _labelBackupFilesFound;
 		private System.Windows.Forms.DataGridViewTextBoxColumn _colProject;

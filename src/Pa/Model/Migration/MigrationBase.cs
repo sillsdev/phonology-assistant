@@ -11,7 +11,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
-using Localization;
+using L10NSharp;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
 

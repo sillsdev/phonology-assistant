@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbPronunField = new System.Windows.Forms.RadioButton();
 			this.rbLexForm = new System.Windows.Forms.RadioButton();
 			this.grpWritingSystems = new System.Windows.Forms.GroupBox();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.m_tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this.pnlGrid = new SilTools.Controls.SilPanel();
 			this.grpPhoneticDataStoreType.SuspendLayout();
@@ -54,7 +54,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblProjectValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lblProjectValue, null);
 			this.locExtender.SetLocalizationComment(this.lblProjectValue, null);
-			this.locExtender.SetLocalizationPriority(this.lblProjectValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblProjectValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblProjectValue, "DialogBoxes.Fw6DataSourcePropertiesDlg.ProjectValueLabel");
 			this.lblProjectValue.Location = new System.Drawing.Point(60, 3);
 			this.lblProjectValue.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
@@ -207,7 +207,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
-			this.locExtender.SetLocalizationPriority(this.pnlGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlGrid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlGrid, "FwDataSourcePropertiesDlg.pnlGrid");
 			this.pnlGrid.Location = new System.Drawing.Point(10, 21);
 			this.pnlGrid.MnemonicGeneratesClick = false;
@@ -251,7 +251,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.RadioButton rbLexForm;
 		private System.Windows.Forms.GroupBox grpPhoneticDataStoreType;
 		private System.Windows.Forms.GroupBox grpWritingSystems;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel m_tableLayout;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		private SilTools.Controls.SilPanel pnlGrid;

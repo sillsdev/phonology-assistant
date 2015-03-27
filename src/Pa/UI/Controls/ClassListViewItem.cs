@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;

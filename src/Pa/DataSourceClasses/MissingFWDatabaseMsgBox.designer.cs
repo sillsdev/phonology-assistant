@@ -36,7 +36,7 @@ namespace SIL.Pa.DataSource
 			this.lblDBName = new System.Windows.Forms.Label();
 			this.m_toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnHelp = new System.Windows.Forms.Button();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -55,7 +55,7 @@ namespace SIL.Pa.DataSource
 			// 
 			this.locExtender.SetLocalizableToolTip(this.picIcon, null);
 			this.locExtender.SetLocalizationComment(this.picIcon, null);
-			this.locExtender.SetLocalizationPriority(this.picIcon, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.picIcon, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.picIcon, "MissingFWDatabaseMsgBox.picIcon");
 			resources.ApplyResources(this.picIcon, "picIcon");
 			this.picIcon.Name = "picIcon";
@@ -77,7 +77,7 @@ namespace SIL.Pa.DataSource
 			this.lblDBName.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblDBName, null);
 			this.locExtender.SetLocalizationComment(this.lblDBName, null);
-			this.locExtender.SetLocalizationPriority(this.lblDBName, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblDBName, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblDBName, "MissingFWDatabaseMsgBox.lblDBName");
 			this.lblDBName.Name = "lblDBName";
 			// 
@@ -128,6 +128,6 @@ namespace SIL.Pa.DataSource
 		private System.Windows.Forms.Label lblDBName;
 		private System.Windows.Forms.ToolTip m_toolTip;
 		private System.Windows.Forms.Button btnHelp;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

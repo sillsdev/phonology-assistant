@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching

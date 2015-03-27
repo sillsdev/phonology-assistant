@@ -78,7 +78,7 @@ namespace SIL.Pa.UI.Dialogs
             this.SampleOutputGlossColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SampleOutputPartOfSpeechColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlParseHdg = new SilTools.Controls.SilGradientPanel();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.scImport)).BeginInit();
             this.scImport.Panel1.SuspendLayout();
             this.scImport.Panel2.SuspendLayout();
@@ -145,7 +145,7 @@ namespace SIL.Pa.UI.Dialogs
             this.pnlMappings.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this.pnlMappings, null);
             this.locExtender.SetLocalizationComment(this.pnlMappings, null);
-            this.locExtender.SetLocalizationPriority(this.pnlMappings, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.pnlMappings, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.pnlMappings, "SFDataSourcePropertiesDlg.pnlMappings");
             this.pnlMappings.Location = new System.Drawing.Point(0, 0);
             this.pnlMappings.MnemonicGeneratesClick = false;
@@ -235,7 +235,7 @@ namespace SIL.Pa.UI.Dialogs
             this.pnlMappingsInner.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this.pnlMappingsInner, null);
             this.locExtender.SetLocalizationComment(this.pnlMappingsInner, null);
-            this.locExtender.SetLocalizationPriority(this.pnlMappingsInner, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.pnlMappingsInner, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.pnlMappingsInner, "SFDataSourcePropertiesDlg.pnlMappingsGrid");
             this.pnlMappingsInner.Location = new System.Drawing.Point(0, 24);
             this.pnlMappingsInner.MnemonicGeneratesClick = false;
@@ -412,7 +412,7 @@ namespace SIL.Pa.UI.Dialogs
             this.pnlSrcFile.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this.pnlSrcFile, null);
             this.locExtender.SetLocalizationComment(this.pnlSrcFile, null);
-            this.locExtender.SetLocalizationPriority(this.pnlSrcFile, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.pnlSrcFile, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.pnlSrcFile, "SFDataSourcePropertiesDlg.pnlSrcFile");
             this.pnlSrcFile.Location = new System.Drawing.Point(0, 0);
             this.pnlSrcFile.MnemonicGeneratesClick = false;
@@ -427,7 +427,7 @@ namespace SIL.Pa.UI.Dialogs
             this.txtFilePreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.locExtender.SetLocalizableToolTip(this.txtFilePreview, null);
             this.locExtender.SetLocalizationComment(this.txtFilePreview, null);
-            this.locExtender.SetLocalizationPriority(this.txtFilePreview, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.txtFilePreview, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.txtFilePreview, "SFDataSourcePropertiesDlg.txtFilePreview");
             this.txtFilePreview.Location = new System.Drawing.Point(0, 24);
             this.txtFilePreview.Multiline = true;
@@ -507,7 +507,7 @@ namespace SIL.Pa.UI.Dialogs
             this.pnlParseType.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this.pnlParseType, null);
             this.locExtender.SetLocalizationComment(this.pnlParseType, null);
-            this.locExtender.SetLocalizationPriority(this.pnlParseType, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.pnlParseType, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.pnlParseType, "SFDataSourcePropertiesDlg.pnlParseType");
             this.pnlParseType.Location = new System.Drawing.Point(0, 0);
             this.pnlParseType.MnemonicGeneratesClick = false;
@@ -686,7 +686,7 @@ namespace SIL.Pa.UI.Dialogs
             this.pnlSampleInput.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this.pnlSampleInput, null);
             this.locExtender.SetLocalizationComment(this.pnlSampleInput, null);
-            this.locExtender.SetLocalizationPriority(this.pnlSampleInput, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.pnlSampleInput, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.pnlSampleInput, "SFDataSourcePropertiesDlg.pnlSampleInput");
             this.pnlSampleInput.Location = new System.Drawing.Point(5, 134);
             this.pnlSampleInput.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
@@ -775,7 +775,7 @@ namespace SIL.Pa.UI.Dialogs
             this.pnlSampeOutput.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this.pnlSampeOutput, null);
             this.locExtender.SetLocalizationComment(this.pnlSampeOutput, null);
-            this.locExtender.SetLocalizationPriority(this.pnlSampeOutput, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.pnlSampeOutput, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.pnlSampeOutput, "SFDataSourcePropertiesDlg.pnlSampeOutput");
             this.pnlSampeOutput.Location = new System.Drawing.Point(5, 210);
             this.pnlSampeOutput.Margin = new System.Windows.Forms.Padding(5, 3, 5, 0);
@@ -827,7 +827,7 @@ namespace SIL.Pa.UI.Dialogs
             this.gridSampleOutput.IsDirty = false;
             this.locExtender.SetLocalizableToolTip(this.gridSampleOutput, null);
             this.locExtender.SetLocalizationComment(this.gridSampleOutput, null);
-            this.locExtender.SetLocalizationPriority(this.gridSampleOutput, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.gridSampleOutput, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.gridSampleOutput, "SFDataSourcePropertiesDlg.gridSampleOutput");
             this.gridSampleOutput.Location = new System.Drawing.Point(0, 0);
             this.gridSampleOutput.MultiSelect = false;
@@ -971,7 +971,7 @@ namespace SIL.Pa.UI.Dialogs
 		private SilGradientPanel pnlSrcFileHdg;
 		private SilPanel pnlMappings;
 		private SilPanel pnlSrcFile;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private TableLayoutPanel tblLayoutParseOptions;
 		private AutoHeighRadioButton rbNoParse;
 		private AutoHeighRadioButton rbParseOnlyPhonetic;

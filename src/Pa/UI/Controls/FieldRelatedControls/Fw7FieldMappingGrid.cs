@@ -10,7 +10,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;

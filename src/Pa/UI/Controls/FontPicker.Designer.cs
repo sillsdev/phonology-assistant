@@ -30,7 +30,7 @@ namespace SIL.Pa.UI.Controls
 			this.cboFontFamily = new System.Windows.Forms.ComboBox();
 			this.lblSize = new System.Windows.Forms.Label();
 			this.cboSize = new System.Windows.Forms.ComboBox();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.pnlOuter.SuspendLayout();
 			this.tblLayout.SuspendLayout();
 			this.flowPanelButtons.SuspendLayout();
@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Controls
 			this.pnlOuter.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlOuter, null);
 			this.locExtender.SetLocalizationComment(this.pnlOuter, null);
-			this.locExtender.SetLocalizationPriority(this.pnlOuter, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlOuter, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlOuter, "FontPicker.pnlOuter");
 			this.pnlOuter.Location = new System.Drawing.Point(0, 0);
 			this.pnlOuter.MnemonicGeneratesClick = false;
@@ -218,7 +218,7 @@ namespace SIL.Pa.UI.Controls
 			this.cboFontFamily.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboFontFamily, null);
 			this.locExtender.SetLocalizationComment(this.cboFontFamily, null);
-			this.locExtender.SetLocalizationPriority(this.cboFontFamily, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboFontFamily, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboFontFamily, "FontPicker.cboFontFamily");
 			this.cboFontFamily.Location = new System.Drawing.Point(0, 0);
 			this.cboFontFamily.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
@@ -248,7 +248,7 @@ namespace SIL.Pa.UI.Controls
 			this.cboSize.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboSize, null);
 			this.locExtender.SetLocalizationComment(this.cboSize, null);
-			this.locExtender.SetLocalizationPriority(this.cboSize, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboSize, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboSize, "FontPicker.cboSize");
 			this.cboSize.Location = new System.Drawing.Point(150, 28);
 			this.cboSize.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
@@ -270,7 +270,7 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this.pnlOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "CommonControls.FontPickerPopup.FontPicker");
 			this.Name = "FontPicker";
 			this.Size = new System.Drawing.Size(300, 191);
@@ -298,6 +298,6 @@ namespace SIL.Pa.UI.Controls
 		private PopupDialogOKButton btnOK;
 		private PopupDialogCancelButton btnCancel;
 		private System.Windows.Forms.FlowLayoutPanel flowPanelButtons;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

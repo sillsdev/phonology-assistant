@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Serialization;
-using Localization;
+using L10NSharp;
 using SilTools;
 
 namespace SIL.Pa.Model

@@ -29,7 +29,7 @@
 			this._buttonOpen = new System.Windows.Forms.Button();
 			this._checkBoxOpenInNewWindow = new System.Windows.Forms.CheckBox();
 			this._linkSelectAdditionalFolderToScan = new System.Windows.Forms.LinkLabel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutPanel.SuspendLayout();
 			this._tableLayoutInner.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
@@ -145,7 +145,7 @@
 			this._grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this._grid, null);
 			this.locExtender.SetLocalizationComment(this._grid, null);
-			this.locExtender.SetLocalizationPriority(this._grid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._grid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._grid, "OpenProjectDlg._grid");
 			this._grid.Location = new System.Drawing.Point(0, 23);
 			this._grid.Margin = new System.Windows.Forms.Padding(0, 6, 0, 5);
@@ -304,7 +304,7 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
-		protected Localization.UI.LocalizationExtender locExtender;
+		protected L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Label _labelProjectFilesFound;
 		private System.Windows.Forms.LinkLabel _linkSelectAdditionalFolderToScan;
 		private System.Windows.Forms.CheckBox _checkBoxOpenInNewWindow;

@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using Localization;
+using L10NSharp;
 using SIL.Pa.DataSource;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;

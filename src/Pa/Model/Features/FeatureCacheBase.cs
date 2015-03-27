@@ -12,7 +12,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
-using Localization;
+using L10NSharp;
 using SilTools;
 
 namespace SIL.Pa.Model

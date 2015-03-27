@@ -40,7 +40,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cmnuAddCharClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddArtFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddBinFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.cmnuAdd.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -121,7 +121,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._classListView.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this._classListView, null);
 			this.locExtender.SetLocalizationComment(this._classListView, null);
-			this.locExtender.SetLocalizationPriority(this._classListView, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._classListView, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._classListView, "ClassesDlg.lvClasses");
 			this._classListView.Location = new System.Drawing.Point(10, 10);
 			this._classListView.MultiSelect = false;
@@ -144,7 +144,7 @@ namespace SIL.Pa.UI.Dialogs
             this.cmnuAddBinFeatureClass});
 			this.locExtender.SetLocalizableToolTip(this.cmnuAdd, null);
 			this.locExtender.SetLocalizationComment(this.cmnuAdd, null);
-			this.locExtender.SetLocalizationPriority(this.cmnuAdd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cmnuAdd, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cmnuAdd, "ClassesDlg.cmnuAdd");
 			this.cmnuAdd.Name = "cmnuAdd";
 			this.cmnuAdd.ShowImageMargin = false;
@@ -218,7 +218,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddCharClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddArtFeatureClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddBinFeatureClass;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private SIL.Pa.UI.Controls.ClassListView _classListView;
 
 	}

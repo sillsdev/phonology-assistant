@@ -33,7 +33,7 @@ namespace SIL.Pa.UI.Controls
 			this.lnkHelp = new System.Windows.Forms.LinkLabel();
 			this.lnkCommand = new System.Windows.Forms.LinkLabel();
 			this.m_toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Controls
 			this.lnkCommand.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lnkCommand, null);
 			this.locExtender.SetLocalizationComment(this.lnkCommand, null);
-			this.locExtender.SetLocalizationPriority(this.lnkCommand, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lnkCommand, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lnkCommand, "GridCellInfoPopup.lnkCommand");
 			this.lnkCommand.Location = new System.Drawing.Point(44, 186);
 			this.lnkCommand.Name = "lnkCommand";
@@ -96,7 +96,7 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this.pnlHeading);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "GridCellInfoPopup.PaPopup");
 			this.Name = "GridCellInfoPopup";
 			this.Size = new System.Drawing.Size(127, 206);
@@ -112,6 +112,6 @@ namespace SIL.Pa.UI.Controls
 		private System.Windows.Forms.LinkLabel lnkHelp;
 		private System.Windows.Forms.LinkLabel lnkCommand;
 		private System.Windows.Forms.ToolTip m_toolTip;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

@@ -52,7 +52,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayoutFindWhat = new System.Windows.Forms.TableLayoutPanel();
 			this.lblSearchColumns = new System.Windows.Forms.Label();
 			this.tblLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.fldSelGridSrchCols)).BeginInit();
 			this.gbOptions.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -98,7 +98,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridSrchCols.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridSrchCols, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridSrchCols, null);
-			this.locExtender.SetLocalizationPriority(this.fldSelGridSrchCols, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.fldSelGridSrchCols, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.fldSelGridSrchCols, "DialogBoxes.FindDlg.fldSelGridSrchCols");
 			this.fldSelGridSrchCols.Location = new System.Drawing.Point(0, 76);
 			this.fldSelGridSrchCols.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
@@ -346,7 +346,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayoutFindWhat.SetColumnSpan(this.cboFindWhat, 2);
 			this.locExtender.SetLocalizableToolTip(this.cboFindWhat, null);
 			this.locExtender.SetLocalizationComment(this.cboFindWhat, null);
-			this.locExtender.SetLocalizationPriority(this.cboFindWhat, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboFindWhat, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboFindWhat, "DialogBoxes.FindDlg.FindWhatComboBox");
 			this.cboFindWhat.Location = new System.Drawing.Point(0, 27);
 			this.cboFindWhat.Margin = new System.Windows.Forms.Padding(0, 5, 0, 3);
@@ -488,7 +488,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Button btnHelp;
 		private System.Windows.Forms.TableLayoutPanel tblLayoutFindWhat;
 		private System.Windows.Forms.TableLayoutPanel tblLayoutButtons;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private Panel panel1;
 		private TableLayoutPanel tableLayoutPanel1;
 		private Label lblSearchColumns;
