@@ -34,7 +34,7 @@ namespace SIL.Pa.UI.Dialogs
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.pnlGrid = new SilTools.Controls.SilPanel();
 			this._grid = new SilTools.SilGrid();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
-			this.locExtender.SetLocalizationPriority(this.pnlGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlGrid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlGrid, "AmbiguousSequencesDlg.pnlGrid");
 			this.pnlGrid.Location = new System.Drawing.Point(10, 10);
 			this.pnlGrid.MnemonicGeneratesClick = false;
@@ -92,7 +92,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this._grid, null);
 			this.locExtender.SetLocalizationComment(this._grid, null);
-			this.locExtender.SetLocalizationPriority(this._grid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._grid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._grid, "AmbiguousSequencesDlg.m_grid");
 			this._grid.Location = new System.Drawing.Point(0, 0);
 			this._grid.MultiSelect = false;
@@ -146,6 +146,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		private SilPanel pnlGrid;
 		private SilTools.SilGrid _grid;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

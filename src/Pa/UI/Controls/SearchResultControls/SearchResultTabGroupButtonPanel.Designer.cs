@@ -35,7 +35,7 @@
 			this.m_mnuAddInStackedGroup = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_btnScrollRight = new System.Windows.Forms.ToolStripButton();
 			this.m_btnScrollLeft = new System.Windows.Forms.ToolStripButton();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.m_toolstrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -54,7 +54,7 @@
             this.m_btnScrollLeft});
 			this.locExtender.SetLocalizableToolTip(this.m_toolstrip, null);
 			this.locExtender.SetLocalizationComment(this.m_toolstrip, null);
-			this.locExtender.SetLocalizationPriority(this.m_toolstrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_toolstrip, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_toolstrip, "CommonControls.SearchResultTabGroupButtonPanel.m_toolstrip");
 			this.m_toolstrip.Location = new System.Drawing.Point(0, 10);
 			this.m_toolstrip.Name = "m_toolstrip";
@@ -135,7 +135,7 @@
 			this.Controls.Add(this.m_toolstrip);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SearchResultTabGroupButtonPanel.SearchResultTabGroupButtonPanel");
 			this.Name = "SearchResultTabGroupButtonPanel";
 			this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 1);
@@ -155,6 +155,6 @@
 		private System.Windows.Forms.ToolStripSplitButton m_btnAddTab;
 		private System.Windows.Forms.ToolStripMenuItem m_mnuAddInSideBySideGroup;
 		private System.Windows.Forms.ToolStripMenuItem m_mnuAddInStackedGroup;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

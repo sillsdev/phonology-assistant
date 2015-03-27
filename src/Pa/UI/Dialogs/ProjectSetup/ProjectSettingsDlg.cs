@@ -15,7 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Palaso.Progress;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;

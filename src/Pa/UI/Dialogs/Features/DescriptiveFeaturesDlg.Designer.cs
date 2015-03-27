@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -57,6 +57,6 @@
 
 		#endregion
 
-		protected Localization.UI.LocalizationExtender locExtender;
+		protected L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Controls
 			m_owningContainer.ResumeLayout(false);
 			ResumeLayout(false);
 
-			Localization.UI.LocalizeItemDlg.StringsLocalized += ResizeTab;
+			L10NSharp.UI.LocalizeItemDlg.StringsLocalized += ResizeTab;
 		}
 
 		/// ------------------------------------------------------------------------------------

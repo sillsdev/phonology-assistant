@@ -60,7 +60,7 @@ namespace SIL.Pa.UI.Controls
 			this.flowPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
 			this.btnClose = new SIL.Pa.UI.Controls.PopupDialogCloseButton();
 			this.btnHelp = new SIL.Pa.UI.Controls.PopupDialogHelpButton();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.tblAdvSorting.SuspendLayout();
 			this.pnlAdvSort2.SuspendLayout();
 			this.pnlAdvSort0.SuspendLayout();
@@ -162,7 +162,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbItem3rd.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.rbItem3rd, null);
 			this.locExtender.SetLocalizationComment(this.rbItem3rd, null);
-			this.locExtender.SetLocalizationPriority(this.rbItem3rd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rbItem3rd, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rbItem3rd, "SortOptionsDropDown.rbItem3rd");
 			this.rbItem3rd.Location = new System.Drawing.Point(1, 28);
 			this.rbItem3rd.Margin = new System.Windows.Forms.Padding(2);
@@ -179,7 +179,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbBefore3rd.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.rbBefore3rd, null);
 			this.locExtender.SetLocalizationComment(this.rbBefore3rd, null);
-			this.locExtender.SetLocalizationPriority(this.rbBefore3rd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rbBefore3rd, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rbBefore3rd, "SortOptionsDropDown.rbBefore3rd");
 			this.rbBefore3rd.Location = new System.Drawing.Point(1, 4);
 			this.rbBefore3rd.Margin = new System.Windows.Forms.Padding(2);
@@ -196,7 +196,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbAfter3rd.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.rbAfter3rd, null);
 			this.locExtender.SetLocalizationComment(this.rbAfter3rd, null);
-			this.locExtender.SetLocalizationPriority(this.rbAfter3rd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rbAfter3rd, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rbAfter3rd, "SortOptionsDropDown.rbAfter3rd");
 			this.rbAfter3rd.Location = new System.Drawing.Point(1, 52);
 			this.rbAfter3rd.Margin = new System.Windows.Forms.Padding(2);
@@ -229,7 +229,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbItem1st.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.rbItem1st, null);
 			this.locExtender.SetLocalizationComment(this.rbItem1st, null);
-			this.locExtender.SetLocalizationPriority(this.rbItem1st, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rbItem1st, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rbItem1st, "SortOptionsDropDown.rbItem1st");
 			this.rbItem1st.Location = new System.Drawing.Point(1, 28);
 			this.rbItem1st.Margin = new System.Windows.Forms.Padding(2);
@@ -246,7 +246,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbBefore1st.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.rbBefore1st, null);
 			this.locExtender.SetLocalizationComment(this.rbBefore1st, null);
-			this.locExtender.SetLocalizationPriority(this.rbBefore1st, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rbBefore1st, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rbBefore1st, "SortOptionsDropDown.rbBefore1st");
 			this.rbBefore1st.Location = new System.Drawing.Point(1, 4);
 			this.rbBefore1st.Margin = new System.Windows.Forms.Padding(2);
@@ -264,7 +264,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbAfter1st.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.rbAfter1st, null);
 			this.locExtender.SetLocalizationComment(this.rbAfter1st, null);
-			this.locExtender.SetLocalizationPriority(this.rbAfter1st, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rbAfter1st, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rbAfter1st, "SortOptionsDropDown.rbAfter1st");
 			this.rbAfter1st.Location = new System.Drawing.Point(1, 52);
 			this.rbAfter1st.Margin = new System.Windows.Forms.Padding(2);
@@ -297,7 +297,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbAfter2nd.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.rbAfter2nd, null);
 			this.locExtender.SetLocalizationComment(this.rbAfter2nd, null);
-			this.locExtender.SetLocalizationPriority(this.rbAfter2nd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rbAfter2nd, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rbAfter2nd, "SortOptionsDropDown.rbAfter2nd");
 			this.rbAfter2nd.Location = new System.Drawing.Point(1, 52);
 			this.rbAfter2nd.Margin = new System.Windows.Forms.Padding(2);
@@ -314,7 +314,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbBefore2nd.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.rbBefore2nd, null);
 			this.locExtender.SetLocalizationComment(this.rbBefore2nd, null);
-			this.locExtender.SetLocalizationPriority(this.rbBefore2nd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rbBefore2nd, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rbBefore2nd, "SortOptionsDropDown.rbBefore2nd");
 			this.rbBefore2nd.Location = new System.Drawing.Point(1, 4);
 			this.rbBefore2nd.Margin = new System.Windows.Forms.Padding(2);
@@ -331,7 +331,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbItem2nd.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.rbItem2nd, null);
 			this.locExtender.SetLocalizationComment(this.rbItem2nd, null);
-			this.locExtender.SetLocalizationPriority(this.rbItem2nd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rbItem2nd, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rbItem2nd, "SortOptionsDropDown.rbItem2nd");
 			this.rbItem2nd.Location = new System.Drawing.Point(1, 28);
 			this.rbItem2nd.Margin = new System.Windows.Forms.Padding(2);
@@ -348,7 +348,7 @@ namespace SIL.Pa.UI.Controls
 			this.chkAfterRL.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.chkAfterRL, null);
 			this.locExtender.SetLocalizationComment(this.chkAfterRL, null);
-			this.locExtender.SetLocalizationPriority(this.chkAfterRL, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.chkAfterRL, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.chkAfterRL, "SortOptionsDropDown.chkAfterRL");
 			this.chkAfterRL.Location = new System.Drawing.Point(161, 73);
 			this.chkAfterRL.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
@@ -365,7 +365,7 @@ namespace SIL.Pa.UI.Controls
 			this.chkItemRL.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.chkItemRL, null);
 			this.locExtender.SetLocalizationComment(this.chkItemRL, null);
-			this.locExtender.SetLocalizationPriority(this.chkItemRL, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.chkItemRL, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.chkItemRL, "SortOptionsDropDown.chkItemRL");
 			this.chkItemRL.Location = new System.Drawing.Point(161, 49);
 			this.chkItemRL.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
@@ -382,7 +382,7 @@ namespace SIL.Pa.UI.Controls
 			this.chkBeforeRL.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.locExtender.SetLocalizableToolTip(this.chkBeforeRL, null);
 			this.locExtender.SetLocalizationComment(this.chkBeforeRL, null);
-			this.locExtender.SetLocalizationPriority(this.chkBeforeRL, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.chkBeforeRL, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.chkBeforeRL, "SortOptionsDropDown.chkBeforeRL");
 			this.chkBeforeRL.Location = new System.Drawing.Point(161, 25);
 			this.chkBeforeRL.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
@@ -632,7 +632,7 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this.tblLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SortOptionsDropDown.SortOptionsDropDown");
 			this.Margin = new System.Windows.Forms.Padding(5);
 			this.Name = "SortOptionsDropDown";
@@ -685,6 +685,6 @@ namespace SIL.Pa.UI.Controls
 		private PopupDialogCloseButton btnClose;
 		private SilTools.Controls.SilPanel pnlAdvOptions;
 		private System.Windows.Forms.FlowLayoutPanel flowPanelButtons;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

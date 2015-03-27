@@ -32,7 +32,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			this.components = new System.ComponentModel.Container();
 			this.pnlGrid = new SilTools.Controls.SilPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
-			this.locExtender.SetLocalizationPriority(this.pnlGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlGrid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlGrid, "TranscriptionChangesDlg.pnlGrid");
 			this.pnlGrid.Location = new System.Drawing.Point(10, 10);
 			this.pnlGrid.MnemonicGeneratesClick = false;
@@ -83,6 +83,6 @@ namespace SIL.Pa.UI.Dialogs
 		#endregion
 
 		private SilPanel pnlGrid;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

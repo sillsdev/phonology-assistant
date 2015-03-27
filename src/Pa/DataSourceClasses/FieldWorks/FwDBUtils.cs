@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceProcess;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Microsoft.Win32;
 using Palaso.Reporting;
 using SIL.Pa.Properties;

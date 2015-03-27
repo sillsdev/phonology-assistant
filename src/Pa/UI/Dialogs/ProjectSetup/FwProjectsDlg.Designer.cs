@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblNetwork = new System.Windows.Forms.Label();
 			this.txtMsg = new System.Windows.Forms.TextBox();
 			this.lblProjects = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tvNetwork.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.tvNetwork, null);
 			this.locExtender.SetLocalizationComment(this.tvNetwork, null);
-			this.locExtender.SetLocalizationPriority(this.tvNetwork, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tvNetwork, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tvNetwork, "FwProjectsDlg.tvNetwork");
 			this.tvNetwork.Location = new System.Drawing.Point(0, 23);
 			this.tvNetwork.Name = "tvNetwork";
@@ -123,7 +123,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtMsg.BackColor = System.Drawing.SystemColors.Window;
 			this.locExtender.SetLocalizableToolTip(this.txtMsg, null);
 			this.locExtender.SetLocalizationComment(this.txtMsg, null);
-			this.locExtender.SetLocalizationPriority(this.txtMsg, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtMsg, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtMsg, "FwProjectsDlg.txtMsg");
 			this.txtMsg.Location = new System.Drawing.Point(43, 85);
 			this.txtMsg.Multiline = true;
@@ -186,6 +186,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblNetwork;
 		private System.Windows.Forms.Label lblProjects;
 		private System.Windows.Forms.TextBox txtMsg;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

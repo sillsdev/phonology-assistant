@@ -11,7 +11,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -41,7 +41,7 @@ namespace SIL.Pa.UI.Dialogs
 		private RtfCreator.ExportFormat m_exportFormat;
 		private Button btnHelp;
 		private Panel panel1;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private IContainer components;
 
 		#region Constructor & Closing
@@ -166,7 +166,7 @@ namespace SIL.Pa.UI.Dialogs
             this.btnSetEditor = new System.Windows.Forms.Button();
             this.btnHelp = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             this.grpTarget.SuspendLayout();
             this.grpFormat.SuspendLayout();
             this.panel1.SuspendLayout();

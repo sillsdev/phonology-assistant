@@ -173,7 +173,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		///// ------------------------------------------------------------------------------------
 		///// <summary>
 		///// Event fired when the adapter offers the toolbar/menu item to the application for
-		///// localization.
+		///// L10NSharp.
 		///// </summary>
 		///// ------------------------------------------------------------------------------------
 		//public event LocalizeItemHandler LocalizeItem;
@@ -1826,7 +1826,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				itemProps.Tooltip = cmdInfo.ToolTip;
 				itemProps.Image = cmdInfo.Image;
 
-                if (cmdInfo.ShortcutKey != Keys.None)
+				if (cmdInfo.ShortcutKey != Keys.None)
 				{
 					itemProps.ShortcutKey = cmdInfo.ShortcutKey;
 					ReflectionHelper.SetProperty(item, "ShortcutKeys", cmdInfo.ShortcutKey);

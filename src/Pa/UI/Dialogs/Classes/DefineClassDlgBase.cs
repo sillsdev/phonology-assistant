@@ -10,8 +10,8 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using Localization;
-using Localization.UI;
+using L10NSharp;
+using L10NSharp.UI;
 using SIL.Pa.UI.Controls;
 using SilTools;
 using Utils=SilTools.Utils;

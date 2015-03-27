@@ -14,7 +14,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Xml.Linq;
-using Localization;
+using L10NSharp;
 using Palaso.IO;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSourceClasses.FieldWorks;

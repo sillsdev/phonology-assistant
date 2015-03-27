@@ -40,7 +40,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._textBoxBackupFile = new System.Windows.Forms.TextBox();
 			this._labelBackupFileValue = new System.Windows.Forms.Label();
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutPanel.SuspendLayout();
 			this._groupBoxDestinationFolder.SuspendLayout();
 			this._tableLayoutDestinationFolder.SuspendLayout();
@@ -218,7 +218,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelDefaultFolderValue.ForeColor = System.Drawing.Color.DarkSlateGray;
 			this.locExtender.SetLocalizableToolTip(this._labelDefaultFolderValue, null);
 			this.locExtender.SetLocalizationComment(this._labelDefaultFolderValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelDefaultFolderValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelDefaultFolderValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelDefaultFolderValue, "DialogBoxes.BackupDlg.DefaultFolderValueLabel");
 			this._labelDefaultFolderValue.Location = new System.Drawing.Point(17, 20);
 			this._labelDefaultFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
@@ -253,7 +253,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._linkOtherFolderValue.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._linkOtherFolderValue, "Click to select alternate destination folder");
 			this.locExtender.SetLocalizationComment(this._linkOtherFolderValue, null);
-			this.locExtender.SetLocalizationPriority(this._linkOtherFolderValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._linkOtherFolderValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._linkOtherFolderValue, "DialogBoxes.BackupDlg.OtherFolderValueLink");
 			this._linkOtherFolderValue.Location = new System.Drawing.Point(17, 61);
 			this._linkOtherFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
@@ -348,7 +348,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelProjectValue.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelProjectValue, null);
 			this.locExtender.SetLocalizationComment(this._labelProjectValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelProjectValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelProjectValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelProjectValue, "DialogBoxes.BackupDlg.ProjectValueLabel");
 			this._labelProjectValue.Location = new System.Drawing.Point(75, 0);
 			this._labelProjectValue.Margin = new System.Windows.Forms.Padding(3, 0, 0, 8);
@@ -408,7 +408,7 @@ namespace SIL.Pa.UI.Dialogs
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this._textBoxBackupFile, null);
 			this.locExtender.SetLocalizationComment(this._textBoxBackupFile, null);
-			this.locExtender.SetLocalizationPriority(this._textBoxBackupFile, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._textBoxBackupFile, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._textBoxBackupFile, "textBox1.textBox1");
 			this._textBoxBackupFile.Location = new System.Drawing.Point(75, 21);
 			this._textBoxBackupFile.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -425,7 +425,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelBackupFileValue.ForeColor = System.Drawing.Color.DarkSlateGray;
 			this.locExtender.SetLocalizableToolTip(this._labelBackupFileValue, null);
 			this.locExtender.SetLocalizationComment(this._labelBackupFileValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelBackupFileValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelBackupFileValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelBackupFileValue, "BackupDlg._labelBackupFileValue");
 			this._labelBackupFileValue.Location = new System.Drawing.Point(75, 44);
 			this._labelBackupFileValue.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
@@ -509,7 +509,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutButtons;
 		private System.Windows.Forms.Label _labelProjectValue;
 		private System.Windows.Forms.Label _labelProject;
-		protected Localization.UI.LocalizationExtender locExtender;
+		protected L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.TextBox _textBoxBackupFile;
 		private System.Windows.Forms.LinkLabel _linkViewExceptionDetails;
 		private System.Windows.Forms.GroupBox _groupBoxDestinationFolder;

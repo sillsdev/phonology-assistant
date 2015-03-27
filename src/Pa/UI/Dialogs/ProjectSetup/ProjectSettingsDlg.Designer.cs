@@ -38,7 +38,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.mnuAddFw7DataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuAddFw6DataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_grid = new SilTools.SilGrid();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.lblLanguageCode = new System.Windows.Forms.Label();
 			this.txtLanguageCode = new System.Windows.Forms.TextBox();
 			this.lnkEthnologue = new System.Windows.Forms.LinkLabel();
@@ -119,7 +119,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtProjName, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtProjName, null);
 			this.locExtender.SetLocalizationComment(this.txtProjName, null);
-			this.locExtender.SetLocalizationPriority(this.txtProjName, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtProjName, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtProjName, "ProjectSettingsDlg.txtProjName");
 			this.txtProjName.Location = new System.Drawing.Point(98, 0);
 			this.txtProjName.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
@@ -134,7 +134,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtTranscriber, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtTranscriber, null);
 			this.locExtender.SetLocalizationComment(this.txtTranscriber, null);
-			this.locExtender.SetLocalizationPriority(this.txtTranscriber, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtTranscriber, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtTranscriber, "ProjectSettingsDlg.txtTranscriber");
 			this.txtTranscriber.Location = new System.Drawing.Point(98, 112);
 			this.txtTranscriber.Margin = new System.Windows.Forms.Padding(3, 5, 3, 6);
@@ -149,7 +149,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtSpeaker, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtSpeaker, null);
 			this.locExtender.SetLocalizationComment(this.txtSpeaker, null);
-			this.locExtender.SetLocalizationPriority(this.txtSpeaker, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtSpeaker, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtSpeaker, "ProjectSettingsDlg.txtSpeaker");
 			this.txtSpeaker.Location = new System.Drawing.Point(422, 0);
 			this.txtSpeaker.Margin = new System.Windows.Forms.Padding(3, 0, 0, 3);
@@ -165,7 +165,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtComments, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtComments, null);
 			this.locExtender.SetLocalizationComment(this.txtComments, null);
-			this.locExtender.SetLocalizationPriority(this.txtComments, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtComments, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtComments, "ProjectSettingsDlg.txtComments");
 			this.txtComments.Location = new System.Drawing.Point(422, 28);
 			this.txtComments.Margin = new System.Windows.Forms.Padding(3, 5, 0, 3);
@@ -239,7 +239,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtLanguageName, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtLanguageName, null);
 			this.locExtender.SetLocalizationComment(this.txtLanguageName, null);
-			this.locExtender.SetLocalizationPriority(this.txtLanguageName, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtLanguageName, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtLanguageName, "ProjectSettingsDlg.txtLanguageName");
 			this.txtLanguageName.Location = new System.Drawing.Point(98, 28);
 			this.txtLanguageName.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
@@ -269,7 +269,7 @@ namespace SIL.Pa.UI.Dialogs
             this.mnuAddFwDataSource});
 			this.locExtender.SetLocalizableToolTip(this.mnuAdd, null);
 			this.locExtender.SetLocalizationComment(this.mnuAdd, null);
-			this.locExtender.SetLocalizationPriority(this.mnuAdd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.mnuAdd, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.mnuAdd, "ProjectSettingsDlg.AddMenu");
 			this.mnuAdd.Name = "cmnuAdd";
 			this.mnuAdd.ShowImageMargin = false;
@@ -342,7 +342,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
 			this.locExtender.SetLocalizationComment(this.m_grid, null);
-			this.locExtender.SetLocalizationPriority(this.m_grid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_grid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_grid, "ProjectSettingsDlg.m_grid");
 			this.m_grid.Location = new System.Drawing.Point(0, 25);
 			this.m_grid.MultiSelect = false;
@@ -393,7 +393,7 @@ namespace SIL.Pa.UI.Dialogs
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this.txtLanguageCode, null);
 			this.locExtender.SetLocalizationComment(this.txtLanguageCode, null);
-			this.locExtender.SetLocalizationPriority(this.txtLanguageCode, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtLanguageCode, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtLanguageCode, "ProjectSettingsDlg.txtLanguageCode");
 			this.txtLanguageCode.Location = new System.Drawing.Point(98, 56);
 			this.txtLanguageCode.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
@@ -425,7 +425,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtResearcher, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtResearcher, null);
 			this.locExtender.SetLocalizationComment(this.txtResearcher, null);
-			this.locExtender.SetLocalizationPriority(this.txtResearcher, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtResearcher, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtResearcher, "ProjectSettingsDlg.txtResearcher");
 			this.txtResearcher.Location = new System.Drawing.Point(98, 84);
 			this.txtResearcher.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
@@ -465,7 +465,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
-			this.locExtender.SetLocalizationPriority(this.pnlGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlGrid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlGrid, "ProjectSettingsDlg.pnlGrid");
 			this.pnlGrid.Location = new System.Drawing.Point(0, 139);
 			this.pnlGrid.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
@@ -541,7 +541,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._comboDistinctiveFeaturesSet.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this._comboDistinctiveFeaturesSet, null);
 			this.locExtender.SetLocalizationComment(this._comboDistinctiveFeaturesSet, null);
-			this.locExtender.SetLocalizationPriority(this._comboDistinctiveFeaturesSet, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._comboDistinctiveFeaturesSet, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._comboDistinctiveFeaturesSet, "DialogBoxes.ProjectSettingsDlg.DistinctiveFeaturesDropDown");
 			this._comboDistinctiveFeaturesSet.Location = new System.Drawing.Point(422, 112);
 			this._comboDistinctiveFeaturesSet.Margin = new System.Windows.Forms.Padding(3, 5, 0, 6);
@@ -643,7 +643,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem mnuAddFwDataSource;
 		private SilTools.SilGrid m_grid;
 		private System.Windows.Forms.Button btnProperties;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel tblLayout;
 		private System.Windows.Forms.Label lblLanguageCode;
 		private System.Windows.Forms.TextBox txtLanguageCode;

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Xml.Linq;
-using Localization;
+using L10NSharp;
 
 namespace SIL.Pa.UI.Controls
 {

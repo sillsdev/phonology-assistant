@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Localization;
+using L10NSharp;
 
 namespace SIL.Pa.UI.Controls
 {

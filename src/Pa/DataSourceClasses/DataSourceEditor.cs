@@ -14,7 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Localization;
+using L10NSharp;
 using Microsoft.Win32;
 using Palaso.Reporting;
 using SIL.Pa.DataSource.FieldWorks;

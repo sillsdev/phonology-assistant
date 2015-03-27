@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Controls
             this.components = new System.ComponentModel.Container();
             this.lnkOK = new System.Windows.Forms.LinkLabel();
             this.lnkHelp = new System.Windows.Forms.LinkLabel();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             this._panelOuter = new SilTools.Controls.SilPanel();
             this._charPicker = new SIL.Pa.UI.Controls.CharPicker();
             this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -95,7 +95,7 @@ namespace SIL.Pa.UI.Controls
             this._panelOuter.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this._panelOuter, null);
             this.locExtender.SetLocalizationComment(this._panelOuter, null);
-            this.locExtender.SetLocalizationPriority(this._panelOuter, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._panelOuter, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._panelOuter, "silPanel1.silPanel1");
             this._panelOuter.Location = new System.Drawing.Point(0, 0);
             this._panelOuter.MnemonicGeneratesClick = false;
@@ -117,7 +117,7 @@ namespace SIL.Pa.UI.Controls
             this._charPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.locExtender.SetLocalizableToolTip(this._charPicker, null);
             this.locExtender.SetLocalizationComment(this._charPicker, null);
-            this.locExtender.SetLocalizationPriority(this._charPicker, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._charPicker, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._charPicker, "charPicker1.charPicker1");
             this._charPicker.Location = new System.Drawing.Point(66, 194);
             this._charPicker.Name = "_charPicker";
@@ -191,7 +191,7 @@ namespace SIL.Pa.UI.Controls
             this.Controls.Add(this._panelOuter);
             this.locExtender.SetLocalizableToolTip(this, null);
             this.locExtender.SetLocalizationComment(this, null);
-            this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this, "ChartOptionsDropDown.ChartOptionsDropDown");
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ChartOptionsDropDown";
@@ -208,7 +208,7 @@ namespace SIL.Pa.UI.Controls
 
 		public System.Windows.Forms.LinkLabel lnkOK;
 		public System.Windows.Forms.LinkLabel lnkHelp;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 		private ExplorerBarItem _explorerBar;
 		private CharPicker _charPicker;

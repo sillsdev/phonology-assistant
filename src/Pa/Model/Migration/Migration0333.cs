@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Localization;
+using L10NSharp;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
 

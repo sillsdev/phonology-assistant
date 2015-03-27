@@ -36,7 +36,7 @@ namespace SIL.Pa.DataSource
 			this.lblFileName = new System.Windows.Forms.Label();
 			this.m_toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnHelp = new System.Windows.Forms.Button();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -61,7 +61,7 @@ namespace SIL.Pa.DataSource
 			// 
 			this.locExtender.SetLocalizableToolTip(this.picIcon, null);
 			this.locExtender.SetLocalizationComment(this.picIcon, null);
-			this.locExtender.SetLocalizationPriority(this.picIcon, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.picIcon, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.picIcon, "MissingDataSourceMsgBox.picIcon");
 			this.picIcon.Location = new System.Drawing.Point(24, 20);
 			this.picIcon.Name = "picIcon";
@@ -107,7 +107,7 @@ namespace SIL.Pa.DataSource
 			this.lblFileName.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblFileName, null);
 			this.locExtender.SetLocalizationComment(this.lblFileName, null);
-			this.locExtender.SetLocalizationPriority(this.lblFileName, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblFileName, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblFileName, "MissingDataSourceMsgBox.FileNameLabel");
 			this.lblFileName.Location = new System.Drawing.Point(76, 68);
 			this.lblFileName.Name = "lblFileName";
@@ -174,6 +174,6 @@ namespace SIL.Pa.DataSource
 		private System.Windows.Forms.Label lblFileName;
 		private System.Windows.Forms.ToolTip m_toolTip;
 		private System.Windows.Forms.Button btnHelp;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

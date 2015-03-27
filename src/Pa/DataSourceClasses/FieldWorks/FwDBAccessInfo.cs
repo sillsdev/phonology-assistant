@@ -8,7 +8,7 @@
 #endregion
 // 
 using System.Xml.Serialization;
-using Localization;
+using L10NSharp;
 using Palaso.IO;
 using Palaso.Reporting;
 using SilTools;

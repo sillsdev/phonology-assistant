@@ -32,7 +32,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtName = new System.Windows.Forms.TextBox();
 			this.lblName = new System.Windows.Forms.Label();
 			this.tlpName = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.tlpName.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -43,7 +43,7 @@ namespace SIL.Pa.UI.Dialogs
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this.txtName, null);
 			this.locExtender.SetLocalizationComment(this.txtName, null);
-			this.locExtender.SetLocalizationPriority(this.txtName, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtName, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtName, "SaveDistributionChartDlg.txtName");
 			this.txtName.Location = new System.Drawing.Point(48, 0);
 			this.txtName.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
@@ -121,6 +121,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.TextBox txtName;
 		private System.Windows.Forms.Label lblName;
 		private System.Windows.Forms.TableLayoutPanel tlpName;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

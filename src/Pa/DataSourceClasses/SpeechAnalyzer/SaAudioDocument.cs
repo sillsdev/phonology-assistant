@@ -13,7 +13,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using Localization;
+using L10NSharp;
 using SilTools;
 
 namespace SIL.Pa.DataSource.Sa

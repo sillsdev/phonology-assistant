@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Localization;
+using L10NSharp;
 using Palaso.Reporting;
 // ---------------------------------------------------------------------------------------------
 #region // Copyright (c) 2005-2015, SIL International.

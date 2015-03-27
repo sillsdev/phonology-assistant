@@ -14,7 +14,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Localization;
+using L10NSharp;
 using Palaso.Email;
 using Palaso.Reporting;
 using SIL.Pa.PhoneticSearching;

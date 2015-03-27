@@ -9,7 +9,7 @@
 // 
 using System.Drawing;
 using System.IO;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;

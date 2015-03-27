@@ -35,7 +35,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblName = new System.Windows.Forms.Label();
 			this.lblCategories = new System.Windows.Forms.Label();
 			this.lblPatternLabel = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.cboCategories, "Enter a category in which to save the\\npattern or choose one from the list");
 			this.locExtender.SetLocalizationComment(this.cboCategories, "Drop-down list of search pattern categories on the dialog box for saving search p" +
 					"atterns in search  view.");
-			this.locExtender.SetLocalizationPriority(this.cboCategories, Localization.LocalizationPriority.High);
+			this.locExtender.SetLocalizationPriority(this.cboCategories, L10NSharp.LocalizationPriority.High);
 			this.locExtender.SetLocalizingId(this.cboCategories, "DialogBoxes.SaveSearchQueryDlg.cboCategories");
 			this.cboCategories.Location = new System.Drawing.Point(137, 100);
 			this.cboCategories.Margin = new System.Windows.Forms.Padding(0);
@@ -66,7 +66,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.txtName, "Enter the name to give your saved pattern.");
 			this.locExtender.SetLocalizationComment(this.txtName, "Search pattern name text box on the dialog box for saving search patterns in sear" +
 					"ch  view.");
-			this.locExtender.SetLocalizationPriority(this.txtName, Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.txtName, L10NSharp.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.txtName, "DialogBoxes.SaveSearchQueryDlg.txtName");
 			this.txtName.Location = new System.Drawing.Point(137, 54);
 			this.txtName.Margin = new System.Windows.Forms.Padding(0);
@@ -82,7 +82,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblPattern.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblPattern, null);
 			this.locExtender.SetLocalizationComment(this.lblPattern, null);
-			this.locExtender.SetLocalizationPriority(this.lblPattern, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblPattern, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblPattern, "SaveSearchQueryDlg.lblPattern");
 			this.lblPattern.Location = new System.Drawing.Point(134, 10);
 			this.lblPattern.Name = "lblPattern";
@@ -181,6 +181,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblName;
 		private System.Windows.Forms.Label lblCategories;
 		private System.Windows.Forms.Label lblPatternLabel;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }
