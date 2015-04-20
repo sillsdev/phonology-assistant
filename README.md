@@ -1,2 +1,19 @@
 phonology-assistant
 ===================
+Phonology Assistant is a discovery tool. Provided with a corpus of phonetic data, it automatically charts the sounds and through its searching capabilities, helps a user discover and test the rules of sound in a language.
+
+[Stable Release](http://www.sil.org/resources/software_fonts/phonology-assistant)
+
+[web site](http://phonologyassistant.sil.org/)
+
+License
+-------
+Pathway is licensed under MIT. See [LICENSE.md](https://github.com/sillsdev/phonology-assistant/blob/master/LICENSE)
+
+
+[Binaries](http://build.palaso.org/project.html?projectId=project17&tab=projectOverview&guest=1)
+
+[Source Code](https://github.com/sillsdev/phonology-assistant)
+
+[Issues](https://jira.sil.org/browse/PA)
+
