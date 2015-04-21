@@ -13,7 +13,7 @@ using System.Drawing;
 using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
-using Localization;
+using L10NSharp;
 using Palaso.IO;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSourceClasses.FieldWorks;

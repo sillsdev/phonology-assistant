@@ -15,8 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using Localization;
-using Localization.UI;
+using L10NSharp;
+using L10NSharp.UI;
 using Palaso.IO;
 using Palaso.Reporting;
 using SIL.FieldWorks.Common.UIAdapters;
@@ -86,9 +86,11 @@ namespace SIL.Pa
 		public const string kAppSettingsName = "application";
 		public const string kDefaultInventoryFileName = "PhoneticInventory.xml";
 		public const string kLocalizationsFolder = "Localizations";
-
+        public const string kCompany = "SIL";
+        public const string kProduct = "Phonology Assistant";
 		#endregion
 
+        
 		private static string s_helpFilePath;
 		private static ToolStripStatusLabel s_statusBarLabel;
 		private static ToolStripProgressBar s_progressBar;
@@ -224,13 +226,12 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void InitializeLocalization()
 		{
-			var installedStringFileFolder = FileLocator.GetDirectoryDistributedWithApplication(ConfigFolderName);
+            var installedStringFileFolder = FileLocator.GetDirectoryDistributedWithApplication("Localizations");
 			var localizedStringFilesFolder = Path.Combine(ProjectFolder, kLocalizationsFolder);
-
+            var targetTmxFilePath = Path.Combine(kCompany, kProduct);
 			CopyInstalledLocalizations(localizedStringFilesFolder);
 
-			L10NMngr = LocalizationManager.Create(GetUILanguage(), "Pa", "Phonology Assistant",
-				Application.ProductVersion, installedStringFileFolder, localizedStringFilesFolder, "SIL.Pa");
+            L10NMngr = LocalizationManager.Create(GetUILanguage(), "Pa", "Phonology Assistant", Application.ProductVersion, installedStringFileFolder, targetTmxFilePath, null, IssuesEmailAddress, "SIL.Pa");
 
 			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 
@@ -240,6 +241,14 @@ namespace SIL.Pa
 				PaFieldDisplayProperties.ResetDisplayNameCache();
 			});
 		}
+
+        /// <summary>
+        /// The email address people should write to with problems (or new localizations?) for Phonology-Assistant.
+        /// </summary>
+        public static string IssuesEmailAddress
+        {
+            get { return "PaFeedback@sil.org"; }
+        }
 
 		private static void CopyInstalledLocalizations(string localizedStringFilesFolder)
 		{
@@ -321,15 +330,11 @@ namespace SIL.Pa
 
 			string[] addOnAssemblyFiles;
 
-			try
-			{
-				var addOnPath = Path.Combine(AssemblyPath, "AddOns");
-				addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
-			}
-			catch
-			{
-				return;
-			}
+			var addOnPath = Path.Combine(AssemblyPath, "AddOns");
+            if (!Directory.Exists(addOnPath))
+                return;
+
+			addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
 
 			if (addOnAssemblyFiles.Length == 0)
 				return;
@@ -604,7 +609,7 @@ namespace SIL.Pa
 		{
 			if (ShouldShowSplashScreen)
 			{
-				SplashScreen = new SplashScreen(true, VersionType.Beta);
+				SplashScreen = new SplashScreen(true, VersionType.Daily);
 				SplashScreen.Show();
 				SplashScreen.Message = LocalizationManager.GetString(
 					"Miscellaneous.Messages.SplashScreenLoadingMsg", "Loading...");
@@ -1037,7 +1042,7 @@ namespace SIL.Pa
 		///// ------------------------------------------------------------------------------------
 		///// <summary>
 		///// Reverses what the method PrepareAdapterForLocalizationSupport does to prepare
-		///// the specified adapter for localization.
+		///// the specified adapter for L10NSharp.
 		///// </summary>
 		///// ------------------------------------------------------------------------------------
 		//public static void UnPrepareAdapterForLocalizationSupport(ITMAdapter adapter)

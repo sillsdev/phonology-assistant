@@ -17,7 +17,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Ionic.Zip;
-using Localization;
+using L10NSharp;
 using Palaso.Reporting;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;

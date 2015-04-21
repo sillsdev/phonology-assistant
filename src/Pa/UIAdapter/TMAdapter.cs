@@ -173,7 +173,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		///// ------------------------------------------------------------------------------------
 		///// <summary>
 		///// Event fired when the adapter offers the toolbar/menu item to the application for
-		///// localization.
+		///// L10NSharp.
 		///// </summary>
 		///// ------------------------------------------------------------------------------------
 		//public event LocalizeItemHandler LocalizeItem;

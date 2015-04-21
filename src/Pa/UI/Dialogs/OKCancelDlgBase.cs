@@ -37,7 +37,7 @@ namespace SIL.Pa.UI.Dialogs
 				btnHelp.TabIndex = 1003;
 			}
 
-			Localization.UI.LocalizeItemDlg.StringsLocalized += OnStringsLocalized;
+			L10NSharp.UI.LocalizeItemDlg.StringsLocalized += OnStringsLocalized;
 		}
 
 		///// ------------------------------------------------------------------------------------

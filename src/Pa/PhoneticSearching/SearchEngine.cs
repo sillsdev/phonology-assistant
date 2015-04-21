@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using System;
 

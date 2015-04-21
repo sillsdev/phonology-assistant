@@ -19,7 +19,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using Localization;
+using L10NSharp;
 using Palaso.IO;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;

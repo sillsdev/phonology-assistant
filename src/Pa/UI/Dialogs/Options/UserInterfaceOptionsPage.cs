@@ -9,7 +9,7 @@
 // 
 using System.Globalization;
 using System.Linq;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			_linkShowLocalizationDialogBox.LinkClicked += delegate
 			{
-				LocalizationManager.ShowLocalizationDialogBox();
+				LocalizationManager.ShowLocalizationDialogBox(this);
 				cboUILanguage.RefreshList();
 			};
 		}

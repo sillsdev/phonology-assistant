@@ -13,7 +13,7 @@ using System.IO;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;

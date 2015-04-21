@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Views
             this.lblChartNameValue = new System.Windows.Forms.Label();
             this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
             this.pnlOuter = new System.Windows.Forms.Panel();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitResults)).BeginInit();
             this.splitResults.Panel2.SuspendLayout();
             this.splitResults.SuspendLayout();
@@ -99,7 +99,7 @@ namespace SIL.Pa.UI.Views
             this._recView.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this._recView, null);
             this.locExtender.SetLocalizationComment(this._recView, null);
-            this.locExtender.SetLocalizationPriority(this._recView, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._recView, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._recView, "recordViewPanel1.recordViewPanel1");
             this._recView.Location = new System.Drawing.Point(0, 0);
             this._recView.MnemonicGeneratesClick = false;
@@ -165,7 +165,7 @@ namespace SIL.Pa.UI.Views
             this.ptrnBldrComponent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.locExtender.SetLocalizableToolTip(this.ptrnBldrComponent, null);
             this.locExtender.SetLocalizationComment(this.ptrnBldrComponent, null);
-            this.locExtender.SetLocalizationPriority(this.ptrnBldrComponent, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.ptrnBldrComponent, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.ptrnBldrComponent, "DistributionChartVw.PatternBuilderComponents");
             this.ptrnBldrComponent.Location = new System.Drawing.Point(0, 4);
             this.ptrnBldrComponent.Name = "ptrnBldrComponent";
@@ -258,7 +258,7 @@ namespace SIL.Pa.UI.Views
             this.pnlSavedCharts.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this.pnlSavedCharts, null);
             this.locExtender.SetLocalizationComment(this.pnlSavedCharts, null);
-            this.locExtender.SetLocalizationPriority(this.pnlSavedCharts, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.pnlSavedCharts, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.pnlSavedCharts, "DistributionChartVw.pnlSavedCharts");
             this.pnlSavedCharts.Location = new System.Drawing.Point(0, 0);
             this.pnlSavedCharts.MnemonicGeneratesClick = false;
@@ -298,7 +298,7 @@ namespace SIL.Pa.UI.Views
             // 
             this.locExtender.SetLocalizableToolTip(this.hdrSavedCharts, null);
             this.locExtender.SetLocalizationComment(this.hdrSavedCharts, null);
-            this.locExtender.SetLocalizationPriority(this.hdrSavedCharts, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.hdrSavedCharts, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.hdrSavedCharts, "DistributionChartVw.lvSavedCharts");
             // 
             // hlblSavedCharts
@@ -341,7 +341,7 @@ namespace SIL.Pa.UI.Views
             this.locExtender.SetLocalizableToolTip(this.btnRestoreDefaultCharts, "Restore Default Charts");
             this.locExtender.SetLocalizationComment(this.btnRestoreDefaultCharts, "Button to Restore default charts on the distribution charts view. The button is o" +
         "n the right side of the heading over the saved charts list.");
-            this.locExtender.SetLocalizationPriority(this.btnRestoreDefaultCharts, Localization.LocalizationPriority.MediumHigh);
+            this.locExtender.SetLocalizationPriority(this.btnRestoreDefaultCharts, L10NSharp.LocalizationPriority.MediumHigh);
             this.locExtender.SetLocalizingId(this.btnRestoreDefaultCharts, "Views.DistributionChart.RestoreDefaultChartsButton");
             this.btnRestoreDefaultCharts.Location = new System.Drawing.Point(127, 2);
             this.btnRestoreDefaultCharts.Name = "btnRestoreDefaultCharts";
@@ -364,7 +364,7 @@ namespace SIL.Pa.UI.Views
             this.locExtender.SetLocalizableToolTip(this.btnRemoveSavedChart, "Remove Saved Chart");
             this.locExtender.SetLocalizationComment(this.btnRemoveSavedChart, "Button to delete saved charts on the distribution charts view. The button is on t" +
         "he right side of the heading over the saved charts list.");
-            this.locExtender.SetLocalizationPriority(this.btnRemoveSavedChart, Localization.LocalizationPriority.MediumHigh);
+            this.locExtender.SetLocalizationPriority(this.btnRemoveSavedChart, L10NSharp.LocalizationPriority.MediumHigh);
             this.locExtender.SetLocalizingId(this.btnRemoveSavedChart, "Views.DistributionChart.RemoveSavedChartButton");
             this.btnRemoveSavedChart.Location = new System.Drawing.Point(148, 2);
             this.btnRemoveSavedChart.Name = "btnRemoveSavedChart";
@@ -415,7 +415,7 @@ namespace SIL.Pa.UI.Views
             this.lblChartNameValue.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.locExtender.SetLocalizableToolTip(this.lblChartNameValue, null);
             this.locExtender.SetLocalizationComment(this.lblChartNameValue, null);
-            this.locExtender.SetLocalizationPriority(this.lblChartNameValue, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.lblChartNameValue, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.lblChartNameValue, "DistributionChart.ChartNameValueLabel");
             this.lblChartNameValue.Location = new System.Drawing.Point(89, 426);
             this.lblChartNameValue.Name = "lblChartNameValue";
@@ -454,7 +454,7 @@ namespace SIL.Pa.UI.Views
             this.Controls.Add(this.pnlSliderPlaceholder);
             this.locExtender.SetLocalizableToolTip(this, null);
             this.locExtender.SetLocalizationComment(this, null);
-            this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this, "DistributionChartVw");
             this.Name = "DistributionChartVw";
             this.Size = new System.Drawing.Size(664, 531);
@@ -504,7 +504,7 @@ namespace SIL.Pa.UI.Views
 		private SIL.Pa.UI.Controls.PatternBuilderComponents ptrnBldrComponent;
 		private System.Windows.Forms.Label lblChartName;
 		private System.Windows.Forms.Label lblChartNameValue;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private Controls.RecordViewControls.RecordViewPanel _recView;
         private XButton btnRestoreDefaultCharts;
 	}

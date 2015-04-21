@@ -40,8 +40,8 @@
 					<Component Id="Ionic.Zip.dll" Guid="{A2F9EA27-48AC-471C-8F1A-334F1908C72E}">
 						<File Id="Ionic.Zip.dll" KeyPath="yes" Source="..\output\release\Ionic.Zip.dll" />
 					</Component>
-					<Component Id="LocalizationManager.dll" Guid="{B537CFD9-D01A-40C4-A5B2-D0D65E12D765}">
-						<File Id="LocalizationManager.dll" KeyPath="yes" Source="..\output\release\LocalizationManager.dll" />
+					<Component Id="L10NSharp.dll" Guid="{DB28722E-3030-4CF7-905B-36FBE4196A32}">
+						<File Id="L10NSharp.dll" KeyPath="yes" Source="..\output\release\L10NSharp.dll" />
 					</Component>
 					<Component Id="PaToFdoInterfaces.dll" Guid="{4250985D-D1DF-4E60-9666-8DB690202BDF}">
 						<File Id="PaToFdoInterfaces.dll" KeyPath="yes" Source="..\output\release\PaToFdoInterfaces.dll" />
@@ -95,7 +95,7 @@
       <ComponentRef Id="DisablePASplashScreen.exe" />
       <ComponentRef Id="DisablePASplashScreen.pdb" />
       <ComponentRef Id="Ionic.Zip.dll" />
-      <ComponentRef Id="LocalizationManager.dll" />
+      <ComponentRef Id="L10NSharp.dll" />
       <ComponentRef Id="Palaso.dll" />
       <ComponentRef Id="PaToFdoInterfaces.dll" />
       <ComponentRef Id="PaCompiledTransforms.dll" />

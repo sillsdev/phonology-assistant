@@ -16,8 +16,8 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Localization;
-using Localization.UI;
+using L10NSharp;
+using L10NSharp.UI;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -220,7 +220,22 @@ namespace SIL.Pa.UI
 				_tmAdapter.SetItemProperties("mnuUnDockView", itemProps);
 			}
 		}
-
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Enable/disable "mnuFiltersMain".
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public void EnableFiltersMenu(bool enable)
+        {
+            var itemProps = _tmAdapter.GetItemProperties("mnuFiltersMain");
+            if (itemProps != null)
+            {
+                itemProps.Visible = true;
+                itemProps.Enabled = enable;
+                itemProps.Update = true;
+                _tmAdapter.SetItemProperties("mnuFiltersMain", itemProps);
+            }
+        }
 		/// ------------------------------------------------------------------------------------
 		private void LoadProject(string projectFileName)
 		{
@@ -272,6 +287,7 @@ namespace SIL.Pa.UI
 				OnFilterChanged(_project.CurrentFilter);
 				EnableOptionsMenus(true);
 				EnableUndockMenu(true);
+                EnableFiltersMenu(true);
 
 				App.MsgMediator.SendMessage("ProjectLoaded", project);
 			}
@@ -770,6 +786,9 @@ namespace SIL.Pa.UI
 			App.Project = _project = null;
 			Settings.Default.LastProjectLoaded = null;
 			SetWindowText(null);
+            EnableOptionsMenus(false);
+		    EnableUndockMenu(false);
+            EnableFiltersMenu(false);
 			return true;
 		}
 

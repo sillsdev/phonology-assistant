@@ -40,7 +40,7 @@
 			this.txtCustomChars = new System.Windows.Forms.TextBox();
 			this.lblExampleDesc1 = new System.Windows.Forms.Label();
 			this.txtExampleInput = new System.Windows.Forms.TextBox();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutOuter.SuspendLayout();
 			this.grpDisplayChars.SuspendLayout();
 			this._tableLayoutCustomChars.SuspendLayout();
@@ -80,7 +80,7 @@
 			this._cvPatternSymbolExplorer.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._cvPatternSymbolExplorer, null);
 			this.locExtender.SetLocalizationComment(this._cvPatternSymbolExplorer, null);
-			this.locExtender.SetLocalizationPriority(this._cvPatternSymbolExplorer, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._cvPatternSymbolExplorer, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._cvPatternSymbolExplorer, "CVPatternsOptionsPage._cvPatternSymbolExplorer");
 			this._cvPatternSymbolExplorer.Location = new System.Drawing.Point(0, 0);
 			this._cvPatternSymbolExplorer.Margin = new System.Windows.Forms.Padding(0, 0, 6, 0);
@@ -208,7 +208,7 @@
 			this.txtCustomChars.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
 			this.locExtender.SetLocalizableToolTip(this.txtCustomChars, null);
 			this.locExtender.SetLocalizationComment(this.txtCustomChars, null);
-			this.locExtender.SetLocalizationPriority(this.txtCustomChars, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtCustomChars, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtCustomChars, "CVPatternsOptionsPage.txtCustomChars");
 			this.txtCustomChars.Location = new System.Drawing.Point(0, 57);
 			this.txtCustomChars.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -242,7 +242,7 @@
 			this.txtExampleInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
 			this.locExtender.SetLocalizableToolTip(this.txtExampleInput, null);
 			this.locExtender.SetLocalizationComment(this.txtExampleInput, null);
-			this.locExtender.SetLocalizationPriority(this.txtExampleInput, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtExampleInput, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtExampleInput, "CVPatternsOptionsPage.txtExampleInput");
 			this.txtExampleInput.Location = new System.Drawing.Point(0, 132);
 			this.txtExampleInput.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -264,7 +264,7 @@
 			this.Controls.Add(this._tableLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "CVPatternsOptionsPage.CVPatternsOptionsPage");
 			this.Name = "CVPatternsOptionsPage";
 			this.Size = new System.Drawing.Size(538, 329);
@@ -290,6 +290,6 @@
 		private System.Windows.Forms.TextBox txtCustomChars;
 		private System.Windows.Forms.Label lblExampleDesc1;
 		private System.Windows.Forms.TextBox txtExampleInput;
-		protected Localization.UI.LocalizationExtender locExtender;
+		protected L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

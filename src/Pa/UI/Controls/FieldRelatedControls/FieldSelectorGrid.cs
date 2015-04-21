@@ -12,7 +12,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using SilTools;
 

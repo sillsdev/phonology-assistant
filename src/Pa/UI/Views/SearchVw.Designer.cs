@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Views
 			this.m_patternTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.ptrnTextBox = new SIL.Pa.UI.Controls.PatternTextBox();
 			this.m_patternBuilderBar = new SIL.Pa.UI.Controls.PatternBuilderBar();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -240,7 +240,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlRecentPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlRecentPatterns, null);
 			this.locExtender.SetLocalizationComment(this.pnlRecentPatterns, null);
-			this.locExtender.SetLocalizationPriority(this.pnlRecentPatterns, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlRecentPatterns, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlRecentPatterns, "SearchVw.pnlRecentPatterns");
 			this.pnlRecentPatterns.Location = new System.Drawing.Point(0, 0);
 			this.pnlRecentPatterns.MnemonicGeneratesClick = false;
@@ -350,7 +350,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlSavedPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSavedPatterns, null);
 			this.locExtender.SetLocalizationComment(this.pnlSavedPatterns, null);
-			this.locExtender.SetLocalizationPriority(this.pnlSavedPatterns, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlSavedPatterns, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlSavedPatterns, "SearchVw.pnlSavedPatterns");
 			this.pnlSavedPatterns.Location = new System.Drawing.Point(0, 0);
 			this.pnlSavedPatterns.MnemonicGeneratesClick = false;
@@ -369,7 +369,7 @@ namespace SIL.Pa.UI.Views
 			this.tvSavedPatterns.IsForToolbarPopup = false;
 			this.locExtender.SetLocalizableToolTip(this.tvSavedPatterns, null);
 			this.locExtender.SetLocalizationComment(this.tvSavedPatterns, null);
-			this.locExtender.SetLocalizationPriority(this.tvSavedPatterns, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tvSavedPatterns, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tvSavedPatterns, "SearchVw.tvSavedPatterns");
 			this.tvSavedPatterns.Location = new System.Drawing.Point(0, 24);
 			this.tvSavedPatterns.Name = "tvSavedPatterns";
@@ -530,7 +530,7 @@ namespace SIL.Pa.UI.Views
 			this._recView.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._recView, null);
 			this.locExtender.SetLocalizationComment(this._recView, null);
-			this.locExtender.SetLocalizationPriority(this._recView, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._recView, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._recView, "recordViewPanel1.recordViewPanel1");
 			this._recView.Location = new System.Drawing.Point(0, 0);
 			this._recView.MnemonicGeneratesClick = false;
@@ -640,7 +640,7 @@ namespace SIL.Pa.UI.Views
 			this.m_patternBuilderBar.Dock = System.Windows.Forms.DockStyle.Top;
 			this.locExtender.SetLocalizableToolTip(this.m_patternBuilderBar, null);
 			this.locExtender.SetLocalizationComment(this.m_patternBuilderBar, null);
-			this.locExtender.SetLocalizationPriority(this.m_patternBuilderBar, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_patternBuilderBar, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_patternBuilderBar, "SearchVw.PatternBuilderBar");
 			this.m_patternBuilderBar.Location = new System.Drawing.Point(152, 39);
 			this.m_patternBuilderBar.Margin = new System.Windows.Forms.Padding(0, 1, 0, 6);
@@ -662,7 +662,7 @@ namespace SIL.Pa.UI.Views
 			this.Controls.Add(this.m_patternTableLayoutPanel);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SearchVw.SearchVw");
 			this.Name = "SearchVw";
 			this.Size = new System.Drawing.Size(581, 531);
@@ -720,7 +720,7 @@ namespace SIL.Pa.UI.Views
 		private PatternTextBox ptrnTextBox;
 		private System.Windows.Forms.Button btnRefresh;
 		private SilTools.Controls.XButton btnClearRecentList;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel m_patternTableLayoutPanel;
 		private PatternBuilderBar m_patternBuilderBar;
 		private Controls.RecordViewControls.RecordViewPanel _recView;

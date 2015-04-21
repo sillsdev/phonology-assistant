@@ -10,7 +10,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
 using SilTools;

@@ -41,7 +41,7 @@ namespace SIL.Pa.UI.Controls
 			this.lbl175 = new System.Windows.Forms.Label();
 			this.lbl200 = new System.Windows.Forms.Label();
 			this.lblZero = new System.Windows.Forms.Label();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.trkSpeed)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Controls
 			this.trkSpeed.BackColor = System.Drawing.Color.White;
 			this.locExtender.SetLocalizableToolTip(this.trkSpeed, null);
 			this.locExtender.SetLocalizationComment(this.trkSpeed, null);
-			this.locExtender.SetLocalizationPriority(this.trkSpeed, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.trkSpeed, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.trkSpeed, "PlaybackSpeedAdjuster.trkSpeed");
 			this.trkSpeed.Location = new System.Drawing.Point(34, 24);
 			this.trkSpeed.Maximum = 200;
@@ -247,7 +247,7 @@ namespace SIL.Pa.UI.Controls
 			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "PlaybackSpeedAdjuster.PlaybackSpeedAdjuster");
 			this.Name = "PlaybackSpeedAdjuster";
 			this.Padding = new System.Windows.Forms.Padding(0, 3, 0, 5);
@@ -272,6 +272,6 @@ namespace SIL.Pa.UI.Controls
 		private System.Windows.Forms.Label lbl200;
 		private System.Windows.Forms.Label lblZero;
 		public System.Windows.Forms.LinkLabel lnkPlay;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

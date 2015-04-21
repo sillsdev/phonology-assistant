@@ -319,7 +319,9 @@ namespace SilTools
 			}
 
 			var verType = string.Empty;
-			if (m_versionType == VersionType.Alpha)
+			if (m_versionType == VersionType.Daily)
+				verType = "Daily Build";
+			else if (m_versionType == VersionType.Alpha)
 				verType = "Test Version";
 			else if (m_versionType == VersionType.Beta)
 				verType = "Beta";

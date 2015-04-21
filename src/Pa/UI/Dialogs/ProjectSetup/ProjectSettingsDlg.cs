@@ -15,7 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Palaso.Progress;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -960,11 +960,19 @@ namespace SIL.Pa.UI.Dialogs
                 case "Phonetic_Source":
                     var srcInfo = _dataSources[i].FwDataSourceInfo;
                     if (srcInfo != null)
+                    {
                         e.Value = srcInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm
                             ? _dataSources[i].FwDataSourceInfo.PhoneticSourceField
                             : srcInfo.PhoneticStorageMethod.ToString();
+                    }
                     else
-                        e.Value = _dataSources[i].FieldMappings.Find(fld => fld.PaFieldName == "Phonetic").NameInDataSource;
+                    {
+                        var field = _dataSources[i].FieldMappings.Find(fld => fld.PaFieldName == "Phonetic");
+                        if (field != null)
+                            e.Value = field.NameInDataSource;
+                        else
+                            e.Value = null;
+                    }
                     break;
                 case "xslt":
                     e.Value = _dataSources[i].XSLTFile;

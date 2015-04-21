@@ -52,7 +52,7 @@
 			this.rbGridLinesHorizontal = new System.Windows.Forms.RadioButton();
 			this.rbGridLinesVertical = new System.Windows.Forms.RadioButton();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.grpColSettings.SuspendLayout();
 			this._tableLayoutColDisplayOrder.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.fldSelGridWrdList)).BeginInit();
@@ -179,7 +179,7 @@
 			this.fldSelGridWrdList.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridWrdList, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridWrdList, null);
-			this.locExtender.SetLocalizationPriority(this.fldSelGridWrdList, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.fldSelGridWrdList, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.fldSelGridWrdList, "WordListsOptionsPage.fldSelGridWrdList");
 			this.fldSelGridWrdList.Location = new System.Drawing.Point(0, 18);
 			this.fldSelGridWrdList.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -320,7 +320,7 @@
 			// 
 			this.locExtender.SetLocalizableToolTip(this.nudMaxEticColWidth, null);
 			this.locExtender.SetLocalizationComment(this.nudMaxEticColWidth, null);
-			this.locExtender.SetLocalizationPriority(this.nudMaxEticColWidth, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.nudMaxEticColWidth, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.nudMaxEticColWidth, "WordListsOptionsPage.nudMaxEticColWidth");
 			this.nudMaxEticColWidth.Location = new System.Drawing.Point(417, 268);
 			this.nudMaxEticColWidth.Margin = new System.Windows.Forms.Padding(3, 5, 0, 0);
@@ -506,7 +506,7 @@
 			this.Controls.Add(this._tableLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "WordListsOptionsPage.WordListsOptionsPage");
 			this.Name = "WordListsOptionsPage";
 			this.Size = new System.Drawing.Size(476, 378);
@@ -552,6 +552,6 @@
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutColDisplayOrder;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutGridLines;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
-		protected Localization.UI.LocalizationExtender locExtender;
+		protected L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

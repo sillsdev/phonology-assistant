@@ -42,7 +42,7 @@ namespace SIL.Pa.UI.Controls
             this._groupUncertainties = new System.Windows.Forms.GroupBox();
             this.rbAllUncertainties = new System.Windows.Forms.RadioButton();
             this.rbPrimaryOnly = new System.Windows.Forms.RadioButton();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             this._chkBoundary = new System.Windows.Forms.CheckBox();
             this._groupBoundary = new System.Windows.Forms.GroupBox();
             this._chkPitchPhonation = new System.Windows.Forms.CheckBox();
@@ -141,7 +141,7 @@ namespace SIL.Pa.UI.Controls
             this._groupStress.Controls.Add(this._pickerStress);
             this.locExtender.SetLocalizableToolTip(this._groupStress, null);
             this.locExtender.SetLocalizationComment(this._groupStress, null);
-            this.locExtender.SetLocalizationPriority(this._groupStress, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._groupStress, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._groupStress, "SearchOptionsDropDown.grpStress");
             this._groupStress.Location = new System.Drawing.Point(0, 2);
             this._groupStress.Margin = new System.Windows.Forms.Padding(0);
@@ -176,7 +176,7 @@ namespace SIL.Pa.UI.Controls
             this._groupTone.Controls.Add(this._pickerTone);
             this.locExtender.SetLocalizableToolTip(this._groupTone, null);
             this.locExtender.SetLocalizationComment(this._groupTone, null);
-            this.locExtender.SetLocalizationPriority(this._groupTone, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._groupTone, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._groupTone, "SearchOptionsDropDown.grpTone");
             this._groupTone.Location = new System.Drawing.Point(0, 2);
             this._groupTone.Margin = new System.Windows.Forms.Padding(0);
@@ -211,7 +211,7 @@ namespace SIL.Pa.UI.Controls
             this._groupLength.Controls.Add(this._pickerLength);
             this.locExtender.SetLocalizableToolTip(this._groupLength, null);
             this.locExtender.SetLocalizationComment(this._groupLength, null);
-            this.locExtender.SetLocalizationPriority(this._groupLength, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._groupLength, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._groupLength, "SearchOptionsDropDown.grpLength");
             this._groupLength.Location = new System.Drawing.Point(0, 3);
             this._groupLength.Margin = new System.Windows.Forms.Padding(0);
@@ -345,7 +345,7 @@ namespace SIL.Pa.UI.Controls
             this._groupBoundary.Controls.Add(this._pickerBoundary);
             this.locExtender.SetLocalizableToolTip(this._groupBoundary, null);
             this.locExtender.SetLocalizationComment(this._groupBoundary, null);
-            this.locExtender.SetLocalizationPriority(this._groupBoundary, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._groupBoundary, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._groupBoundary, "SearchOptionsDropDown.grpLength");
             this._groupBoundary.Location = new System.Drawing.Point(0, 2);
             this._groupBoundary.Margin = new System.Windows.Forms.Padding(0);
@@ -380,7 +380,7 @@ namespace SIL.Pa.UI.Controls
             this._groupPitchPhonation.Controls.Add(this._pickerPitchPhonation);
             this.locExtender.SetLocalizableToolTip(this._groupPitchPhonation, null);
             this.locExtender.SetLocalizationComment(this._groupPitchPhonation, null);
-            this.locExtender.SetLocalizationPriority(this._groupPitchPhonation, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._groupPitchPhonation, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._groupPitchPhonation, "SearchOptionsDropDown.grpLength");
             this._groupPitchPhonation.Location = new System.Drawing.Point(0, 2);
             this._groupPitchPhonation.Margin = new System.Windows.Forms.Padding(0);
@@ -529,7 +529,7 @@ namespace SIL.Pa.UI.Controls
             this._pickerStress.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.locExtender.SetLocalizableToolTip(this._pickerStress, null);
             this.locExtender.SetLocalizationComment(this._pickerStress, null);
-            this.locExtender.SetLocalizationPriority(this._pickerStress, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._pickerStress, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._pickerStress, "SearchOptionsDropDown.stressPicker");
             this._pickerStress.Location = new System.Drawing.Point(7, 20);
             this._pickerStress.Name = "_pickerStress";
@@ -552,7 +552,7 @@ namespace SIL.Pa.UI.Controls
             this._pickerLength.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.locExtender.SetLocalizableToolTip(this._pickerLength, null);
             this.locExtender.SetLocalizationComment(this._pickerLength, null);
-            this.locExtender.SetLocalizationPriority(this._pickerLength, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._pickerLength, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._pickerLength, "SearchOptionsDropDown.lengthPicker");
             this._pickerLength.Location = new System.Drawing.Point(7, 20);
             this._pickerLength.Name = "_pickerLength";
@@ -575,7 +575,7 @@ namespace SIL.Pa.UI.Controls
             this._pickerTone.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.locExtender.SetLocalizableToolTip(this._pickerTone, null);
             this.locExtender.SetLocalizationComment(this._pickerTone, null);
-            this.locExtender.SetLocalizationPriority(this._pickerTone, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._pickerTone, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._pickerTone, "SearchOptionsDropDown.tonePicker");
             this._pickerTone.Location = new System.Drawing.Point(7, 20);
             this._pickerTone.Name = "_pickerTone";
@@ -598,7 +598,7 @@ namespace SIL.Pa.UI.Controls
             this._pickerBoundary.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.locExtender.SetLocalizableToolTip(this._pickerBoundary, null);
             this.locExtender.SetLocalizationComment(this._pickerBoundary, null);
-            this.locExtender.SetLocalizationPriority(this._pickerBoundary, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._pickerBoundary, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._pickerBoundary, "SearchOptionsDropDown.lengthPicker");
             this._pickerBoundary.Location = new System.Drawing.Point(7, 20);
             this._pickerBoundary.Name = "_pickerBoundary";
@@ -621,7 +621,7 @@ namespace SIL.Pa.UI.Controls
             this._pickerPitchPhonation.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.locExtender.SetLocalizableToolTip(this._pickerPitchPhonation, null);
             this.locExtender.SetLocalizationComment(this._pickerPitchPhonation, null);
-            this.locExtender.SetLocalizationPriority(this._pickerPitchPhonation, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this._pickerPitchPhonation, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this._pickerPitchPhonation, "SearchOptionsDropDown.lengthPicker");
             this._pickerPitchPhonation.Location = new System.Drawing.Point(7, 20);
             this._pickerPitchPhonation.Name = "_pickerPitchPhonation";
@@ -641,7 +641,7 @@ namespace SIL.Pa.UI.Controls
             this.DoubleBuffered = true;
             this.locExtender.SetLocalizableToolTip(this, null);
             this.locExtender.SetLocalizationComment(this, null);
-            this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this, "SearchOptionsDropDown.SearchOptionsDropDown");
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "SearchOptionsDropDown";
@@ -688,7 +688,7 @@ namespace SIL.Pa.UI.Controls
 		protected System.Windows.Forms.GroupBox _groupUncertainties;
 		private System.Windows.Forms.RadioButton rbAllUncertainties;
 		private System.Windows.Forms.RadioButton rbPrimaryOnly;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.Panel _panelStress;
 		private System.Windows.Forms.Panel _panelLength;
 		private System.Windows.Forms.Panel _panelTone;

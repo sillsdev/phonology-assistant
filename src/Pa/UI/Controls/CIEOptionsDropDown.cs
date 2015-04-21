@@ -10,7 +10,7 @@
 using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls

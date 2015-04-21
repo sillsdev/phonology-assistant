@@ -23,6 +23,7 @@ namespace SilTools
 {
 	public enum VersionType
 	{
+		Daily,
 		Alpha,
 		Beta,
 		Production
@@ -40,7 +41,7 @@ namespace SilTools
 		void Show();
 
 		/// ----------------------------------------------------------------------------------------
-		void Show(bool showBuildDate, bool isBetaVersion);
+		void Show(bool showBuildDate, VersionType versionType);
 
 		/// ----------------------------------------------------------------------------------------
 		void ShowWithoutFade();
@@ -109,7 +110,7 @@ namespace SilTools
 		private SplashScreenForm m_splashScreen;
 		internal EventWaitHandle m_waitHandle;
 		private bool m_showBuildNum;
-		private VersionType m_versionType;
+		private VersionType m_versionType = VersionType.Production;
 		#endregion
 
 		#region Constructor
@@ -124,7 +125,7 @@ namespace SilTools
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Normal method for showing the splash screen
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SplashScreen(bool showBuildNum, VersionType versionType)
@@ -132,15 +133,18 @@ namespace SilTools
 			m_showBuildNum = showBuildNum;
 			m_versionType = versionType;
 		}
-		
 		#endregion
 
 		#region Public Methods
 		/// ------------------------------------------------------------------------------------
-		void ISplashScreen.Show(bool showBuildDate, bool isBetaVersion)
+		/// <summary>
+		/// Shows the splash screen
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void ISplashScreen.Show(bool showBuildNum, VersionType versionType)
 		{
-			m_showBuildNum = showBuildDate;
-			m_versionType = (isBetaVersion ? VersionType.Beta : VersionType.Production);
+			m_showBuildNum = showBuildNum;
+			m_versionType = versionType;
 			InternalShow();
 		}
 

@@ -8,7 +8,7 @@
 #endregion
 // 
 using System;
-using Localization;
+using L10NSharp;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;

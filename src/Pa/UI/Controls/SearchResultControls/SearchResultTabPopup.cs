@@ -9,7 +9,7 @@
 // 
 using System.Drawing;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SilTools;
 using SilTools.Controls;
 

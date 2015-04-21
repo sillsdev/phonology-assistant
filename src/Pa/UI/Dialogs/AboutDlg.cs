@@ -13,8 +13,8 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 using System.IO;
-using Localization;
-using Localization.UI;
+using L10NSharp;
+using L10NSharp.UI;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -44,7 +44,7 @@ namespace SIL.Pa.UI.Dialogs
 		private Label _labelAvailableMemory;
 		private Label _labelAvailableDiskSpace;
 		private Panel panel1;
-		private LocalizationExtender locExtender;
+		private L10NSharpExtender locExtender;
 		private PictureBox fieldWorksIcon;
 		#endregion
 
@@ -170,7 +170,7 @@ namespace SIL.Pa.UI.Dialogs
             this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             buttonOk = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fieldWorksIcon)).BeginInit();
             this._tableLayout.SuspendLayout();
@@ -233,7 +233,7 @@ namespace SIL.Pa.UI.Dialogs
             this.fieldWorksIcon.InitialImage = null;
             this.locExtender.SetLocalizableToolTip(this.fieldWorksIcon, null);
             this.locExtender.SetLocalizationComment(this.fieldWorksIcon, null);
-            this.locExtender.SetLocalizationPriority(this.fieldWorksIcon, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.fieldWorksIcon, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.fieldWorksIcon, "AboutDlg.fieldWorksIcon");
             this.fieldWorksIcon.Location = new System.Drawing.Point(13, 13);
             this.fieldWorksIcon.Margin = new System.Windows.Forms.Padding(13, 13, 3, 3);
@@ -469,7 +469,7 @@ namespace SIL.Pa.UI.Dialogs
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.locExtender.SetLocalizableToolTip(this, null);
             this.locExtender.SetLocalizationComment(this, null);
-            this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this, "AboutDlg.WindowTitle");
             this.MaximizeBox = false;
             this.MinimizeBox = false;

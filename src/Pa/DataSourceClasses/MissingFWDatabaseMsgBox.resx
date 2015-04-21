@@ -289,7 +289,7 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4099.16096, Culture=neutral, PublicKeyToken=null</value>
+    <value>L10NSharp.UI.L10NSharpExtender, LocalizationManager, Version=1.0.4099.16096, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MissingFWDatabaseMsgBox</value>

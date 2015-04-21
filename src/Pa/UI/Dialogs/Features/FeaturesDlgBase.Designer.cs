@@ -30,7 +30,7 @@
 			this._labelDistinctiveFeaturesSetValue = new System.Windows.Forms.Label();
 			this._labelPhoneDescription = new System.Windows.Forms.Label();
 			this._buttonReset = new System.Windows.Forms.Button();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._splitFeatures.Panel1.SuspendLayout();
 			this._splitFeatures.Panel2.SuspendLayout();
 			this._splitFeatures.SuspendLayout();
@@ -79,7 +79,7 @@
 			this._panelPhones.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelPhones, null);
 			this.locExtender.SetLocalizationComment(this._panelPhones, null);
-			this.locExtender.SetLocalizationPriority(this._panelPhones, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._panelPhones, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelPhones, "FeaturesDlg.pnlPhones");
 			this._panelPhones.Location = new System.Drawing.Point(0, 0);
 			this._panelPhones.MnemonicGeneratesClick = false;
@@ -160,7 +160,7 @@
 			this._gridPhones.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this._gridPhones, null);
 			this.locExtender.SetLocalizationComment(this._gridPhones, null);
-			this.locExtender.SetLocalizationPriority(this._gridPhones, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._gridPhones, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._gridPhones, "FeaturesDlg.gridPhones");
 			this._gridPhones.Location = new System.Drawing.Point(0, 23);
 			this._gridPhones.Margin = new System.Windows.Forms.Padding(0);
@@ -201,7 +201,7 @@
 			this._panelFeatures.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelFeatures, null);
 			this.locExtender.SetLocalizationComment(this._panelFeatures, null);
-			this.locExtender.SetLocalizationPriority(this._panelFeatures, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._panelFeatures, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelFeatures, "silPanel1.silPanel1");
 			this._panelFeatures.Location = new System.Drawing.Point(0, 0);
 			this._panelFeatures.MnemonicGeneratesClick = false;
@@ -302,7 +302,7 @@
 			this._labelDistinctiveFeaturesSetValue.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._labelDistinctiveFeaturesSetValue, null);
 			this.locExtender.SetLocalizationComment(this._labelDistinctiveFeaturesSetValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelDistinctiveFeaturesSetValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelDistinctiveFeaturesSetValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelDistinctiveFeaturesSetValue, "label1.label1");
 			this._labelDistinctiveFeaturesSetValue.Location = new System.Drawing.Point(73, 3);
 			this._labelDistinctiveFeaturesSetValue.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
@@ -319,7 +319,7 @@
 			this._labelPhoneDescription.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._labelPhoneDescription, null);
 			this.locExtender.SetLocalizationComment(this._labelPhoneDescription, null);
-			this.locExtender.SetLocalizationPriority(this._labelPhoneDescription, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelPhoneDescription, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelPhoneDescription, "label1.label1");
 			this._labelPhoneDescription.Location = new System.Drawing.Point(3, 31);
 			this._labelPhoneDescription.Margin = new System.Windows.Forms.Padding(3, 8, 3, 9);
@@ -357,7 +357,7 @@
 			this.Controls.Add(this._splitFeatures);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "FeaturesDlg.WindowTitle");
 			this.Name = "FeaturesDlgBase";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -392,7 +392,7 @@
 		private SilTools.Controls.SilGradientPanel _panelFeaturesHeading;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.Label _labelDistinctiveFeaturesSetValue;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		protected SilTools.SilGrid _gridPhones;
 		protected System.Windows.Forms.SplitContainer _splitFeatures;
 		private System.Windows.Forms.Label _labelDistinctiveFeaturesSet;

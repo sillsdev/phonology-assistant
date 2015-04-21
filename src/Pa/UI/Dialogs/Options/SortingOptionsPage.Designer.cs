@@ -45,7 +45,7 @@
 			this.cboListType = new System.Windows.Forms.ComboBox();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.grpColSortOptions.SuspendLayout();
 			this._tableLayoutColSortOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_sortingGrid)).BeginInit();
@@ -169,7 +169,7 @@
 			this.m_sortingGrid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_sortingGrid, null);
 			this.locExtender.SetLocalizationComment(this.m_sortingGrid, null);
-			this.locExtender.SetLocalizationPriority(this.m_sortingGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_sortingGrid, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_sortingGrid, "SortingOptionsPage.m_sortingGrid");
 			this.m_sortingGrid.Location = new System.Drawing.Point(0, 31);
 			this.m_sortingGrid.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -278,7 +278,7 @@
 			this.phoneticSortOptions.DrawWithGradientBackground = false;
 			this.locExtender.SetLocalizableToolTip(this.phoneticSortOptions, null);
 			this.locExtender.SetLocalizationComment(this.phoneticSortOptions, null);
-			this.locExtender.SetLocalizationPriority(this.phoneticSortOptions, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.phoneticSortOptions, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.phoneticSortOptions, "SortingOptionsPage.SortOptionsDropDown");
 			this.phoneticSortOptions.Location = new System.Drawing.Point(11, 18);
 			this.phoneticSortOptions.MakePhoneticPrimarySortFieldWhenOptionsChange = true;
@@ -312,7 +312,7 @@
 			this.cboListType.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboListType, null);
 			this.locExtender.SetLocalizationComment(this.cboListType, null);
-			this.locExtender.SetLocalizationPriority(this.cboListType, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboListType, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboListType, "DialogBoxes.OptionsDlg.SortingTab.cboListType");
 			this.cboListType.Location = new System.Drawing.Point(127, 0);
 			this.cboListType.Margin = new System.Windows.Forms.Padding(0);
@@ -377,7 +377,7 @@
 			this.Controls.Add(this._tableLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SortingOptionsPage.SortingOptionsPage");
 			this.Name = "SortingOptionsPage";
 			this.Size = new System.Drawing.Size(499, 472);
@@ -413,6 +413,6 @@
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutColSortOptions;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		protected Localization.UI.LocalizationExtender locExtender;
+		protected L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }
