@@ -238,7 +238,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public int GetPreferredHeight()
 		{
-			return _panelScrolling.Controls[0].Height + _panelScrolling.Padding.Top +
+            int controlHeight = _panelScrolling.Controls.Count > 0 ? _panelScrolling.Controls[0].Height : 0;
+            return controlHeight + _panelScrolling.Padding.Top +
 				_panelScrolling.Padding.Bottom + Padding.Top + Padding.Bottom +
 				(_tableLayout.Height - _panelScrolling.Height);
 		}
