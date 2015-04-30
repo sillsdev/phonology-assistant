@@ -20,6 +20,7 @@ using Palaso.Progress;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
+using Palaso.UI.WindowsForms.Miscellaneous;
 
 namespace SIL.Pa.UI.Dialogs
 {

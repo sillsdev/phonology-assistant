@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using L10NSharp;
 using Palaso.Progress;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 

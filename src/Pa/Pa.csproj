@@ -166,6 +166,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\Windows\Palaso.dll</HintPath>
     </Reference>
+    <Reference Include="PalasoUIWindowsForms">
+      <HintPath>..\..\DistFiles\Windows\PalasoUIWindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
