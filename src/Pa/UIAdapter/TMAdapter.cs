@@ -1886,6 +1886,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 				//LocalizeItem(item, BuildLocalizationId(item), itemProps);
 				LocalizeAdapterItems.LocalizeItem(item, BuildLocalizationId(item), itemProps);
+                itemProps.Update = true;
+                SetItemProps(item, itemProps);
 			}
 			m_items[name] = item;
 		}
