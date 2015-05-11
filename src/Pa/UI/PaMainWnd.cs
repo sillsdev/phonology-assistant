@@ -143,6 +143,7 @@ namespace SIL.Pa.UI
 				var fmt = LocalizationManager.GetString("MainWindow.WindowTitle.WithProject","{0} - Phonology Assistant");
 				Text = string.Format(fmt, project.Name);
 			}
+
             App.UnloadDefaultMenu(_tmAdapter);
             LoadToolbarsAndMenus();
 		}
