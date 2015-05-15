@@ -631,6 +631,7 @@ namespace SIL.Pa.UI.Views
 		protected override bool OnUserInterfaceLangaugeChanged(object args)
 		{
 			_recView.ForceUpdate();
+            LoadToolbar();
 			return base.OnUserInterfaceLangaugeChanged(args);
 		}
 

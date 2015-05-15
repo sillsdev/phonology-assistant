@@ -55,9 +55,7 @@ namespace SIL.Pa.UI.Controls
 			var col = CreateDropDownListComboBoxColumn("fwws", wslist);
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			Columns.Insert(FontColumnIndex, col);
-			col.HeaderText = LocalizationManager.GetString(
-				"DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.WritingSystem",
-				"Writing System", null, col);
+			col.HeaderText = LocalizationManager.GetString("DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.WritingSystem", "Writing System", null, col);
 		}
 		
 		/// ------------------------------------------------------------------------------------

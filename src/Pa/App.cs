@@ -1017,7 +1017,7 @@ namespace SIL.Pa
 
         #region Localization Manager Access methods
         /// ------------------------------------------------------------------------------------
-        private static LocalizationManager L10NMngr { get; set; }
+        public static LocalizationManager L10NMngr { get; set; }
 
         ///// ------------------------------------------------------------------------------------
         //internal static void SaveOnTheFlyLocalizations()
@@ -1027,10 +1027,11 @@ namespace SIL.Pa
         //}
 
         ///// ------------------------------------------------------------------------------------
-        //internal static void ReapplyLocalizationsToAllObjects()
+        //internal static void ReapplyLocalizationsToAllObjects(string localizationManagerID)
         //{
-        //    if (L10NMngr != null)
-        //        L10NMngr.ReapplyLocalizationsToAllObjects();
+        //    LocalizationManager.ReapplyLocalizationsToAllObjectsInAllManagers();
+        //    //if (L10NMngr != null)
+        //    //    LocalizationManager.ReapplyLocalizationsToAllObjects(localizationManagerID);
         //}
 
         /// ------------------------------------------------------------------------------------

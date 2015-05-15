@@ -76,10 +76,10 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			LocalizationManager.GetString("DialogBoxes.TranscriptionChangesDlg.SourceHeadingLabel",
+            lblSourceHdg.Text = LocalizationManager.GetString("DialogBoxes.TranscriptionChangesDlg.SourceHeadingLabel",
 				"Transcribed in source as:", "Heading in transcription changes control.", lblSourceHdg);
 
-			LocalizationManager.GetString("DialogBoxes.TranscriptionChangesDlg.TargetHeadingLabel",
+            lblTargetHdg.Text = LocalizationManager.GetString("DialogBoxes.TranscriptionChangesDlg.TargetHeadingLabel",
 				"Replace with one of these options:", "Heading in transcription changes control.", lblTargetHdg);
 
 			BuildGrid();

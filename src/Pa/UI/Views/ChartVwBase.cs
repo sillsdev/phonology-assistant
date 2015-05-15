@@ -878,6 +878,7 @@ namespace SIL.Pa.UI.Views
         {
             base.OnUserInterfaceLangaugeChanged(args);
             ReloadChart();
+            LoadToolbarAndContextMenus();
             return false;
         }
 

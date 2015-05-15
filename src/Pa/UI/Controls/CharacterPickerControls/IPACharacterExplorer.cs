@@ -205,44 +205,36 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (GetHasConsonantType(typeInfo))
 			{
-				LocalizationManager.GetString("CommonControls.CharacterPicker.ConsonantHeading",
-					"Consonant", null, button);
+                button.Text = LocalizationManager.GetString("CommonControls.CharacterPicker.ConsonantHeading", "Consonant", null, button);
 			}
 			if (GetHasVowelType(typeInfo))
 			{
-				LocalizationManager.GetString("CommonControls.CharacterPicker.VowelHeading",
-					"Vowel", null, button);
+                button.Text = LocalizationManager.GetString("CommonControls.CharacterPicker.VowelHeading", "Vowel", null, button);
 			}
 			if (GetHasDiacriticType(typeInfo))
 			{
-				LocalizationManager.GetString("CommonControls.CharacterPicker.DiacriticHeading",
-					"Diacritic", null, button);
+                button.Text = LocalizationManager.GetString("CommonControls.CharacterPicker.DiacriticHeading", "Diacritic", null, button);
 			}
 			if (GetHasStressType(typeInfo))
 			{
-				LocalizationManager.GetString("CommonControls.CharacterPicker.StressHeading",
-					"Stress", null, button);
+                button.Text = LocalizationManager.GetString("CommonControls.CharacterPicker.StressHeading", "Stress", null, button);
 			}
 			if (GetHasLengthType(typeInfo))
 			{
-				LocalizationManager.GetString("CommonControls.CharacterPicker.LengthHeading",
-					"Length", null, button);
+                button.Text = LocalizationManager.GetString("CommonControls.CharacterPicker.LengthHeading", "Length", null, button);
 			}
 			if (GetHasBoundaryType(typeInfo))
 			{
-				LocalizationManager.GetString("CommonControls.CharacterPicker.BoundaryHeading",
-					"Boundary", null, button);
+                button.Text = LocalizationManager.GetString("CommonControls.CharacterPicker.BoundaryHeading", "Boundary", null, button);
 			}
 			if (GetHasToneType(typeInfo))
 			{
-				LocalizationManager.GetString("CommonControls.CharacterPicker.ToneHeading",
-					"Tone", null, button);
+                button.Text = LocalizationManager.GetString("CommonControls.CharacterPicker.ToneHeading", "Tone", null, button);
 			}
             if (GetHasPitchPhonationType(typeInfo))
             {
                 button.Text = "Pitch-Phonation";
-                LocalizationManager.GetString("CommonControls.CharacterPicker.PitchPhonationHeading",
-                    "Pitch-Phonation", null, button);
+                button.Text = LocalizationManager.GetString("CommonControls.CharacterPicker.PitchPhonationHeading", "Pitch-Phonation", null, button);
             }
 		}
 

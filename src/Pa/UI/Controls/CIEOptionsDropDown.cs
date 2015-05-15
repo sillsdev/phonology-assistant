@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Controls
 			_radioBoth = new RadioButton { AutoSize = true, UseVisualStyleBackColor = true, Font = FontHelper.UIFont };
 			_radioBoth.TabIndex = 0;
 			_radioBoth.Margin = new Padding(_chkIgnoreDiacritics.Margin.Left, 0, _chkIgnoreDiacritics.Margin.Right, 3);
-			LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.BothEnvironmentRadioButton",
+            _radioBoth.Text = LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.BothEnvironmentRadioButton",
 				"B&oth Environments Identical", null, _radioBoth);
 			_tableLayout.SetColumnSpan(_radioBoth, 4);
 			_tableLayout.Controls.Add(_radioBoth, 0, 0);
@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Controls
 			_radioBefore = new RadioButton { AutoSize = true, UseVisualStyleBackColor = true, Font = FontHelper.UIFont };
 			_radioBefore.TabIndex = 1;
 			_radioBefore.Margin = new Padding(_chkIgnoreDiacritics.Margin.Left, 3, _chkIgnoreDiacritics.Margin.Right, 3);
-			LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.PrecedingEnvironmentRadioButton",
+            _radioBefore.Text = LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.PrecedingEnvironmentRadioButton",
 				"Identical &Preceding Environment", null, _radioBefore);
 			_tableLayout.SetColumnSpan(_radioBefore, 4);
 			_tableLayout.Controls.Add(_radioBefore, 0, 1);
@@ -61,7 +61,7 @@ namespace SIL.Pa.UI.Controls
 			_radioAfter = new RadioButton { AutoSize = true, UseVisualStyleBackColor = true, Font = FontHelper.UIFont };
 			_radioAfter.TabIndex = 2;
 			_radioAfter.Margin = new Padding(_chkIgnoreDiacritics.Margin.Left, 3, _chkIgnoreDiacritics.Margin.Right, 8);
-			LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.FollowingEnvironmentRadioButton",
+            _radioAfter.Text = LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.FollowingEnvironmentRadioButton",
 				"Identical &Following Environment", null, _radioAfter);
 			_tableLayout.SetColumnSpan(_radioAfter, 4);
 			_tableLayout.Controls.Add(_radioAfter, 0, 2);
@@ -70,7 +70,7 @@ namespace SIL.Pa.UI.Controls
 			_linkApply.TabIndex = 10;
 			_linkApply.LinkClicked += delegate { Close(); };
 			_linkApply.Margin = new Padding(3, _linkHelp.Margin.Top, 3, _linkHelp.Margin.Bottom);
-			LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.OKLink",
+            _linkApply.Text = LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.OKLink",
                 "OK", null, _linkApply);
 			_tableLayout.Controls.Add(_linkApply, 1, 10);
 
@@ -78,7 +78,7 @@ namespace SIL.Pa.UI.Controls
 			_linkCancel.TabIndex = 11;
 			_linkCancel.LinkClicked += delegate { Canceled = true; Close(); };
 			_linkCancel.Margin = new Padding(3, _linkHelp.Margin.Top, 3, _linkHelp.Margin.Bottom);
-			LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.CancelLink",
+            _linkCancel.Text = LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.CancelLink",
 				"Cancel", null, _linkCancel);
 			_tableLayout.Controls.Add(_linkCancel, 2, 10);
 		}

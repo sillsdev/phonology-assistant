@@ -271,7 +271,7 @@ namespace SIL.Pa
                     break;
 
                 case "MenuItems.Help":
-                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.Help", "&Help", "Text on main menu (i.e. menu across top of application window).", null);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.Help", "&Help", "Text on main menu (i.e. menu across top of application window).");
                     //LocalizationManager.GetString1("Menus and Toolbars.MenuItems.HelpMenu.Help", "&Help", "Text on main menu (i.e. menu across top of application window).", null, null, ((System.ComponentModel.IComponent)(item)));
                     break;
 

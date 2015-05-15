@@ -56,13 +56,9 @@ namespace SIL.Pa.UI.Controls
 
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			Columns.Insert(0, col);
-			col.HeaderText = LocalizationManager.GetString(
-				"DialogBoxes.Fw7DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.Field", "Field", null, col);
+			col.HeaderText = LocalizationManager.GetString("DialogBoxes.Fw7DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.Field", "Field", null, col);
 
-			AddRemoveRowColumn(Properties.Resources.RemoveGridRowNormal, Properties.Resources.RemoveGridRowHot,
-				() => LocalizationManager.GetString(
-					"DialogBoxes.Fw7DataSourcePropertiesDlg.FieldMappingGrid.RemoveFieldToolTip", "Remove Field"),
-						rowIndex => m_mappings.RemoveAt(rowIndex));
+			AddRemoveRowColumn(Properties.Resources.RemoveGridRowNormal, Properties.Resources.RemoveGridRowHot, () => LocalizationManager.GetString("DialogBoxes.Fw7DataSourcePropertiesDlg.FieldMappingGrid.RemoveFieldToolTip", "Remove Field"), rowIndex => m_mappings.RemoveAt(rowIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------

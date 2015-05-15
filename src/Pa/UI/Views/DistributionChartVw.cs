@@ -331,8 +331,7 @@ namespace SIL.Pa.UI.Views
             // a reference to the actual object (the button, in this case) and pass that
             // to GetString.
             var button = _slidingPanel.Tab;
-            LocalizationManager.GetString("Views.DistributionChartVw.UndockedSideBarTabText",
-                "Charts & Chart Building", null, button);
+            button.Text = LocalizationManager.GetString("Views.DistributionChartVw.UndockedSideBarTabText", "Charts & Chart Building", null, button);
 
             Controls.Add(_slidingPanel);
             splitOuter.BringToFront();
@@ -1128,7 +1127,7 @@ namespace SIL.Pa.UI.Views
             // then close the pane that holds them.
             splitChart.Panel2Collapsed = true;
         }
-
+        
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// This gets called when the current tab has changed.
@@ -1170,6 +1169,8 @@ namespace SIL.Pa.UI.Views
         protected override bool OnUserInterfaceLangaugeChanged(object args)
         {
             _recView.ForceUpdate();
+            LoadToolbarAndContextMenus();
+            App.L10NMngr.RefreshToolTips();
             return base.OnUserInterfaceLangaugeChanged(args);
         }
 

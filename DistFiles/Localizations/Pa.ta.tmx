@@ -745,6 +745,14 @@
         <seg>மூடு</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.BackupDlg.DefaultFolderRadioButton">
+      <tuv xml:lang="en">
+        <seg>Backup to Default Folder</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இயல்புநிலை கோப்புறை மறுபிரதி</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.BackupDlg.IncludeAudioFilesCheckbox">
       <tuv xml:lang="en">
         <seg>Include audio files in backup</seg>
@@ -825,12 +833,29 @@
         <seg>பிழை விவரங்கள் காண்...</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.BackupDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Backup</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>மறுபிரதி</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.BackupDlg._DestinationFolderGroupBox">
       <tuv xml:lang="en">
         <seg>Destination Folder</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>இலக்கு கோப்புறை</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ClassesDlg.AddButton">
+      <note>Text on add button drop-down on classes dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>&amp;Add</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>சேர்</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ClassesDlg.AddDescriptiveFeaturesClassMenu">
@@ -847,6 +872,23 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>பிரத்யேக அம்சங்களை வகுப்பு...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ClassesDlg.AddPhonesClassMenu">
+      <tuv xml:lang="en">
+        <seg>&amp;Phones Class...</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தொலைபேசிகள் வகுப்பு...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.ClassesDlg.CopyButton">
+      <note>Text on add button drop-down on classes dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>&amp;Copy</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>நகல்</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.ClassesDlg.CopyClassNameFormat">
@@ -901,6 +943,22 @@
         <seg>வகுப்புகள்</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.ColumnHeadings.Field">
+      <tuv xml:lang="en">
+        <seg>Field</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>புலம்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.ColumnHeadings.Font">
+      <tuv xml:lang="en">
+        <seg>Font</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>எழுத்துரு</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.FontDisplayFormat.All">
       <tuv xml:lang="en">
         <seg>{0}, {1}pt, Bold, Italic</seg>
@@ -909,12 +967,44 @@
         <seg>{0}, {1} பெரிதாக்கு, தடித்த, சாய்வெழுத்து</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.FontDisplayFormat.Bold">
+      <tuv xml:lang="en">
+        <seg>{0}, {1}pt, Bold</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0}, {1} பெரிதாக்கு, Bold</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.FontDisplayFormat.Italic">
+      <tuv xml:lang="en">
+        <seg>{0}, {1}pt, Italic</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0}, {1} பெரிதாக்கு, சாய்வெழுத்து</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.FontDisplayFormat.Size">
+      <tuv xml:lang="en">
+        <seg>{0}, {1}pt</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0}, {1} பெரிதாக்கு</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.NoMappingText">
       <tuv xml:lang="en">
         <seg>(no mapping)</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>(வகுத்தல் இல்லை)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DataSourcePropertiesDialogs.FieldSelectorGrid.SelectAllText">
+      <tuv xml:lang="en">
+        <seg>Select All</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>எல்லாம் தேர்ந்தெடு</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.DefineClassDlg.EmptyClassNameMsg">
@@ -931,6 +1021,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>பெயர்:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DefineClassDlgBase.ClassTypeLabel">
+      <tuv xml:lang="en">
+        <seg>Type:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>வகை:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.DefineClassDlgBase.MatchAllSelectedFeaturesRadioButton">
@@ -981,6 +1079,22 @@
         <seg>தொலைபேசிகள்</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.DefineFeatureClassDlgBase.ConsonantViewerHeaderText">
+      <tuv xml:lang="en">
+        <seg>&amp;Consonants</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>Consonants</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DefineFeatureClassDlgBase.VowelViewerHeaderText">
+      <tuv xml:lang="en">
+        <seg>&amp;Vowels</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தொடங்கும் ஆயிரத்திற்கும் மேற்பட்ட</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.DefinePhoneClassDlg.WindowTitle">
       <tuv xml:lang="en">
         <seg>Define Phones Class</seg>
@@ -1029,6 +1143,79 @@
         <seg>சரி</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.DownloadSaDlg.SaDownloadLink">
+      <tuv xml:lang="en">
+        <seg>Speech Analyzer can be downloaded from the SIL website by clicking here.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பேச்சு Analyzer தகவலிறக்கம் செய்யலாம் SIL வலைத்தளத்தில் இருந்து இங்கே கிளிக் செய்வதன் மூலம்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DownloadSaDlg.SaWebsiteLink">
+      <tuv xml:lang="en">
+        <seg>For more information about Speech Analyzer, visit the SIL website at {0}.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பேச்சு Analyzer பற்றி மேலும் அறிய, {0} at SIL வலைத்தளத்திற்கு வருகை.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.DownloadSaDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Speech Analyzer Needed</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பேச்சு Analyzer தேவை</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FeaturesDlgBase.DistinctiveFeaturesSetLabel">
+      <tuv xml:lang="en">
+        <seg>Feature Set:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அம்சம் அமை:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FeaturesDlgBase.DistinctiveFeaturesSetLabel_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>See project settings to modify feature set</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>திட்ட அமைப்புகளை திருத்த அம்சம் அமை பார்க்கவும்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FeaturesDlgBase.FeatureExistsMsg">
+      <note>Message displayed when user is trying to add a new feature that already exists.</note>
+      <tuv xml:lang="en">
+        <seg>Feature '{0}' already exists.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அம்சம் '{0}' ஏற்கனவே உள்ளது.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FeaturesDlgBase.FeaturesListHeading">
+      <tuv xml:lang="en">
+        <seg>&amp;Features</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அம்சங்கள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FeaturesDlgBase.NoPhoneDescriptionAvailableMsg">
+      <tuv xml:lang="en">
+        <seg>(no phone description available)</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>(தொலைபேசி விளக்கம் இல்லை)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FeaturesDlgBase.PhoneGridInfoToolTipFormat">
+      <tuv xml:lang="en">
+        <seg>Unicode Values:\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>யூனிகோட் Values:\n{0}</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FeaturesDlgBase.PhoneListGrid.ColumnHeadings.Count">
       <tuv xml:lang="en">
         <seg>Count</seg>
@@ -1045,6 +1232,62 @@
         <seg>தொலைபேசி</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FeaturesDlgBase.PhoneListHeading">
+      <tuv xml:lang="en">
+        <seg>&amp;Phone List</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தொலைபேசி பட்டியல்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FeaturesDlgBase.ResetButton">
+      <tuv xml:lang="en">
+        <seg>Reset</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>மீட்டமை</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FeaturesDlgBase.ResetButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Reset Features of Selected Phone</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேர்ந்தெடுத்த தொலைபேசி அம்சங்களை மீட்டமை</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.AddButton">
+      <tuv xml:lang="en">
+        <seg>&amp;Add</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>சேர்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.AllExpressionsRadioButton">
+      <tuv xml:lang="en">
+        <seg>A&amp;ll expressions above must be true</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அனைத்து தொடர்கள் மேற்படி உண்மையான இருக்க வேண்டும்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.AnyExpressionRadioButton">
+      <tuv xml:lang="en">
+        <seg>At least &amp;one expression above must be true</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஒரு தொடர் மேலே உண்மையான இருக்க வேண்டும்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.ApplyNowButton">
+      <tuv xml:lang="en">
+        <seg>Apply No&amp;w</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இப்போது பயன்படுத்து</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FiltersDlg.CopiedFilterNamePrefixFormat">
       <note>The parameter is the name of the filter to copy in the define filterrs dialog.</note>
       <tuv xml:lang="en">
@@ -1054,12 +1297,36 @@
         <seg>{0} நகல்</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.CopyButton">
+      <tuv xml:lang="en">
+        <seg>&amp;Copy</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>நகல்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.DeleteFilterButton">
+      <tuv xml:lang="en">
+        <seg>&amp;Delete</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>நீக்கு</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FiltersDlg.DeleteFilterExpressionToolTip">
       <tuv xml:lang="en">
         <seg>Delete Expression</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>தொடர் நீக்கு</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.ExpressionMatchMsgPartLabel">
+      <tuv xml:lang="en">
+        <seg>For the '{0}' filter, what must be true to display a record?</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>-'{0}' வடிகட்டி, என்ன சாதனை காண்பிக்க உண்மையான இருக்க வேண்டும்?</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Field">
@@ -1078,12 +1345,36 @@
         <seg>ஆபரேட்டர்</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Type">
+      <tuv xml:lang="en">
+        <seg>Type</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>வகை</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Value">
+      <tuv xml:lang="en">
+        <seg>Value</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>மதிப்பு</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FiltersDlg.ExpressionsHeadingLabel">
       <tuv xml:lang="en">
         <seg>&amp;Expressions</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>தொடர்கள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.FilterExpressionOperators.BeginsWith">
+      <tuv xml:lang="en">
+        <seg>Begins with</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தொடங்கினால்</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FiltersDlg.FilterExpressionOperators.Contains">
@@ -1273,6 +1564,22 @@
         <seg>புதிய வடிகட்டி {0}</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.RemoveFilterConfirmationMsg">
+      <tuv xml:lang="en">
+        <seg>The filter '{0}' will be deleted.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>'{0}' வடிப்பான் நீக்கப்படும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FiltersDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Filters</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>வடிகட்டிகள்</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FindDlg.CancelButton">
       <note>Text on button on find dialog box.</note>
       <tuv xml:lang="en">
@@ -1289,6 +1596,42 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>கண்டுபிடி</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FindDlg.FindDataNotFound">
+      <note>Message shown when all data has been searched without one match.</note>
+      <tuv xml:lang="en">
+        <seg>The following specified text was not found:\n\n{0}</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பின்வரும் குறிப்பிட்ட உரை இருந்தது இல்லை found:\n\n{0}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FindDlg.FindDoneSearching">
+      <note>Popup message when all records have been searched with the FindDlg</note>
+      <tuv xml:lang="en">
+        <seg>Find has finished searching.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கண்டுபிடி முடித்துவிட்டது.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FindDlg.FindWhatLabel">
+      <note>Label above drop-down box of items to find in find dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>Fi&amp;nd What:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>எதை கண்டுபிடிக்க:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FindDlg.HelpButton">
+      <note>Text on button on find dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>Help</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உதவி</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.FindDlg.MatchCaseCheckbox">
@@ -1318,6 +1661,42 @@
         <seg>விருப்பங்கள்</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.FindDlg.RegularExpressionCheckbox">
+      <note>Check box option on find dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>&amp;Use Regular Expressions</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஒழுங்கு தொடர்கள் பயன்படுத்தவும்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FindDlg.ReverseSearchCheckbox">
+      <note>Check box option on find dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>&amp;Reverse Search</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பின்னே தேடல்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FindDlg.SearchCollapsedGroupsCheckbox">
+      <note>Check box option on find dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>Search &amp;Collapsed Groups</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் இடிந்து குழுக்கள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FindDlg.SearchColumnsLabel">
+      <note>Label above column list in find dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>&amp;Find in Which Columns:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>எந்த தொடராக கண்டுபிடி:</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.FindDlg.StartsWithCheckbox">
       <note>Check box option on find dialog box.</note>
       <tuv xml:lang="en">
@@ -1325,6 +1704,57 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>இதனுடன் தொடங்கும்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.FindDlg.WindowTitle">
+      <tuv xml:lang="en">
+        <seg>Find</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கண்டுபிடி</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.WritingSystem">
+      <tuv xml:lang="en">
+        <seg>Writing System</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>எழுத்து முறைமை</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.NoWritingSystemText">
+      <tuv xml:lang="en">
+        <seg>(none)</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>(ஏதுமில்லை)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Fw6DataSourcePropertiesDlg.LexemeFormRadioButton">
+      <note>Radiobutton text on FieldWorks data source properties dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>In the le&amp;xeme form</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>Lexeme படிவம்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Fw6DataSourcePropertiesDlg.PhoneticDataStoreTypeGroupBox">
+      <note>Text of frame around radio buttons on FieldWorks data source properties dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>Where is Phonetic Data Stored?</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஒலியியல் தரவு சேகரிக்கப்பட்டுள்ள எங்கே உள்ளது?</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.Fw6DataSourcePropertiesDlg.ProjectLabel">
+      <note>Label at top of FieldWorks data source properties dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>Project:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>திட்டம்:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.Fw6DataSourcePropertiesDlg.PronunciationFieldRadioButton">
@@ -1697,6 +2127,14 @@
         <seg>திட்டப்பணி திற கோப்பு</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.OpenProjectDlg.ShowFullProjectPathsCheckbox">
+      <tuv xml:lang="en">
+        <seg>&amp;Show Full Project File Paths</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>முழு திட்டப்பணி கோப்பு பாதைகள் காண்பி</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.OpenProjectDlg.WindowTitle">
       <tuv xml:lang="en">
         <seg>Open Project</seg>
@@ -1785,12 +2223,60 @@
         <seg>உதாரணங்கள்: Nasalization உள்ளிடுவது மற்றும் மேற்கூறிய, போன்ற ஒரு glottal நிறுத்து</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.CVPatternsTab.ExampleDesc2Label">
+      <tuv xml:lang="en">
+        <seg>would yield:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>என்று விளைச்சல்:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.CVPatternsTab.InstructionLabel">
+      <tuv xml:lang="en">
+        <seg>To include characters not shown in the lists to the left, enter them below. Include a space between each character. Include a diacritic placeholder (Ctrl+0) for non base characters.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இதில் இடது பட்டியல்களை எழுத்துக்களை சேர்க்க, அவற்றை உள்ளிட கீழே. ஒவ்வொரு கேரக்டர் ஒரு இடைவெளியை அடங்கும். ஒலிவேறுபாட்டு ஒதுக்கிடம் அடங்கும் (Ctrl + 0)-அல்லாத அடித்தள கேரக்டர்கள்.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.OptionsDlg.CVPatternsTab.TabText">
       <tuv xml:lang="en">
         <seg>CV Patterns</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>CV வடிவங்கள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.FontsTab.TabText">
+      <tuv xml:lang="en">
+        <seg>Fonts</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>எழுத்துருக்கள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.RecordViewTab.FieldSettingsGroupBox">
+      <tuv xml:lang="en">
+        <seg>Field Display Options</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>புலம் காட்சி விருப்பத்தேர்வுகள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.RecordViewTab.MoveDownButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Move selected field down</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேர்ந்தெடுத்த புலம் கீழே நகர்த்து</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.RecordViewTab.MoveUpButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Move selected field up</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேர்ந்தெடுத்த புலம் மேலே நகர்த்து</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.OptionsDlg.RecordViewTab.ShowFieldsLabel">
@@ -1801,12 +2287,37 @@
         <seg>காட்சி மற்றும் அவர்களின் வரிசை புலங்களை குறிப்பிடவும்.</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.RecordViewTab.TabText">
+      <tuv xml:lang="en">
+        <seg>Record View</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பதிவேடு காண்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.SaveInfoLabel">
+      <note>Label next to OK/Cancel/Help buttons on options dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>The options for this tab will be saved only for the current project.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இந்த தாவலில் விருப்பதேர்வு நடப்பு திட்டப்பணிக்கான மட்டுமே சேமிக்கப்படும்.</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.OptionsDlg.SortingTab.ColSortOptionsGroupBox">
       <tuv xml:lang="en">
         <seg>Column Sort Options</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>நெடுவரிசை வரிசைப்படுத்து விருப்பத்தேர்வுகள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.SortingTab.ListTypeLabel">
+      <tuv xml:lang="en">
+        <seg>&amp;Word List Type:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>Word பட்டியல் வகை:</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.OptionsDlg.SortingTab.ListTypes.DataCorpus">
@@ -1833,6 +2344,14 @@
         <seg>தேடல் முடிவுகள்</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.SortingTab.MoveSortFieldDownButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Move selected column down</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேர்ந்தெடுத்த நெடுவரிசையை கீழே நகர்த்து</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.OptionsDlg.SortingTab.MoveSortFieldUpButton_ToolTip_">
       <tuv xml:lang="en">
         <seg>Move selected column up</seg>
@@ -1847,6 +2366,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>ஒலியியல் அடுக்கும் விருப்பங்கள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.SortingTab.SaveManualCheckbox">
+      <tuv xml:lang="en">
+        <seg>&amp;Save last manually specified sort options as the default.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இயல்பு கடந்த கைமுறையாக குறிப்பிட்ட வரிசைப்படுத்து விருப்பத்தேர்வு சேமி.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.OptionsDlg.SortingTab.SaveManualLabel">
@@ -1879,6 +2406,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>நெடுவரிசை</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.SortingTab.SortOrderGrid.ColumnHeadings.Direction">
+      <tuv xml:lang="en">
+        <seg>Ascending?</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஏறுவரிசையில்?</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.OptionsDlg.SortingTab.TabText">
@@ -1960,6 +2495,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>கட்ட வரிகள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.OptionsDlg.WordListTab.GridLinesHorizontalRadioButton">
+      <tuv xml:lang="en">
+        <seg>  H&amp;orizontal only</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கிடைமட்ட மட்டும்</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.OptionsDlg.WordListTab.GridLinesNoneRadioButton">
@@ -2706,12 +3249,114 @@
         <seg>கிளிப்போர்டு</seg>
       </tuv>
     </tu>
+    <tu tuid="DialogBoxes.RtfExportDlg.ToFileOpenRadioBox">
+      <note>Export destination options on RTF export dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>File and open with &amp;RTF editor</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கோப்பு மற்றும் RTF திருத்தி திறக்க</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.RtfExportDlg.ToFileRadioBoxes">
+      <note>Export destination options on RTF export dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>&amp;File</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கோப்பு</seg>
+      </tuv>
+    </tu>
     <tu tuid="DialogBoxes.RtfExportDlg.WindowTitle">
       <tuv xml:lang="en">
         <seg>Export to Rich Text Format</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>உயர் உரை வடிவமைப்பிற்கு ஏற்றுமதி</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.BrowseButton">
+      <tuv xml:lang="en">
+        <seg>&amp;Browse...</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உலாவு...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.BrowseForSFMEditorDialogCaption">
+      <tuv xml:lang="en">
+        <seg>Standard Format Data Source Editor</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>நிலையான வடிவமைப்பில் தரவு மூல திருத்துவோர்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.EditorLabel">
+      <note>Label in standard format data source properties dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>&amp;Editor:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>திருத்தி:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.EditorTextBox_ToolTip_">
+      <note>Text box in which to specify the editor for the data source in the standard format data source properties dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>This is the application used to edit the data source file.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இது தரவு மூல கோப்பை திருத்த பயன்படுத்தப்படும் பயன்பாடு.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.ErrorReadingSourceFileMsg">
+      <tuv xml:lang="en">
+        <seg>The following error occurred trying to read the source file '{0}'.\n\n{1}</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>மூல கோப்பு '{0}' படிக்க முயற்சிக்கையில் பின்வரும் பிழை ஏற்பட்டது. \n\n{1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.FirstInterlinearFieldNotMarkedAsInterlinearMsg">
+      <tuv xml:lang="en">
+        <seg>The mapping for your first interlinear field marker must be set to interlinear.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உங்கள் முதல் interlinear புலம் குறியிடுனர், வகுத்தல் அமைக்கப்பட வேண்டும் interlinear.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.FirstInterlinearLabel">
+      <note>Label in standard format data source properties dialog box.</note>
+      <tuv xml:lang="en">
+        <seg>&amp;First interlinear field marker:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>முதல் interlinear புலம் குறியிடுனர்:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.FirstInterlinearList_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Select the marker of the first\ninterlinear field in each record.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உள்ள ஒவ்வொரு பதிவேட்டையும் first
+interlinear புலத்தின் குறியிடுனரை தேர்ந்தெடுக்கவும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.InformationButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Display field mapping information.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>புலம் வகுத்தல் தகவலை காண்பிக்க.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.InformationLabel">
+      <tuv xml:lang="en">
+        <seg>If a marker is not mapped to a field or you would like to map it to a field that does not appear in the drop-down list in the '{0}' column, then enter the name of your desired field in the '{1}' column next to the marker.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஒரு புலத்திற்கு ஒரு மார்க்கர் வரையிணைக்க உள்ளது அல்லது அது '{0}' பத்தியில் கீழ்தோன்றும் பட்டியலில் காணப்படாத ஒரு புலம் வகுக்கவும் விரும்பும், பிறகு உள்ளிடவும் உங்கள் விரும்பிய புலத்தின் பெயர் பத்தியில் '{1}' அருகில் குறியிடுனர்.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.InterlinearizeRadioButton">
@@ -2721,6 +3366,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>அலகிடு போல் interlinear</seg>
+      </tuv>
+    </tu>
+    <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.InvalidFieldNameSpecifiedMsg">
+      <tuv xml:lang="en">
+        <seg>The field name '{0}' is reserved and cannot be used.\nEnter a different name.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>புலம் பெயர் '{0}' ஒதுக்கப்பட்ட உள்ளது மற்றும் பயன்படுத்த முடியாது. \nவேறு பெயரை உள்ளிடவும்.</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.SFDataSourcePropertiesDlg.InvalidToolboxSortFieldSpecifiedMsg">
@@ -4709,7 +5362,7 @@
         <seg>&amp;Histogram</seg>
       </tuv>
       <tuv xml:lang="ta">
-        <seg>Histogram</seg>
+        <seg>பட்டை வரைபடம்</seg>
       </tuv>
     </tu>
     <tu tuid="Menus and Toolbars.MenuItems.ViewMenu.ShowHtmlChart">
@@ -5406,7 +6059,7 @@
         <seg>&amp;Histogram</seg>
       </tuv>
       <tuv xml:lang="ta">
-        <seg>Histogram</seg>
+        <seg>பட்டை வரைபடம்</seg>
       </tuv>
     </tu>
     <tu tuid="Menus and Toolbars.ToolbarItems.ShowHistogram_ToolTip_">
@@ -5414,7 +6067,7 @@
         <seg>Show Histogram</seg>
       </tuv>
       <tuv xml:lang="ta">
-        <seg>Histogram காண்பி</seg>
+        <seg>பட்டை வரைபடம் காண்பி</seg>
       </tuv>
     </tu>
     <tu tuid="Menus and Toolbars.ToolbarItems.ShowHtmlChart">
@@ -5481,6 +6134,84 @@
         <seg>நிறுத்து</seg>
       </tuv>
     </tu>
+    <tu tuid="Miscellaneous.CloseClassSymbol">
+      <note>Character used to delineate the closing of a phonetic search class.</note>
+      <tuv xml:lang="en">
+        <seg>&gt;</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>&gt;</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.FileTypes.AllFileTypes">
+      <note>Used in open/save file dialogs as the type for all files.</note>
+      <tuv xml:lang="en">
+        <seg>All Files (*.*)|*.*</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அனைத்து கோப்புகள் (*. *) | *. *</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.FileTypes.ExecutableFileTypes">
+      <note>File types for executable files.</note>
+      <tuv xml:lang="en">
+        <seg>All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அனைத்து செயலிகள் (*.exe; *.com; *.pif; *.bat; *.cmd) | * .exe; *.com; *.pif; *.bat; *.cmd</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.FileTypes.HTMLFileType">
+      <tuv xml:lang="en">
+        <seg>HTML Files (*.html)|*.html</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>HTML கோப்புகள் (*.html) | * .html</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.FileTypes.Mp3FileType">
+      <tuv xml:lang="en">
+        <seg>Speech Analyzer MP3 Files (*.mp3)|*.mp3</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பேச்சு Analyzer MP3 கோப்புகள் (*.mp3) | * .mp3</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.FileTypes.PaProjectFileType">
+      <note>File type for Phonology Assistant projects. The parameter is the application name.</note>
+      <tuv xml:lang="en">
+        <seg>{0} Projects (*.pap)|*.pap</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0} திட்டங்கள் (*.pap) | * .pap</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.FileTypes.PaXMLFileType">
+      <note>Parameter is the application name.</note>
+      <tuv xml:lang="en">
+        <seg>{0} XML Files (*.paxml)|*.paxml</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0} XML கோப்புகளை (*.paxml) | * .paxml</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.FileTypes.RTFFileType">
+      <note>File type for rich text format output.</note>
+      <tuv xml:lang="en">
+        <seg>Rich Text Format (*.rtf)|*.rtf</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உயர் உரை வடிவமைப்பு (*.rtf) | * .rtf</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.FileTypes.ToolboxFileType">
+      <tuv xml:lang="en">
+        <seg>Toolbox Files (*.db)|*.db</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கருவிபெட்டி கோப்புகள் (*.db) | * .db</seg>
+      </tuv>
+    </tu>
     <tu tuid="Miscellaneous.FileTypes.ToolboxInterlinearFileType">
       <tuv xml:lang="en">
         <seg>Interlinear Toolbox Files (*.itx)|*.itx</seg>
@@ -5495,6 +6226,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>பேச்சு Analyzer அலை கோப்புகள் (*.wav) | * .wav</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.FileTypes.WindowsMediaAudioFileType">
+      <tuv xml:lang="en">
+        <seg>Speech Analyzer WMA Files (*.wma)|*.wma</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பேச்சு Analyzer WMA கோப்புகள் (*.wma) | * .wma</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.FileTypes.Word2003XmlFileType">
@@ -5521,6 +6260,14 @@
         <seg>XML கோப்புகளை (*.xml) | * .xml</seg>
       </tuv>
     </tu>
+    <tu tuid="Miscellaneous.FileTypes.XsltTFileType">
+      <tuv xml:lang="en">
+        <seg>XSLT Files (*.xslt)|*.xslt</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>XSLT கோப்புகள் (*.xslt) | * .xslt</seg>
+      </tuv>
+    </tu>
     <tu tuid="Miscellaneous.FileTypes.ZipFileType">
       <tuv xml:lang="en">
         <seg>Zip Files (*.zip)|*.zip</seg>
@@ -5536,6 +6283,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>பேச்சு Analyzer 3.0.1 ஆடியோ தரவு மூலங்கள் திருத்த தேவைப்படுகிறது, ஆனால் அது நிறுவப்படவில்லை. தயவுசெய்து பேச்சு Analyzer 3.0.1 நிறுவ மீண்டும் முயற்சிக்கவும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceEditing.AudioFileMissingMsg">
+      <tuv xml:lang="en">
+        <seg>The audio file '{0}' is cannot be found.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இருக்க முடியாது ஆடியோ கோப்பு '{0}' காணப்படவில்லை.</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.Messages.DataSourceEditing.DataSourceEditorMissingMsg">
@@ -5660,6 +6415,22 @@
         <seg>மூல கோப்பை படிக்க '{0}' முயற்சிக்கும்போது ஒரு பிழை ஏற்பட்டது.</seg>
       </tuv>
     </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.ErrorRetrievingFieldWorks6DataMsg">
+      <tuv xml:lang="en">
+        <seg>There was an error retrieving the data from the {0} database. It's possible the file '{1}' is either missing or corrupt. Reading this data will be skipped.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0} தளத்திலிருந்து தரவை மீட்பதில் பிழை ஏற்பட்டுள்ளது. கோப்பு '{1}' காணாமல் அல்லது ஒழுங்கற்று உள்ளது சாத்தியக்கூறு உள்ளது. இந்த தரவு படிக்கிறது தவிர்க்கப்படும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.ErrorStartingSQLServer1">
+      <tuv xml:lang="en">
+        <seg>SQL Server cannot be started. It may not be installed. Make sure FieldWorks Language Explorer has been installed or restart Phonology Assistant to try again.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>SQL சேவையகத்தை தொடங்க முடியாது. அது நிறுவப்படாமல் இருக்கலாம். FieldWorks மொழி Explorer நிறுவப்பட்டது உறுதி அல்லது மறுதொடக்கம் Phonology உதவியாளரை மீண்டும் முயற்சிக்க.</seg>
+      </tuv>
+    </tu>
     <tu tuid="Miscellaneous.Messages.DataSourceReading.ErrorStartingSQLServer2">
       <tuv xml:lang="en">
         <seg>Phonology Assistant waited {0} seconds for SQL Server to fully start up.\nEither that is not enough time for your computer or it may not be installed.\nMake sure FieldWorks Language Explorer has been installed. Would you\nlike to try again?</seg>
@@ -5676,6 +6447,72 @@
         <seg>FieldWorks 7.0 (அல்லது பிந்தைய) தரவு காணவில்லை. அது கண்டிப்பாக இருக்க பெறப்பட்ட Phonology உதவியாளர் தகவல் மூலம் '{0}' படிப்பதற்கு ஏதுவாக. இந்த தரவு மூலத்தில் தவிர்க்கப்படும்.</seg>
       </tuv>
     </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.FieldWorks7NotInstalledMsg">
+      <tuv xml:lang="en">
+        <seg>FieldWorks 7.0 (or later) is not installed. It must be installed in order for Phonology Assistant to read the data source '{0}'. This data source will be skipped.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>FieldWorks 7.0 (அல்லது பிந்தைய) நிறுவப்படவில்லை. அதை நிறுவ வேண்டும் Phonology உதவியாளர் தகவல் மூலம் '{0}' படிப்பதற்கு ஏதுவாக. இந்த தரவு மூலத்தில் தவிர்க்கப்படும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.FieldWorksProjectAndServerDisplayFormat">
+      <note>This is used to display the project name and server for an FW data source. The project name is the first parameter.</note>
+      <tuv xml:lang="en">
+        <seg>{0} on '{1}'</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0} உள்ள '{1}'</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.FieldWorksProjectMissingMsg">
+      <tuv xml:lang="en">
+        <seg>FieldWorks project '{0}' is missing.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>FieldWorks திட்டம் '{0}' காணவில்லை.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.GatheringFw6ProjectInfoMsg">
+      <tuv xml:lang="en">
+        <seg>Gathering FieldWorks Project Information...</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>FieldWorks திட்டம் தகவலை ஒன்று சேர்க்கிறது...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.InvalidWaveFileMsg">
+      <tuv xml:lang="en">
+        <seg>The file '{0}' is not a valid wave file.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கோப்பு '{0}' ஒரு செல்லாத அலைக் கோப்பு அல்ல.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.LoadingDBAccessInfoErorMsg">
+      <tuv xml:lang="en">
+        <seg>The file that contains information to access FieldWork databases older than version 7.x '{0}' is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தகவல் அடங்கிய கோப்பை அணுக உற்சாகப்படுத்தவும் தரவுதளங்கள் பதிப்பை விட பழைய 7.x '{0}' என்பது தவறுகிறது அல்லது சிதைந்துள்ளது. இந்த சிக்கலை நிலைமையும், வரை FieldWorks தரவு மூலங்கள் முடியாது அணுக அல்லது தரவு மூலங்கள் என மேலும் கூறினார்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.LoadingRecordCacheErrorMsg">
+      <note>Message displayed when failing to load a PaXml file.</note>
+      <tuv xml:lang="en">
+        <seg>The following error occurred while loading '{0}'</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>துவங்கும்போது '{0}' பின்வரும் பிழை ஏற்பட்டது</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.LoadingSQLQueriesErrorMsg">
+      <tuv xml:lang="en">
+        <seg>The file that contains FieldWorks queries '{0}' is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>FieldWorks கேள்விகள் '{0}' கொண்ட கோப்பு காணாமல் அல்லது ஒழுங்கற்று உள்ளது. இந்த சிக்கலை நிலைமையும், வரை FieldWorks தரவு மூலங்கள் முடியாது அணுக அல்லது தரவு மூலங்கள் என மேலும் கூறினார்.</seg>
+      </tuv>
+    </tu>
     <tu tuid="Miscellaneous.Messages.DataSourceReading.MarkersMissingFromDataSourceMsg">
       <tuv xml:lang="en">
         <seg>The data source file '{0}' is missing some standard format markers that were assigned to Phonology Assistant fields. Those assignments have been removed. To verify the assignment of markers to fields, go to the project settings dialog box, select the data source and click 'Properties'.</seg>
@@ -5690,6 +6527,31 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>'{0}' திட்டத்திற்கான எந்த எழுத்து முறைமைகள் உள்ளன. எனவே, அதிலிருந்து எந்த தரவு காண்பிக்க இயலாது. சிக்கலை சரிசெய்ய, திருத்த FieldWorks தரவு மூல குணங்கள் இந்த திட்டத்தை 'திட்டம் அமைப்புகள்' தேர்ந்தெடுத்து, கோப்பு மெனுவில் இருந்து. பின் தரவு மூலங்கள் பட்டியலில் திட்ட தேர்ந்தெடுத்த பின் 'குணங்கள்' பொத்தானை கிளிக் செய்யவும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.ReadOnlyFolderMsg">
+      <tuv xml:lang="en">
+        <seg>You are attempting to save the transcriptions for {0} in a location for which you do not have write access. Please specify another location in which to make a copy of {1} along with its transcription file ({2}).</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0}, transcriptions இல்லை உங்களுக்கு எழுத அனுமதி ஒரு இருப்பிடத்தில் சேமிக்க முயற்சிக்கிறீர்கள். தயவுசெய்து அதன் transcription கோப்பு ({2}) – {1} நகலை இணைத்து அதில் வேறு பகுதியை குறிப்பிடவும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.ReadingDataSourceProgressMsg">
+      <tuv xml:lang="en">
+        <seg>Reading {0}...</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>படித்தல் {0}...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.DataSourceReading.RetrievingFieldWorks6WritingSystemsErrorMsg">
+      <note>Displayed when there is and error retrieving writing systems from a FieldWorks database, version 6.0 or earlier.</note>
+      <tuv xml:lang="en">
+        <seg>There was an error retrieving writing systems from the '{0}' project. It's possible the file '{1}' is either missing or corrupt.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இருந்து திட்ட '{0}' எழுத்து முறைமைகள் மீட்பதில் பிழை ஏற்பட்டுள்ளது. கோப்பு '{1}' காணாமல் அல்லது ஒழுங்கற்று உள்ளது சாத்தியக்கூறு உள்ளது.</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.Messages.DataSourceReading.SQLServerNotInstalledMsg">
@@ -5772,6 +6634,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>ஐ மறுஇயக்கம் பிற தவிர 100% வேகத்தில் பேச்சு Analyzer 3.1 தேவைப்படுகிறது, ஆனால் அது நிறுவப்படவில்லை. தயவுசெய்து பேச்சு Analyzer 3.1 நிறுவ மீண்டும் முயற்சிக்கவும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Miscellaneous.Messages.RecentlyOpenedProjectIsMissingMsg">
+      <tuv xml:lang="en">
+        <seg>The project file '{0}' is missing.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>திட்டப்பணி கோப்பு '{0}' காணவில்லை.</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.Messages.SplashScreenLoadingMsg">
@@ -5936,12 +6806,116 @@
         <seg>தேடல் களவடிவத்தில் பின்வரும் சூழல் பகுதிக்குத் சட்டவிரோதமாக காரர்களுக்கு கேரக்டர்களை கொண்டுள்ளது. சின்னங்கள் '#', '+' அல்லது ' *' அனுமதிக்கப்படாது இணைந்து பின்வரும் சூழல்.</seg>
       </tuv>
     </tu>
+    <tu tuid="PhoneticSearchingMessages.InvalidCharactersInPrecedingEnvironmentMsg">
+      <tuv xml:lang="en">
+        <seg>The preceding environment portion of the search pattern contains an illegal combination of characters. The symbols '#', '+' or '*' are not allowed together in the preceding environment.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் களவடிவத்தை ஆய்வுசெய்யவும் சூழல் பகுதிக்குத் சட்டவிரோதமாக காரர்களுக்கு கேரக்டர்களை கொண்டுள்ளது. சின்னங்கள் '#', '+' அல்லது ' *' அனுமதிக்கப்படாது இணைந்து ஆய்வுசெய்யவும் சூழல்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.InvalidCharactersInSearchItemMsg">
+      <tuv xml:lang="en">
+        <seg>The search item portion of the search pattern contains an illegal symbol. The symbols '#', '+' and '*' are not valid in the search item.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் உருப்படியை பகுதிக்குத் தேடல் களவடிவத்தை ஒரு சட்டவிரோத சின்னம் உள்ளது. சின்னங்கள் '#', '+' மற்றும் ' *' தேடல் உருப்படியில் செல்லத்தக்கதல்ல.</seg>
+      </tuv>
+    </tu>
     <tu tuid="PhoneticSearchingMessages.InvalidDiacriticPlaceholderInORGroup">
       <tuv xml:lang="en">
         <seg>Diacritic placeholders are not valid in OR groups.</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>அல்லது குழுக்களாக ஒலிவேறுபாட்டு ஒதுக்கிடங்களை செல்லாது.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.InvalidDiacriticPlaceholderSyntaxMsg">
+      <tuv xml:lang="en">
+        <seg>The symbols '*' and '+' may not appear between square brackets together with a diacritic placeholder. One or the other is allowed, but not both.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அந்த சின்னங்கள் ' *' மற்றும் '+' தோன்றாமல் இடையே சதுர அடைப்புக்குறிகளை ஒலிவேறுபாட்டு ஒதுக்கிடம் சுலபமானது. ஒன்று அல்லது மற்ற அனுமதிக்கப்படும், ஆனால் இரண்டும் இல்லை.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.InvalidORGroupMember">
+      <tuv xml:lang="en">
+        <seg>The text '{0}' is not recognized as valid phonetic data.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உரை '{0}' செல்லத்தக்க ஒலியியல் தரவு அறியப்படவில்லை.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.InvalidSymbolInDiacriticPlaceholderMsg">
+      <tuv xml:lang="en">
+        <seg>The symbol '{0}' is a base character and was found between square brackets together with a diacritic placeholder. Base characters are not allowed with diacritic placeholders.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>சின்னத்தை '{0}' என்பது ஒரு அடிப்படை எழுத்து மற்றும் கண்டுபிடிக்கப்பட்டது இடையே சதுர அடைப்புக்குறிகளை ஒலிவேறுபாட்டு ஒதுக்கிடம் சுலபமானது. அடிப்படை எழுத்துக்கள் கொண்டு ஒலிவேறுபாட்டு ஒதுக்கிடங்களை அனுமதிக்கப்படுவதில்லை.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.InvalidSymbolsInORGroup">
+      <tuv xml:lang="en">
+        <seg>The symbols '[]{}()&lt;&gt;+*_#' are not allowed in OR groups.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அந்த சின்னங்கள் ' [] {} ()&lt;&gt;+ * _ #' அனுமதிக்கப்படாது அல்லது குழுக்கள்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.InvalidTextInAngleBracketsMsg">
+      <tuv xml:lang="en">
+        <seg>The text '{0}' in angled brackets is not a valid class name.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உரையை '{0}' கோண அடைப்புக்குறிகள் ஒரு செல்லத்தக்க வகுப்பு பெயர் அல்ல.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.InvalidTextInSquareBracketsMsg">
+      <tuv xml:lang="en">
+        <seg>The text '{0}' in square brackets is invalid. Other than surrounding 'AND' groups, square brackets are only used to surround descriptive or distinctive features, the designators for consonant or vowel classes ('[C]' and '[V]'), or a diacritic placeholder with its diacritics and wildcards.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>'{0}' உள்ள உரை சதுர செல்லாது. 'மற்றும்' குழுக்கள் சுற்றியுள்ள, பிறிதொரு சதுர மட்டுமே பயன்படுத்தப்படுகின்றன விளக்கமான அல்லது பிரத்யேக அம்சங்கள், consonant அல்லது வரிசையிலும் வகுப்புகள், designators சூழ ('[சி]' மற்றும் '[V]'), அல்லது அதன் ஒலிப்பு மற்றும் பல்லுருக்களை ஒலிவேறுபாட்டு ஒதுக்கிடம்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.MismatchedNumberOfAngleBracketsMsg">
+      <tuv xml:lang="en">
+        <seg>In the pattern '{0}', the number of open angle brackets does not match the number of closed.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உள்ள வடிவத்தை '{0}', திறந்த கோணம் அடைப்புக்குறிகள் எண்ணிக்கை பொருந்தவில்லை எண்ணிக்கை மூடிய.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.MismatchedNumberOfBracesMsg">
+      <tuv xml:lang="en">
+        <seg>In the pattern '{0}', the number of open braces does not match the number of closed.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உள்ள வடிவத்தை '{0}', திறந்த உள் அடைப்புக்குறி எண்ணிக்கை பொருந்தவில்லை எண்ணிக்கை மூடிய.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.MismatchedNumberOfBracketsMsg">
+      <tuv xml:lang="en">
+        <seg>In the pattern '{0}', the number of open square brackets does not match the number of closed.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உள்ள வடிவத்தை '{0}', திறந்த சதுர அடைப்புக்குறிகளை எண்ணிக்கை பொருந்தவில்லை எண்ணிக்கை மூடிய.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.MismatchedNumberOfParenthesesMsg">
+      <tuv xml:lang="en">
+        <seg>In the pattern '{0}', the number of open parentheses does not match the number of closed.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உள்ள வடிவத்தை '{0}', திறந்த அடைப்புக்குறிக்குள் எண்ணிக்கை பொருந்தவில்லை எண்ணிக்கை மூடிய.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.MisplacedOneOrMoreSymbolInFollowingEnvironmentMsg">
+      <tuv xml:lang="en">
+        <seg>The following environment portion of the search pattern contains a misplaced 'one or more' symbol (+). It must be at the end.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் களவடிவத்தில் பின்வரும் சூழல் பகுதிக்குத் misplaced 'ஒன்றுக்கு மேற்பட்ட' சின்னமாக (+) கொண்டுள்ளது. இறுதியில் அது இருக்க வேண்டும்.</seg>
       </tuv>
     </tu>
     <tu tuid="PhoneticSearchingMessages.MisplacedOneOrMoreSymbolInPrecedingEnvironmentMsg">
@@ -5958,6 +6932,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>தேடல் களவடிவத்தில் பின்வரும் சூழல் பகுதிக்குத் கொண்டுள்ளது ஒரு misplaced சொல் எல்லை சின்னம் (#). இறுதியில் அது இருக்க வேண்டும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.MisplacedWordBoundarySymbolInPrecedingEnvironmentMsg">
+      <tuv xml:lang="en">
+        <seg>The preceding environment portion of the search pattern contains a misplaced word boundary symbol (#). It must be at the beginning.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் களவடிவத்தை ஆய்வுசெய்யவும் சூழல் பகுதிக்குத் கொண்டுள்ளது ஒரு misplaced சொல் எல்லை சின்னம் (#). தொடக்கத்தில் அது இருக்க வேண்டும்.</seg>
       </tuv>
     </tu>
     <tu tuid="PhoneticSearchingMessages.MisplacedZeroOrMoreSymbolInFollowingEnvironmentMsg">
@@ -5992,6 +6974,14 @@
         <seg>இந்த வடிவம் '{0}' ஒரு போட்டி ஒன்றுக்கு மேற்பட்ட தொலைபேசி எடுத்துக்கொள்ளும். இந்த உரை ஒரு அல்லது குழுவில் கண்டுபிடிக்கப்பட்டது மற்றும், அது செல்லாது. அல்லது குழுக்கள் பல உருப்படிகளைத் காற்புள்ளியால் பிரிக்கப்பட்ட பெற்றிருக்க வேண்டும் மற்றும் ஒவ்வொரு உருப்படிக்கு இருக்கலாம் குறிப்பதற்கு ஒரே ஒரு தொலைபேசியில் பொருத்தம் உருப்படியை நீளத்தை அடுக்கும் அடைப்புக்குறிக்குள் ஒழிய. ஒன்று அல்லது மேற்பட்ட காற்புள்ளிகள் தவறுகின்றன அல்லது உருப்படியை அடைப்புக்குறிக்குள் வைக்கப்பட வேண்டும்.</seg>
       </tuv>
     </tu>
+    <tu tuid="PhoneticSearchingMessages.PatternPhonesNotInDataMsg">
+      <tuv xml:lang="en">
+        <seg>The following phone(s) are not found in the data:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பின்வரும் phone(s) ஆகியவை இதில் இல்லை தரவு:</seg>
+      </tuv>
+    </tu>
     <tu tuid="PhoneticSearchingMessages.PatternSyntaxErrorMsg">
       <tuv xml:lang="en">
         <seg>The pattern contains a syntax error. The correct format for the pattern is '{0}'</seg>
@@ -6000,12 +6990,109 @@
         <seg>வடிவத்தை ஒரு சொற்றொடரியல் பிழை உள்ளது. வடிவத்தை சரியான வடிவமைப்பை உள்ளது '{0}'</seg>
       </tuv>
     </tu>
+    <tu tuid="PhoneticSearchingMessages.ProgressPercentageStatusBarFormat">
+      <tuv xml:lang="en">
+        <seg>{0}%</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0} %</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.SearchItem">
+      <tuv xml:lang="en">
+        <seg>search item</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடிய உருப்படி</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.SearchItemMissingMsg">
+      <tuv xml:lang="en">
+        <seg>You must specify a search item.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஒரு தேடல் உருப்படியை குறிப்பிட வேண்டும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.SearchPatternErrorNumberFormat">
+      <tuv xml:lang="en">
+        <seg>{0})</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0})</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.SearchPatternErrorSummaryHeading.WithPattern">
+      <tuv xml:lang="en">
+        <seg>The search pattern '{0}' contains the following error(s):</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் களவடிவத்தை '{0}' பின்வரும் பிழை(கள்) கொண்டுள்ளது:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.SearchPatternErrorSummaryHeading.WithoutPattern">
+      <tuv xml:lang="en">
+        <seg>The search pattern contains the following error(s):</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் களவடிவத்தில் பின்வரும் பிழை(கள்) கொண்டுள்ளது:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.SearchPatternUnhandledExceptionsSummaryHeading">
+      <tuv xml:lang="en">
+        <seg>=============== Exceptions ===============</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>=== விதிவிலக்குகள் ===</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.SearchingInProgressMessage">
+      <note>Message displayed in status bar next to the progress bar when doing a query searches.</note>
+      <tuv xml:lang="en">
+        <seg>Searching...</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடுகிறது...</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.SendEmailFailureMsg">
+      <tuv xml:lang="en">
+        <seg>This program was not able to get your email program, if you have one, to send the error message. The contents of the error message has been placed on your Clipboard.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இந்த நிரல் இறக்குமதியால் என்றால், உங்களிடம் பிழை தகவல் அனுப்ப உங்கள் மின்னஞ்சல் நிரல், பெற முடியவில்லை. பிழை தகவல் உள்ளடக்கங்களை உங்கள் நகலகத்தில் உள்ள வைக்கப்பட்டுள்ளது.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.SendEmailPasteFromClipboardPromptMsg">
+      <tuv xml:lang="en">
+        <seg>&lt;Details of search errror have been copied to the clipboard. Please paste them here&gt;</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>&lt;Details of="" search="" errror="" have="" been="" copied="" to="" the="" clipboard.="" please="" paste="" them="" here=""&gt;&lt;/Details&gt;</seg>
+      </tuv>
+    </tu>
     <tu tuid="PhoneticSearchingMessages.SyntaxErrorMsg">
       <tuv xml:lang="en">
         <seg>Syntax error in {0}.</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>சொற்றொடரியல் பிழை உள்ளது {0}.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.TooManyDiacriticPlaceholderMsg">
+      <tuv xml:lang="en">
+        <seg>The pattern '{0}' contains too many diacritic placeholders in one of the AND groups. Only one diacritic placeholder is allowed per AND group.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>மிக அதிகமான ஒலிவேறுபாட்டு ஒதுக்கிடங்களை ஒன்று மற்றும் குழுக்கள் வடிவம் '{0}' கொண்டுள்ளது. ஒரே ஒரு ஒலிவேறுபாட்டு ஒதுக்கிட ஒரு மற்றும் குழு அனுமதிக்கப்படும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.TooManyOneOrMoreSymbolsInDiacriticPlaceholderMsg">
+      <tuv xml:lang="en">
+        <seg>The One-Or-More-Diacritics symbol (+) appears too many times with a diacritic placeholder. Only one is allowed.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஒன்று-அல்லது-மேலும்-ஒலிப்பு சின்னத்தை (+) ஒலிவேறுபாட்டு ஒதுக்கிடம் மிக பல மடங்கு நடித்தார். ஒன்று மட்டுமே அனுமதிக்கப்படும்.</seg>
       </tuv>
     </tu>
     <tu tuid="PhoneticSearchingMessages.TooManyOneOrMoreSymbolsInFollowingEnvironmentMsg">
@@ -6040,6 +7127,14 @@
         <seg>தேடல் களவடிவத்தை ஆய்வுசெய்யவும் சூழல் பகுதிக்குத் கொண்டுள்ளது மிக அதிகமான சொல் எல்லை சின்னங்கள் (#). ஒன்று மட்டுமே அனுமதிக்கப்படும் மற்றும் அது தொடக்கத்தில் இருக்க வேண்டும்.</seg>
       </tuv>
     </tu>
+    <tu tuid="PhoneticSearchingMessages.TooManyZeroOrMoreSymbolsInDiacriticPlaceholderMsg">
+      <tuv xml:lang="en">
+        <seg>The Zero-Or-More-Diacritics symbol (*) appears too many times with a diacritic placeholder. Only one is allowed.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பூஜ்யம்-அல்லது-மேலும்-ஒலிப்பு சின்னத்தை (*) ஒலிவேறுபாட்டு ஒதுக்கிடம் மிக பல மடங்கு நடித்தார். ஒன்று மட்டுமே அனுமதிக்கப்படும்.</seg>
+      </tuv>
+    </tu>
     <tu tuid="PhoneticSearchingMessages.TooManyZeroOrMoreSymbolsInFollowingEnvironmentMsg">
       <tuv xml:lang="en">
         <seg>The following environment portion of the search pattern contains too many zero or more' symbols (*). Only one is allowed and it must be at the end.</seg>
@@ -6048,12 +7143,93 @@
         <seg>தேடல் களவடிவத்தில் பின்வரும் சூழல் பகுதிக்குத் கொண்டுள்ளது மிக அதிகமான பூஜ்யம் அல்லது அதிகம் ' சின்னங்கள் (*). ஒன்று மட்டுமே அனுமதிக்கப்படும் மற்றும் அது இறுதியில் இருக்க வேண்டும்.</seg>
       </tuv>
     </tu>
+    <tu tuid="PhoneticSearchingMessages.TooManyZeroOrMoreSymbolsInPrecedingEnvironmentMsg">
+      <tuv xml:lang="en">
+        <seg>The preceding environment portion of the search pattern contains too many 'zero or more' symbols (*). Only one is allowed and it must be at the beginning.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் களவடிவத்தை ஆய்வுசெய்யவும் சூழல் பகுதிக்குத் மிக அதிகமான 'பூஜ்ய அல்லது மேலும்' சின்னங்கள் (*) கொண்டுள்ளது. ஒன்று மட்டுமே அனுமதிக்கப்படும் மற்றும் அது தொடக்கத்தில் இருக்க வேண்டும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.UndefinedSymbolsFormatMsg">
+      <note>'{1:X4}' displays the second paramter as a four digit hexadecimal number.</note>
+      <tuv xml:lang="en">
+        <seg>{0} (U+{1:X4}), </seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0} (U + {1:X 4}),</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.UnhandledExceptionWhileValidatingMsg">
+      <tuv xml:lang="en">
+        <seg>Validating the pattern '{0}' caused the following exception:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இந்த வடிவம் '{0}' ஐ மதிப்பிடுகையில் பின்வரும் விதிவிலக்கு இது ஏற்பட்டிருக்கலாம்:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="PhoneticSearchingMessages.UnknownSymbolsFoundInPatternMsg">
+      <tuv xml:lang="en">
+        <seg>The following undefined phonetic symbol(s) were found:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பின்வரும் வரையறுக்காத ஒலியியல் symbol(s) கிடைக்கவில்லை:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectFields.DisplayableFieldNames.Allomorphs">
+      <tuv xml:lang="en">
+        <seg>Allomorphs</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>Allomorphs</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectFields.DisplayableFieldNames.AnthroCategories">
+      <tuv xml:lang="en">
+        <seg>Anthropology Categories</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>Anthropology பகுப்புகள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectFields.DisplayableFieldNames.AnthropologyNote">
+      <tuv xml:lang="en">
+        <seg>Anthropology Note</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>Anthropology குறிப்பு</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectFields.DisplayableFieldNames.AudioFile">
+      <tuv xml:lang="en">
+        <seg>Audio File</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஆடியோ கோப்பு</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectFields.DisplayableFieldNames.AudioFileLabel">
+      <tuv xml:lang="en">
+        <seg>Audio File Label</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஆடியோ கோப்பு லேபல்</seg>
+      </tuv>
+    </tu>
     <tu tuid="ProjectFields.DisplayableFieldNames.Bibliography">
       <tuv xml:lang="en">
         <seg>Bibliography</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>Bibliography</seg>
+      </tuv>
+    </tu>
+    <tu tuid="ProjectFields.DisplayableFieldNames.Bibliography-Sense">
+      <tuv xml:lang="en">
+        <seg>Bibliography (Sense)</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>Bibliography (பார்த்தால்)</seg>
       </tuv>
     </tu>
     <tu tuid="ProjectFields.DisplayableFieldNames.CVPattern">
@@ -7289,6 +8465,14 @@
         <seg>ஒட்டு சேமிக்க வடிவம்</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.Search.ClearRecentListButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Clear List</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தெளிவான பட்டியல்</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.Search.CurrPatternButton">
       <tuv xml:lang="en">
         <seg>C&amp;urrent\nSearch Pattern:</seg>
@@ -7303,6 +8487,15 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>கலத்துறை</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.Search.PatternTextBox_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Enter search pattern in the form\nSearch Item/Preceding Environment__Following Environment</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் களவடிவத்தை form
+தேடல் உருப்படியை/Preceding Environment__Following சூழல் உள்ளிடவும்</seg>
       </tuv>
     </tu>
     <tu tuid="Views.Search.RecentPatternsHeadingLabel">
@@ -7337,6 +8530,22 @@
         <seg>சேமிக்கப்பட்ட வடிவங்கள்</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.Search.SavedSearchPatterns.AddSearchCategoryBeforeSaveMsg">
+      <tuv xml:lang="en">
+        <seg>Before saving a search pattern, you must first add a category to the saved pattern list.</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஒரு தேடல் களவடிவத்தை சேமிக்கும், முன்பு நீங்கள் வேண்டும் முதலில் ஒரு வகை சேமிக்கப்பட்ட வடிவம் பட்டியலில் சேர்க்கவும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.Search.SavedSearchPatterns.DeleteSearchPatternCategoryConfirmationMsg">
+      <tuv xml:lang="en">
+        <seg>Are you sure you want to remove the search category '{0}'?</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>நிச்சயமாக தேடல் வகை '{0}' நீக்க விரும்புகிறீர்களா?</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.Search.SavedSearchPatterns.DeleteSearchPatternConfirmationMsg">
       <tuv xml:lang="en">
         <seg>Are you sure you want to remove the search pattern '{0}'?</seg>
@@ -7359,6 +8568,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>சேமிக்கப்பட்ட தேடல் களவடிவத்தை பெயருள்ள '{0}', அதே வகையில் ஏற்கனவே உள்ளது.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.Search.SavedSearchPatterns.DuplicateSearchQueryQuestion">
+      <tuv xml:lang="en">
+        <seg>There is already a saved search pattern named '{0}' in the same category. Would you like it overwritten?</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>சேமிக்கப்பட்ட தேடல் களவடிவத்தை பெயருள்ள '{0}', அதே வகையில் ஏற்கனவே உள்ளது. இதை overwritten விரும்புகிறீர்களா?</seg>
       </tuv>
     </tu>
     <tu tuid="Views.Search.SavedSearchPatterns.NewSavedPatternCategoryName">
@@ -7395,12 +8612,54 @@
         <seg>வடிவங்கள் &amp; வடிவ கட்டிடம்</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.UndockedViewCaptionFormat">
+      <note>Parameter one is the project name; parameter 2 is the view name; parameter 3 is the application name.</note>
+      <tuv xml:lang="en">
+        <seg>{0} ({1}) - {2}</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0} ({1}) - {2}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.VowelChart.BuildingVowelChartStatusMsg">
+      <note>Status bar message displayed when building building vowel chart.</note>
+      <tuv xml:lang="en">
+        <seg>Building Vowel Chart...</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கட்டிடம் வரிசையிலும் விளக்கப்படம்...</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.VowelChart.DefaultHtmlExportFileAffix">
       <tuv xml:lang="en">
         <seg>{0}-VowelChart.html</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>{0}-VowelChart.html</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.VowelChart.DefaultWordXmlExportFileAffix">
+      <tuv xml:lang="en">
+        <seg>{0}-VowelChart-(Word).xml</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0} - VowelChart-(Word) .xml</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.VowelChart.DefaultXLingPaperExportFileAffix">
+      <tuv xml:lang="en">
+        <seg>{0}-VowelChart-(XLingPaper).xml</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0} - VowelChart-(XLingPaper) .xml</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.VowelChart.Labels.back">
+      <tuv xml:lang="en">
+        <seg>back</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பின்</seg>
       </tuv>
     </tu>
     <tu tuid="Views.VowelChart.Labels.central">
@@ -7425,6 +8684,14 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>மூடு-மத்தியில்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.VowelChart.Labels.front">
+      <tuv xml:lang="en">
+        <seg>front</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அணி</seg>
       </tuv>
     </tu>
     <tu tuid="Views.VowelChart.Labels.mid">
@@ -7509,6 +8776,14 @@
         <seg>அமைப்புகள்</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.CellInfoPopup.TranscriptionChanges.SettingsLink.ToolTip">
+      <tuv xml:lang="en">
+        <seg>Transcription Changes</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>Transcription மாற்றங்கள்</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.CellInfoPopup.UncertainPhones.EditLink.Text">
       <note>Text for command link on the uncertainty possibilities cell popup</note>
       <tuv xml:lang="en">
@@ -7576,6 +8851,15 @@
         <seg>இல்லை இதே போன்ற Environments காண்பிக்க.</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.RtfExport.HeadingInfo.AllWordsLabel">
+      <note>The value for the 'Word List' label when the exported list is not filtered or the result of a  search query.</note>
+      <tuv xml:lang="en">
+        <seg>All Words</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>அனைத்து சொற்கள்</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.RtfExport.HeadingInfo.DateTime">
       <note>The heading output for Date/Time name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Date/Time name.</note>
       <tuv xml:lang="en">
@@ -7583,6 +8867,15 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>தேதி/நேரம்: {0} {1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.RtfExport.HeadingInfo.GroupByField">
+      <note>The heading output for the grouped on field when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</note>
+      <tuv xml:lang="en">
+        <seg>Grouped By:{0}{1}</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>குழுவாக்கப்பட்ட மூலம்: {0} {1}</seg>
       </tuv>
     </tu>
     <tu tuid="Views.WordLists.RtfExport.HeadingInfo.LanguageName">
@@ -7601,6 +8894,33 @@
       </tuv>
       <tuv xml:lang="ta">
         <seg>பதிவேடுகளை எண்ணிக்கை: {0} {1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.RtfExport.HeadingInfo.ProjectName">
+      <note>The heading output for Project name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the project name.</note>
+      <tuv xml:lang="en">
+        <seg>Project:{0}{1}</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>திட்டம்: {0} {1}</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.RtfExport.HeadingInfo.SearchPatternForMinPairs">
+      <note>The heading output for the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</note>
+      <tuv xml:lang="en">
+        <seg>Search Pattern:{0}{1}  (Minimal Pairs)</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>வடிவம் தேடு: {0} {1} (பிரயோகத்தை ஜோடிகள்)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.RtfExport.HeadingInfo.SearchPatternForSimilarPairs">
+      <note>The heading output for the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</note>
+      <tuv xml:lang="en">
+        <seg>Search Pattern:{0}{1}  (Similar Pairs)</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>வடிவம் தேடு: {0} {1} (இது போன்ற ஜோடிகள்)</seg>
       </tuv>
     </tu>
     <tu tuid="Views.WordLists.RtfExport.HeadingInfo.SearchPatternNormal">
@@ -7639,12 +8959,46 @@
         <seg>RTF கோப்பை திறக்க முயற்சிக்கையில் பிழை ஒன்று நேர்ந்தது. \n\nகோப்பு: {0}\nதிருத்தி: {1}\n\n{2}</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.RtfExport.SaveFileDialogText">
+      <note>Save file dialog caption for specifying the rtf file exported to under RTF export</note>
+      <tuv xml:lang="en">
+        <seg>Save RTF File</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>RTF கோப்பாக சேமிக்க</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.RtfRecordView.EmtpyView">
+      <note>What's displayed in the record view when there is no data.</note>
+      <tuv xml:lang="en">
+        <seg>(no data)</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>(தகவல் இல்லை)</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.SearchResults.EmptyTabInfoText">
       <tuv xml:lang="en">
         <seg>Define a search pattern above and click Show Results.</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>மேலே ஒரு தேடல் களவடிவத்தை வரையறு மற்றும் முடிவுகள் காண்பி என்பதைக் கிளிக் செய்யவும்.</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.EmptyTabText">
+      <tuv xml:lang="en">
+        <seg>(empty tab)</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>(காலி தாவல்)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.Export.DefaultHtmlExportFileAffix">
+      <tuv xml:lang="en">
+        <seg>{0}-{1}SearchResults.html</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{0}-{1} SearchResults.html</seg>
       </tuv>
     </tu>
     <tu tuid="Views.WordLists.SearchResults.Export.DefaultWordXmlExportFileAffix">
@@ -7671,12 +9025,44 @@
         <seg>காயத்தைக் ஜோடிகள் விருப்பங்கள் (Ctrl + M)</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.SearchResults.MinimalPairsOptionsPopup.BothEnvironmentRadioButton">
+      <tuv xml:lang="en">
+        <seg>B&amp;oth Environments Identical</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கனுவில் இரு Environments</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.MinimalPairsOptionsPopup.CancelLink">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ரத்து செய்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.MinimalPairsOptionsPopup.FollowingEnvironmentRadioButton">
+      <tuv xml:lang="en">
+        <seg>Identical &amp;Following Environment</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கனுவில் வைத்தியம் சூழல்</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.SearchResults.MinimalPairsOptionsPopup.OKLink">
       <tuv xml:lang="en">
         <seg>OK</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>சரி</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.MinimalPairsOptionsPopup.PrecedingEnvironmentRadioButton">
+      <tuv xml:lang="en">
+        <seg>Identical &amp;Preceding Environment</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>கனுவில் ஆய்வுசெய்யவும் சூழல்</seg>
       </tuv>
     </tu>
     <tu tuid="Views.WordLists.SearchResults.NoSearchResultsFoundMsg">
@@ -7704,12 +9090,28 @@
         <seg>எல்லா நெடுவரிசைகளும் பயன்படுத்து</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.SearchResults.SearchOptionsPopup.BoundaryCheckbox">
+      <tuv xml:lang="en">
+        <seg>Ignore &amp;Boundary</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>எல்லை புறக்கணி</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.SearchResults.SearchOptionsPopup.HelpLink">
       <tuv xml:lang="en">
         <seg>Help</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>உதவி</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SearchOptionsPopup.IgnoreDiacriticsCheckbox">
+      <tuv xml:lang="en">
+        <seg>Ignore &amp;Diacritics</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>உயிரெழுத்து குறிகளை புறக்கணி</seg>
       </tuv>
     </tu>
     <tu tuid="Views.WordLists.SearchResults.SearchOptionsPopup.LengthCheckbox">
@@ -7728,6 +9130,22 @@
         <seg>களம்-Phonation புறக்கணி</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.SearchResults.SearchOptionsPopup.PrimaryOnlyRadioButton">
+      <tuv xml:lang="en">
+        <seg>Search Transcriptions Derived Only from &amp;Primary Uncertainties</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் Transcriptions ஆரம்ப Uncertainties இருந்து மட்டும் Derived</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SearchOptionsPopup.ShowAllWordsCheckbox">
+      <tuv xml:lang="en">
+        <seg>Show &amp;all occurances of each word</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>ஒவ்வொரு சொல்லின் அனைத்து occurances காண்பி</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.SearchResults.SearchOptionsPopup.StressCheckbox">
       <tuv xml:lang="en">
         <seg>Ignore &amp;Stress</seg>
@@ -7736,12 +9154,60 @@
         <seg>மன அழுத்தம் புறக்கணி</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.SearchResults.SearchOptionsPopup.ToneCheckbox">
+      <tuv xml:lang="en">
+        <seg>Ignore &amp;Tone</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>டோன் புறக்கணி</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SearchOptionsPopup.UncertaintiesGroupBox">
+      <tuv xml:lang="en">
+        <seg>Records with Uncertain Phones</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பதிவேடுகளை கொண்டு சந்தேகமே தொலைபேசிகள்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SimilarEnvironmentsButtonToolTipText">
+      <tuv xml:lang="en">
+        <seg>Similar Environments Options (Ctrl+Alt+N)</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இதே போன்ற Environments விருப்பங்கள் (Ctrl + Alt + N)</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.AfterLabel">
+      <tuv xml:lang="en">
+        <seg>Following:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பின்வரும்:</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.BeforeLabel">
       <tuv xml:lang="en">
         <seg>Preceding:</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>முந்தைய:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.CloseButton_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>மூடு</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.FirstLabel">
+      <tuv xml:lang="en">
+        <seg>1st</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>1st</seg>
       </tuv>
     </tu>
     <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.HelpButton_ToolTip_">
@@ -7760,12 +9226,68 @@
         <seg>உருப்படி:</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.MannerOrHeightRadioButton">
+      <tuv xml:lang="en">
+        <seg>&amp;Manner or Height</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>முறையில் அல்லது உயரம்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.PlaceOrBacknessRadioButton">
+      <tuv xml:lang="en">
+        <seg>&amp;Place or Backness</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இடம் அல்லது Backness</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.RightToLeftLabel">
+      <tuv xml:lang="en">
+        <seg>R/L</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>R/L</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.RightToLeftLabel_ToolTip_">
+      <tuv xml:lang="en">
+        <seg>Right-to-Left</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>வலமிருந்து-இடம்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.SecondLabel">
+      <tuv xml:lang="en">
+        <seg>2nd</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>2வது</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.SearchResults.SortOptionsPopup.ThirdLabel">
       <tuv xml:lang="en">
         <seg>3rd</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>3rd</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.TabPopup.AddInSideBySideMenu">
+      <tuv xml:lang="en">
+        <seg>Add Tab in New Si&amp;de-by-Side Tab Group</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தாவல் புதிய பக்கம்-பக்கமாக தாவல் குழுவில் சேர்</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.TabPopup.AddInStackedMenu">
+      <tuv xml:lang="en">
+        <seg>Add Tab in New St&amp;acked Tab Group</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தாவல் இல் புதிய அடுக்கப்பட்ட தாவல் குழு சேர்க்கவும்</seg>
       </tuv>
     </tu>
     <tu tuid="Views.WordLists.SearchResults.TabPopup.AddTabButton_ToolTip_">
@@ -7777,6 +9299,24 @@
         <seg>தாவல் சேர்</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.SearchResults.TabPopup.LeftButton">
+      <note>The English text '3' is the left arrow in the Marlett font, which is the font used for the control.</note>
+      <tuv xml:lang="en">
+        <seg>3</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>3</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.TabPopup.LeftButton_ToolTip_">
+      <note>The English text '3' is the left arrow in the Marlett font, which is the font used for the control.</note>
+      <tuv xml:lang="en">
+        <seg>Scroll Left</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>இடது புறமாக உருட்டு</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.SearchResults.TabPopup.NameLabel">
       <tuv xml:lang="en">
         <seg>Name:</seg>
@@ -7785,12 +9325,54 @@
         <seg>பெயர்:</seg>
       </tuv>
     </tu>
+    <tu tuid="Views.WordLists.SearchResults.TabPopup.PatternContainsErrorsMsg">
+      <tuv xml:lang="en">
+        <seg>Search pattern contains errors</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>தேடல் களவடிவத்தை பிழைகள் கொண்டுள்ளது</seg>
+      </tuv>
+    </tu>
     <tu tuid="Views.WordLists.SearchResults.TabPopup.PatternLabel">
       <tuv xml:lang="en">
         <seg>Pattern:</seg>
       </tuv>
       <tuv xml:lang="ta">
         <seg>வடிவம்:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.TabPopup.RecordCountLabel">
+      <tuv xml:lang="en">
+        <seg>Records:</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>பதிவேடுகள்:</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.TabPopup.RightButton">
+      <note>The English text '4' is the right arrow in the Marlett font, which is the font used for the control.</note>
+      <tuv xml:lang="en">
+        <seg>4</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>4</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.SearchResults.TabPopup.RightButton_ToolTip_">
+      <note>The English text '4' is the right arrow in the Marlett font, which is the font used for the control.</note>
+      <tuv xml:lang="en">
+        <seg>Scroll Right</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>வலதுபுறமாக உருட்டு</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Views.WordLists.StatusBarText">
+      <tuv xml:lang="en">
+        <seg>Record {0} of {1}</seg>
+      </tuv>
+      <tuv xml:lang="ta">
+        <seg>{1} பதிவேடு {0}</seg>
       </tuv>
     </tu>
   </body>
