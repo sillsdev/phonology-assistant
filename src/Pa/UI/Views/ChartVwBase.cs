@@ -154,6 +154,8 @@ namespace SIL.Pa.UI.Views
         /// ------------------------------------------------------------------------------------
         protected virtual void LoadChart()
         {
+            if (_chartGrid.IsDisposed)
+                return;
             _chartGrid.ClearAll();
 
             var cgp = new CVChartLayoutReader(LayoutFile);
@@ -189,6 +191,8 @@ namespace SIL.Pa.UI.Views
         /// ------------------------------------------------------------------------------------
         private void LoadHtmlChart()
         {
+            if (_chartGrid.IsDisposed)
+                return;
             if (_htmlVw != null)
             {
                 var outputFile = CreateHtmlViewFile();
