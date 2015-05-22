@@ -50,7 +50,7 @@ namespace SIL.Pa.UI.Controls
             this.locExtender.SetLocalizableToolTip(this.lnkOK, null);
             this.locExtender.SetLocalizationComment(this.lnkOK, null);
             this.locExtender.SetLocalizingId(this.lnkOK, "CommonControls.ChartOptionsPopup.OKLink");
-            this.lnkOK.Location = new System.Drawing.Point(260, 144);
+            this.lnkOK.Location = new System.Drawing.Point(245, 144);
             this.lnkOK.Margin = new System.Windows.Forms.Padding(3, 0, 0, 5);
             this.lnkOK.Name = "lnkOK";
             this.lnkOK.Size = new System.Drawing.Size(23, 15);
@@ -60,16 +60,17 @@ namespace SIL.Pa.UI.Controls
             // 
             // lnkHelp
             // 
-            this.lnkHelp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lnkHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkHelp.AutoSize = true;
             this.locExtender.SetLocalizableToolTip(this.lnkHelp, null);
             this.locExtender.SetLocalizationComment(this.lnkHelp, null);
             this.locExtender.SetLocalizingId(this.lnkHelp, "CommonControls.ChartOptionsPopup.HelpLink");
-            this.lnkHelp.Location = new System.Drawing.Point(338, 144);
+            this.lnkHelp.Location = new System.Drawing.Point(331, 144);
             this.lnkHelp.Margin = new System.Windows.Forms.Padding(0, 0, 3, 5);
             this.lnkHelp.Name = "lnkHelp";
-            this.lnkHelp.Size = new System.Drawing.Size(32, 15);
+            this.lnkHelp.Size = new System.Drawing.Size(39, 15);
             this.lnkHelp.TabIndex = 2;
             this.lnkHelp.TabStop = true;
             this.lnkHelp.Text = "Help";
@@ -78,6 +79,7 @@ namespace SIL.Pa.UI.Controls
             // locExtender
             // 
             this.locExtender.LocalizationManagerId = "Pa";
+            this.locExtender.PrefixForNewItems = null;
             // 
             // _panelOuter
             // 
@@ -132,12 +134,12 @@ namespace SIL.Pa.UI.Controls
             this._tableLayout.BackColor = System.Drawing.Color.Transparent;
             this._tableLayout.ColumnCount = 3;
             this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 42F));
             this._tableLayout.Controls.Add(this.lnkCancel, 0, 1);
-            this._tableLayout.Controls.Add(this.lnkHelp, 2, 1);
             this._tableLayout.Controls.Add(this.lnkOK, 0, 1);
             this._tableLayout.Controls.Add(this._explorerBar, 0, 0);
+            this._tableLayout.Controls.Add(this.lnkHelp, 2, 1);
             this._tableLayout.Location = new System.Drawing.Point(0, 0);
             this._tableLayout.Margin = new System.Windows.Forms.Padding(0);
             this._tableLayout.Name = "_tableLayout";
@@ -149,13 +151,12 @@ namespace SIL.Pa.UI.Controls
             // 
             // lnkCancel
             // 
-            this.lnkCancel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.lnkCancel.AutoSize = true;
             this.locExtender.SetLocalizableToolTip(this.lnkCancel, null);
             this.locExtender.SetLocalizationComment(this.lnkCancel, null);
             this.locExtender.SetLocalizingId(this.lnkCancel, "CommonControls.ChartOptionsPopup.CancelLink");
-            this.lnkCancel.Location = new System.Drawing.Point(290, 144);
+            this.lnkCancel.Location = new System.Drawing.Point(279, 144);
             this.lnkCancel.Margin = new System.Windows.Forms.Padding(3, 0, 0, 5);
             this.lnkCancel.Name = "lnkCancel";
             this.lnkCancel.Size = new System.Drawing.Size(43, 15);
