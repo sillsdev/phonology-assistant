@@ -90,7 +90,6 @@ namespace SIL.Pa
         public const string kProduct = "Phonology Assistant";
         #endregion
 
-
         private static string s_helpFilePath;
         private static ToolStripStatusLabel s_statusBarLabel;
         private static ToolStripProgressBar s_progressBar;
@@ -241,6 +240,11 @@ namespace SIL.Pa
                 MsgMediator.SendMessage("StringsLocalized", L10NMngr);
                 PaFieldDisplayProperties.ResetDisplayNameCache();
             });
+        }
+
+        public static void ShowL10NsharpDlg()
+        {
+                L10NMngr.ShowLocalizationDialogBox(false);
         }
 
         /// <summary>

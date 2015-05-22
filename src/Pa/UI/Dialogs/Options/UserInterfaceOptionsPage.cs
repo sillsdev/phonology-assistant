@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			_linkShowLocalizationDialogBox.LinkClicked += delegate
 			{
-				LocalizationManager.ShowLocalizationDialogBox(this);
+                App.ShowL10NsharpDlg();
 				cboUILanguage.RefreshList();
 			};
 		}
