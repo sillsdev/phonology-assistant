@@ -352,8 +352,1312 @@
 			<name>major (intonation) group</name>
 		</featureDefinition>
 	</featureDefinitions>
-	<symbolDefinitions>
-		<symbolDefinition code="FFFFFFF9" literal="˥˧">
+  <symbolDefinitions>
+
+    <!-- Added Some Inventory to handle Unambiguous Sequences-->
+
+    <symbolDefinition code="FFFFF001" literal="˥˦˥" level="5-4-5">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7001</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF002" literal="˥˦˧" level="5-4-3">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7002</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF003" literal="˥˦˨" level="5-4-2">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7003</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF004" literal="˥˦˩" level="5-4-1">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7004</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF005" literal="˥˧˥" level="5-3-5">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7005</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF006" literal="˥˧˦" level="5-3-4">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7006</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF007" literal="˥˧˨" level="5-3-2">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7007</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF008" literal="˥˧˩" level="5-3-1">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7008</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF009" literal="˥˨˥" level="5-2-5">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7009</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF010" literal="˥˨˦" level="5-2-4">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7010</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF011" literal="˥˨˧" level="5-2-3">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7011</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF012" literal="˥˨˩" level="5-2-1">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7012</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF013" literal="˥˩˥" level="5-1-5">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7013</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF014" literal="˥˩˦" level="5-1-4">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7014</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF015" literal="˥˩˧" level="5-1-3">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7015</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF016" literal="˥˩˨" level="5-1-2">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7016</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF017" literal="˦˥˦" level="4-5-4">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7017</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF018" literal="˦˥˧" level="4-5-3">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7018</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF019" literal="˦˥˨" level="4-5-2">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7019</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF020" literal="˦˥˩" level="4-5-1">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7020</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF021" literal="˦˧˥" level="4-3-5">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7021</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF022" literal="˦˧˦" level="4-3-4">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7022</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF023" literal="˦˧˨" level="4-3-2">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7023</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF024" literal="˦˧˩" level="4-3-1">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7024</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF025" literal="˦˨˥" level="4-2-5">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7025</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF026" literal="˦˨˦" level="4-2-4">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7026</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF027" literal="˦˨˧" level="4-2-3">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7027</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF028" literal="˦˨˩" level="4-2-1">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7028</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF029" literal="˦˩˥" level="4-1-5">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7029</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF030" literal="˦˩˦" level="4-1-4">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7030</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF031" literal="˦˩˧" level="4-1-3">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7031</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF032" literal="˦˩˨" level="4-1-2">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7032</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF033" literal="˧˥˦" level="3-5-4">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7033</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF034" literal="˧˥˧" level="3-5-3">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7034</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF035" literal="˧˥˨" level="3-5-2">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7035</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF036" literal="˧˥˩" level="3-5-1">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7036</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF037" literal="˧˦˥" level="3-4-5">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7037</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF038" literal="˧˦˧" level="3-4-3">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7038</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF039" literal="˧˦˨" level="3-4-2">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7039</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF040" literal="˧˦˩" level="3-4-1">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7040</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF041" literal="˧˨˥" level="3-2-5">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7041</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF042" literal="˧˨˦" level="3-2-4">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7042</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF043" literal="˧˨˧" level="3-2-3">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7043</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF044" literal="˧˨˩" level="3-2-1">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7044</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF045" literal="˧˩˥" level="3-1-5">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7045</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF046" literal="˧˩˦" level="3-1-4">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7046</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF047" literal="˧˩˧" level="3-1-3">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7047</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF048" literal="˧˩˨" level="3-1-2">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7048</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF049" literal="˨˥˦" level="2-5-4">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7049</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF050" literal="˨˥˧" level="2-5-3">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7050</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF051" literal="˨˥˨" level="2-5-2">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7051</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF052" literal="˨˥˩" level="2-5-1">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7052</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF053" literal="˨˦˥" level="2-4-5">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7053</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF054" literal="˨˦˧" level="2-4-3">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7054</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF055" literal="˨˦˨" level="2-4-2">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7055</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF056" literal="˨˦˩" level="2-4-1">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7056</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF057" literal="˨˧˥" level="2-3-5">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7057</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF058" literal="˨˧˦" level="2-3-4">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7058</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF059" literal="˨˧˨" level="2-3-2">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7059</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF060" literal="˨˧˩" level="2-3-1">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7060</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF061" literal="˨˩˥" level="2-1-5">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7061</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF062" literal="˨˩˦" level="2-1-4">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7062</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF063" literal="˨˩˧" level="2-1-3">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7063</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF064" literal="˨˩˨" level="2-1-2">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7064</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF065" literal="˩˥˦" level="1-5-4">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7065</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF066" literal="˩˥˧" level="1-5-3">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7066</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF067" literal="˩˥˨" level="1-5-2">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7067</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF068" literal="˩˥˩" level="1-5-1">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7068</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF069" literal="˩˦˥" level="1-4-5">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7069</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF070" literal="˩˦˧" level="1-4-3">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7070</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF071" literal="˩˦˨" level="1-4-2">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7071</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF072" literal="˩˦˩" level="1-4-1">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7072</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF073" literal="˩˧˥" level="1-3-5">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7073</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF074" literal="˩˧˦" level="1-3-4">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7074</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF075" literal="˩˧˨" level="1-3-2">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7075</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF076" literal="˩˧˩" level="1-3-1">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7076</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF077" literal="˩˨˥" level="1-2-5">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7077</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF078" literal="˩˨˦" level="1-2-4">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7078</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF079" literal="˩˨˧" level="1-2-3">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7079</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF080" literal="˩˨˩" level="1-2-1">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7080</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF081" literal="˥˦" level="5-4">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7081</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF082" literal="˥˧" level="5-3">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7082</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF083" literal="˥˨" level="5-2">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7083</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF084" literal="˥˩" level="5-1">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7084</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF085" literal="˦˥" level="4-5">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7085</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF086" literal="˦˧" level="4-3">
+      <name>High Falling Tone Letter</name>
+      <description>high falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high falling tone</feature>
+      </features>
+      <order>7086</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF087" literal="˦˨" level="4-2">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7087</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF088" literal="˦˩" level="4-1">
+      <name> Falling Tone Letter</name>
+      <description> falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>falling tone</feature>
+      </features>
+      <order>7088</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF089" literal="˧˥" level="3-5">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7089</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF090" literal="˧˦" level="3-4">
+      <name>High Rising Tone Letter</name>
+      <description>high rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>high rising tone</feature>
+      </features>
+      <order>7090</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF091" literal="˧˨" level="3-2">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7091</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF092" literal="˧˩" level="3-1">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7092</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF093" literal="˨˥" level="2-5">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7093</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF094" literal="˨˦" level="2-4">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7094</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF095" literal="˨˧" level="2-3">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7095</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF096" literal="˨˩" level="2-1">
+      <name>Low Falling Tone Letter</name>
+      <description>low falling contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low falling tone</feature>
+      </features>
+      <order>7096</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF097" literal="˩˥" level="1-5">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7097</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF098" literal="˩˦" level="1-4">
+      <name> Rising Tone Letter</name>
+      <description> rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>rising tone</feature>
+      </features>
+      <order>7098</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF099" literal="˩˧" level="1-3">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7099</order>
+    </symbolDefinition>
+    <symbolDefinition code="FFFFF100" literal="˩˨" level="1-2">
+      <name>Low Rising Tone Letter</name>
+      <description>low rising contour</description>
+      <type>suprasegmental</type>
+      <subtype>tone</subtype>
+      <isBase>true</isBase>
+      <canPrecedeBase>false</canPrecedeBase>
+      <displayWithDottedCircle>false</displayWithDottedCircle>
+      <features class="descriptive">
+        <feature>low rising tone</feature>
+      </features>
+      <order>7100</order>
+    </symbolDefinition>
+    
+		<!--<symbolDefinition code="FFFFFFF9" literal="˥˧">
 			<name>High fall contour tone</name>
 			<description>tone high falling</description>
 			<type>suprasegmental</type>
@@ -443,7 +1747,7 @@
 				<feature>rising tone</feature>
 			</features>
 			<order>7071</order>
-		</symbolDefinition>
+		</symbolDefinition>-->
 		<symbolDefinition code="0020" literal=" ">
 			<name>Space</name>
 			<description>word break</description>
