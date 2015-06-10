@@ -515,10 +515,10 @@ namespace SIL.Pa.UI.Controls
             this.locExtender.SetLocalizableToolTip(this.lnkCancel, null);
             this.locExtender.SetLocalizationComment(this.lnkCancel, null);
             this.locExtender.SetLocalizingId(this.lnkCancel, "CommonControls.ChartOptionsPopup.CancelLink");
-            this.lnkCancel.Location = new System.Drawing.Point(166, 461);
+            this.lnkCancel.Location = new System.Drawing.Point(173, 461);
             this.lnkCancel.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
             this.lnkCancel.Name = "lnkCancel";
-            this.lnkCancel.Size = new System.Drawing.Size(62, 13);
+            this.lnkCancel.Size = new System.Drawing.Size(55, 13);
             this.lnkCancel.TabIndex = 11;
             this.lnkCancel.TabStop = true;
             this.lnkCancel.Text = "Cancel";
@@ -532,10 +532,10 @@ namespace SIL.Pa.UI.Controls
             this.locExtender.SetLocalizableToolTip(this.lnkOk, null);
             this.locExtender.SetLocalizationComment(this.lnkOk, null);
             this.locExtender.SetLocalizingId(this.lnkOk, "CommonControls.ChartOptionsPopup.OKLink");
-            this.lnkOk.Location = new System.Drawing.Point(133, 461);
+            this.lnkOk.Location = new System.Drawing.Point(121, 461);
             this.lnkOk.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
             this.lnkOk.Name = "lnkOk";
-            this.lnkOk.Size = new System.Drawing.Size(30, 13);
+            this.lnkOk.Size = new System.Drawing.Size(49, 13);
             this.lnkOk.TabIndex = 10;
             this.lnkOk.TabStop = true;
             this.lnkOk.Text = "OK";
@@ -600,8 +600,8 @@ namespace SIL.Pa.UI.Controls
             this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._tableLayout.ColumnCount = 4;
             this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
             this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this._tableLayout.Controls.Add(this.lnkOk, 1, 11);
             this._tableLayout.Controls.Add(this._chkIgnoreDiacritics, 0, 4);
