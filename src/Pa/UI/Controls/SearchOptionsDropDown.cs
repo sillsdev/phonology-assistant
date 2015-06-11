@@ -98,7 +98,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
-			_groupTone.Width = _pickerTone.GetPreferredWidth(8) + _groupTone.Padding.Left + _groupTone.Padding.Right;
+			_groupTone.Width = _pickerTone.GetPreferredWidth(15) + _groupTone.Padding.Left + _groupTone.Padding.Right;
 			_groupBoundary.Width = _groupTone.Width;
 			_groupLength.Width = _groupTone.Width;
 			_groupStress.Width = _groupTone.Width;
