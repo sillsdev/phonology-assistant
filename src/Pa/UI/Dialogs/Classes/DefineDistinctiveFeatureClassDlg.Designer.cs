@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Dialogs
 
 		}
 
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		
 		#endregion
 	}

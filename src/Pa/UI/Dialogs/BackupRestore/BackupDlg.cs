@@ -11,7 +11,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Palaso.Reporting;
 using SIL.Pa.Properties;
 using SilTools;

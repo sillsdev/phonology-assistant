@@ -13,7 +13,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -285,9 +285,7 @@ namespace SIL.Pa.UI.Views
             // a reference to the actual object (the button, in this case) and pass that
             // to GetString.
             var button = m_slidingPanel.Tab;
-            LocalizationManager.GetString("Views.Search.UndockedSideBarTabText",
-                "Patterns & Pattern Building", null, button);
-
+            button.Text = LocalizationManager.GetString("Views.Search.UndockedSideBarTabText", "Patterns & Pattern Building", null, button);
             SuspendLayout();
             Controls.Add(m_slidingPanel);
             splitOuter.BringToFront();
@@ -1264,6 +1262,8 @@ namespace SIL.Pa.UI.Views
         protected override bool OnUserInterfaceLangaugeChanged(object args)
         {
             _recView.ForceUpdate();
+            LoadToolbarAndContextMenus();
+           
             return base.OnUserInterfaceLangaugeChanged(args);
         }
 

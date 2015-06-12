@@ -10,7 +10,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -631,6 +631,7 @@ namespace SIL.Pa.UI.Views
 		protected override bool OnUserInterfaceLangaugeChanged(object args)
 		{
 			_recView.ForceUpdate();
+            LoadToolbar();
 			return base.OnUserInterfaceLangaugeChanged(args);
 		}
 

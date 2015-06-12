@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 

@@ -14,8 +14,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using Localization;
+using L10NSharp;
 using Palaso.Progress;
+using Palaso.UI.WindowsForms.Miscellaneous;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 

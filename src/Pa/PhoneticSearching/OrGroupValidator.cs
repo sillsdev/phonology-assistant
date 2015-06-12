@@ -9,7 +9,7 @@
 // 
 using System;
 using System.Linq;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching

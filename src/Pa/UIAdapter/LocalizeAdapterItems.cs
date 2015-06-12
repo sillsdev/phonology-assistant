@@ -6,8 +6,9 @@
 //		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
 // </copyright> 
 #endregion
-// 
-using Localization;
+//
+using System.Windows.Forms;
+using L10NSharp;
 using SIL.FieldWorks.Common.UIAdapters;
 
 namespace SIL.Pa
@@ -19,828 +20,823 @@ namespace SIL.Pa
             switch (id)
             {
                 case "ContextMenuItems.Playback":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.Playback",
-                        "&Playback", null, "Playback (F5)", "F5", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.Playback", "&Playback", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.Playback" + "_ToolTip_", "Playback (F5)", null);
                     break;
 
                 case "ContextMenuItems.StopPlayback":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.StopPlayback",
-                        "&Stop Playback", null, "Stop Playback (F8)", "F8", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.StopPlayback", "&Stop Playback", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.StopPlayback" + "_ToolTip_", "Stop Playback (F8)", null);
                     break;
 
                 case "ContextMenuItems.EditSourceRecord":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.EditSourceRecord",
-                        "&Edit Source Record", null, "Edit source record (Shift+F2)", "Shift+F2", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.EditSourceRecord", "&Edit Source Record", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.EditSourceRecord" + "_ToolTip_", "Edit source record (Shift+F2)", null);
                     break;
 
                 case "MenuItems.File":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.File",
-                    "&File", "Text on main menu (i.e. menu across top of application window).", null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.File", "&File", "Text on main menu (i.e. menu across top of application window).");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.File" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.FileNew":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.New",
-                        "&New Project...", null, "Create New Project (Ctrl+N)", "Ctrl+N", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.New", "&New Project...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.New" + "_ToolTip_", "Create New Project (Ctrl+N)", null);
                     break;
 
                 case "MenuItems.FileOpen":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Open",
-                        "&Open Project...", null, "Open Project (Ctrl+O)", "Ctrl+O", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Open", "&Open Project...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Open" + "_ToolTip_", "Open Project (Ctrl+O)", null);
                     break;
 
                 case "MenuItems.FileClose":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Close",
-                        "&Close Project", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Close", "&Close Project", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Close" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.ProjectSettings":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ProjectSettings",
-                        "P&roject Settings...", null, null, "Ctrl+R", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ProjectSettings", "P&roject Settings...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ProjectSettings" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.BackupRestore":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.BackupRestore",
-                        "&Backup && Restore", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.BackupRestore", "&Backup && Restore", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.BackupRestore" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.FileBackup":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Backup",
-                        "&Backup...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Backup", "&Backup...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Backup" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.FileRestore":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Restore",
-                        "&Restore...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Restore", "&Restore...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Restore" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.FileExportAs":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Export",
-                        "&Export", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Export", "&Export", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Export" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.FileExportHTML":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportHTML",
-                        "&HTML...", null, "Export to HTML File", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportHTML", "&HTML...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportHTML" + "_ToolTip_", "Export to HTML File", null);
                     break;
 
                 case "MenuItems.FileExportWordXml":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportWordXml",
-                        "&Word XML...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportWordXml", "&Word XML...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportWordXml" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.FileExportRTF":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportRTF",
-                        "&Rich Text Format (RTF)...", null, "Export to RTF File", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportRTF", "&Rich Text Format (RTF)...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportRTF" + "_ToolTip_", "Export to RTF File", null);
                     break;
 
                 case "MenuItems.FileExportXLingPaper":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportXLingPaper",
-                        "X&LingPaper...", null, "Export to XLingPaper File", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportXLingPaper", "X&LingPaper...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportXLingPaper" + "_ToolTip_", "Export to XLingPaper File", null);
                     break;
 
                 case "MenuItems.ExportAsPAXML":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportPAXML",
-                        "{0} &XML...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportPAXML", "{0} &XML...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportPAXML" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.Playback":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Playback",
-                        "&Playback", null, "Playback (F5)", "F5", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Playback", "&Playback", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Playback" + "_ToolTip_", "Playback (F5)", null);
                     break;
 
                 case "MenuItems.PlaybackRepeatedly":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.PlaybackRepeatedly",
-                        "Playback &Repeatedly", null, "Playback Repeatedly (Ctrl+F5)", "Ctrl+F5", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.PlaybackRepeatedly", "Playback &Repeatedly", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.PlaybackRepeatedly" + "_ToolTip_", "Playback Repeatedly (Ctrl+F5)", null);
                     break;
 
                 case "MenuItems.StopPlayback":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.StopPlayback",
-                        "&Stop Playback", null, "Stop Playback (F8)", "F8", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.StopPlayback", "&Stop Playback", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.StopPlayback" + "_ToolTip_", "Stop Playback (F8)", null);
                     break;
 
                 case "MenuItems.FileExit":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Exit",
-                        "E&xit", null, "Exit Phonology Assistant", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Exit", "E&xit", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Exit" + "_ToolTip_", "Exit Phonology Assistant", null);
                     break;
 
                 case "MenuItems.Edit":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.Edit",
-                        "&Edit", "Text on main menu (i.e. menu across top of application window).", null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.Edit", "&Edit", "Text on main menu (i.e. menu across top of application window).");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.Edit" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.Find":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.Find",
-                        "&Find", null, "Find (Ctrl+F)", "Ctrl+F", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.Find", "&Find", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.Find" + "_ToolTip_", "Find (Ctrl+F)", null);
                     break;
 
                 case "MenuItems.FindNext":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.FindNext",
-                        "Find &Next", null, "Find Next (F3)", "F3", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.FindNext", "Find &Next", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.FindNext" + "_ToolTip_", "Find Next (F3)", null);
                     break;
 
                 case "MenuItems.FindPrevious":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.FindPrevious",
-                        "Find &Previous", null, "Find previous (Shift+F3)", "Shift+F3", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.FindPrevious", "Find &Previous", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.FindPrevious" + "_ToolTip_", "Find previous (Shift+F3)", null);
                     break;
 
                 case "MenuItems.EditSourceRecord":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.EditSourceRecord",
-                        "&Edit Source Record", null, "Edit source record (Shift+F2)", "Shift+F2", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.EditSourceRecord", "&Edit Source Record", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.EditSourceRecord" + "_ToolTip_", "Edit source record (Shift+F2)", null);
                     break;
 
                 case "MenuItems.ReloadProject":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.ReloadProject",
-                        "&Reload Project Data Sources", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.ReloadProject", "&Reload Project Data Sources", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.ReloadProject" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.View":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.View",
-                        "&View", "Text on main menu (i.e. menu across top of application window).", null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.View", "&View", "Text on main menu (i.e. menu across top of application window).");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.View" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.DataCorpus":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.DataCorpus",
-                        "&Data Corpus", null, "Data Corpus View (Ctrl+Alt+D)", "Ctrl+Alt+D", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.DataCorpus", "&Data Corpus", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.DataCorpus" + "_ToolTip_", "Data Corpus View (Ctrl+Alt+D)", null);
                     break;
 
                 case "MenuItems.FindPhones":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.Search",
-                        "&Search", null, "Search View (Ctrl+Alt+S)", "Ctrl+Alt+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.Search", "&Search", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.Search" + "_ToolTip_", "Search View (Ctrl+Alt+S)", null);
                     break;
 
                 case "MenuItems.ConsonantChart":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ConsonantChart",
-                        "&Consonant Chart", null, "Consonant Chart View (Ctrl+Alt+C)", "Ctrl+Alt+C", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ConsonantChart", "&Consonant Chart", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ConsonantChart" + "_ToolTip_", "Consonant Chart View (Ctrl+Alt+C)", null);
                     break;
 
                 case "MenuItems.VowelChart":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.VowelChart",
-                        "&Vowel Chart", null, "Vowel Chart View (Ctrl+Alt+V)", "Ctrl+Alt+V", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.VowelChart", "&Vowel Chart", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.VowelChart" + "_ToolTip_", "Vowel Chart View (Ctrl+Alt+V)", null);
                     break;
 
                 case "MenuItems.XYChart":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.DistributionCharts",
-                        "Distri&bution Charts", null, "Distribution Charts View (Ctrl+Alt+B)", "Ctrl+Alt+B", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.DistributionCharts", "Distri&bution Charts", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.DistributionCharts" + "_ToolTip_", "Distribution Charts View (Ctrl+Alt+B)", null);
                     break;
 
                 case "MenuItems.ShowCIEResults":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.MinimalPairs",
-                        "&Minimal Pairs", null, "Minimal Pairs (Ctrl+M)", "Ctrl+M", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.MinimalPairs", "&Minimal Pairs", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.MinimalPairs" + "_ToolTip_", "Minimal Pairs (Ctrl+M)", null);
                     break;
 
                 case "MenuItems.ShowCIESimilarResults":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CIESimilarResults",
-                        "Similar E&nvironments", null, "Similar Environments (Ctrl+Alt+N)", "Ctrl+Alt+N", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CIESimilarResults", "Similar E&nvironments", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CIESimilarResults" + "_ToolTip_", "Similar Environments (Ctrl+Alt+N)", null);
                     break;
 
                 case "MenuItems.GroupBySortedField":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.GroupByPrimarySortField",
-                        "&Group by Primary Sort Field", null, "Group by Primary Sort Field (Ctrl+G)", "Ctrl+G", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.GroupByPrimarySortField", "&Group by Primary Sort Field", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.GroupByPrimarySortField" + "_ToolTip_", "Group by Primary Sort Field (Ctrl+G)", null);
                     break;
 
                 case "MenuItems.CollapseAllGroups":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CollapseAllGroups",
-                        "C&ollapse All Groups", null, "Collapse All Groups (Ctrl+Up)", "Ctrl+Up", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CollapseAllGroups", "C&ollapse All Groups", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CollapseAllGroups" + "_ToolTip_", "Collapse All Groups (Ctrl+Up)", null);
                     break;
 
                 case "MenuItems.ExpandAllGroups":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ExpandAllGroups",
-                        "&Expand All Groups", null, "Expand All Groups (Ctrl+Down)", "Ctrl+Down", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ExpandAllGroups", "&Expand All Groups", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ExpandAllGroups" + "_ToolTip_", "Expand All Groups (Ctrl+Down)", null);
                     break;
 
                 case "MenuItems.ShowRecordPane":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowRecordPane",
-                        "&Record View", null, "Record View (F2)", "F2", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowRecordPane", "&Record View", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowRecordPane" + "_ToolTip_", "Record View (F2)", null);
                     break;
                 case "MenuItems.ShowHtmlChart":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHtmlChart",
-                        "Toggle HTML Vie&w", null, "Toggle HTML View (F4)", "F4", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHtmlChart", "Toggle HTML Vie&w", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHtmlChart" + "_ToolTip_", "Toggle HTML View (F4)", null);
                     break;
                 case "MenuItems.ShowBackToEthnologue":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowBackToEthnologue",
-                        "Back (from Ethnologue)", null, "Back (from Ethnologue)", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowBackToEthnologue", "Back (from Ethnologue)", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowBackToEthnologue" + "_ToolTip_", "Back (from Ethnologue)", null);
                     break;
                 case "MenuItems.ShowHistogram":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHistogram",
-                       "&Histogram", null, "Show Histogram (Alt+H)", "Alt+H", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHistogram", "&Histogram", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHistogram" + "_ToolTip_", "Show Histogram (Alt+H)", null);
                     break;
                 case "MenuItems.Tools":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Tools",
-                        "&Tools", "Text on main menu (i.e. menu across top of application window).", null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Tools", "&Tools", "Text on main menu (i.e. menu across top of application window).");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Tools" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.FiltersOnViewMenu":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.FiltersOnMenu",
-                        "&Filters...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.FiltersOnMenu", "&Filters...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.FiltersOnMenu" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.ExperimentalTranscriptions":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.TranscriptionChanges",
-                        "&Transcription Changes...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.TranscriptionChanges", "&Transcription Changes...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.TranscriptionChanges" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.AmbiguousSequences":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.AmbiguousSequences",
-                        "&Ambiguous Sequences...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.AmbiguousSequences", "&Ambiguous Sequences...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.AmbiguousSequences" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.DescriptiveFeatures":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.DescriptiveFeatures",
-                        "D&escriptive Features...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.DescriptiveFeatures", "D&escriptive Features...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.DescriptiveFeatures" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.DistinctiveFeatures":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.DistinctiveFeatures",
-                        "D&istinctive Features...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.DistinctiveFeatures", "D&istinctive Features...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.DistinctiveFeatures" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.Classes":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Classes",
-                    "&Classes...", null, "Classes", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Classes", "&Classes...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Classes" + "_ToolTip_", "Classes", null);
                     break;
 
                 case "MenuItems.UndefinedCharacters":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.UndefinedCharacters",
-                        "&Undefined Phonetic Characters...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.UndefinedCharacters", "&Undefined Phonetic Characters...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.UndefinedCharacters" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.Options":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Options",
-                        "&Options...", null, "Options", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Options", "&Options...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Options" + "_ToolTip_", "Options", null);
                     break;
 
                 case "MenuItems.Help":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.Help",
-                        "&Help", "Text on main menu (i.e. menu across top of application window).", null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.Help", "&Help", "Text on main menu (i.e. menu across top of application window).");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.Help" + "_ToolTip_", null, null);
                     break;
 
                 case "MenuItems.HelpPA":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.PA",
-                        "Phonology Assistant...", null, "Phonology Assistant Help (F1)", "F1", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.PA", "Phonology Assistant...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.PA" + "_ToolTip_", "Phonology Assistant Help (F1)", null);
                     break;
 
                 case "MenuItems.HelpTraining":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.Training",
-                        "&Training", null, "Training", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.Training", "&Training", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.Training" + "_ToolTip_", "Training", null);
                     break;
 
                 case "MenuItems.StudentManual":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.TrainingStudentManual",
-                        "&Student Manual...", null, "Student Manual", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.TrainingStudentManual", "&Student Manual...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.TrainingStudentManual" + "_ToolTip_", "Student Manual", null);
                     break;
 
                 case "MenuItems.InstructorGuide":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.TrainingInstructorGuide",
-                        "&Instructor Guide...", null, "Instructor Guide", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.TrainingInstructorGuide", "&Instructor Guide...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.TrainingInstructorGuide" + "_ToolTip_", "Instructor Guide", null);
                     break;
 
                 case "MenuItems.HelpAbout":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.About",
-                        "&About Phonology Assistant...", null, "About Phonolgy Assistant...", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.About", "&About Phonology Assistant...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.About" + "_ToolTip_", "About Phonolgy Assistant...", null);
                     break;
 
                 case "MenuItems.UnDockView":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.UnDockView",
-                        "Undock View", "Normally, the text of this is not displayed. The tool tip is, however. This is for the filters button on the far right of the main menu.",
-                        "Undock View", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.UnDockView", "Undock View", "Normally, the text of this is not displayed. The tool tip is, however. This is for the filters button on the far right of the main menu.");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.UnDockView" + "_ToolTip_", "Undock View", null);
                     break;
 
                 case "MenuItems.DockView":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.DockView",
-                        "Dock View", "Normally, the text of this is not displayed. The tool tip is, however. This is for the filters button on the far right of the main menu.",
-                        "Dock View", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.DockView", "Dock View", "Normally, the text of this is not displayed. The tool tip is, however. This is for the filters button on the far right of the main menu.");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.DockView" + "_ToolTip_", "Dock View", null);
                     break;
 
                 case "MenuItems.OptionsMain":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.OptionsMain",
-                        "&Options...", "Normally, the text of this is not displayed. The tool tip is, however. This is for the filters button on the far right of the main menu.",
-                        "Options", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.OptionsMain", "&Options...", "Normally, the text of this is not displayed. The tool tip is, however. This is for the filters button on the far right of the main menu.");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.OptionsMain" + "_ToolTip_", "Options", null);
                     break;
 
                 case "MenuItems.Filters":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.Filters",
-                        "&Filters...", "Normally, the text of this is not displayed. The tool tip is, however. This is for the filters button on the far right of the main menu.",
-                        "Filters", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.Filters", "&Filters...", "Normally, the text of this is not displayed. The tool tip is, however. This is for the filters button on the far right of the main menu.");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.Filters" + "_ToolTip_", "Filters", null);
                     break;
 
                 case "MenuItems.NoFilter":
-                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.FiltersDropDown.NoFilter",
-                        "(&No Filter)", "Displayed on the drop-down of the filters button on the far right of the main menu",
-                        null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.FiltersDropDown.NoFilter", "(&No Filter)", "Displayed on the drop-down of the filters button on the far right of the main menu");
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.MenuItems.MainMenuButtons.FiltersDropDown.NoFilter" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.GroupBySortedField":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.GroupByPrimarySortField",
-                        "&Group by Primary Sort Field", null, "Group by Primary Sort Field (Ctrl+G)", "Ctrl+G", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.GroupByPrimarySortField", "&Group by Primary Sort Field", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.GroupByPrimarySortField" + "_ToolTip_", "Group by Primary Sort Field (Ctrl+G)", null);
                     break;
 
                 case "ToolbarItems.CollapseAllGroups":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.CollapseAllGroups",
-                        "C&ollapse All Groups", null, "Collapse All Groups (Ctrl+Up)", "Ctrl+Up", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.CollapseAllGroups", "C&ollapse All Groups", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.CollapseAllGroups" + "_ToolTip_", "Collapse All Groups (Ctrl+Up)", null);
                     break;
 
                 case "ToolbarItems.ExpandAllGroups":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ExpandAllGroups",
-                        "&Expand All Groups", null, "Expand All Groups (Ctrl+Down)", "Ctrl+Down", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ExpandAllGroups", "&Expand All Groups", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ExpandAllGroups" + "_ToolTip_", "Expand All Groups (Ctrl+Down)", null);
                     break;
 
                 case "ToolbarItems.ShowRecordPane":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowRecordPane",
-                        "&Record View", null, "Record View (F2)", "F2", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowRecordPane", "&Record View", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowRecordPane" + "_ToolTip_", "Record View (F2)", null);
                     break;
 
                 case "ToolbarItems.Find":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.Find",
-                        "&Find", null, "Find (Ctrl+F)", "Ctrl+F", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.Find", "&Find", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.Find" + "_ToolTip_", "Find (Ctrl+F)", null);
                     break;
 
                 case "ToolbarItems.FindNext":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.FindNext",
-                        "Find &Next", null, "Find Next (F3)", "F3", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.FindNext", "Find &Next", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.FindNext" + "_ToolTip_", "Find Next (F3)", null);
                     break;
 
                 case "ToolbarItems.Playback":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.Playback",
-                        "&Playback", null, "Playback (F5)", "F5", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.Playback", "&Playback", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.Playback" + "_ToolTip_", "Playback (F5)", null);
                     break;
 
                 case "ToolbarItems.PlaybackOnMenu":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PlaybackOnMenu",
-                        "&Playback", null, "Playback (F5)", "F5", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PlaybackOnMenu", "&Playback", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PlaybackOnMenu" + "_ToolTip_", "Playback (F5)", null);
                     break;
 
                 case "ToolbarItems.PlaybackRepeatedly":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PlaybackRepeatedly",
-                        "Playback &Repeatedly", null, "Playback Repeatedly (Ctrl+F5)", "Ctrl+F5", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PlaybackRepeatedly", "Playback &Repeatedly", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PlaybackRepeatedly" + "_ToolTip_", "Playback Repeatedly (Ctrl+F5)", null);
                     break;
 
                 case "ToolbarItems.StopPlayback":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.StopPlayback",
-                        "&Stop Playback", null, "Stop Playback (F8)", "F8", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.StopPlayback", "&Stop Playback", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.StopPlayback" + "_ToolTip_", "Stop Playback (F8)", null);
                     break;
 
                 case "ToolbarItems.AdjustPlaybackSpeedParent":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AdjustPlaybackSpeedParent",
-                        "Playback &Speed", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AdjustPlaybackSpeedParent", "Playback &Speed", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AdjustPlaybackSpeedParent" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.AdjustPlaybackSpeed":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AdjustPlaybackSpeed",
-                        "Playback &Speed", null, "Playback Speed", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AdjustPlaybackSpeed", "Playback &Speed", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AdjustPlaybackSpeed" + "_ToolTip_", "Playback Speed", null);
                     break;
 
                 case "ToolbarItems.PhoneticSort":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PhoneticSort",
-                        "Phonetic Sort Options", null, "Phonetic Sort Options", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PhoneticSort", "Phonetic Sort Options", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PhoneticSort" + "_ToolTip_", "Phonetic Sort Options", null);
                     break;
 
                 case "ContextMenuItems.CutSavedPattern":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CutSavedPattern",
-                        "Cu&t", null, "Cut saved pattern", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CutSavedPattern", "Cu&t", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CutSavedPattern" + "_ToolTip_", "Cut saved pattern", null);
                     break;
 
                 case "ContextMenuItems.CopySavedPattern":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CopySavedPattern",
-                        "&Copy", null, "Copy Saved pattern", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CopySavedPattern", "&Copy", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CopySavedPattern" + "_ToolTip_", "Copy Saved pattern", null);
                     break;
 
                 case "ContextMenuItems.PasteSavedPattern":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.PasteSavedPattern",
-                        "&Paste", null, "Paste Saved Pattern", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.PasteSavedPattern", "&Paste", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.PasteSavedPattern" + "_ToolTip_", "Paste Saved Pattern", null);
                     break;
 
-                case "ContextMenuItems.ShowResultsInCurrentTabGroup-FromSavedList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInCurrentTabGroup-FromSavedList",
-                        "Show Results in &Active Tab Group", null, "Show results in active tab group", null, item);
+                case "ContextMenuItems.ShowResultsInCurrentTabGroup-FromSavedList": 
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInCurrentTabGroup-FromSavedList", "Show Results in &Active Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInCurrentTabGroup-FromSavedList" + "_ToolTip_", "Show results in active tab group", null);
                     break;
 
                 case "ContextMenuItems.ShowResultsInNewSideBySideTabGroup-FromSavedList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewSideBySideTabGroup-FromSavedList",
-                        "Show Results in New Side-&By-Side Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewSideBySideTabGroup-FromSavedList", "Show Results in New Side-&By-Side Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewSideBySideTabGroup-FromSavedList" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.ShowResultsInNewStackedTabGroup-FromSavedList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewStackedTabGroup-FromSavedList",
-                        "Show Results in New Stac&ked Tab Group", null, "Show Results in New Stacked Tab Group", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewStackedTabGroup-FromSavedList", "Show Results in New Stac&ked Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewStackedTabGroup-FromSavedList" + "_ToolTip_", "Show Results in New Stacked Tab Group", null);
                     break;
 
                 case "ContextMenuItems.CopyToCurrentPattern-FromSavedList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CopyToCurrentPattern-FromSavedList",
-                        "C&opy Selected Pattern to Current Search Pattern", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CopyToCurrentPattern-FromSavedList", "C&opy Selected Pattern to Current Search Pattern", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CopyToCurrentPattern-FromSavedList" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.RemovePattern-FromSavedList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RemovePattern-FromSavedList",
-                        "&Remove", null, "Remove Pattern", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RemovePattern-FromSavedList", "&Remove", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RemovePattern-FromSavedList" + "_ToolTip_", "Remove Pattern", null);
                     break;
 
                 case "ContextMenuItems.MoveToNewSideBySideTabGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.MoveToNewSideBySideTabGroup",
-                        "Move to New Side-&By-Side Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.MoveToNewSideBySideTabGroup", "Move to New Side-&By-Side Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.MoveToNewSideBySideTabGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.MoveToNewStackedTabGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.MoveToNewStackedTabGroup",
-                        "Move to New Stac&ked Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.MoveToNewStackedTabGroup", "Move to New Stac&ked Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.MoveToNewStackedTabGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.CloseTab":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CloseTab",
-                        "Close Tab", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CloseTab", "Close Tab", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CloseTab" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.CloseTabGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CloseTabGroup",
-                        "Close Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CloseTabGroup", "Close Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CloseTabGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.CloseAllTabGroups":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CloseAllTabGroups",
-                        "Close All Tab Groups", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CloseAllTabGroups", "Close All Tab Groups", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CloseAllTabGroups" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.ShowResultsInCurrentTabGroup-FromRecentList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInCurrentTabGroup-FromRecentList",
-                        "Show Results in &Active Tab Group", null, "Show results in active tab group", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInCurrentTabGroup-FromRecentList", "Show Results in &Active Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInCurrentTabGroup-FromRecentList" + "_ToolTip_", "Show results in active tab group", null);
                     break;
 
                 case "ContextMenuItems.ShowResultsInNewSideBySideTabGroup-FromRecentList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewSideBySideTabGroup-FromRecentList",
-                        "Show Results in New Side-&By-Side Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewSideBySideTabGroup-FromRecentList", "Show Results in New Side-&By-Side Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewSideBySideTabGroup-FromRecentList" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.ShowResultsInNewStackedTabGroup-FromRecentList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewStackedTabGroup-FromRecentList",
-                        "Show Results in New Stac&ked Tab Group", null, "Show Results in New Stacked Tab Group", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewStackedTabGroup-FromRecentList", "Show Results in New Stac&ked Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ShowResultsInNewStackedTabGroup-FromRecentList" + "_ToolTip_", "Show Results in New Stacked Tab Group", null);
                     break;
 
                 case "ContextMenuItems.CopyToCurrentPattern-FromRecentList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CopyToCurrentPattern-FromRecentList",
-                        "C&opy Selected Pattern to Current Search Pattern", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CopyToCurrentPattern-FromRecentList", "C&opy Selected Pattern to Current Search Pattern", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CopyToCurrentPattern-FromRecentList" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.RemovePattern-FromRecentList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RemovePattern-FromRecentList",
-                        "&Remove", null, "Remove Pattern", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RemovePattern-FromRecentList", "&Remove", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RemovePattern-FromRecentList" + "_ToolTip_", "Remove Pattern", null);
                     break;
 
                 case "ContextMenuItems.ClearRecentPatternList-FromRecentList":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ClearRecentPatternList-FromRecentList",
-                        "Clear &List", null, "Clear List", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ClearRecentPatternList-FromRecentList", "Clear &List", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ClearRecentPatternList-FromRecentList" + "_ToolTip_", "Clear List", null);
                     break;
 
                 case "ToolbarItems.ShowResults":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowResults",
-                        "&Show Results", null, "Show Search Results (Alt+S)", "Alt+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowResults", "&Show Results", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowResults" + "_ToolTip_", "Show Search Results (Alt+S)", null);
                     break;
 
                 case "ToolbarItems.InsertIntoPattern":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertIntoPattern",
-                        "&Insert", null, "Insert Element into Current Search Pattern (Alt+I)", "Alt+I", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertIntoPattern", "&Insert", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertIntoPattern" + "_ToolTip_", "Insert Element into Current Search Pattern (Alt+I)", null);
                     break;
 
                 case "ToolbarItems.InsertConsonant":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertConsonant",
-                        "[C] Any &Consonant", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertConsonant", "[C] Any &Consonant", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertConsonant" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.InsertVowel":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertVowel",
-                        "[V] Any &Vowel", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertVowel", "[V] Any &Vowel", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertVowel" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.InsertZeroOrMore":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertZeroOrMore",
-                        "* &Zero or More Phones or Diacritics", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertZeroOrMore", "* &Zero or More Phones or Diacritics", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertZeroOrMore" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.InsertOneOrMore":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertOneOrMore",
-                        "+ &One or More Phones or Diacritics", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertOneOrMore", "+ &One or More Phones or Diacritics", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertOneOrMore" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.InsertWordBoundary":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordBoundary",
-                        "# Space/&Word Boundary", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordBoundary", "# Space/&Word Boundary", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordBoundary" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.InsertDiacriticPlaceholder":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertDiacriticPlaceholder",
-                        "&Diacritic Placeholder", null, null, "Ctrl+0", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertDiacriticPlaceholder", "&Diacritic Placeholder", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertDiacriticPlaceholder" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.InsertANDGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertANDGroup",
-                        "[  ] A&ND Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertANDGroup", "[  ] A&ND Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertANDGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.InsertORGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertORGroup",
-                        "{  } O&R Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertORGroup", "{  } O&R Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertORGroup" + "_ToolTip_", null, null);
                     break;
                 case "ToolbarItems.InsertWordInitial":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordInitial",
-                        "/#_* Word Initial", null, null, "Ctrl+1", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordInitial", "/#_* Word Initial", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordInitial" + "_ToolTip_", null, null);
                     break;
                 case "ToolbarItems.InsertWordFinal":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordFinal",
-                        "/*_# Word final", null, null, "Ctrl+9", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordFinal", "/*_# Word final", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordFinal" + "_ToolTip_", null, null);
                     break;
                 case "ToolbarItems.InsertAnywhere":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertAnywhere",
-                        "/*_* Anywhere", null, null, "Ctrl+5", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertAnywhere", "/*_* Anywhere", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertAnywhere" + "_ToolTip_", null, null);
                     break;
                 case "ToolbarItems.InsertWordMedial":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordMedial",
-                        "/{[C],[V]}_{[C],[V]} Word Medial", null, null, "Ctrl+2", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordMedial", "/{[C],[V]}_{[C],[V]} Word Medial", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordMedial" + "_ToolTip_", null, null);
                     break;
                 case "ToolbarItems.SearchOptions":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SearchOptions",
-                        "&Options", null, "Search Options (Alt+O)", "Alt+O", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SearchOptions", "&Options", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SearchOptions" + "_ToolTip_", "Search Options (Alt+O)", null);
                     break;
 
                 case "ToolbarItems.SavePattern":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePattern",
-                        "Save", null, "Save Search Pattern (Ctrl+S)", "Ctrl+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePattern", "Save", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePattern" + "_ToolTip_", "Save Search Pattern (Ctrl+S)", null);
                     break;
 
                 case "ToolbarItems.SavePatternOnMenu":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePatternOnMenu",
-                        "&Save", null, "Save Current Search Pattern (Ctrl+S)", "Ctrl+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePatternOnMenu", "&Save", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePatternOnMenu" + "_ToolTip_", "Save Current Search Pattern (Ctrl+S)", null);
                     break;
 
                 case "ToolbarItems.SavePatternAs":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePatternAs",
-                        "Save &As...", null, "Save Current Search Pattern As...", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePatternAs", "Save &As...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePatternAs" + "_ToolTip_", "Save Current Search Pattern As...", null);
                     break;
 
                 case "ToolbarItems.ClearPattern":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ClearPattern",
-                        "&Clear", null, "Clear Current Search Pattern and Results (Alt+C)", "Alt+C", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ClearPattern", "&Clear", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ClearPattern" + "_ToolTip_", "Clear Current Search Pattern and Results (Alt+C)", null);
                     break;
 
                 case "ToolbarItems.ShowCIEResults":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIEResults",
-                        "&Minimal Pairs", null, "Minimal Pairs (Ctrl+M)", "Ctrl+M", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIEResults", "&Minimal Pairs", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIEResults" + "_ToolTip_", "Minimal Pairs (Ctrl+M)", null);
                     break;
                 case "ToolbarItems.ShowCIESimilarResults":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIESimilarResults",
-                        "Similar E&nvironments", null, "Similar Environments (Ctrl+Alt+N)", "Ctrl+Alt+N", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIESimilarResults", "Similar E&nvironments", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIESimilarResults" + "_ToolTip_", "Similar Environments (Ctrl+Alt+N)", null);
                     break;
 
                 case "ContextMenuItems.CharChartSearchContextMenu":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CharChartSearchContextMenu",
-                        "&Search", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CharChartSearchContextMenu", "&Search", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CharChartSearchContextMenu" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.ChartPhoneSearchAnywhere":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchAnywhere",
-                        "Anywhere", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchAnywhere", "Anywhere", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchAnywhere" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.ChartPhoneSearchInitial":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchInitial",
-                        "Word Initially", null, "Search for phone word initially", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchInitial", "Word Initially", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchInitial" + "_ToolTip_", "Search for phone word initially", null);
                     break;
 
                 case "ContextMenuItems.ChartPhoneSearchMedial":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchMedial",
-                        "Word Medial", null, "Search for phone word medial", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchMedial", "Word Medial", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchMedial" + "_ToolTip_", "Search for phone word medial", null);
                     break;
 
                 case "ContextMenuItems.ChartPhoneSearchFinal":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchFinal",
-                        "Word Finally", null, "Search for phone word finally", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchFinal", "Word Finally", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchFinal" + "_ToolTip_", "Search for phone word finally", null);
                     break;
 
                 case "ContextMenuItems.ChartPhoneSearchAlone":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchAlone",
-                        "Alone", null, "Search for phone alone", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchAlone", "Alone", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchAlone" + "_ToolTip_", "Search for phone alone", null);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearch":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearch",
-                        "&Search", null, "Search for Phone (Alt+S)", "Alt+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearch", "&Search", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearch" + "_ToolTip_", "Search for Phone (Alt+S)", null);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearchAnywhere":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchAnywhere",
-                        "Anywhere", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchAnywhere", "Anywhere", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchAnywhere" + "_ToolTip_", null, null);
                     break;
 
-                case "ToolbarItems.ChartPhoneSearchInitial":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchInitial",
-                        "Word Initially", null, "Search for phone word initially", null, item);
+                case "ToolbarItems.ChartPhoneSearchInitial": 
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchInitial", "Word Initially", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchInitial" + "_ToolTip_", "Search for phone word initially", null);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearchMedial":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchMedial",
-                        "Word Medial", null, "Search for phone word medial", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchMedial", "Word Medial", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchMedial" + "_ToolTip_", "Search for phone word medial", null);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearchFinal":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchFinal",
-                        "Word Finally", null, "Search for phone word finally", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchFinal", "Word Finally", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchFinal" + "_ToolTip_", "Search for phone word finally", null);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearchAlone":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchAlone",
-                        "Alone", null, "Search for phone alone", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchAlone", "Alone", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchAlone" + "_ToolTip_", "Search for phone alone", null);
                     break;
 
                 case "ToolbarItems.IgnoredSymbols":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.IgnoredSymbols",
-                        "Ignore", null, "Select Ignored Symbols", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.IgnoredSymbols", "Ignore", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.IgnoredSymbols" + "_ToolTip_", "Select Ignored Symbols", null);
                     break;
 
                 case "ToolbarItems.ShowHistogram":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowHistogram",
-                        "&Histogram", null, "Show Histogram (Alt+H)", "Alt+H", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowHistogram", "&Histogram", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowHistogram" + "_ToolTip_", "Show Histogram (Alt+H)", null);
                     break;
 
                 case "ToolbarItems.ShowHtmlChart":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowHtmlChart",
-                        "Toggle HTML Vie&w", null, "Toggle HTML View (F4)", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowHtmlChart", "Toggle HTML Vie&w", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowHtmlChart" + "_ToolTip_", "Toggle HTML View (F4)", null);
                     break;
 
                 case "ToolbarItems.ShowBackToEthnologue":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowBackToEthnologue",
-                        "Back (from Ethnologue)", null, "Back (from Ethnologue)", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowBackToEthnologue", "Back (from Ethnologue)", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowBackToEthnologue" + "_ToolTip_", "Back (from Ethnologue)", null);
                     break;
 
                 case "ContextMenuItems.InsertIntoChart":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertIntoChart",
-                        "&Insert", null, "Insert Element into Current Chart Cell (Alt+I)", "Alt+I", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertIntoChart", "&Insert", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertIntoChart" + "_ToolTip_", "Insert Element into Current Chart Cell (Alt+I)", null);
                     break;
 
                 case "ContextMenuItems.InsertConsonant":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertConsonant",
-                        "[C] Any &Consonant", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertConsonant", "[C] Any &Consonant", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertConsonant" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.InsertVowel":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertVowel",
-                        "[V] Any &Vowel", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertVowel", "[V] Any &Vowel", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertVowel" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.InsertZeroOrMore":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertZeroOrMore",
-                        "* &Zero or More Phones or Diacritics", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertZeroOrMore", "* &Zero or More Phones or Diacritics", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertZeroOrMore" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.InsertOneOrMore":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertOneOrMore",
-                        "+ &One or More Phones or Diacritics", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertOneOrMore", "+ &One or More Phones or Diacritics", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertOneOrMore" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.InsertWordBoundary":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordBoundary",
-                        "# Space/&Word Boundary", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordBoundary", "# Space/&Word Boundary", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordBoundary" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.InsertDiacriticPlaceholder":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertDiacriticPlaceholder",
-                        "&Diacritic Placeholder", null, null, "Ctrl+0", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertDiacriticPlaceholder", "&Diacritic Placeholder", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertDiacriticPlaceholder" + "_ToolTip_", null, null);
                     break;
                 case "ContextMenuItems.InsertWordInitial":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordInitial",
-                        "/#_* Word Initial", null, null, "Ctrl+1", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordInitial", "/#_* Word Initial", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordInitial" + "_ToolTip_", null, null);
                     break;
                 case "ContextMenuItems.InsertWordFinal":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordFinal",
-                        "/*_# Word final", null, null, "Ctrl+9", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordFinal", "/*_# Word final", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordFinal" + "_ToolTip_", null, null);
                     break;
                 case "ContextMenuItems.InsertAnywhere":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertAnywhere",
-                        "/*_* Anywhere", null, null, "Ctrl+5", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertAnywhere", "/*_* Anywhere", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertAnywhere" + "_ToolTip_", null, null);
                     break;
                 case "ContextMenuItems.InsertWordMedial":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordMedial",
-                        "/{[C],[V]}_{[C],[V]} Word Medial", null, null, "Ctrl+2", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordMedial", "/{[C],[V]}_{[C],[V]} Word Medial", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordMedial" + "_ToolTip_", null, null);
                     break;
                 case "ContextMenuItems.InsertANDGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertANDGroup",
-                        "[  ] A&ND Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertANDGroup", "[  ] A&ND Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertANDGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.InsertORGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertORGroup",
-                        "{  } O&R Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertORGroup", "{  } O&R Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertORGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.SearchOptions":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SearchOptions",
-                        "Search &Options", null, "Search Options for Current Chart Column (Alt+O)", "Alt+O", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SearchOptions", "Search &Options", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SearchOptions" + "_ToolTip_", "Search Options for Current Chart Column (Alt+O)", null);
                     break;
 
                 case "ContextMenuItems.RunChartSearch":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RunChartSearch",
-                        "Fi&ll Chart", null, "Fill Chart with Results (Alt+L)", "Alt+L", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RunChartSearch", "Fi&ll Chart", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RunChartSearch" + "_ToolTip_", "Fill Chart with Results (Alt+L)", null);
                     break;
 
                 case "ContextMenuItems.BeginSearch":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.BeginSearch",
-                        "&Search", null, "Search (Alt+S)", "Alt+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.BeginSearch", "&Search", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.BeginSearch" + "_ToolTip_", "Search (Alt+S)", null);
                     break;
 
                 case "ContextMenuItems.AddResultsToCurrentTabGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.AddResultsToCurrentTabGroup",
-                        "Show Results in &Active Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.AddResultsToCurrentTabGroup", "Show Results in &Active Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.AddResultsToCurrentTabGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.AddResultsToNewSideBySideTabGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.AddResultsToNewSideBySideTabGroup",
-                        "Show Results in New Side-&By-Side Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.AddResultsToNewSideBySideTabGroup", "Show Results in New Side-&By-Side Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.AddResultsToNewSideBySideTabGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.AddResultsToNewStackedTabGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.AddResultsToNewStackedTabGroup",
-                        "Show Results in New Stac&ked Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.AddResultsToNewStackedTabGroup", "Show Results in New Stac&ked Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.AddResultsToNewStackedTabGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ContextMenuItems.SaveChart":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SaveChart",
-                        "S&ave", null, "Save Current Chart (Ctrl+S)", "Ctrl+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SaveChart", "S&ave", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SaveChart" + "_ToolTip_", "Save Current Chart (Ctrl+S)", null);
                     break;
 
                 case "ContextMenuItems.ClearChart":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ClearChart",
-                "&Clear", null, "Clear Chart (Alt+C)", "Alt+C", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ClearChart", "&Clear", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ClearChart" + "_ToolTip_", "Clear Chart (Alt+C)", null);
                     break;
 
                 case "ContextMenuItems.DeleteChartRow":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.DeleteChartRow",
-                "Delete &Row", null, "Delete Row (Alt+R)", "Alt+R", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.DeleteChartRow", "Delete &Row", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.DeleteChartRow" + "_ToolTip_", "Delete Row (Alt+R)", null);
                     break;
 
                 case "ContextMenuItems.DeleteChartColumn":
-                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.DeleteChartColumn",
-                "Delete C&olumn", null, "Delete Column (Alt+O)", "Alt+O", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.DeleteChartColumn", "Delete C&olumn", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.DeleteChartColumn" + "_ToolTip_", "Delete Column (Alt+O)", null);
                     break;
 
                 case "ToolbarItems.BeginSearch":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.BeginSearch",
-                        "&Search", null, "Search (Alt+S)", "Alt+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.BeginSearch", "&Search", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.BeginSearch" + "_ToolTip_", "Search (Alt+S)", null);
                     break;
 
                 case "ToolbarItems.AddResultsToCurrentTabGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AddResultsToCurrentTabGroup",
-                        "Show Results in &Active Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AddResultsToCurrentTabGroup", "Show Results in &Active Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AddResultsToCurrentTabGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.AddResultsToNewSideBySideTabGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AddResultsToNewSideBySideTabGroup",
-                        "Show Results in New Side-&By-Side Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AddResultsToNewSideBySideTabGroup", "Show Results in New Side-&By-Side Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AddResultsToNewSideBySideTabGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.AddResultsToNewStackedTabGroup":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AddResultsToNewStackedTabGroup",
-                        "Show Results in New Stac&ked Tab Group", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AddResultsToNewStackedTabGroup", "Show Results in New Stac&ked Tab Group", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.AddResultsToNewStackedTabGroup" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.RunChartSearch":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.RunChartSearch",
-                        "Fi&ll Chart", null, "Fill Chart with Results (Alt+L)", "Alt+L", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.RunChartSearch", "Fi&ll Chart", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.RunChartSearch" + "_ToolTip_", "Fill Chart with Results (Alt+L)", null);
                     break;
 
                 case "ToolbarItems.InsertIntoChart":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertIntoChart",
-                        "&Insert", null, "Insert Element into Current Chart Cell (Alt+I)", "Alt+I", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertIntoChart", "&Insert", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertIntoChart" + "_ToolTip_", "Insert Element into Current Chart Cell (Alt+I)", null);
                     break;
 
                 case "ToolbarItems.SaveChart":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChart",
-                        "S&ave", null, "Save Current Chart (Ctrl+S)", "Ctrl+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChart", "S&ave", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChart" + "_ToolTip_", "Save Current Chart (Ctrl+S)", null);
                     break;
 
                 case "ToolbarItems.SaveChartOnMenu":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChartOnMenu",
-                        "&Save", null, null, "Ctrl+S", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChartOnMenu", "&Save", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChartOnMenu" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.SaveChartAs":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChartAs",
-                        "Save &As...", null, null, null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChartAs", "Save &As...", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChartAs" + "_ToolTip_", null, null);
                     break;
 
                 case "ToolbarItems.ResetChart":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ResetChart",
-                        "Reset Chart", null, "Reset Chart", null, item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ResetChart", "Reset Chart", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ResetChart" + "_ToolTip_", "Reset Chart", null);
                     break;
 
                 case "ToolbarItems.ClearChart":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ClearChart",
-                        "&Clear", null, "Clear Chart (Alt+C)", "Alt+C", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ClearChart", "&Clear", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ClearChart" + "_ToolTip_", "Clear Chart (Alt+C)", null);
                     break;
 
                 case "ToolbarItems.DeleteChartRow":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.DeleteChartRow",
-                        "Delete &Row", null, "Delete Row (Alt+R)", "Alt+R", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.DeleteChartRow", "Delete &Row", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.DeleteChartRow" + "_ToolTip_", "Delete Row (Alt+R)", null);
                     break;
 
                 case "ToolbarItems.DeleteChartColumn":
-                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.DeleteChartColumn",
-                        "Delete C&olumn", null, "Delete Column (Alt+O)", "Alt+O", item);
+                    itemProps.Text = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.DeleteChartColumn", "Delete C&olumn", null);
+                    itemProps.Tooltip = LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.DeleteChartColumn" + "_ToolTip_", "Delete Column (Alt+O)", null);
                     break;
             }
         }

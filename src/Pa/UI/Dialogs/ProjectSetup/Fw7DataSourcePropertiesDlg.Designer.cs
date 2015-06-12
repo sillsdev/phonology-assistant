@@ -30,7 +30,7 @@ namespace SIL.Pa.UI.Dialogs
             this.cboVernacularOptions = new System.Windows.Forms.ComboBox();
             this.grpFields = new System.Windows.Forms.GroupBox();
             this.pnlGrid = new SilTools.Controls.SilPanel();
-            this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+            this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
             this.tblLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
             this.grpPhoneticField.SuspendLayout();
             this.tblLayoutPhoneticData.SuspendLayout();
@@ -46,7 +46,7 @@ namespace SIL.Pa.UI.Dialogs
             this.lblProjectValue.BackColor = System.Drawing.Color.Transparent;
             this.locExtender.SetLocalizableToolTip(this.lblProjectValue, null);
             this.locExtender.SetLocalizationComment(this.lblProjectValue, null);
-            this.locExtender.SetLocalizationPriority(this.lblProjectValue, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.lblProjectValue, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.lblProjectValue, "DialogBoxes.Fw7DataSourcePropertiesDlg.ProjectValueLabel");
             this.lblProjectValue.Location = new System.Drawing.Point(75, 4);
             this.lblProjectValue.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
@@ -158,7 +158,7 @@ namespace SIL.Pa.UI.Dialogs
             this.cboPhoneticWritingSystem.FormattingEnabled = true;
             this.locExtender.SetLocalizableToolTip(this.cboPhoneticWritingSystem, null);
             this.locExtender.SetLocalizationComment(this.cboPhoneticWritingSystem, null);
-            this.locExtender.SetLocalizationPriority(this.cboPhoneticWritingSystem, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.cboPhoneticWritingSystem, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.cboPhoneticWritingSystem, "Fw7DataSourcePropertiesDlg.cboPhoneticWritingSystem");
             this.cboPhoneticWritingSystem.Location = new System.Drawing.Point(264, 164);
             this.cboPhoneticWritingSystem.Margin = new System.Windows.Forms.Padding(0, 4, 7, 0);
@@ -210,7 +210,7 @@ namespace SIL.Pa.UI.Dialogs
             this.cboPronunciationOptions.FormattingEnabled = true;
             this.locExtender.SetLocalizableToolTip(this.cboPronunciationOptions, null);
             this.locExtender.SetLocalizationComment(this.cboPronunciationOptions, null);
-            this.locExtender.SetLocalizationPriority(this.cboPronunciationOptions, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.cboPronunciationOptions, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.cboPronunciationOptions, "Fw7DataSourcePropertiesDlg.cboPronunciationOptions");
             this.cboPronunciationOptions.Location = new System.Drawing.Point(264, 113);
             this.cboPronunciationOptions.Margin = new System.Windows.Forms.Padding(0, 0, 7, 21);
@@ -239,7 +239,7 @@ namespace SIL.Pa.UI.Dialogs
             this.cboVernacularOptions.FormattingEnabled = true;
             this.locExtender.SetLocalizableToolTip(this.cboVernacularOptions, null);
             this.locExtender.SetLocalizationComment(this.cboVernacularOptions, null);
-            this.locExtender.SetLocalizationPriority(this.cboVernacularOptions, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.cboVernacularOptions, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.cboVernacularOptions, "Fw7DataSourcePropertiesDlg.cboVernacularOptions");
             this.cboVernacularOptions.Location = new System.Drawing.Point(264, 34);
             this.cboVernacularOptions.Margin = new System.Windows.Forms.Padding(0, 0, 7, 21);
@@ -283,7 +283,7 @@ namespace SIL.Pa.UI.Dialogs
             this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
             this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
             this.locExtender.SetLocalizationComment(this.pnlGrid, null);
-            this.locExtender.SetLocalizationPriority(this.pnlGrid, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizationPriority(this.pnlGrid, L10NSharp.LocalizationPriority.NotLocalizable);
             this.locExtender.SetLocalizingId(this.pnlGrid, "Fw7DataSourcePropertiesDlg.pnlGrid");
             this.pnlGrid.Location = new System.Drawing.Point(13, 26);
             this.pnlGrid.Margin = new System.Windows.Forms.Padding(4);
@@ -352,7 +352,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.RadioButton rbVernForm;
 		private System.Windows.Forms.GroupBox grpPhoneticField;
 		private System.Windows.Forms.GroupBox grpFields;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel tblLayoutOuter;
 		private System.Windows.Forms.TableLayoutPanel tblLayoutPhoneticData;
 		private SilTools.Controls.SilPanel pnlGrid;

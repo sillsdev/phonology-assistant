@@ -13,7 +13,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using Microsoft.Win32;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.UI.Dialogs;

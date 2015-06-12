@@ -13,7 +13,7 @@ using System.ComponentModel;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using Localization;
+using L10NSharp;
 using Palaso.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Properties;
 using SilTools;
 

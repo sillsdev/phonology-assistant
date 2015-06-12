@@ -9,7 +9,7 @@
 // 
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using Localization;
+using L10NSharp;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.PhoneticSearching

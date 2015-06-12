@@ -15,11 +15,12 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Ionic.Zip;
-using Localization;
+using L10NSharp;
 using Palaso.Progress;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
+using Palaso.UI.WindowsForms.Miscellaneous;
 
 namespace SIL.Pa.UI.Dialogs
 {

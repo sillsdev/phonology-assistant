@@ -8,7 +8,7 @@
 #endregion
 // 
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Controls
@@ -26,32 +26,27 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (GetHasStressType(typeInfo))
 			{
-				LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.StressHeading",
-					"Display Stress", null, button);
+                button.Text = LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.StressHeading", "Display Stress", null, button);
 			}
 
 			if (GetHasLengthType(typeInfo))
 			{
-				LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.LengthHeading",
-					"Display Length", null, button);
+                button.Text = LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.LengthHeading", "Display Length", null, button);
 			}
 
 			if (GetHasBoundaryType(typeInfo))
 			{
-				LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.BoundaryHeading",
-					"Display Boundary", null, button);
+                button.Text = LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.BoundaryHeading", "Display Boundary", null, button);
 			}
 
 			if (GetHasToneType(typeInfo))
 			{
-				LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.ToneHeading",
-					"Display Tone", null, button);
+                button.Text = LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.ToneHeading", "Display Tone", null, button);
 			}
 
             if (GetHasPitchPhonationType(typeInfo))
             {
-                LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.PitchPhonationHeading",
-                    "Display PitchPhonation", null, button);
+                button.Text = LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.PitchPhonationHeading", "Display PitchPhonation", null, button);
             }
 		}
 	}

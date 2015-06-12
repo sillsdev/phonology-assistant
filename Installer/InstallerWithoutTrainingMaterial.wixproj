@@ -7,7 +7,7 @@
     <ProjectGuid>{50f62de8-5f1f-46c2-9a03-582f4ff79897}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>Pa-Setup %28without training%29</OutputName>
-    <BuildNumber>352</BuildNumber>
+    <BuildNumber>353</BuildNumber>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>

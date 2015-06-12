@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using Localization;
+using L10NSharp;
 using Palaso.Reporting;
 
 namespace SIL.Pa.DataSource.FieldWorks

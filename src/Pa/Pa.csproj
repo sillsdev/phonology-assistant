@@ -38,7 +38,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>3.5.2.%2a</ApplicationVersion>
+    <ApplicationVersion>3.5.3.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -159,13 +159,15 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LocalizationManager, Version=1.0.4388.22164, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\Windows\LocalizationManager.dll</HintPath>
+    <Reference Include="L10NSharp">
+      <HintPath>..\..\DistFiles\Windows\L10NSharp.dll</HintPath>
     </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\Windows\Palaso.dll</HintPath>
+    </Reference>
+    <Reference Include="PalasoUIWindowsForms">
+      <HintPath>..\..\DistFiles\Windows\PalasoUIWindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

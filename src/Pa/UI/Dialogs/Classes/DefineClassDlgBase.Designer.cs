@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelMembers = new System.Windows.Forms.Label();
 			this._labelClassTypeValue = new System.Windows.Forms.Label();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -64,7 +64,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._tableLayout.SetColumnSpan(this._textBoxClassName, 2);
 			this.locExtender.SetLocalizableToolTip(this._textBoxClassName, null);
 			this.locExtender.SetLocalizationComment(this._textBoxClassName, null);
-			this.locExtender.SetLocalizationPriority(this._textBoxClassName, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._textBoxClassName, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._textBoxClassName, "DialogBoxes.DefineClassDlgBase.txtClassName");
 			this._textBoxClassName.Location = new System.Drawing.Point(59, 37);
 			this._textBoxClassName.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
@@ -109,7 +109,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._tableLayout.SetColumnSpan(this._textBoxMembers, 2);
 			this.locExtender.SetLocalizableToolTip(this._textBoxMembers, null);
 			this.locExtender.SetLocalizationComment(this._textBoxMembers, null);
-			this.locExtender.SetLocalizationPriority(this._textBoxMembers, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._textBoxMembers, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._textBoxMembers, "DefineClassDlg.txtMembers");
 			this._textBoxMembers.Location = new System.Drawing.Point(59, 69);
 			this._textBoxMembers.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
@@ -142,7 +142,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._tableLayout.SetColumnSpan(this._labelClassTypeValue, 2);
 			this.locExtender.SetLocalizableToolTip(this._labelClassTypeValue, null);
 			this.locExtender.SetLocalizationComment(this._labelClassTypeValue, null);
-			this.locExtender.SetLocalizationPriority(this._labelClassTypeValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._labelClassTypeValue, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelClassTypeValue, "DefineClassDlg.lblClassTypeValue");
 			this._labelClassTypeValue.Location = new System.Drawing.Point(62, 10);
 			this._labelClassTypeValue.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
@@ -191,7 +191,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "DefineClassDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(435, 530);
 			this.Name = "DefineClassBaseDlg";
@@ -212,7 +212,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label _labelClassName;
 		private System.Windows.Forms.Label _labelClassType;
 		private System.Windows.Forms.Label _labelMembers;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 		protected System.Windows.Forms.TextBox _textBoxClassName;
 		protected System.Windows.Forms.TextBox _textBoxMembers;
 		protected System.Windows.Forms.Label _labelClassTypeValue;

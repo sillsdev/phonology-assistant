@@ -11,7 +11,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -155,8 +155,8 @@ namespace SIL.Pa.UI.Dialogs
 						_project.PhoneCache.GetCVPattern(ambigSeqList[i].BaseChar);
 				}
 
-				if (ambigSeqList[i].IsGenerated)
-					_grid.Rows[i].Cells[0].ReadOnly = true;
+                //if (ambigSeqList[i].IsGenerated)
+                //    _grid.Rows[i].Cells[0].ReadOnly = true;
 			}
 
 			// Select a row if there isn't one currently selected.
@@ -363,7 +363,7 @@ namespace SIL.Pa.UI.Dialogs
 					"transcriptions found in one or more data sources. Automatically " +
 					"generated ambiguous sequences must be treated as one unit."));
 
-				_grid.CancelEdit();
+				//_grid.CancelEdit();
 			}
 		}
 

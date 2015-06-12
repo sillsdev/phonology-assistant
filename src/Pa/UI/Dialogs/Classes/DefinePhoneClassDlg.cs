@@ -11,7 +11,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -104,7 +104,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				string phones = _textBoxMembers.Text.Trim().Replace(",", string.Empty);
+				string phones = _textBoxMembers.Text.Trim().Replace(",", "\0");
 				phones = m_classesDlg.Project.PhoneticParser.PhoneticParser_CommaDelimited(phones, true, true);
 				return "{" + (phones ?? string.Empty) + "}";
 			}

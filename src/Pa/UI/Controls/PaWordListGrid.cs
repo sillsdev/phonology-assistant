@@ -16,7 +16,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Localization;
+using L10NSharp;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -218,7 +218,7 @@ namespace SIL.Pa.UI.Controls
 			Columns.Add(col);
 
 			// Save this because we'll need it later.
-            if (field.Type == FieldType.Phonetic && col.DisplayIndex == 0)
+            if (field.Type == FieldType.Phonetic && _phoneticColName == null)
 				_phoneticColName = field.Name;
 			else if (field.Type == FieldType.AudioFilePath)
 				_audioFileColName = field.Name;

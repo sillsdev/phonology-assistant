@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;

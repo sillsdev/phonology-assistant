@@ -40,14 +40,17 @@
 					<Component Id="Ionic.Zip.dll" Guid="{A2F9EA27-48AC-471C-8F1A-334F1908C72E}">
 						<File Id="Ionic.Zip.dll" KeyPath="yes" Source="..\output\release\Ionic.Zip.dll" />
 					</Component>
-					<Component Id="LocalizationManager.dll" Guid="{B537CFD9-D01A-40C4-A5B2-D0D65E12D765}">
-						<File Id="LocalizationManager.dll" KeyPath="yes" Source="..\output\release\LocalizationManager.dll" />
+					<Component Id="L10NSharp.dll" Guid="{DB28722E-3030-4CF7-905B-36FBE4196A32}">
+						<File Id="L10NSharp.dll" KeyPath="yes" Source="..\output\release\L10NSharp.dll" />
 					</Component>
 					<Component Id="PaToFdoInterfaces.dll" Guid="{4250985D-D1DF-4E60-9666-8DB690202BDF}">
 						<File Id="PaToFdoInterfaces.dll" KeyPath="yes" Source="..\output\release\PaToFdoInterfaces.dll" />
 					</Component>
 					<Component Id="Palaso.dll" Guid="{7E3A288A-C1EA-4A99-9F13-FB9BA2C4966A}">
 						<File Id="Palaso.dll" KeyPath="yes" Source="..\output\release\Palaso.dll" />
+					</Component>
+					<Component Id="PalasoUIWindowsForms.dll" Guid="{DDAC7591-1446-45CA-932C-89B14F42D943}">
+						<File Id="PalasoUIWindowsForms.dll" KeyPath="yes" Source="..\output\release\PalasoUIWindowsForms.dll" />
 					</Component>
 					<Component Id="Pa.exe.config" Guid="{A77F3DC7-3E9E-40FD-9572-384BA8170609}">
 						<File Id="Pa.exe.config" KeyPath="yes" Source="..\output\release\Pa.exe.config" />
@@ -95,8 +98,9 @@
       <ComponentRef Id="DisablePASplashScreen.exe" />
       <ComponentRef Id="DisablePASplashScreen.pdb" />
       <ComponentRef Id="Ionic.Zip.dll" />
-      <ComponentRef Id="LocalizationManager.dll" />
+      <ComponentRef Id="L10NSharp.dll" />
       <ComponentRef Id="Palaso.dll" />
+      <ComponentRef Id="PalasoUIWindowsForms.dll" />
       <ComponentRef Id="PaToFdoInterfaces.dll" />
       <ComponentRef Id="PaCompiledTransforms.dll" />
       <ComponentRef Id="SilTools.dll" />

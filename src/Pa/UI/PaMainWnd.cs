@@ -16,8 +16,8 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Localization;
-using Localization.UI;
+using L10NSharp;
+using L10NSharp.UI;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -142,7 +142,7 @@ namespace SIL.Pa.UI
 			{
 				var fmt = LocalizationManager.GetString("MainWindow.WindowTitle.WithProject","{0} - Phonology Assistant");
 				Text = string.Format(fmt, project.Name);
-			}
+			}            
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -634,19 +634,23 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnStringsLocalized(object args)
 		{
+            App.UnloadDefaultMenu(_tmAdapter);
+            LoadToolbarsAndMenus();
+
 			vwTabGroup.AdjustTabWidths();
 			vwTabGroup.RefreshCaption();
+            vwTabGroup.CurrentTab.Update();
 			App.RefreshToolTipsOnLocalizationManager();
 			return false;
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnUserInterfaceLangaugeChanged(object args)
-		//{
-		//    App.ReapplyLocalizationsToAllObjects();
-		//    OnStringsLocalized(null);
-		//    return false;
-		//}
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUserInterfaceLangaugeChanged(object args)
+        {
+            //App.ReapplyLocalizationsToAllObjects("Pa");
+            //OnStringsLocalized(null);
+            return false;
+        }
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRecentlyUsedProjectChosen(object args)

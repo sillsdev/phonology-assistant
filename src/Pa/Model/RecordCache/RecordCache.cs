@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using Localization;
+using L10NSharp;
 using SIL.Pa.DataSource;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
@@ -387,13 +387,12 @@ namespace SIL.Pa.Model
 							select _project.PhoneticParser.FindAmbiguousSequences(phonetic) into seqs
 							where seqs != null
 							select seqs);
-			
 			var generatedSeqs = new List<string>();
 			foreach (var seqs in sequences)
 				generatedSeqs.AddRange(seqs);
 
 			if (generatedSeqs.Count > 0 || _project.AmbiguousSequences != null)
-				_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal), true);
+				_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal), false);
 		}
 
 		/// ------------------------------------------------------------------------------------

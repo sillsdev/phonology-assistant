@@ -14,7 +14,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -372,7 +372,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (filterToMakeCurrent != null)
 				index = m_filterList.IndexOf(filterToMakeCurrent);
 
-			if (m_gridFilters.RowCount > 0 && index != -1)
+            if (index != -1 && index < m_gridFilters.RowCount)
 				m_gridFilters.CurrentCell = m_gridFilters[kFilterNameCol, index];
 
 			HandleFilterGridCurrentRowChanged(null, null);

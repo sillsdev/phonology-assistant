@@ -43,7 +43,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblMonogram = new System.Windows.Forms.Label();
 			this.pnlInfo = new System.Windows.Forms.Panel();
 			this.pnlCounts = new System.Windows.Forms.Panel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this.pnlHeading.SuspendLayout();
 			this.pnlMonogram.SuspendLayout();
 			this.pnlInfo.SuspendLayout();
@@ -104,7 +104,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblNormallyCount.ForeColor = System.Drawing.Color.Black;
 			this.locExtender.SetLocalizableToolTip(this.lblNormallyCount, null);
 			this.locExtender.SetLocalizationComment(this.lblNormallyCount, null);
-			this.locExtender.SetLocalizationPriority(this.lblNormallyCount, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblNormallyCount, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblNormallyCount, "CommonControls.PhoneInfoPopupContent.NormallyCountLabel");
 			this.lblNormallyCount.Location = new System.Drawing.Point(142, 4);
 			this.lblNormallyCount.Name = "lblNormallyCount";
@@ -121,7 +121,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblPrimaryCount.ForeColor = System.Drawing.Color.Black;
 			this.locExtender.SetLocalizableToolTip(this.lblPrimaryCount, null);
 			this.locExtender.SetLocalizationComment(this.lblPrimaryCount, null);
-			this.locExtender.SetLocalizationPriority(this.lblPrimaryCount, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblPrimaryCount, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblPrimaryCount, "CommonControls.PhoneInfoPopupContent.lblPrimaryCount");
 			this.lblPrimaryCount.Location = new System.Drawing.Point(157, 22);
 			this.lblPrimaryCount.Name = "lblPrimaryCount";
@@ -138,7 +138,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblNonPrimaryCount.ForeColor = System.Drawing.Color.Black;
 			this.locExtender.SetLocalizableToolTip(this.lblNonPrimaryCount, null);
 			this.locExtender.SetLocalizationComment(this.lblNonPrimaryCount, null);
-			this.locExtender.SetLocalizationPriority(this.lblNonPrimaryCount, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblNonPrimaryCount, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblNonPrimaryCount, "CommonControls.PhoneInfoPopupContent.NonPrimaryCountLabel");
 			this.lblNonPrimaryCount.Location = new System.Drawing.Point(157, 40);
 			this.lblNonPrimaryCount.Name = "lblNonPrimaryCount";
@@ -190,7 +190,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblSiblingPhones.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblSiblingPhones, null);
 			this.locExtender.SetLocalizationComment(this.lblSiblingPhones, null);
-			this.locExtender.SetLocalizationPriority(this.lblSiblingPhones, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblSiblingPhones, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblSiblingPhones, "PhoneInfoPopupContent.lblSiblingPhones");
 			this.lblSiblingPhones.Location = new System.Drawing.Point(6, 121);
 			this.lblSiblingPhones.Name = "lblSiblingPhones";
@@ -234,7 +234,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblMonogram.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblMonogram, null);
 			this.locExtender.SetLocalizationComment(this.lblMonogram, null);
-			this.locExtender.SetLocalizationPriority(this.lblMonogram, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblMonogram, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblMonogram, "PhoneInfoPopupContent.lblMonogram");
 			this.lblMonogram.Location = new System.Drawing.Point(1, 1);
 			this.lblMonogram.MinimumSize = new System.Drawing.Size(36, 33);
@@ -290,7 +290,7 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this.pnlHeading);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "PhoneInfoPopupContent.PhoneInfoPopupContent");
 			this.MinimumSize = new System.Drawing.Size(214, 2);
 			this.Name = "PhoneInfoPopupContent";
@@ -322,6 +322,6 @@ namespace SIL.Pa.UI.Controls
 		internal System.Windows.Forms.Panel pnlHeading;
 		internal System.Windows.Forms.Label lblCountHeading;
 		private System.Windows.Forms.Panel pnlCounts;
-		private Localization.UI.LocalizationExtender locExtender;
+		private L10NSharp.UI.L10NSharpExtender locExtender;
 	}
 }

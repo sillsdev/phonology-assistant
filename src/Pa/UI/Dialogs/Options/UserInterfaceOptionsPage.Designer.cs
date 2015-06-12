@@ -29,11 +29,11 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.cboUILanguage = new Localization.UI.UILanguageComboBox();
+			this.cboUILanguage = new L10NSharp.UI.UILanguageComboBox();
 			this.lblUILanguage = new System.Windows.Forms.Label();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this._linkShowLocalizationDialogBox = new System.Windows.Forms.LinkLabel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.locExtender = new L10NSharp.UI.L10NSharpExtender(this.components);
 			this._tableLayoutOuter.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -50,7 +50,7 @@
 			this.cboUILanguage.IntegralHeight = false;
 			this.locExtender.SetLocalizableToolTip(this.cboUILanguage, null);
 			this.locExtender.SetLocalizationComment(this.cboUILanguage, null);
-			this.locExtender.SetLocalizationPriority(this.cboUILanguage, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboUILanguage, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboUILanguage, "UserInterfaceOptionsPage.cboUILanguage");
 			this.cboUILanguage.Location = new System.Drawing.Point(0, 18);
 			this.cboUILanguage.Margin = new System.Windows.Forms.Padding(0);
@@ -96,7 +96,7 @@
 			this._linkShowLocalizationDialogBox.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._linkShowLocalizationDialogBox, null);
 			this.locExtender.SetLocalizationComment(this._linkShowLocalizationDialogBox, null);
-			this.locExtender.SetLocalizationPriority(this._linkShowLocalizationDialogBox, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this._linkShowLocalizationDialogBox, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._linkShowLocalizationDialogBox, "DialogBoxes.UserInterfaceLanguageDlg.IWantToLocalizeLink");
 			this._linkShowLocalizationDialogBox.Location = new System.Drawing.Point(0, 56);
 			this._linkShowLocalizationDialogBox.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
@@ -118,7 +118,7 @@
 			this.Controls.Add(this._tableLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "UserInterfaceOptionsPage.UserInterfaceOptionsPage");
 			this.Name = "UserInterfaceOptionsPage";
 			this.Size = new System.Drawing.Size(274, 164);
@@ -131,10 +131,10 @@
 
 		#endregion
 
-		private Localization.UI.UILanguageComboBox cboUILanguage;
+		private L10NSharp.UI.UILanguageComboBox cboUILanguage;
 		private System.Windows.Forms.Label lblUILanguage;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
-		protected Localization.UI.LocalizationExtender locExtender;
+		protected L10NSharp.UI.L10NSharpExtender locExtender;
 		private System.Windows.Forms.LinkLabel _linkShowLocalizationDialogBox;
 	}
 }

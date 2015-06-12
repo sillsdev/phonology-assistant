@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
-using Localization;
+using L10NSharp;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 
