@@ -113,6 +113,10 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="L10NSharp, Version=2.0.31.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\Windows\L10NSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -247,6 +251,7 @@
     <Compile Include="HtmlControls\InitialContainer.cs" />
     <Compile Include="HtmlControls\Parser.cs" />
     <Compile Include="Mediator.cs" />
+    <Compile Include="MessageBoxExtender.cs" />
     <Compile Include="MessageDispatcher.cs" />
     <Compile Include="PaintingHelper.cs" />
     <Compile Include="PortableSettingsProvider\FormSettings.cs" />

@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
+using L10NSharp;
 using SIL.Pa.Properties;
 using SilTools;
 
@@ -183,7 +184,7 @@ namespace SIL.Pa.UI.Dialogs
 
 				DialogResult = DialogResult.OK;
 			}
-
+			MessageBoxExtender.Unregister();
 			if (!(m_changesWereMade = InternalSaveChanges()))
 		        e.Cancel = true;
 		}
