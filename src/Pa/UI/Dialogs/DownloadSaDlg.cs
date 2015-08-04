@@ -7,9 +7,11 @@
 // </copyright> 
 #endregion
 // 
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using L10NSharp;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -17,22 +19,33 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class DownloadSaDlg : Form
 	{
 		private readonly bool _appWaitCursorOn;
-
+		private bool isLoading;
 		/// ------------------------------------------------------------------------------------
 		public DownloadSaDlg()
 		{
 			InitializeComponent();
-
-			lnkSaDownload.Font = FontHelper.UIFont;
-			lnkSaWebsite.Font = FontHelper.UIFont;
+			string DownloadMessage1 = string.Empty;
+			string DownloadMessage2 = string.Empty;
+			DownloadMessage1 = LocalizationManager.GetString(
+				"DownloadSaDlg.DownloadMessage1",
+				"<html><body style='margin: -100px;padding:-100px;'>Speech Analyzer can be downloaded from the SIL website <a href=''>{0}</a>.</body></html>");
+			DownloadMessage2 = LocalizationManager.GetString(
+				"DownloadSaDlg.DownloadMessage2",
+				"by clicking here");
+			DownloadMessage1 = string.Format(DownloadMessage1, DownloadMessage2);
+			webBrowser1.DocumentText = DownloadMessage1;
+			webBrowser1.Font = FontHelper.UIFont;
+			webBrowser2.Font = FontHelper.UIFont;
 			lblMessage.Font = FontHelper.UIFont;
-
 			picIcon.Image = SystemIcons.Information.ToBitmap();
 
 			var link = Properties.Settings.Default.SaWebsiteLink;
-			lnkSaWebsite.Text = string.Format(lnkSaWebsite.Text, link);
-			lnkSaWebsite.Links.Add(lnkSaWebsite.Text.IndexOf(link, System.StringComparison.Ordinal), link.Length);
-
+			DownloadMessage1 = LocalizationManager.GetString(
+				"DownloadSaDlg.WebsiteMessage1",
+				"<html><body style='margin: -100px;padding:-100px;'>For more information about Speech Analyzer, visit the SIL website at <a href=''>{0}</a>.</body></html>");
+			DownloadMessage1 = string.Format(DownloadMessage1, link);
+			webBrowser2.DocumentText = DownloadMessage1;
+			isLoading = true;
 			_appWaitCursorOn = Application.UseWaitCursor;
 			Utils.WaitCursors(false);
 		}
@@ -66,27 +79,15 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnPaint(e);
 
-			int dy = lnkSaDownload.Top - lnkSaDownload.Margin.Top;
+			int dy = webBrowser1.Top - webBrowser1.Margin.Top;
 
-			e.Graphics.DrawLine(SystemPens.ControlDark, lnkSaDownload.Left, dy,
-				lnkSaDownload.Right, dy);
-			
-			dy = lnkSaDownload.Bottom + lnkSaDownload.Margin.Bottom;
+			e.Graphics.DrawLine(SystemPens.ControlDark, webBrowser1.Left, dy,
+				webBrowser1.Right, dy);
 
-			e.Graphics.DrawLine(SystemPens.ControlDark, lnkSaDownload.Left, dy,
-				lnkSaDownload.Right, dy);
-		}
+			dy = webBrowser1.Bottom + webBrowser1.Margin.Bottom;
 
-		/// ------------------------------------------------------------------------------------
-		private void lnkSaDownload_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			System.Diagnostics.Process.Start(Properties.Settings.Default.SaDownloadLink);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void lnkSaWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			System.Diagnostics.Process.Start(Properties.Settings.Default.SaWebsiteLink);
+			e.Graphics.DrawLine(SystemPens.ControlDark, webBrowser1.Left, dy,
+				webBrowser1.Right, dy);
 		}
 
         protected override bool ProcessCmdKey(ref Message message, Keys keys)
@@ -109,5 +110,23 @@ namespace SIL.Pa.UI.Dialogs
             }
             return base.ProcessCmdKey(ref message, keys);
         }
+
+		private void webBrowser1_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
+		{
+			if (isLoading)
+			{
+				e.Cancel = true;
+				System.Diagnostics.Process.Start(Properties.Settings.Default.SaDownloadLink);
+			}
+		}
+
+		private void webBrowser2_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+		{
+			if(isLoading)
+			{
+				e.Cancel = true;
+				System.Diagnostics.Process.Start(Properties.Settings.Default.SaWebsiteLink);
+			}
+		}
 	}
 }
