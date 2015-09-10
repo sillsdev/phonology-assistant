@@ -468,7 +468,6 @@ namespace SIL.Pa.UI.Controls
 
 					Utils.MsgBox(string.Format(msg, newName), MessageBoxButtons.OK,
 						MessageBoxIcon.Exclamation);
-
 					return false;
 				}
 			}

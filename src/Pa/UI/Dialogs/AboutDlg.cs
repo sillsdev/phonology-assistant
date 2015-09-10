@@ -204,7 +204,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._labelAvailableMemory, null);
             this.locExtender.SetLocalizationComment(this._labelAvailableMemory, null);
             this.locExtender.SetLocalizingId(this._labelAvailableMemory, "DialogBoxes.AboutDlg.AvailableMemoryLabel");
-            this._labelAvailableMemory.Location = new System.Drawing.Point(156, 159);
+            this._labelAvailableMemory.Location = new System.Drawing.Point(156, 175);
             this._labelAvailableMemory.Margin = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this._labelAvailableMemory.Name = "_labelAvailableMemory";
             this._labelAvailableMemory.Size = new System.Drawing.Size(110, 13);
@@ -219,7 +219,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._labelAvailableDiskSpace, null);
             this.locExtender.SetLocalizationComment(this._labelAvailableDiskSpace, null);
             this.locExtender.SetLocalizingId(this._labelAvailableDiskSpace, "DialogBoxes.AboutDlg.AvailableDiskSpaceLabel");
-            this._labelAvailableDiskSpace.Location = new System.Drawing.Point(156, 178);
+            this._labelAvailableDiskSpace.Location = new System.Drawing.Point(156, 194);
             this._labelAvailableDiskSpace.Margin = new System.Windows.Forms.Padding(15, 4, 3, 15);
             this._labelAvailableDiskSpace.Name = "_labelAvailableDiskSpace";
             this._labelAvailableDiskSpace.Size = new System.Drawing.Size(107, 13);
@@ -256,7 +256,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._linkWebsite, null);
             this.locExtender.SetLocalizationComment(this._linkWebsite, null);
             this.locExtender.SetLocalizingId(this._linkWebsite, "DialogBoxes.AboutDlg.WebsiteLabel");
-            this._linkWebsite.Location = new System.Drawing.Point(13, 232);
+            this._linkWebsite.Location = new System.Drawing.Point(13, 248);
             this._linkWebsite.Margin = new System.Windows.Forms.Padding(13, 12, 0, 0);
             this._linkWebsite.Name = "_linkWebsite";
             this._linkWebsite.Size = new System.Drawing.Size(535, 17);
@@ -277,7 +277,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._linkFeedback, null);
             this.locExtender.SetLocalizationComment(this._linkFeedback, null);
             this.locExtender.SetLocalizingId(this._linkFeedback, "DialogBoxes.AboutDlg.FeedbackLabel");
-            this._linkFeedback.Location = new System.Drawing.Point(13, 249);
+            this._linkFeedback.Location = new System.Drawing.Point(13, 265);
             this._linkFeedback.Margin = new System.Windows.Forms.Padding(13, 0, 0, 0);
             this._linkFeedback.Name = "_linkFeedback";
             this._linkFeedback.Size = new System.Drawing.Size(535, 17);
@@ -298,7 +298,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._labelBuild, null);
             this.locExtender.SetLocalizationComment(this._labelBuild, null);
             this.locExtender.SetLocalizingId(this._labelBuild, "DialogBoxes.AboutDlg.BuildDateLabel");
-            this._labelBuild.Location = new System.Drawing.Point(13, 207);
+            this._labelBuild.Location = new System.Drawing.Point(13, 223);
             this._labelBuild.Margin = new System.Windows.Forms.Padding(13, 0, 0, 0);
             this._labelBuild.Name = "_labelBuild";
             this._labelBuild.Size = new System.Drawing.Size(535, 13);
@@ -315,7 +315,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._labelAppVersion, null);
             this.locExtender.SetLocalizationComment(this._labelAppVersion, null);
             this.locExtender.SetLocalizingId(this._labelAppVersion, "DialogBoxes.AboutDlg.AppVersionLabel");
-            this._labelAppVersion.Location = new System.Drawing.Point(156, 90);
+            this._labelAppVersion.Location = new System.Drawing.Point(156, 106);
             this._labelAppVersion.Margin = new System.Windows.Forms.Padding(15, 5, 0, 0);
             this._labelAppVersion.Name = "_labelAppVersion";
             this._labelAppVersion.Size = new System.Drawing.Size(392, 13);
@@ -333,7 +333,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._labelAvailableMemoryValue, null);
             this.locExtender.SetLocalizationComment(this._labelAvailableMemoryValue, null);
             this.locExtender.SetLocalizingId(this._labelAvailableMemoryValue, "DialogBoxes.AboutDlg.AvailableMemoryValueLabel");
-            this._labelAvailableMemoryValue.Location = new System.Drawing.Point(266, 158);
+            this._labelAvailableMemoryValue.Location = new System.Drawing.Point(266, 174);
             this._labelAvailableMemoryValue.Margin = new System.Windows.Forms.Padding(0, 0, 13, 0);
             this._labelAvailableMemoryValue.Name = "_labelAvailableMemoryValue";
             this._labelAvailableMemoryValue.Size = new System.Drawing.Size(269, 15);
@@ -352,7 +352,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._labelAvailableDiskSpaceValue, null);
             this.locExtender.SetLocalizationComment(this._labelAvailableDiskSpaceValue, null);
             this.locExtender.SetLocalizingId(this._labelAvailableDiskSpaceValue, "DialogBoxes.AboutDlg.AvailableDiskSpaceValueLabel");
-            this._labelAvailableDiskSpaceValue.Location = new System.Drawing.Point(266, 177);
+            this._labelAvailableDiskSpaceValue.Location = new System.Drawing.Point(266, 193);
             this._labelAvailableDiskSpaceValue.Margin = new System.Windows.Forms.Padding(0, 4, 13, 15);
             this._labelAvailableDiskSpaceValue.Name = "_labelAvailableDiskSpaceValue";
             this._labelAvailableDiskSpaceValue.Size = new System.Drawing.Size(269, 15);
@@ -370,7 +370,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._labelCopyright, null);
             this.locExtender.SetLocalizationComment(this._labelCopyright, null);
             this.locExtender.SetLocalizingId(this._labelCopyright, "DialogBoxes.AboutDlg.CopyrightLabel");
-            this._labelCopyright.Location = new System.Drawing.Point(156, 133);
+            this._labelCopyright.Location = new System.Drawing.Point(156, 149);
             this._labelCopyright.Margin = new System.Windows.Forms.Padding(15, 30, 0, 12);
             this._labelCopyright.Name = "_labelCopyright";
             this._labelCopyright.Size = new System.Drawing.Size(392, 13);
@@ -388,7 +388,7 @@ namespace SIL.Pa.UI.Dialogs
             this.locExtender.SetLocalizableToolTip(this._labelAppName, null);
             this.locExtender.SetLocalizationComment(this._labelAppName, null);
             this.locExtender.SetLocalizingId(this._labelAppName, "DialogBoxes.AboutDlg.ApplicationNameLabel");
-            this._labelAppName.Location = new System.Drawing.Point(153, 72);
+            this._labelAppName.Location = new System.Drawing.Point(153, 88);
             this._labelAppName.Margin = new System.Windows.Forms.Padding(12, 40, 0, 0);
             this._labelAppName.Name = "_labelAppName";
             this._labelAppName.Size = new System.Drawing.Size(395, 13);
@@ -397,8 +397,6 @@ namespace SIL.Pa.UI.Dialogs
             // 
             // _tableLayout
             // 
-            this._tableLayout.AutoSize = true;
-            this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._tableLayout.ColumnCount = 3;
             this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -426,7 +424,7 @@ namespace SIL.Pa.UI.Dialogs
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._tableLayout.Size = new System.Drawing.Size(548, 266);
+            this._tableLayout.Size = new System.Drawing.Size(548, 282);
             this._tableLayout.TabIndex = 1;
             // 
             // _tableLayoutButtons
@@ -456,6 +454,7 @@ namespace SIL.Pa.UI.Dialogs
             // locExtender
             // 
             this.locExtender.LocalizationManagerId = "Pa";
+            this.locExtender.PrefixForNewItems = null;
             // 
             // AboutDlg
             // 
@@ -484,7 +483,6 @@ namespace SIL.Pa.UI.Dialogs
             this._tableLayoutButtons.ResumeLayout(false);
             this._tableLayoutButtons.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

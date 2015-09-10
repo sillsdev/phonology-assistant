@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizationComment(this.trkSpeed, null);
 			this.locExtender.SetLocalizationPriority(this.trkSpeed, L10NSharp.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.trkSpeed, "PlaybackSpeedAdjuster.trkSpeed");
-			this.trkSpeed.Location = new System.Drawing.Point(34, 24);
+			this.trkSpeed.Location = new System.Drawing.Point(46, 24);
 			this.trkSpeed.Maximum = 200;
 			this.trkSpeed.Name = "trkSpeed";
 			this.trkSpeed.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -70,13 +70,13 @@ namespace SIL.Pa.UI.Controls
 			// 
 			this.lnkPlay.BackColor = System.Drawing.Color.Transparent;
 			this.lnkPlay.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.lnkPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			this.lnkPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.locExtender.SetLocalizableToolTip(this.lnkPlay, null);
 			this.locExtender.SetLocalizationComment(this.lnkPlay, null);
 			this.locExtender.SetLocalizingId(this.lnkPlay, "CommonControls.PlaybackSpeedAdjuster.PlayLink");
-			this.lnkPlay.Location = new System.Drawing.Point(0, 269);
+			this.lnkPlay.Location = new System.Drawing.Point(0, 268);
 			this.lnkPlay.Name = "lnkPlay";
-			this.lnkPlay.Size = new System.Drawing.Size(73, 23);
+			this.lnkPlay.Size = new System.Drawing.Size(91, 23);
 			this.lnkPlay.TabIndex = 1;
 			this.lnkPlay.TabStop = true;
 			this.lnkPlay.Text = "Play";
@@ -92,7 +92,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizingId(this.lblValue, "CommonControls.PlaybackSpeedAdjuster.ValueLabel");
 			this.lblValue.Location = new System.Drawing.Point(0, 3);
 			this.lblValue.Name = "lblValue";
-			this.lblValue.Size = new System.Drawing.Size(73, 21);
+			this.lblValue.Size = new System.Drawing.Size(91, 21);
 			this.lblValue.TabIndex = 2;
 			this.lblValue.Text = "{0}%";
 			this.lblValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -103,7 +103,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lbl100, null);
 			this.locExtender.SetLocalizationComment(this.lbl100, null);
 			this.locExtender.SetLocalizingId(this.lbl100, "CommonControls.PlaybackSpeedAdjuster.100PercentLabel");
-			this.lbl100.Location = new System.Drawing.Point(0, 141);
+			this.lbl100.Location = new System.Drawing.Point(4, 141);
 			this.lbl100.Name = "lbl100";
 			this.lbl100.Size = new System.Drawing.Size(35, 15);
 			this.lbl100.TabIndex = 3;
@@ -117,7 +117,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lbl50, null);
 			this.locExtender.SetLocalizationComment(this.lbl50, null);
 			this.locExtender.SetLocalizingId(this.lbl50, "CommonControls.PlaybackSpeedAdjuster.50PercentLabel");
-			this.lbl50.Location = new System.Drawing.Point(0, 197);
+			this.lbl50.Location = new System.Drawing.Point(4, 197);
 			this.lbl50.Name = "lbl50";
 			this.lbl50.Size = new System.Drawing.Size(35, 15);
 			this.lbl50.TabIndex = 4;
@@ -131,7 +131,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lbl75, null);
 			this.locExtender.SetLocalizationComment(this.lbl75, null);
 			this.locExtender.SetLocalizingId(this.lbl75, "CommonControls.PlaybackSpeedAdjuster.75PercentLabel");
-			this.lbl75.Location = new System.Drawing.Point(0, 169);
+			this.lbl75.Location = new System.Drawing.Point(4, 169);
 			this.lbl75.Name = "lbl75";
 			this.lbl75.Size = new System.Drawing.Size(35, 15);
 			this.lbl75.TabIndex = 5;
@@ -145,7 +145,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lbl25, null);
 			this.locExtender.SetLocalizationComment(this.lbl25, null);
 			this.locExtender.SetLocalizingId(this.lbl25, "CommonControls.PlaybackSpeedAdjuster.25PercentLabel");
-			this.lbl25.Location = new System.Drawing.Point(0, 225);
+			this.lbl25.Location = new System.Drawing.Point(4, 225);
 			this.lbl25.Name = "lbl25";
 			this.lbl25.Size = new System.Drawing.Size(35, 15);
 			this.lbl25.TabIndex = 6;
@@ -159,7 +159,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lbl125, null);
 			this.locExtender.SetLocalizationComment(this.lbl125, null);
 			this.locExtender.SetLocalizingId(this.lbl125, "CommonControls.PlaybackSpeedAdjuster.125PercentLabel");
-			this.lbl125.Location = new System.Drawing.Point(0, 114);
+			this.lbl125.Location = new System.Drawing.Point(4, 114);
 			this.lbl125.Name = "lbl125";
 			this.lbl125.Size = new System.Drawing.Size(35, 15);
 			this.lbl125.TabIndex = 7;
@@ -173,7 +173,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lbl150, null);
 			this.locExtender.SetLocalizationComment(this.lbl150, null);
 			this.locExtender.SetLocalizingId(this.lbl150, "CommonControls.PlaybackSpeedAdjuster.150PercentLabel");
-			this.lbl150.Location = new System.Drawing.Point(0, 86);
+			this.lbl150.Location = new System.Drawing.Point(4, 86);
 			this.lbl150.Name = "lbl150";
 			this.lbl150.Size = new System.Drawing.Size(35, 15);
 			this.lbl150.TabIndex = 8;
@@ -187,7 +187,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lbl175, null);
 			this.locExtender.SetLocalizationComment(this.lbl175, null);
 			this.locExtender.SetLocalizingId(this.lbl175, "CommonControls.PlaybackSpeedAdjuster.175PercentLabel");
-			this.lbl175.Location = new System.Drawing.Point(0, 58);
+			this.lbl175.Location = new System.Drawing.Point(4, 58);
 			this.lbl175.Name = "lbl175";
 			this.lbl175.Size = new System.Drawing.Size(35, 15);
 			this.lbl175.TabIndex = 9;
@@ -201,7 +201,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lbl200, null);
 			this.locExtender.SetLocalizationComment(this.lbl200, null);
 			this.locExtender.SetLocalizingId(this.lbl200, "CommonControls.PlaybackSpeedAdjuster.200PercentLabel");
-			this.lbl200.Location = new System.Drawing.Point(0, 30);
+			this.lbl200.Location = new System.Drawing.Point(4, 30);
 			this.lbl200.Name = "lbl200";
 			this.lbl200.Size = new System.Drawing.Size(35, 15);
 			this.lbl200.TabIndex = 10;
@@ -215,7 +215,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lblZero, null);
 			this.locExtender.SetLocalizationComment(this.lblZero, null);
 			this.locExtender.SetLocalizingId(this.lblZero, "CommonControls.PlaybackSpeedAdjuster.ZeroPercentLabel");
-			this.lblZero.Location = new System.Drawing.Point(0, 252);
+			this.lblZero.Location = new System.Drawing.Point(4, 252);
 			this.lblZero.Name = "lblZero";
 			this.lblZero.Size = new System.Drawing.Size(35, 15);
 			this.lblZero.TabIndex = 11;
@@ -226,6 +226,7 @@ namespace SIL.Pa.UI.Controls
 			// locExtender
 			// 
 			this.locExtender.LocalizationManagerId = "Pa";
+			this.locExtender.PrefixForNewItems = null;
 			// 
 			// PlaybackSpeedAdjuster
 			// 
@@ -251,7 +252,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizingId(this, "PlaybackSpeedAdjuster.PlaybackSpeedAdjuster");
 			this.Name = "PlaybackSpeedAdjuster";
 			this.Padding = new System.Windows.Forms.Padding(0, 3, 0, 5);
-			this.Size = new System.Drawing.Size(73, 297);
+			this.Size = new System.Drawing.Size(91, 296);
 			((System.ComponentModel.ISupportInitialize)(this.trkSpeed)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);

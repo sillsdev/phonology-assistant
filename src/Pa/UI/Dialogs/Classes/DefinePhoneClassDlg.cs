@@ -104,7 +104,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				string phones = _textBoxMembers.Text.Trim().Replace(",", string.Empty);
+				string phones = _textBoxMembers.Text.Trim().Replace(",", "\0");
 				phones = m_classesDlg.Project.PhoneticParser.PhoneticParser_CommaDelimited(phones, true, true);
 				return "{" + (phones ?? string.Empty) + "}";
 			}

@@ -49,6 +49,9 @@
 					<Component Id="Palaso.dll" Guid="{7E3A288A-C1EA-4A99-9F13-FB9BA2C4966A}">
 						<File Id="Palaso.dll" KeyPath="yes" Source="..\output\release\Palaso.dll" />
 					</Component>
+					<Component Id="PalasoUIWindowsForms.dll" Guid="{DDAC7591-1446-45CA-932C-89B14F42D943}">
+						<File Id="PalasoUIWindowsForms.dll" KeyPath="yes" Source="..\output\release\PalasoUIWindowsForms.dll" />
+					</Component>
 					<Component Id="Pa.exe.config" Guid="{A77F3DC7-3E9E-40FD-9572-384BA8170609}">
 						<File Id="Pa.exe.config" KeyPath="yes" Source="..\output\release\Pa.exe.config" />
 					</Component>
@@ -97,6 +100,7 @@
       <ComponentRef Id="Ionic.Zip.dll" />
       <ComponentRef Id="L10NSharp.dll" />
       <ComponentRef Id="Palaso.dll" />
+      <ComponentRef Id="PalasoUIWindowsForms.dll" />
       <ComponentRef Id="PaToFdoInterfaces.dll" />
       <ComponentRef Id="PaCompiledTransforms.dll" />
       <ComponentRef Id="SilTools.dll" />

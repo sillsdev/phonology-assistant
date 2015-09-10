@@ -14,9 +14,9 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Ionic.Zip;
-using Palaso.Progress;
-using Palaso.Progress.LogBox;
 using Palaso.Reporting;
+using Palaso.UI.WindowsForms.Miscellaneous;
+using Palaso.UI.WindowsForms.Progress;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Dialogs
