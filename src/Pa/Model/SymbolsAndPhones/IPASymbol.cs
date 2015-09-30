@@ -66,6 +66,16 @@ namespace SIL.Pa.Model
 		[XmlElement("canPrecedeBase")]
 		public bool CanPrecedeBase { get; set; }
 
+        [XmlIgnore]
+        public bool CombinesBaseCharacters
+        {
+            get
+            {
+                // currrently just hard-coded to the tie bar characters
+                return Decimal == 0x035C || Decimal == 0x0361 || Decimal == 0x203F;
+            }
+        }
+
 		[XmlElement("displayWithDottedCircle")]
 		public bool DisplayWithDottedCircle { get; set; }
 

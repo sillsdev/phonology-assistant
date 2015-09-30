@@ -151,33 +151,28 @@ namespace SIL.Pa.Tests
 		/// Tests the phonetic parser with a string containing tie bars.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void PhoneticParserTest_TieBars()
+		[TestCase('\u035C')]
+        [TestCase('\u0361')]
+        [TestCase('\u203F')]
+        public void PhoneticParserTest_TieBars(char tieBarChar)
 		{
-			// Top tie bar test
-			var result = Parse("abk\u035Cpc", true, false, out uncertainties);
+			// Plain tie bar test
+			var result = Parse(string.Format("abk{0}pc", tieBarChar), true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("a", result[0]);
 			Assert.AreEqual("b", result[1]);
-			Assert.AreEqual("k\u035Cp", result[2]);
+            string expectedTieBar = string.Format("k{0}p", tieBarChar);
+            Assert.AreEqual(expectedTieBar, result[2]);
 			Assert.AreEqual("c", result[3]);
 
-			// Bottom tie bar test
-			result = Parse("abk\u0361pc", true, false, out uncertainties);
-			Assert.AreEqual(4, result.Length);
-			Assert.AreEqual("a", result[0]);
-			Assert.AreEqual("b", result[1]);
-			Assert.AreEqual("k\u0361p", result[2]);
-			Assert.AreEqual("c", result[3]);
-
-			// Linking (absence of a break)
-			result = Parse("abk\u203Fpc", true, false, out uncertainties);
-			Assert.AreEqual(4, result.Length);
-			Assert.AreEqual("a", result[0]);
-			Assert.AreEqual("b", result[1]);
-			Assert.AreEqual("k\u203Fp", result[2]);
-			Assert.AreEqual("c", result[3]);
-		}
+            // Tie bar test - with superscript m
+            result = Parse(string.Format("ae\u1D50k{0}pc", tieBarChar), true, false, out uncertainties);
+            Assert.AreEqual(4, result.Length);
+            Assert.AreEqual("a", result[0]);
+            Assert.AreEqual("e\u1D50", result[1]);
+            Assert.AreEqual(expectedTieBar, result[2]);
+            Assert.AreEqual("c", result[3]);
+        }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -509,7 +504,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(6, result.Length);
 			Assert.AreEqual("\u1D51g", result[2]);
 			Assert.AreEqual("t\u0283", result[3]);
-		}
+        }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
