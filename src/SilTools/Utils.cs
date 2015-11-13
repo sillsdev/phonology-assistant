@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using L10NSharp;
 using Microsoft.Win32;
 
 namespace SilTools
@@ -333,7 +334,16 @@ namespace SilTools
 			s_msgBoxJustShown = true;
 			msg = ConvertLiteralNewLines(msg);
 			msg = msg.Replace(kObjReplacementChar.ToString(CultureInfo.InvariantCulture), Environment.NewLine);
-			return MessageBox.Show(msg, Application.ProductName, buttons, icon);
+			MessageBoxExtender.OK = LocalizationManager.GetString("CustomMessageBox.OK", "OK");
+			MessageBoxExtender.Abort = LocalizationManager.GetString("CustomMessageBox.Abort", "Abort");
+			MessageBoxExtender.Cancel = LocalizationManager.GetString("CustomMessageBox.Cancel", "Cancel");
+			MessageBoxExtender.Ignore = LocalizationManager.GetString("CustomMessageBox.Ignore", "Ignore");
+			MessageBoxExtender.No = LocalizationManager.GetString("CustomMessageBox.No", "No");
+			MessageBoxExtender.Retry = LocalizationManager.GetString("CustomMessageBox.Retry", "Retry");
+			MessageBoxExtender.Yes = LocalizationManager.GetString("CustomMessageBox.Yes", "Yes");
+			MessageBoxExtender.Register();
+			var title = LocalizationManager.GetString("MainWindow.WindowTitle.WithOutProject", Application.ProductName);
+			return MessageBox.Show(msg, title, buttons, icon);
 		}
 
 		/// ------------------------------------------------------------------------------------

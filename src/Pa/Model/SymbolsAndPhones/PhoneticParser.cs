@@ -242,6 +242,7 @@ namespace SIL.Pa.Model
 			phonetic = MarkAmbiguousSequences(phonetic);
 
 			int phoneStart = 0;
+            bool hasBaseChar = false;
 			for (int i = 0; i < phonetic.Length; i++)
 			{
 				char c = phonetic[i];
@@ -326,7 +327,7 @@ namespace SIL.Pa.Model
 				// but a base character must follow it in the same phone (e.g. a tie bar)?
 				// If yes, then make sure the current codepoint is a base character or
 				// throw it away.
-				if (ciPrev != null && ciPrev.CanPrecedeBase)
+				if (ciPrev != null && (!hasBaseChar || ciPrev.CombinesBaseCharacters) && ciPrev.CanPrecedeBase)
 				{
 					ciPrev = ciCurr;
 					continue;
@@ -344,9 +345,11 @@ namespace SIL.Pa.Model
 				{
 					phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
 					phoneStart = i;
+                    hasBaseChar = false;
 				}
 
 				ciPrev = ciCurr;
+                hasBaseChar |= ciCurr.IsBase;
 			}
 
 			// Save the last phone

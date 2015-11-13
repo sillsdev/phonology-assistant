@@ -62,24 +62,15 @@ namespace SIL.Pa.UI.Controls
 		private bool _toggleGroupExpansion;
 
 		private LocalWindowsHook _kbHook;
-		private readonly bool _drawFocusRectAroundCurrCell;
-		private readonly Keys _stopPlaybackKey = Keys.None;
-		private readonly GridCellInfoPopup _cellInfoPopup;
+		private bool _drawFocusRectAroundCurrCell;
+		private Keys _stopPlaybackKey = Keys.None;
+		private GridCellInfoPopup _cellInfoPopup;
 		private readonly Bitmap _spkrImage;
-		private readonly int _widthOfWrdBoundarySrchRsltMatch;
+		private int _widthOfWrdBoundarySrchRsltMatch;
 
 		private Color _uncertainPhoneForeColor;
 		private Color _searchItemBackColor;
 		private Color _searchItemForeColor;
-		
-		//private Color m_selectedFocusedRowBackColor;
-		//private Color m_selectedFocusedRowForeColor;
-		
-		//private Color m_selectedCellBackColor;
-		//private Color m_selectedCellForeColor;
-		
-		//private Color m_selectedUnFocusedRowBackColor;
-		//private Color m_selectedUnFocusedRowForeColor;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -145,6 +136,11 @@ namespace SIL.Pa.UI.Controls
 			OnWordListOptionsChanged(null);
 			App.AddMediatorColleague(this);
 
+			SetGridCellPopup();
+		}
+
+		private void SetGridCellPopup()
+		{
 			// Create the popup for the uncertain phone possibilities
 			// list and the experimental transcriptions list.
 			_cellInfoPopup = new GridCellInfoPopup();
@@ -962,7 +958,17 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public override ContextMenuStrip ContextMenuStrip
 		{
-			get { return base.ContextMenuStrip; }
+			get
+			{
+				if (base.ContextMenuStrip == null)
+				{
+					SetGridCellPopup();
+				}
+				
+				return base.ContextMenuStrip;
+
+
+			}
 			set
 			{
 				if (base.ContextMenuStrip != null)

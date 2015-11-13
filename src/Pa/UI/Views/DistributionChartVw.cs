@@ -1290,7 +1290,7 @@ namespace SIL.Pa.UI.Views
         /// ------------------------------------------------------------------------------------
         protected bool OnResetChart(object args)
         {
-            if (lvSavedCharts.SelectedIndices.Count <= 0 || _grid.ChartLayout.Name == null || !ActiveView)
+            if (lvSavedCharts.SelectedIndices.Count <= 0 || _grid.ChartLayout == null || _grid.ChartLayout.Name == null || !ActiveView)
                 return false;
 
             ResetCurrentChart(_grid.ChartLayout);
