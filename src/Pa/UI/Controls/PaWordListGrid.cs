@@ -2636,8 +2636,11 @@ namespace SIL.Pa.UI.Controls
 			if (Rows.Count > row)
 			{
 				SetCurrentCell(column, row);
-				CurrentRow.Selected = true;
-				InvalidateRow(row);
+                if (CurrentRow != null)
+                {
+                    CurrentRow.Selected = true;
+                    InvalidateRow(row);
+                }
 			}
 
 			Cursor = Cursors.Default;
