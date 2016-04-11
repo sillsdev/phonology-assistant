@@ -254,6 +254,8 @@ namespace SIL.Pa.DataSource
 						"Miscellaneous.Messages.DataSourceReading.ErrorReadingMarkersFromStandardFormatFileMsg",
 						"An error occurred while trying to read the source file '{0}'."));
 				}
+
+				m_markersInFile = new List<string>(); // prevent null pointer exceptions in other code
 			}
 
 			return m_markersInFile;
