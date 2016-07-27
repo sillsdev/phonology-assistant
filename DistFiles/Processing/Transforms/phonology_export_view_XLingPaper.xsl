@@ -122,20 +122,27 @@ Main template
                             <!--                            <xsl:attribute name="padding-left">0</xsl:attribute>-->
                         </xsl:when>
                     </xsl:choose>
-                    <langData>
-                        <xsl:attribute name="lang">
-                            <xsl:text>l</xsl:text>
-                            <xsl:choose>
-                                <xsl:when test="contains(@class,' ')">
-                                    <xsl:value-of select="substring-before(@class, ' ')"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="@class"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:attribute>
-                        <xsl:call-template name="OutputCellContent"/>
-                    </langData>
+                    <xsl:choose>
+                        <xsl:when test="not(@class) and string-length(normalize-space(.))=0">
+                            <!-- do nothing -->
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <langData>
+                                <xsl:attribute name="lang">
+                                    <xsl:text>l</xsl:text>
+                                    <xsl:choose>
+                                        <xsl:when test="contains(@class,' ')">
+                                            <xsl:value-of select="substring-before(@class, ' ')"/>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:value-of select="@class"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                                <xsl:call-template name="OutputCellContent"/>
+                            </langData>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:otherwise>
             </xsl:choose>
         </td>
@@ -145,6 +152,13 @@ Main template
         th
         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     -->
+    <xsl:template match="x:th" mode="group">
+        <td>
+            <object type="tBold">
+                <xsl:call-template name="OutputCellContent"/>
+            </object>
+        </td>
+    </xsl:template>
     <xsl:template match="x:th">
         <th>
             <xsl:if test="ancestor::x:thead">
@@ -159,12 +173,19 @@ Main template
     </xsl:template>
     <!--
         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        th
+        tr
         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     -->
     <xsl:template match="x:tr">
         <tr>
-            <xsl:apply-templates/>
+            <xsl:choose>
+                <xsl:when test="@class='heading'">
+                    <xsl:apply-templates mode="group"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates/>
+                </xsl:otherwise>
+            </xsl:choose>
         </tr>
     </xsl:template>
     <!--
@@ -173,6 +194,7 @@ Main template
         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     -->
     <xsl:template name="CommonTypes">
+        <type id="tBold" font-weight="bold"/>
         <type id="tHomographNumber" font-size="65%" cssSpecial="vertical-align:sub" xsl-foSpecial="baseline-shift='sub'"/>
         <type id="tVariantTypes">
             <xsl:variable name="analysisLanguage" select="//language[not(@vernacular='true')][1]"/>
@@ -219,3 +241,7 @@ Main template
         </xsl:choose>
     </xsl:template>
 </xsl:stylesheet>
+<!-- Revison History
+2010.11.08 Initial version
+2016.07.27 Fix for multiple (i.e., grouped) searches
+-->
