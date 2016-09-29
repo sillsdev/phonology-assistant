@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.Processing
@@ -40,7 +39,7 @@ namespace SIL.Pa.Processing
 			bool showExportProgress)
 		{
 			return Process(project, chartType, outputFileName, OutputFormat.XHTML, grid,
-				openAfterExport, Settings.Default.AppThatOpensHtml, showExportProgress, 
+				openAfterExport, Properties.Settings.Default.AppThatOpensHtml, showExportProgress, 
 				Pipeline.ProcessType.ExportToXHTML);
 		}
 
@@ -49,7 +48,7 @@ namespace SIL.Pa.Processing
 			string outputFileName, CVChartGrid grid, bool openAfterExport)
 		{
 			return Process(project, chartType, outputFileName, OutputFormat.WordXml, grid,
-				openAfterExport, Settings.Default.AppThatOpensWordXml, true,
+				openAfterExport, Properties.Settings.Default.AppThatOpensWordXml, true,
 				Pipeline.ProcessType.ExportToWord);
 		}
 
@@ -58,7 +57,7 @@ namespace SIL.Pa.Processing
 			string outputFileName, CVChartGrid grid, bool openAfterExport)
 		{
 			return Process(project, chartType, outputFileName, OutputFormat.XHTML, grid,
-				openAfterExport, Settings.Default.AppThatOpensXLingPaperXML, true,
+				openAfterExport, Properties.Settings.Default.AppThatOpensXLingPaperXML, true,
 				new[] { Pipeline.ProcessType.ExportToXLingPaper });
 		}
 		
@@ -83,7 +82,7 @@ namespace SIL.Pa.Processing
 			var exporter = new CVChartExporter(project, chartType, outputFileName, outputFormat, grid);
 			exporter.m_showExportProgress = showExportProgress;
 
-			bool result = exporter.InternalProcess(Settings.Default.KeepTempCVChartExportFile, pipeline);
+			bool result = exporter.InternalProcess(Properties.Settings.Default.KeepTempCVChartExportFile, pipeline);
 			
 			if (result && openAfterExport)
 				CallAppToExportedFile(appToOpenOutput, outputFileName);

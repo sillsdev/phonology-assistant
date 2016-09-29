@@ -16,13 +16,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Progress;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Windows.Forms.Miscellaneous;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -85,8 +83,8 @@ namespace SIL.Pa.UI.Dialogs
             Application.DoEvents();
 
             _isProjectNew = (project == null);
-            _chkMakeFolder.Visible = (_isProjectNew && !Settings.Default.AutoCreateProjectFilesAndFolderOnProjectCreation);
-            _chkMakeFolder.Checked = (Settings.Default.CreateProjectFolderForNewProject || !_chkMakeFolder.Visible);
+            _chkMakeFolder.Visible = (_isProjectNew && !Properties.Settings.Default.AutoCreateProjectFilesAndFolderOnProjectCreation);
+            _chkMakeFolder.Checked = (Properties.Settings.Default.CreateProjectFolderForNewProject || !_chkMakeFolder.Visible);
 
             BuildGrid();
             pnlGridHdg.ControlReceivingFocusOnMnemonic = m_grid;
@@ -208,10 +206,10 @@ namespace SIL.Pa.UI.Dialogs
 
             m_grid.AutoResizeColumn(0, DataGridViewAutoSizeColumnMode.ColumnHeader);
 
-            if (Settings.Default.ProjectSettingsDlgGrid != null)
-                Settings.Default.ProjectSettingsDlgGrid.InitializeGrid(m_grid);
+            if (Properties.Settings.Default.ProjectSettingsDlgGrid != null)
+                Properties.Settings.Default.ProjectSettingsDlgGrid.InitializeGrid(m_grid);
 
-            m_grid.Columns["skip"].Visible = Settings.Default.ShowLoadColumnInProjectSettingsDlg;
+            m_grid.Columns["skip"].Visible = Properties.Settings.Default.ShowLoadColumnInProjectSettingsDlg;
 
             // When xslt transforms are supported when reading data, then this should become visible.
             m_grid.Columns["xslt"].Visible = false;
@@ -285,9 +283,9 @@ namespace SIL.Pa.UI.Dialogs
         protected override void SaveSettings()
         {
             if (_chkMakeFolder.Visible)
-                Settings.Default.CreateProjectFolderForNewProject = _chkMakeFolder.Checked;
+                Properties.Settings.Default.CreateProjectFolderForNewProject = _chkMakeFolder.Checked;
 
-            Settings.Default.ProjectSettingsDlgGrid = GridSettings.Create(m_grid);
+            Properties.Settings.Default.ProjectSettingsDlgGrid = GridSettings.Create(m_grid);
             base.SaveSettings();
         }
 
@@ -451,7 +449,7 @@ namespace SIL.Pa.UI.Dialogs
                     InitializeFontsToFw7Values();
 
                 int i = 0;
-                foreach (var field in Settings.Default.DefaultVisibleFieldsForNewProject.Cast<string>()
+                foreach (var field in Properties.Settings.Default.DefaultVisibleFieldsForNewProject.Cast<string>()
                     .Select(fname => Project.GetMappedFields()
                         .SingleOrDefault(f => f.Name == fname))
                         .Where(field => field != null))
@@ -480,7 +478,7 @@ namespace SIL.Pa.UI.Dialogs
             foreach (var mapping in ds.FieldMappings.Where(m => m.FwWsId != null))
             {
                 var ws = ds.FwDataSourceInfo.GetWritingSystems().First(w => w.Id == mapping.FwWsId);
-                var fontString = string.Format(Settings.Default.DefaultFw7InferredFontSizeAndStyle, ws.DefaultFontName);
+                var fontString = string.Format(Properties.Settings.Default.DefaultFw7InferredFontSizeAndStyle, ws.DefaultFontName);
                 mapping.Field.Font = FontHelper.MakeFont(fontString);
             }
         }
@@ -488,7 +486,7 @@ namespace SIL.Pa.UI.Dialogs
         /// ------------------------------------------------------------------------------------
         private string GetProjectFileName()
         {
-            if (!Settings.Default.AutoCreateProjectFilesAndFolderOnProjectCreation)
+            if (!Properties.Settings.Default.AutoCreateProjectFilesAndFolderOnProjectCreation)
                 return GetProjectFileNameFromUser();
 
             string prjFileName;
@@ -536,7 +534,7 @@ namespace SIL.Pa.UI.Dialogs
                     if (prjFolderCreated && Path.GetDirectoryName(dlg.FileName) != prjFolder)
                         Directory.Delete(prjFolder);
 
-                    Settings.Default.LastFolderForSavedProject = Path.GetDirectoryName(dlg.FileName);
+                    Properties.Settings.Default.LastFolderForSavedProject = Path.GetDirectoryName(dlg.FileName);
                     return dlg.FileName;
                 }
 
@@ -555,7 +553,7 @@ namespace SIL.Pa.UI.Dialogs
 
             if (!_chkMakeFolder.Checked)
             {
-                prjFolder = (Settings.Default.LastFolderForSavedProject ?? string.Empty);
+                prjFolder = (Properties.Settings.Default.LastFolderForSavedProject ?? string.Empty);
                 if (!Directory.Exists(prjFolder))
                     prjFolder = App.ProjectFolder;
 
@@ -592,7 +590,7 @@ namespace SIL.Pa.UI.Dialogs
         /// ------------------------------------------------------------------------------------
         private void HandleAddOtherDataSourceClick(object sender, EventArgs e)
         {
-            int filterIndex = Settings.Default.OFD_LastFileTypeChosen_DataSource;
+            int filterIndex = Properties.Settings.Default.OFD_LastFileTypeChosen_DataSource;
 
             var fileTypes = new StringBuilder();
             fileTypes.Append(App.kstidFileTypeToolboxDB);
@@ -618,7 +616,7 @@ namespace SIL.Pa.UI.Dialogs
             if (filenames.Length == 0)
                 return;
 
-            Settings.Default.OFD_LastFileTypeChosen_DataSource = filterIndex;
+            Properties.Settings.Default.OFD_LastFileTypeChosen_DataSource = filterIndex;
 
             // Add the selected files to the data source list.
             foreach (string file in filenames)
@@ -825,7 +823,7 @@ namespace SIL.Pa.UI.Dialogs
             m_grid.Refresh();
             // Go through the new mappings and mark those that should be parsed.
             foreach (var mapping in ds.FieldMappings
-                .Where(m => Settings.Default.ParsedFw7Fields.Contains(m.NameInDataSource)))
+                .Where(m => Properties.Settings.Default.ParsedFw7Fields.Contains(m.NameInDataSource)))
             {
                 mapping.IsParsed = true;
             }
@@ -837,7 +835,7 @@ namespace SIL.Pa.UI.Dialogs
         /// ------------------------------------------------------------------------------------
         private void HandleSpecifyXSLTClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            int filterIndex = Settings.Default.OFD_LastFileTypeChosen_DataSourceXslt;
+            int filterIndex = Properties.Settings.Default.OFD_LastFileTypeChosen_DataSourceXslt;
 
             var filter = App.kstidFileTypeXSLT + "|" + App.kstidFileTypeAllFiles;
             var filename = App.OpenFileDialog("xslt", filter, ref filterIndex,
@@ -849,7 +847,7 @@ namespace SIL.Pa.UI.Dialogs
             {
                 _dataSources[e.RowIndex].XSLTFile = filename;
                 m_grid.Refresh();
-                Settings.Default.OFD_LastFileTypeChosen_DataSourceXslt = filterIndex;
+                Properties.Settings.Default.OFD_LastFileTypeChosen_DataSourceXslt = filterIndex;
             }
         }
 
@@ -1067,16 +1065,16 @@ namespace SIL.Pa.UI.Dialogs
         /// ------------------------------------------------------------------------------------
         private void HandleEthnologueLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var linkData = Settings.Default.EthnologueIndexPage;
+            var linkData = Properties.Settings.Default.EthnologueIndexPage;
 
             if (txtLanguageCode.Text.Trim().Length == 3)
             {
                 linkData = string.Format(
-                    Settings.Default.EthnologueCodeSearch, txtLanguageCode.Text.Trim());
+                    Properties.Settings.Default.EthnologueCodeSearch, txtLanguageCode.Text.Trim());
             }
             else if (txtLanguageName.Text.Trim().Length > 0)
             {
-                linkData = string.Format(Settings.Default.EthnologueFirstLetterOfNameSearch,
+                linkData = string.Format(Properties.Settings.Default.EthnologueFirstLetterOfNameSearch,
                     txtLanguageName.Text.Trim()[0]);
             }
 

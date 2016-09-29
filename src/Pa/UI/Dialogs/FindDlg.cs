@@ -16,7 +16,6 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -45,7 +44,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			InitializeComponent();
 			
-			Settings.Default.FindDlg = App.InitializeForm(this, Settings.Default.FindDlg);
+			Properties.Settings.Default.FindDlg = App.InitializeForm(this, Properties.Settings.Default.FindDlg);
 			SetUiFonts();
 
 			var fieldsInList = from field in App.Project.Fields
@@ -90,13 +89,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
-			cboFindWhat.Text = (Settings.Default.FindDlgFindWhat ?? string.Empty);
-			chkMatchCase.Checked = Settings.Default.FindDlgMatchCase;
-			chkMatchEntireWord.Checked = Settings.Default.FindDlgMatchEntireWord;
-			chkStartsWith.Checked = Settings.Default.FindDlgStartsWith;
-			chkRegEx.Checked = Settings.Default.FindDlgRegEx;
-			chkReverseSearch.Checked = Settings.Default.FindDlgReverse;
-			chkSrchCollapsedGrps.Checked = Settings.Default.FindDlgSearchCollapsedGroups;
+			cboFindWhat.Text = (Properties.Settings.Default.FindDlgFindWhat ?? string.Empty);
+			chkMatchCase.Checked = Properties.Settings.Default.FindDlgMatchCase;
+			chkMatchEntireWord.Checked = Properties.Settings.Default.FindDlgMatchEntireWord;
+			chkStartsWith.Checked = Properties.Settings.Default.FindDlgStartsWith;
+			chkRegEx.Checked = Properties.Settings.Default.FindDlgRegEx;
+			chkReverseSearch.Checked = Properties.Settings.Default.FindDlgReverse;
+			chkSrchCollapsedGrps.Checked = Properties.Settings.Default.FindDlgSearchCollapsedGroups;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,7 +108,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!m_cancel)
 				SaveSettings();
 
-			Settings.Default.Save();
+			Properties.Settings.Default.Save();
 			FindInfo.FindDlgIsOpen = false;
 			base.OnClosing(e);
 		}
@@ -118,14 +117,14 @@ namespace SIL.Pa.UI.Dialogs
 		private void SaveSettings()
 		{
 			if (cboFindWhat.Text.Trim() != string.Empty)
-				Settings.Default.FindDlgFindWhat = cboFindWhat.Text.Trim();
+				Properties.Settings.Default.FindDlgFindWhat = cboFindWhat.Text.Trim();
 
-			Settings.Default.FindDlgMatchCase = chkMatchCase.Checked;
-			Settings.Default.FindDlgMatchEntireWord = chkMatchEntireWord.Checked;
-			Settings.Default.FindDlgStartsWith = chkStartsWith.Checked;
-			Settings.Default.FindDlgRegEx = chkRegEx.Checked;
-			Settings.Default.FindDlgReverse = chkReverseSearch.Checked;
-			Settings.Default.FindDlgSearchCollapsedGroups = chkSrchCollapsedGrps.Checked;
+			Properties.Settings.Default.FindDlgMatchCase = chkMatchCase.Checked;
+			Properties.Settings.Default.FindDlgMatchEntireWord = chkMatchEntireWord.Checked;
+			Properties.Settings.Default.FindDlgStartsWith = chkStartsWith.Checked;
+			Properties.Settings.Default.FindDlgRegEx = chkRegEx.Checked;
+			Properties.Settings.Default.FindDlgReverse = chkReverseSearch.Checked;
+			Properties.Settings.Default.FindDlgSearchCollapsedGroups = chkSrchCollapsedGrps.Checked;
 		}
 
 		#endregion

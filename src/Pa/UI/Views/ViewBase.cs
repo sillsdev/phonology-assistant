@@ -10,7 +10,6 @@
 using System.Windows.Forms;
 using System.Xml;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Views
@@ -82,8 +81,8 @@ namespace SIL.Pa.UI.Views
 			_otherSrchEngButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
 
 			OnShowSearchSelectionButtonsChagned(null);
-			_regExpSrchEngButton.Checked = Settings.Default.UseNewSearchPatternParser;
-			_otherSrchEngButton.Checked = !Settings.Default.UseNewSearchPatternParser;
+			_regExpSrchEngButton.Checked = Properties.Settings.Default.UseNewSearchPatternParser;
+			_otherSrchEngButton.Checked = !Properties.Settings.Default.UseNewSearchPatternParser;
 
 			toolstrip.Items.Add(_regExpSrchEngButton);
 			toolstrip.Items.Add(_otherSrchEngButton);
@@ -93,9 +92,9 @@ namespace SIL.Pa.UI.Views
 		void HandleSearchEngineItemClick(object sender, System.EventArgs e)
 		{
 			var item = sender as ToolStripButton;
-			Settings.Default.UseNewSearchPatternParser = (item == _regExpSrchEngButton);
-			_regExpSrchEngButton.Checked = Settings.Default.UseNewSearchPatternParser;
-			_otherSrchEngButton.Checked = !Settings.Default.UseNewSearchPatternParser;
+			Properties.Settings.Default.UseNewSearchPatternParser = (item == _regExpSrchEngButton);
+			_regExpSrchEngButton.Checked = Properties.Settings.Default.UseNewSearchPatternParser;
+			_otherSrchEngButton.Checked = !Properties.Settings.Default.UseNewSearchPatternParser;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,8 +102,8 @@ namespace SIL.Pa.UI.Views
 		{
 			if (this is SearchVw || this is DistributionChartVw)
 			{
-				_regExpSrchEngButton.Visible = Settings.Default.ShowSearchEngineChoiceButtons;
-				_otherSrchEngButton.Visible = Settings.Default.ShowSearchEngineChoiceButtons;
+				_regExpSrchEngButton.Visible = Properties.Settings.Default.ShowSearchEngineChoiceButtons;
+				_otherSrchEngButton.Visible = Properties.Settings.Default.ShowSearchEngineChoiceButtons;
 			}
 			
 			return false;

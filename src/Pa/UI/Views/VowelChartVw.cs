@@ -12,7 +12,6 @@ using System.IO;
 using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.UI.Views
@@ -36,9 +35,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(System.EventArgs e)
 		{
-			Settings.Default.VowelChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
-			Settings.Default.VowelChartRowHdrWidth = _chartGrid.RowHeadersWidth;
-			Settings.Default.HtmlVowelChartVisible = (_htmlVw != null && _htmlVw.Visible);
+			Properties.Settings.Default.VowelChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
+			Properties.Settings.Default.VowelChartRowHdrWidth = _chartGrid.RowHeadersWidth;
+			Properties.Settings.Default.HtmlVowelChartVisible = (_htmlVw != null && _htmlVw.Visible);
 
 			base.OnHandleDestroyed(e);
 		}
@@ -58,8 +57,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override bool ShowHtmlChartWhenViewLoaded
 		{
-			get { return Settings.Default.HtmlVowelChartVisible; }
-			set { Settings.Default.HtmlVowelChartVisible = value; }
+			get { return Properties.Settings.Default.HtmlVowelChartVisible; }
+			set { Properties.Settings.Default.HtmlVowelChartVisible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -75,21 +74,21 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override float SplitterRatioSetting
 		{
-			get { return Settings.Default.VowelChartVwSplitRatio; }
-			set { Settings.Default.VowelChartVwSplitRatio = value; }
+			get { return Properties.Settings.Default.VowelChartVwSplitRatio; }
+			set { Properties.Settings.Default.VowelChartVwSplitRatio = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override bool HistogramVisibleSetting
 		{
-			get { return Settings.Default.VowelChartVwHistogramPaneVisible; }
-			set { Settings.Default.VowelChartVwHistogramPaneVisible = value; }
+			get { return Properties.Settings.Default.VowelChartVwHistogramPaneVisible; }
+			set { Properties.Settings.Default.VowelChartVwHistogramPaneVisible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override Color ChartGridColor
 		{
-			get { return Settings.Default.VowelChartGridColor; }
+			get { return Properties.Settings.Default.VowelChartGridColor; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,13 +100,13 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override int ColumnHeaderHeight
 		{
-			get { return Settings.Default.VowelChartColHdrHeight; }
+			get { return Properties.Settings.Default.VowelChartColHdrHeight; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override int RowHeaderWidth
 		{
-			get { return Settings.Default.VowelChartRowHdrWidth; }
+			get { return Properties.Settings.Default.VowelChartRowHdrWidth; }
 		}
 
 		/// --------------------------------------------------------------------------------------------

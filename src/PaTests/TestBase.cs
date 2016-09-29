@@ -12,9 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Linq;
 using NUnit.Framework;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 

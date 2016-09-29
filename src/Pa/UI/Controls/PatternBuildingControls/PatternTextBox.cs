@@ -13,7 +13,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -149,7 +148,7 @@ namespace SIL.Pa.UI.Controls
             get
             {
                 return (/* m_allowFullSearchPattern && */ !App.DesignMode &&
-                    Settings.Default.ShowClassNamesInSearchPatterns ?
+                    Properties.Settings.Default.ShowClassNamesInSearchPatterns ?
                     App.kEmptyDiamondPattern : string.Empty);
             }
         }
@@ -1084,7 +1083,7 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         private static bool SurroundCVInBrackets(TextBoxBase txt)
         {
-            if (!Settings.Default.AssumeCVKeysArePhoneClassWhileTyping)
+            if (!Properties.Settings.Default.AssumeCVKeysArePhoneClassWhileTyping)
                 return false;
 
             return (!InsideBraketedGroup(txt, '[', ']') && !InsideBraketedGroup(txt, '<', '>'));

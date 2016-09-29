@@ -12,8 +12,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using SIL.Pa.Properties;
+using SIL.Reporting;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -46,10 +45,10 @@ namespace SIL.Pa.UI.Dialogs
 
 			_radioDefaultFolder.Checked = true;
 
-			if (Settings.Default.LastOtherRestoreFolder != null &&
-				Directory.Exists(Settings.Default.LastOtherRestoreFolder))
+			if (Properties.Settings.Default.LastOtherRestoreFolder != null &&
+				Directory.Exists(Properties.Settings.Default.LastOtherRestoreFolder))
 			{
-				_radioOtherFolder.Checked = Settings.Default.RestoreToOtherFolder;
+				_radioOtherFolder.Checked = Properties.Settings.Default.RestoreToOtherFolder;
 			}
 		}
 
@@ -70,7 +69,7 @@ namespace SIL.Pa.UI.Dialogs
 			_radioOtherFolder.CheckedChanged += delegate { UpdateDisplay(); };
 			_radioDefaultFolder.CheckedChanged += delegate { UpdateDisplay(); };
 
-			var lastTargetRestoreFolder = Settings.Default.LastOtherRestoreFolder;
+			var lastTargetRestoreFolder = Properties.Settings.Default.LastOtherRestoreFolder;
 			_viewModel.OtherDestFolder =
 				(lastTargetRestoreFolder != null && Directory.Exists(lastTargetRestoreFolder) ? lastTargetRestoreFolder : null);
 
@@ -91,7 +90,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			Settings.Default.RestoreDlg = App.InitializeForm(this, Settings.Default.RestoreDlg);
+			Properties.Settings.Default.RestoreDlg = App.InitializeForm(this, Properties.Settings.Default.RestoreDlg);
 			base.OnLoad(e);
 			BringToFront();
 		}
@@ -99,8 +98,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			Settings.Default.LastOtherRestoreFolder = _viewModel.OtherDestFolder;
-			Settings.Default.RestoreToOtherFolder = _radioOtherFolder.Checked;
+			Properties.Settings.Default.LastOtherRestoreFolder = _viewModel.OtherDestFolder;
+			Properties.Settings.Default.RestoreToOtherFolder = _radioOtherFolder.Checked;
 
 			base.OnFormClosing(e);
 		}

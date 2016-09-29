@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Filters;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -38,7 +37,7 @@ namespace SIL.Pa.UI.Controls
 
 			try
 			{
-				Settings.Default[Name] = App.InitializeForm(this, Settings.Default[Name] as FormSettings);
+				Properties.Settings.Default[Name] = App.InitializeForm(this, Properties.Settings.Default[Name] as FormSettings);
 			}
 			catch
 			{
@@ -126,7 +125,7 @@ namespace SIL.Pa.UI.Controls
 			Invalidate();  // Used to be: Utils.UpdateWindow(Handle); but I'm not sure why. I suspect there was a good reason though.
 
 			if (App.Project != null && m_checkForModifiedDataSources &&
-				Settings.Default.ReloadProjectsWhenAppBecomesActivate)
+				Properties.Settings.Default.ReloadProjectsWhenAppBecomesActivate)
 			{
 				App.Project.CheckForModifiedDataSources();
 			}

@@ -16,8 +16,7 @@ using System.ServiceProcess;
 using System.Windows.Forms;
 using L10NSharp;
 using Microsoft.Win32;
-using Palaso.Reporting;
-using SIL.Pa.Properties;
+using SIL.Reporting;
 using SIL.PaToFdoInterfaces;
 using SilTools;
 
@@ -345,13 +344,13 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public static bool GetFw7Project(Form frm, out string name, out string server)
 		{
-			var rc = Settings.Default.Fw7OpenDialogBounds;
-			int splitPos = Settings.Default.Fw7OpenDialogSplitterPos;
+			var rc = Properties.Settings.Default.Fw7OpenDialogBounds;
+			int splitPos = Properties.Settings.Default.Fw7OpenDialogSplitterPos;
 			using (var helper = new PaFieldWorksHelper())
 			{
 				var retVal = helper.ShowFwOpenProject(frm, ref rc, ref splitPos, out name, out server);
-				Settings.Default.Fw7OpenDialogBounds = rc;
-				Settings.Default.Fw7OpenDialogSplitterPos = splitPos;
+				Properties.Settings.Default.Fw7OpenDialogBounds = rc;
+				Properties.Settings.Default.Fw7OpenDialogSplitterPos = splitPos;
 				return retVal;
 			}
 		}
@@ -378,7 +377,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			using (var helper = new PaFieldWorksHelper())
 			{
 				if (helper.LoadOnlyWritingSystems(name, server,
-					Settings.Default.Fw7TimeToWaitForProcessStart, Settings.Default.Fw7TimeToWaitForDataLoad))
+					Properties.Settings.Default.Fw7TimeToWaitForProcessStart, Properties.Settings.Default.Fw7TimeToWaitForDataLoad))
 				{
 					return helper.WritingSystems.Select(ws => new FwWritingSysInfo(ws.IsVernacular ?
 						FwWritingSystemType.Vernacular : FwWritingSystemType.Analysis, ws.Id, ws.DisplayName)
@@ -453,7 +452,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			using (var helper = new PaFieldWorksHelper())
 			{
 				if (helper.Initialize(dsInfo.Name, dsInfo.Server,
-					Settings.Default.Fw7TimeToWaitForProcessStart, Settings.Default.Fw7TimeToWaitForDataLoad))
+					Properties.Settings.Default.Fw7TimeToWaitForProcessStart, Properties.Settings.Default.Fw7TimeToWaitForDataLoad))
 				{
 					return helper.LexEntries.ToList();
 				}

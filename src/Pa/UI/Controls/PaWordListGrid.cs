@@ -19,9 +19,7 @@ using System.Windows.Forms.VisualStyles;
 using L10NSharp;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
-using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 using SIL.Pa.UI.Dialogs;
 
@@ -149,8 +147,8 @@ namespace SIL.Pa.UI.Controls
 			_cellInfoPopup.Paint += m_cellInfoPopup_Paint;
 			_cellInfoPopup.CommandLink.Click += PopupsCommandLink_Click;
 
-			_drawFocusRectAroundCurrCell = Settings.Default.WordListDrawFocusRectangle;
-			_widthOfWrdBoundarySrchRsltMatch = Settings.Default.WordListSrchResultWidthOnWordBoundaryMatch;
+			_drawFocusRectAroundCurrCell = Properties.Settings.Default.WordListDrawFocusRectangle;
+			_widthOfWrdBoundarySrchRsltMatch = Properties.Settings.Default.WordListSrchResultWidthOnWordBoundaryMatch;
 
 			if (App.TMAdapter != null)
 			{
@@ -249,9 +247,9 @@ namespace SIL.Pa.UI.Controls
 			BackgroundColor = SystemColors.Window;
 			GridColor = App.GridColor;
 
-			_uncertainPhoneForeColor = Settings.Default.UncertainPhoneForeColor;
-			_searchItemBackColor = Settings.Default.QuerySearchItemBackColor;
-			_searchItemForeColor = Settings.Default.QuerySearchItemForeColor;
+			_uncertainPhoneForeColor = Properties.Settings.Default.UncertainPhoneForeColor;
+			_searchItemBackColor = Properties.Settings.Default.QuerySearchItemBackColor;
+			_searchItemForeColor = Properties.Settings.Default.QuerySearchItemForeColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -716,7 +714,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnCellMouseDoubleClick(e);
 
-			if (e.ColumnIndex >= 0 && e.RowIndex >= 0 && Settings.Default.WordListEditSourceOnDoublClick)
+			if (e.ColumnIndex >= 0 && e.RowIndex >= 0 && Properties.Settings.Default.WordListEditSourceOnDoublClick)
 				OnEditSourceRecord(null);
 		}
 
@@ -1996,7 +1994,7 @@ namespace SIL.Pa.UI.Controls
 			int begin, int end, TextFormatFlags flags, int left)
 		{
 			Color clrText = (_currPaintingCellSelected && !Focused ?
-				 Settings.Default.GridRowUnfocusedSelectionForeColor : _searchItemForeColor);
+				 Properties.Settings.Default.GridRowUnfocusedSelectionForeColor : _searchItemForeColor);
 			
 			Rectangle rc = new Rectangle(left, cellBounds.Y,
 				cellBounds.Right - left, cellBounds.Height);
@@ -2568,7 +2566,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Add a little vertical padding.
-			_defaultRowHeight += Settings.Default.WordListVerticalRowPadding;
+			_defaultRowHeight += Properties.Settings.Default.WordListVerticalRowPadding;
 
 			// Get rid of all custom row heights (i.e. row heights adjusted by the user).
 			_customRowHeights = null;
@@ -2963,7 +2961,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			if (e.KeyCode == Keys.Enter && Settings.Default.WordListEditSourceOnEnterKey)
+			if (e.KeyCode == Keys.Enter && Properties.Settings.Default.WordListEditSourceOnEnterKey)
 			{
 				e.Handled = true;
 				base.OnKeyDown(e);

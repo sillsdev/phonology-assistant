@@ -13,7 +13,6 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -290,7 +289,7 @@ namespace SIL.Pa.UI.Controls
 		public void SetDefaultParsedFlags()
 		{
 			foreach (var mapping in m_mappings.Where(m => m.Field != null))
-				mapping.IsParsed = Settings.Default.DefaultParsedSfmFields.Contains(mapping.Field.Name);
+				mapping.IsParsed = Properties.Settings.Default.DefaultParsedSfmFields.Contains(mapping.Field.Name);
 
 			Invalidate();
 		}

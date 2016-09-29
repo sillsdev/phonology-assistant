@@ -14,7 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Palaso.IO;
+using SIL.IO;
 
 namespace SIL.Pa.Model
 {

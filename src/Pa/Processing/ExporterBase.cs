@@ -18,7 +18,6 @@ using System.Windows.Forms;
 using System.Xml;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -291,7 +290,7 @@ namespace SIL.Pa.Processing
 			if (writeStreamToDisk)
 			{
 				ProcessHelper.WriteStreamToFile(memStream, IntermediateFileName,
-					Settings.Default.TidyUpTempExportFilesAfterSaving);
+					Properties.Settings.Default.TidyUpTempExportFilesAfterSaving);
 			}
 
 			return memStream;

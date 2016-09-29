@@ -13,7 +13,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -210,7 +209,7 @@ namespace SIL.Pa.PhoneticSearching
 			var memberPhones = new List<PatternGroupMember>();
 
 			var phones = App.Project.PhoneticParser.Parse(Member, true,
-				Settings.Default.ConvertPatternsWithTranscriptionChanges);
+				Properties.Settings.Default.ConvertPatternsWithTranscriptionChanges);
 
 			if (phones == null || phones.Length == 0)
 				return null;

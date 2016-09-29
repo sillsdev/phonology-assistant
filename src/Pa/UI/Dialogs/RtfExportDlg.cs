@@ -64,14 +64,14 @@ namespace SIL.Pa.UI.Dialogs
 			rbFmtTabDelim.Tag = RtfCreator.ExportFormat.TabDelimited;
 
 			// Load saved window settings
-			m_rtfEditor = Settings.Default.RTFExportOptionRTFEditor;
-			rbToFile.Checked = Settings.Default.RTFExportOptionToFile;
-			rbToFileOpen.Checked = Settings.Default.RTFExportOptionToFileAndOpen;
-			rbToClipboard.Checked = Settings.Default.RTFExportOptionToClipboard;
-			rbFmtTable.Checked = Settings.Default.RTFExportOptionToTable;
-			rbFmtTabDelim.Checked = Settings.Default.RTFExportOptionTabDelimited;
+			m_rtfEditor = Properties.Settings.Default.RTFExportOptionRTFEditor;
+			rbToFile.Checked = Properties.Settings.Default.RTFExportOptionToFile;
+			rbToFileOpen.Checked = Properties.Settings.Default.RTFExportOptionToFileAndOpen;
+			rbToClipboard.Checked = Properties.Settings.Default.RTFExportOptionToClipboard;
+			rbFmtTable.Checked = Properties.Settings.Default.RTFExportOptionToTable;
+			rbFmtTabDelim.Checked = Properties.Settings.Default.RTFExportOptionTabDelimited;
 
-			App.InitializeForm(this, Settings.Default.RTFExportDlg);
+			App.InitializeForm(this, Properties.Settings.Default.RTFExportDlg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,12 +115,12 @@ namespace SIL.Pa.UI.Dialogs
 				((Form)Parent).RemoveOwnedForm(this);
 			
 			// Save settings
-			Settings.Default.RTFExportOptionRTFEditor = m_rtfEditor;
-			Settings.Default.RTFExportOptionToFile = rbToFile.Checked;
-			Settings.Default.RTFExportOptionToFileAndOpen = rbToFileOpen.Checked;
-			Settings.Default.RTFExportOptionToClipboard = rbToClipboard.Checked;
-			Settings.Default.RTFExportOptionToTable = rbFmtTable.Checked;
-			Settings.Default.RTFExportOptionTabDelimited = rbFmtTabDelim.Checked;
+			Properties.Settings.Default.RTFExportOptionRTFEditor = m_rtfEditor;
+			Properties.Settings.Default.RTFExportOptionToFile = rbToFile.Checked;
+			Properties.Settings.Default.RTFExportOptionToFileAndOpen = rbToFileOpen.Checked;
+			Properties.Settings.Default.RTFExportOptionToClipboard = rbToClipboard.Checked;
+			Properties.Settings.Default.RTFExportOptionToTable = rbFmtTable.Checked;
+			Properties.Settings.Default.RTFExportOptionTabDelimited = rbFmtTabDelim.Checked;
 
 			base.OnClosing(e);
 		}

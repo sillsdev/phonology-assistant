@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
+using SIL.Reporting;
 
 namespace SIL.Pa.DataSource.Sa
 {
@@ -154,7 +155,7 @@ namespace SIL.Pa.DataSource.Sa
 					"Miscellaneous.Messages.DataSourceReading.ErrorInitializingSaDocumentReaderMsg",
 					"Error initializing SA Document reader.");
 				
-				Palaso.Reporting.ErrorReport.ReportNonFatalExceptionWithMessage(e, msg);
+				ErrorReport.ReportNonFatalExceptionWithMessage(e, msg);
 				return false;
 			}
 

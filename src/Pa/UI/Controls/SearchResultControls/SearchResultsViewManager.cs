@@ -19,7 +19,6 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -318,7 +317,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					grid.GroupByField = grid.SortOptions.SortFields[0].Field;
 
-					if (Settings.Default.WordListCollapseOnGrouping)
+					if (Properties.Settings.Default.WordListCollapseOnGrouping)
 						grid.ToggleGroupExpansion(false);
 				}
 
@@ -1444,7 +1443,7 @@ namespace SIL.Pa.UI.Controls
 			FindInfo.CanFindAgain = true;
 
 			if (CurrentViewsGrid.Cache.IsMinimalPair && !CurrentViewsGrid.Cache.IsEmpty &&
-				Settings.Default.WordListCollapseOnMinimalPairs)
+				Properties.Settings.Default.WordListCollapseOnMinimalPairs)
 			{
 				CurrentViewsGrid.ToggleGroupExpansion(false);
 			}
@@ -1506,7 +1505,7 @@ namespace SIL.Pa.UI.Controls
             FindInfo.CanFindAgain = true;
 
             if (CurrentViewsGrid.Cache.IsSimilarEnvironment && !CurrentViewsGrid.Cache.IsEmpty &&
-                Settings.Default.WordListCollapseOnMinimalPairs)
+                Properties.Settings.Default.WordListCollapseOnMinimalPairs)
             {
                 CurrentViewsGrid.ToggleGroupExpansion(false);
             }
@@ -1568,7 +1567,7 @@ namespace SIL.Pa.UI.Controls
 				"{0}-{1}SearchResults.html");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
-				Settings.Default.OpenHtmlSearchResultAfterExport, SearchResultExporter.ToHtml);
+				Properties.Settings.Default.OpenHtmlSearchResultAfterExport, SearchResultExporter.ToHtml);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1583,7 +1582,7 @@ namespace SIL.Pa.UI.Controls
 				"{0}-{1}SearchResults-(Word).xml");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
-				Settings.Default.OpenWordXmlSearchResultAfterExport, SearchResultExporter.ToWordXml);
+				Properties.Settings.Default.OpenWordXmlSearchResultAfterExport, SearchResultExporter.ToWordXml);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1598,7 +1597,7 @@ namespace SIL.Pa.UI.Controls
 				"{0}-{1}SearchResults-(XLingPaper).xml");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
-				Settings.Default.OpenXLingPaperSearchResultAfterExport,
+				Properties.Settings.Default.OpenXLingPaperSearchResultAfterExport,
 				SearchResultExporter.ToXLingPaper);
 		}
 

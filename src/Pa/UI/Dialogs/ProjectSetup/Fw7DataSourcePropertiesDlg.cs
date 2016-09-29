@@ -8,11 +8,9 @@
 #endregion
 // 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -22,7 +20,6 @@ using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -67,7 +64,7 @@ namespace SIL.Pa.UI.Dialogs
             ds.FieldMappings.Remove(m_phoneticMapping);
             ds.FieldMappings.Remove(m_audioFileMapping);
 
-            var potentialFieldNames = Settings.Default.DefaultFw7Fields.Cast<string>();
+            var potentialFieldNames = Properties.Settings.Default.DefaultFw7Fields.Cast<string>();
 
             var customFields = new Fw7CustomField(ds);
             var cuslist = potentialFieldNames.ToList();
@@ -128,8 +125,8 @@ namespace SIL.Pa.UI.Dialogs
 
             m_grid.AutoResizeColumn(0, DataGridViewAutoSizeColumnMode.DisplayedCells);
 
-            if (Settings.Default.Fw7DataSourcePropertiesDlgFieldsGrid != null)
-                Settings.Default.Fw7DataSourcePropertiesDlgFieldsGrid.InitializeGrid(m_grid);
+            if (Properties.Settings.Default.Fw7DataSourcePropertiesDlgFieldsGrid != null)
+                Properties.Settings.Default.Fw7DataSourcePropertiesDlgFieldsGrid.InitializeGrid(m_grid);
         }
 
         /// ------------------------------------------------------------------------------------
@@ -287,7 +284,7 @@ namespace SIL.Pa.UI.Dialogs
         /// ------------------------------------------------------------------------------------
         protected override void SaveSettings()
         {
-            Settings.Default.Fw7DataSourcePropertiesDlgFieldsGrid = GridSettings.Create(m_grid);
+            Properties.Settings.Default.Fw7DataSourcePropertiesDlgFieldsGrid = GridSettings.Create(m_grid);
             base.SaveSettings();
         }
 

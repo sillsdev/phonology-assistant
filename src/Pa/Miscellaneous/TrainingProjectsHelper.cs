@@ -12,7 +12,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using Ionic.Zip;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 
@@ -33,7 +32,7 @@ namespace SIL.Pa
 			try
 			{
 				// Don't bother unpacking if that's been done before.
-				if (Settings.Default.TrainingProjectsUnpacked)
+				if (Properties.Settings.Default.TrainingProjectsUnpacked)
 					return;
 
 				var tpsi = TrainingProjectSetupInfo.Load();
@@ -59,8 +58,8 @@ namespace SIL.Pa
 				// again. I could write this to the settings file but I don't want to
 				// unpack if the user has deleted the training projects and his settings
 				// file at some point after having already unpacked the training projects.
-				Settings.Default.TrainingProjectsUnpacked = true;
-				Settings.Default.Save();
+				Properties.Settings.Default.TrainingProjectsUnpacked = true;
+				Properties.Settings.Default.Save();
 
 				foreach (var papmod in tpsi.PapModifications)
 					papmod.Modify(destFolder);

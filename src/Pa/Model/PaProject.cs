@@ -15,13 +15,12 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Xml.Linq;
 using L10NSharp;
-using Palaso.IO;
+using SIL.IO;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Filters;
 using SIL.Pa.Model.Migration;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -485,7 +484,7 @@ namespace SIL.Pa.Model
         /// ------------------------------------------------------------------------------------
         private void HandleApplicationWindowActivated(object sender, EventArgs e)
         {
-            if (Settings.Default.ReloadProjectsWhenAppBecomesActivate)
+            if (Properties.Settings.Default.ReloadProjectsWhenAppBecomesActivate)
                 CheckForModifiedDataSources();
         }
 

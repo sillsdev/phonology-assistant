@@ -25,7 +25,6 @@ using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
-using SIL.Pa.Properties;
 using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
@@ -57,21 +56,21 @@ namespace SIL.Pa.UI
 			
 			// If the user knows enough to add an entry to the settings file to
 			// override the default UI font and the phonetic font, then use those.
-			if (Settings.Default.UIFont != null)
-				FontHelper.UIFont = Settings.Default.UIFont;
-			if (Settings.Default.PhoneticFont != null)
-				App.PhoneticFont = Settings.Default.PhoneticFont;
+			if (Properties.Settings.Default.UIFont != null)
+				FontHelper.UIFont = Properties.Settings.Default.UIFont;
+			if (Properties.Settings.Default.PhoneticFont != null)
+				App.PhoneticFont = Properties.Settings.Default.PhoneticFont;
 
 			LocalizeItemDlg.DefaultDisplayFont = FontHelper.UIFont;
 			App.InitializeLocalization();
-			App.MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
-			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
+			App.MinimumViewWindowSize = Properties.Settings.Default.MinimumViewWindowSize;
+			FwDBUtils.ShowMsgWhenGatheringFWInfo = Properties.Settings.Default.ShowMsgWhenGatheringFwInfo;
 
-			var chrs = Settings.Default.UncertainGroupAbsentPhoneChars;
+			var chrs = Properties.Settings.Default.UncertainGroupAbsentPhoneChars;
 			if (!string.IsNullOrEmpty(chrs))
 				IPASymbolCache.UncertainGroupAbsentPhoneChars = chrs;
 
-			chrs = Settings.Default.UncertainGroupAbsentPhoneChar;
+			chrs = Properties.Settings.Default.UncertainGroupAbsentPhoneChar;
 			if (!string.IsNullOrEmpty(chrs))
 				IPASymbolCache.UncertainGroupAbsentPhoneChar = chrs;
 
@@ -79,9 +78,9 @@ namespace SIL.Pa.UI
 
 			InitializeComponent();
 			
-			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
+			Properties.Settings.Default.MainWindow = App.InitializeForm(this, Properties.Settings.Default.MainWindow);
 			InventoryHelper.Load();
-			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
+			Properties.Settings.Default.MRUList = MruFiles.Initialize(Properties.Settings.Default.MRUList);
 			ProcessHelper.CopyFilesThatMakePrettyHTMLExports();
 		}
 
@@ -108,11 +107,11 @@ namespace SIL.Pa.UI
 			sblblFilter.Visible = false;
 			sblblFilter.Paint += HandleFilterStatusStripLabelPaint;
 
-			if (!Settings.Default.UseSystemColors)
+			if (!Properties.Settings.Default.UseSystemColors)
 			{
-				vwTabGroup.CaptionPanel.ColorTop = Settings.Default.GradientPanelTopColor;
-				vwTabGroup.CaptionPanel.ColorBottom = Settings.Default.GradientPanelBottomColor;
-				vwTabGroup.CaptionPanel.ForeColor = Settings.Default.GradientPanelTextColor;
+				vwTabGroup.CaptionPanel.ColorTop = Properties.Settings.Default.GradientPanelTopColor;
+				vwTabGroup.CaptionPanel.ColorBottom = Properties.Settings.Default.GradientPanelBottomColor;
+				vwTabGroup.CaptionPanel.ForeColor = Properties.Settings.Default.GradientPanelTextColor;
 			}
 
 			base.MinimumSize = App.MinimumViewWindowSize;
@@ -174,7 +173,7 @@ namespace SIL.Pa.UI
 				return;
 			}
 			else if (!_doNotLoadLastProject)
-				LoadProject(Settings.Default.LastProjectLoaded);
+				LoadProject(Properties.Settings.Default.LastProjectLoaded);
 
 			App.CloseSplashScreen();
 
@@ -260,7 +259,7 @@ namespace SIL.Pa.UI
 					_project.Dispose();
 
 				App.Project = _project = project;
-				Settings.Default.LastProjectLoaded = projectFileName;
+				Properties.Settings.Default.LastProjectLoaded = projectFileName;
 
 				SetWindowText(project);
 	
@@ -268,7 +267,7 @@ namespace SIL.Pa.UI
 				// the one just loaded. Therefore, save the current view so it may be
 				// restored after the tabs are loaded for the new project.
 				if (vwTabGroup.CurrentTab != null)
-					Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
+					Properties.Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
 
 				LoadViewTabs();
 
@@ -276,7 +275,7 @@ namespace SIL.Pa.UI
 				var type = Type.GetType(typeof(DataCorpusVw).FullName);
 				try
 				{
-					type = Type.GetType(Settings.Default.LastViewShowing);
+					type = Type.GetType(Properties.Settings.Default.LastViewShowing);
 				}
 				catch { }
 
@@ -426,7 +425,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosed(EventArgs e)
 		{
-			Settings.Default.Save();
+			Properties.Settings.Default.Save();
 			base.OnClosed(e);
 		}
 
@@ -452,7 +451,7 @@ namespace SIL.Pa.UI
 				_project.EnsureSortOptionsSaved();
 
 			if (vwTabGroup.CurrentTab != null)
-				Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
+				Properties.Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
 
 			// Close all the instances of SA that we started, if there are any.
 			DataSourceEditor.CloseSAInstances();
@@ -788,7 +787,7 @@ namespace SIL.Pa.UI
 			_project.Dispose();
 
 			App.Project = _project = null;
-			Settings.Default.LastProjectLoaded = null;
+			Properties.Settings.Default.LastProjectLoaded = null;
 			SetWindowText(null);
             EnableOptionsMenus(false);
 		    EnableUndockMenu(false);
@@ -824,7 +823,7 @@ namespace SIL.Pa.UI
 					return true;
 				}
 
-				if (!Settings.Default.OpenProjectsInNewWindowCheckedValue)
+				if (!Properties.Settings.Default.OpenProjectsInNewWindowCheckedValue)
 					LoadProject(viewModel.SelectedProject.FilePath);
 				else
 				{

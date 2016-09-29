@@ -16,7 +16,6 @@ using System.Windows.Forms.VisualStyles;
 using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SilTools;
 using SilTools.Controls;
 
@@ -212,8 +211,8 @@ namespace SIL.Pa.UI.Controls
 			m_grid.Columns.Add(new RadioButtonColumn("col" + m_grid.Columns.Count));
 			m_grid.EndEdit();
 
-			if (Settings.Default.TranscriptionChangesGrid != null)
-				Settings.Default.TranscriptionChangesGrid.InitializeGrid(m_grid);
+			if (Properties.Settings.Default.TranscriptionChangesGrid != null)
+				Properties.Settings.Default.TranscriptionChangesGrid.InitializeGrid(m_grid);
 
 			m_grid.Invalidate();
 
@@ -490,7 +489,7 @@ namespace SIL.Pa.UI.Controls
 			foreach (DataGridViewColumn col in m_grid.Columns)
 				col.Name = "col" + col.DisplayIndex;
 
-			Settings.Default.TranscriptionChangesGrid = GridSettings.Create(m_grid);
+			Properties.Settings.Default.TranscriptionChangesGrid = GridSettings.Create(m_grid);
 
 			if (e.Column.Index == 0)
 				RefreshHeader();

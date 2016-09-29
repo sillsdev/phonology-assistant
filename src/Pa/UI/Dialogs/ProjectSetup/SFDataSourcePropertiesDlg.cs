@@ -16,7 +16,6 @@ using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -50,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			m_datasource = ds;
-			var possibleSfmFieldNames = Settings.Default.DefaultSfmFields.Cast<string>();
+			var possibleSfmFieldNames = Properties.Settings.Default.DefaultSfmFields.Cast<string>();
 			
 			// Merge the project's mapped sfm fields with the default set.
 			var mappedSfmFields = m_datasource.FieldMappings.Select(m => m.Field).ToList();
@@ -115,12 +114,12 @@ namespace SIL.Pa.UI.Dialogs
 			pnlMappingsInner.DrawOnlyBottomBorder = true;
 			txtFilePreview.Text = File.ReadAllText(m_filename);
 
-			rbNoParse.Tag = Settings.Default.SFMNoParseOptionSampleOutput;
-			rbParseOneToOne.Tag = Settings.Default.SFMOneToOneParseOptionSampleOutput;
-			rbParseOnlyPhonetic.Tag = Settings.Default.SFMPhoneticParseOptionSampleOutput;
-			rbInterlinearize.Tag = Settings.Default.SFMInterlinearParseOptionSampleOutput;
+			rbNoParse.Tag = Properties.Settings.Default.SFMNoParseOptionSampleOutput;
+			rbParseOneToOne.Tag = Properties.Settings.Default.SFMOneToOneParseOptionSampleOutput;
+			rbParseOnlyPhonetic.Tag = Properties.Settings.Default.SFMPhoneticParseOptionSampleOutput;
+			rbInterlinearize.Tag = Properties.Settings.Default.SFMInterlinearParseOptionSampleOutput;
 
-			if (!Settings.Default.ShowSFMappingsInformation)
+			if (!Properties.Settings.Default.ShowSFMappingsInformation)
 			{
 				lblInformation.Visible = false;
 				btnInformation.Image = Properties.Resources.InformationShow;
@@ -223,8 +222,8 @@ namespace SIL.Pa.UI.Dialogs
 			if (cboFirstInterlinear.Right > splitOuter.SplitterDistance - 11)
 				splitOuter.SplitterDistance = (cboFirstInterlinear.Right + 11);
 
-			if (Settings.Default.SFDataSourcePropertiesDlgSplitLoc > 0)
-				scImport.SplitterDistance = Settings.Default.SFDataSourcePropertiesDlgSplitLoc;
+			if (Properties.Settings.Default.SFDataSourcePropertiesDlgSplitLoc > 0)
+				scImport.SplitterDistance = Properties.Settings.Default.SFDataSourcePropertiesDlgSplitLoc;
 			else
 			{
 				// By default, give the mappings grid 65% of the width of its containing
@@ -268,8 +267,8 @@ namespace SIL.Pa.UI.Dialogs
 			OnStringsLocalized();
 			m_fieldsGrid.ShowFontColumn(false);
 
-			if (Settings.Default.SFDataSourcePropertiesDlgMappingGrid != null)
-				Settings.Default.SFDataSourcePropertiesDlgMappingGrid.InitializeGrid(m_fieldsGrid);
+			if (Properties.Settings.Default.SFDataSourcePropertiesDlgMappingGrid != null)
+				Properties.Settings.Default.SFDataSourcePropertiesDlgMappingGrid.InitializeGrid(m_fieldsGrid);
 			else
 			{
 				m_fieldsGrid.AutoResizeColumnHeadersHeight();
@@ -285,9 +284,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.SFDataSourcePropertiesDlgMappingGrid = GridSettings.Create(m_fieldsGrid);
-			Settings.Default.SFDataSourcePropertiesDlgSplitLoc = scImport.SplitterDistance;
-			Settings.Default.ShowSFMappingsInformation = lblInformation.Visible;
+			Properties.Settings.Default.SFDataSourcePropertiesDlgMappingGrid = GridSettings.Create(m_fieldsGrid);
+			Properties.Settings.Default.SFDataSourcePropertiesDlgSplitLoc = scImport.SplitterDistance;
+			Properties.Settings.Default.ShowSFMappingsInformation = lblInformation.Visible;
 			base.SaveSettings();
 		}
 
@@ -577,8 +576,8 @@ namespace SIL.Pa.UI.Dialogs
 			// The rest of the code in this method deals with building
 			// the appropriate sample portion of the panel.
 			rtfSampleInput.Rtf = (rbInterlinearize.Checked ?
-				Settings.Default.SFMInterlinearParseOptionSampleInput :
-				Settings.Default.SFMBasicParseOptionSampleInput);
+				Properties.Settings.Default.SFMInterlinearParseOptionSampleInput :
+				Properties.Settings.Default.SFMBasicParseOptionSampleInput);
 
 			// Get the unparsed sample output string.
 			string sampleInput = rb.Tag as string;

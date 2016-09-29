@@ -11,11 +11,10 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.IO;
+using SIL.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 using SIL.Pa.UI.Dialogs;
@@ -203,8 +202,8 @@ namespace SIL.Pa.UI.Views
 		public void SaveSettings()
 		{
 			WordListGrid.SaveSettings();
-			Settings.Default.DataCorpusVwSplitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
-			Settings.Default.DataCorpusVwRecordPaneVisible = RawRecViewOn;
+			Properties.Settings.Default.DataCorpusVwSplitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
+			Properties.Settings.Default.DataCorpusVwRecordPaneVisible = RawRecViewOn;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -238,7 +237,7 @@ namespace SIL.Pa.UI.Views
 					// exception is thrown, no big deal, the splitter distances will just be set
 					// to their default values.
 					splitOuter.SplitterDistance = (int)(splitOuter.Height *
-						Settings.Default.DataCorpusVwSplitRatio);
+						Properties.Settings.Default.DataCorpusVwSplitRatio);
 				}
 				catch { }
 
@@ -290,7 +289,7 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView || WordListGrid == null || WordListGrid.Cache == null)
 				return false;
 
-			m_playbackSpeedAdjuster.PlaybackSpeed = Settings.Default.DataCorpusVwPlaybackSpeed;
+			m_playbackSpeedAdjuster.PlaybackSpeed = Properties.Settings.Default.DataCorpusVwPlaybackSpeed;
 			return true;
 		}
 
@@ -300,7 +299,7 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			Settings.Default.DataCorpusVwPlaybackSpeed = m_playbackSpeedAdjuster.PlaybackSpeed;
+			Properties.Settings.Default.DataCorpusVwPlaybackSpeed = m_playbackSpeedAdjuster.PlaybackSpeed;
 			return true;
 		}
 
@@ -311,7 +310,7 @@ namespace SIL.Pa.UI.Views
 		{
 			base.OnHandleCreated(e);
 
-			RawRecViewOn = Settings.Default.DataCorpusVwRecordPaneVisible;
+			RawRecViewOn = Properties.Settings.Default.DataCorpusVwRecordPaneVisible;
 			OnViewDocked(this);
 			m_initialDock = true;
 			Application.DoEvents();
@@ -421,7 +420,7 @@ namespace SIL.Pa.UI.Views
 				WordListGrid.SortOptions.SortFields.Count > 0)
 			{
 				WordListGrid.GroupByField = WordListGrid.SortOptions.SortFields[0].Field;
-				if (Settings.Default.CollapseWordListsOnGrouping)
+				if (Properties.Settings.Default.CollapseWordListsOnGrouping)
 					WordListGrid.ToggleGroupExpansion(false);
 			}
 
@@ -752,7 +751,7 @@ namespace SIL.Pa.UI.Views
 				"Views.DataCorpus.DefaultHTMLExportFileAffix", "{0}-DataCorpus.html");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
-				Settings.Default.OpenHtmlDataCorpusAfterExport,
+				Properties.Settings.Default.OpenHtmlDataCorpusAfterExport,
 				DataCorpusExporter.ToHtml);
 		}
 
@@ -764,7 +763,7 @@ namespace SIL.Pa.UI.Views
 				"{0}-DataCorpus-(Word).xml");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
-				Settings.Default.OpenWordXmlDataCorpusAfterExport,
+				Properties.Settings.Default.OpenWordXmlDataCorpusAfterExport,
 				DataCorpusExporter.ToWordXml);
 		}
 
@@ -776,7 +775,7 @@ namespace SIL.Pa.UI.Views
 				"{0}-DataCorpus-(XLingPaper).xml");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
-				Settings.Default.OpenXLingPaperDataCorpusAfterExport,
+				Properties.Settings.Default.OpenXLingPaperDataCorpusAfterExport,
 				DataCorpusExporter.ToXLingPaper);
 		}
 

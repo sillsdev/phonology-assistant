@@ -14,7 +14,6 @@ using System.Windows.Forms;
 using System.Linq;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -42,7 +41,7 @@ namespace SIL.Pa.UI.Controls
 			if (!App.DesignMode)
 				base.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 14);
 
-			_extraPhoneHeight += Settings.Default.PhonesInFeaturesListExtraPhoneHeight;
+			_extraPhoneHeight += Properties.Settings.Default.PhonesInFeaturesListExtraPhoneHeight;
 		}
 
 		/// ------------------------------------------------------------------------------------

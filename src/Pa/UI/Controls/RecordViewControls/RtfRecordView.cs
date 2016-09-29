@@ -16,7 +16,6 @@ using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -267,7 +266,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			StringBuilder lines = new StringBuilder(m_rtf);
 			Dictionary<int, int> colorReferences;
-			Color clrFieldLabel = Settings.Default.RecordViewFieldLabelColor;
+			Color clrFieldLabel = Properties.Settings.Default.RecordViewFieldLabelColor;
 			lines.AppendLine();
 			lines.AppendLine(RtfHelper.ColorTable(clrFieldLabel, out colorReferences));
 
@@ -347,13 +346,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void GetLargestFontInfo()
 		{
-			m_useExactLineSpacing = Settings.Default.RTFRecordViewUseExactLineSpacing;
+			m_useExactLineSpacing = Properties.Settings.Default.RTFRecordViewUseExactLineSpacing;
 			
 			if (!m_useExactLineSpacing)
 				return;
 
 			float exactLineHeightMultiplier =
-				Settings.Default.RTFRecordViewPercentageOfExactLineHeightToUse / 100f;
+				Properties.Settings.Default.RTFRecordViewPercentageOfExactLineHeightToUse / 100f;
 						
 			float dpiY;
 			using (Graphics g = CreateGraphics())

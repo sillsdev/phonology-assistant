@@ -12,7 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using Palaso.IO;
+using SIL.IO;
 using SIL.Pa.Model;
 using SilTools;
 

@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.Model
 {
@@ -38,11 +37,11 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PhoneCache(PaProject project) 
 		{
-			if (!string.IsNullOrEmpty(Settings.Default.ConsonantSymbol))
-				_conSymbol = Settings.Default.ConsonantSymbol;
+			if (!string.IsNullOrEmpty(Properties.Settings.Default.ConsonantSymbol))
+				_conSymbol = Properties.Settings.Default.ConsonantSymbol;
 
-			if (!string.IsNullOrEmpty(Settings.Default.VowelSymbol))
-				_vowSymbol = Settings.Default.VowelSymbol;
+			if (!string.IsNullOrEmpty(Properties.Settings.Default.VowelSymbol))
+				_vowSymbol = Properties.Settings.Default.VowelSymbol;
 
 			_project = project;
 		}

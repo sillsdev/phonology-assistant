@@ -11,7 +11,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -51,8 +50,8 @@ namespace SIL.Pa.UI.Dialogs
 				_linkSelectAdditionalFolderToScan.Text.IndexOf(linkText, StringComparison.Ordinal),
 				linkText.Length);
 
-			_checkBoxOpenInNewWindow.Checked = Settings.Default.OpenProjectsInNewWindowCheckedValue;
-			_checkBoxShowFullProjectPaths.Checked = Settings.Default.ShowFullProjectFilePathsInOpenDlg;
+			_checkBoxOpenInNewWindow.Checked = Properties.Settings.Default.OpenProjectsInNewWindowCheckedValue;
+			_checkBoxShowFullProjectPaths.Checked = Properties.Settings.Default.ShowFullProjectFilePathsInOpenDlg;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,7 +62,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			_checkBoxShowFullProjectPaths.CheckedChanged += delegate
 			{
-				Settings.Default.ShowFullProjectFilePathsInOpenDlg = _checkBoxShowFullProjectPaths.Checked;
+				Properties.Settings.Default.ShowFullProjectFilePathsInOpenDlg = _checkBoxShowFullProjectPaths.Checked;
 				_grid.InvalidateColumn(1);
 			};
 		}
@@ -83,19 +82,19 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			Settings.Default.OpenProjectDlg = App.InitializeForm(this, Settings.Default.OpenProjectDlg);
+			Properties.Settings.Default.OpenProjectDlg = App.InitializeForm(this, Properties.Settings.Default.OpenProjectDlg);
 			base.OnLoad(e);
 			BringToFront();
 
-			if (Settings.Default.OpenProjectDlgGrid != null)
-				Settings.Default.OpenProjectDlgGrid.InitializeGrid(_grid);
+			if (Properties.Settings.Default.OpenProjectDlgGrid != null)
+				Properties.Settings.Default.OpenProjectDlgGrid.InitializeGrid(_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			Settings.Default.OpenProjectDlgGrid = GridSettings.Create(_grid);
-			Settings.Default.OpenProjectsInNewWindowCheckedValue = _checkBoxOpenInNewWindow.Checked;
+			Properties.Settings.Default.OpenProjectDlgGrid = GridSettings.Create(_grid);
+			Properties.Settings.Default.OpenProjectsInNewWindowCheckedValue = _checkBoxOpenInNewWindow.Checked;
 			base.OnFormClosing(e);
 		}
 
@@ -149,7 +148,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				case 0: e.Value = _viewModel.GetProjectNameForIndex(e.RowIndex); break;
 				case 2: e.Value = _viewModel.GetProjectDataSourceTypesForIndex(e.RowIndex); break;
-				case 1: e.Value = (Settings.Default.ShowFullProjectFilePathsInOpenDlg ?
+				case 1: e.Value = (Properties.Settings.Default.ShowFullProjectFilePathsInOpenDlg ?
 					_viewModel.GetProjectFilePathForIndex(e.RowIndex) :
 					_viewModel.GetProjectFileNameForIndex(e.RowIndex));
 					break;
@@ -201,7 +200,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
-			if (e.ColumnIndex != 1 || !Settings.Default.ShowFullProjectFilePathsInOpenDlg)
+			if (e.ColumnIndex != 1 || !Properties.Settings.Default.ShowFullProjectFilePathsInOpenDlg)
 				return;
 
 			e.Handled = true;

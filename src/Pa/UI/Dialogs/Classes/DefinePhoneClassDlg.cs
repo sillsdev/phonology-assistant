@@ -14,7 +14,6 @@ using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -68,14 +67,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			_charExplorer.LoadSettings(Settings.Default.DefinePhoneClassDlgIPACharExplorerExpandedStates);
+			_charExplorer.LoadSettings(Properties.Settings.Default.DefinePhoneClassDlgIPACharExplorerExpandedStates);
 			base.OnShown(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.DefinePhoneClassDlgIPACharExplorerExpandedStates = _charExplorer.GetExpandedStates();
+			Properties.Settings.Default.DefinePhoneClassDlgIPACharExplorerExpandedStates = _charExplorer.GetExpandedStates();
 			base.SaveSettings();
 		}
 

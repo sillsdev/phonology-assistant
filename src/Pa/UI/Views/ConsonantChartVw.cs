@@ -12,7 +12,6 @@ using System.IO;
 using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.UI.Views
@@ -36,9 +35,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(System.EventArgs e)
 		{
-			Settings.Default.ConsonantChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
-			Settings.Default.ConsonantChartRowHdrWidth = _chartGrid.RowHeadersWidth;
-			Settings.Default.HtmlConsonantChartVisible = (_htmlVw != null && _htmlVw.Visible);
+			Properties.Settings.Default.ConsonantChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
+			Properties.Settings.Default.ConsonantChartRowHdrWidth = _chartGrid.RowHeadersWidth;
+			Properties.Settings.Default.HtmlConsonantChartVisible = (_htmlVw != null && _htmlVw.Visible);
 			
 			base.OnHandleDestroyed(e);
 		}
@@ -58,8 +57,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override bool ShowHtmlChartWhenViewLoaded
 		{
-			get { return Settings.Default.HtmlConsonantChartVisible; }
-			set { Settings.Default.HtmlConsonantChartVisible = value; }
+			get { return Properties.Settings.Default.HtmlConsonantChartVisible; }
+			set { Properties.Settings.Default.HtmlConsonantChartVisible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -75,33 +74,33 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override float SplitterRatioSetting
 		{
-			get { return Settings.Default.ConsonantChartVwSplitRatio; }
-			set { Settings.Default.ConsonantChartVwSplitRatio = value; }
+			get { return Properties.Settings.Default.ConsonantChartVwSplitRatio; }
+			set { Properties.Settings.Default.ConsonantChartVwSplitRatio = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override bool HistogramVisibleSetting
 		{
-			get { return Settings.Default.ConsonantChartVwHistogramPaneVisible; }
-			set { Settings.Default.ConsonantChartVwHistogramPaneVisible = value; }
+			get { return Properties.Settings.Default.ConsonantChartVwHistogramPaneVisible; }
+			set { Properties.Settings.Default.ConsonantChartVwHistogramPaneVisible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override Color ChartGridColor
 		{
-			get { return Settings.Default.ConsonantChartGridColor; }
+			get { return Properties.Settings.Default.ConsonantChartGridColor; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override int ColumnHeaderHeight
 		{
-			get { return Settings.Default.ConsonantChartColHdrHeight; }
+			get { return Properties.Settings.Default.ConsonantChartColHdrHeight; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override int RowHeaderWidth
 		{
-			get { return Settings.Default.ConsonantChartRowHdrWidth; }
+			get { return Properties.Settings.Default.ConsonantChartRowHdrWidth; }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -18,7 +18,6 @@ using L10NSharp;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -890,12 +889,12 @@ namespace SIL.Pa.UI.Controls
 				if (val > -1)
 				{
 					e.CellStyle.BackColor = (val > 0 ?
-						Settings.Default.DistChartNonZeroBackColor :
-						Settings.Default.DistChartZeroBackColor);
+						Properties.Settings.Default.DistChartNonZeroBackColor :
+						Properties.Settings.Default.DistChartZeroBackColor);
 						
 					e.CellStyle.ForeColor = (val > 0 ?
-						Settings.Default.DistChartNonZeroForeColor :
-						Settings.Default.DistChartZeroForeColor);
+						Properties.Settings.Default.DistChartNonZeroForeColor :
+						Properties.Settings.Default.DistChartZeroForeColor);
 				}
 			}
 

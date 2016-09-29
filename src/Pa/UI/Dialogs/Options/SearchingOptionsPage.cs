@@ -8,7 +8,6 @@
 #endregion
 // 
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -39,13 +38,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public override bool IsDirty
 		{
-			get { return _checkBoxSearchEngineSelction.Checked != Settings.Default.ShowSearchEngineChoiceButtons ; }
+			get { return _checkBoxSearchEngineSelction.Checked != Properties.Settings.Default.ShowSearchEngineChoiceButtons ; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override void Save()
 		{
-			Settings.Default.ShowSearchEngineChoiceButtons = _checkBoxSearchEngineSelction.Checked;
+			Properties.Settings.Default.ShowSearchEngineChoiceButtons = _checkBoxSearchEngineSelction.Checked;
 			App.MsgMediator.SendMessage("ShowSearchSelectionButtonsChagned", null);
 		}
 	}

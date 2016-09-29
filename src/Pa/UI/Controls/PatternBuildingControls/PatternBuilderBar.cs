@@ -10,7 +10,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -24,10 +23,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			InitializeComponent();
 
-			BackColor = Settings.Default.GradientPanelTopColor;
+			BackColor = Properties.Settings.Default.GradientPanelTopColor;
 
-			m_menuStrip.BackColor = Settings.Default.GradientPanelTopColor;
-			m_menuStrip.ForeColor = Settings.Default.GradientPanelTextColor;
+			m_menuStrip.BackColor = Properties.Settings.Default.GradientPanelTopColor;
+			m_menuStrip.ForeColor = Properties.Settings.Default.GradientPanelTextColor;
 			m_menuStrip.Renderer.RenderItemText += ((s, e) =>
 			{
 				if (e.Item.OwnerItem == null && e.Item is ToolStripMenuItem &&
@@ -91,7 +90,7 @@ namespace SIL.Pa.UI.Controls
 			rc.Height--;
 
 			// Paint border around the bar.
-			using (var pen = new Pen(Settings.Default.GradientPanelTextColor))
+			using (var pen = new Pen(Properties.Settings.Default.GradientPanelTextColor))
 				e.Graphics.DrawRectangle(pen, rc);
 		}
 	}

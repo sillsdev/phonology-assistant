@@ -9,7 +9,7 @@
 // 
 using System;
 using System.Windows.Forms;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SIL.Pa.UI;
 using SilTools;
 

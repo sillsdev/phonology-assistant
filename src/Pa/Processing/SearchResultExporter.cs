@@ -10,7 +10,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -29,7 +28,7 @@ namespace SIL.Pa.Processing
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
-				Settings.Default.AppThatOpensHtml, Pipeline.ProcessType.ExportToXHTML);
+				Properties.Settings.Default.AppThatOpensHtml, Pipeline.ProcessType.ExportToXHTML);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -37,7 +36,7 @@ namespace SIL.Pa.Processing
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.WordXml, grid, openAfterExport,
-				Settings.Default.AppThatOpensWordXml, Pipeline.ProcessType.ExportToWord);
+				Properties.Settings.Default.AppThatOpensWordXml, Pipeline.ProcessType.ExportToWord);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -45,7 +44,7 @@ namespace SIL.Pa.Processing
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
-				Settings.Default.AppThatOpensXLingPaperXML,
+				Properties.Settings.Default.AppThatOpensXLingPaperXML,
 				new[] { Pipeline.ProcessType.ExportToXLingPaper} );
 		}
 
@@ -66,7 +65,7 @@ namespace SIL.Pa.Processing
 			var exporter = new SearchResultExporter(project, outputFileName, outputFormat, grid);
 
 			var result = exporter.InternalProcess(
-				Settings.Default.KeepTempSearchResultExportFile, pipeline);
+				Properties.Settings.Default.KeepTempSearchResultExportFile, pipeline);
 
 			if (result && openAfterExport)
 				CallAppToExportedFile(appToOpenOutput, outputFileName);

@@ -15,7 +15,6 @@ using System.Xml;
 using System.Xml.Linq;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.Processing
@@ -38,7 +37,7 @@ namespace SIL.Pa.Processing
 		public static bool Process(PaProject project)
 		{
 			if (project == null || SkipProcessingForTests ||
-				Settings.Default.SkipAdditionalProcessingWhenPhonesAreLoaded)
+				Properties.Settings.Default.SkipAdditionalProcessingWhenPhonesAreLoaded)
 			{
 				return false;
 			}
@@ -160,7 +159,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool KeepTempFile
 		{
-			get { return Settings.Default.KeepTempProjectInventoryFile; }
+			get { return Properties.Settings.Default.KeepTempProjectInventoryFile; }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -11,16 +11,14 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.IO;
+using SIL.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
@@ -144,8 +142,8 @@ namespace SIL.Pa.UI.Views
             else
             {
                 ResultViewManger = new SearchResultsViewManager(this, _tmAdapter,
-                    splitResults, _recView, Settings.Default.DistChartVwPlaybackSpeed,
-                    newSpeed => Settings.Default.DistChartVwPlaybackSpeed = newSpeed);
+                    splitResults, _recView, Properties.Settings.Default.DistChartVwPlaybackSpeed,
+                    newSpeed => Properties.Settings.Default.DistChartVwPlaybackSpeed = newSpeed);
             }
 
             if (_tmAdapter == null)
@@ -323,8 +321,8 @@ namespace SIL.Pa.UI.Views
             btnDock.Top = btnAutoHide.Top;
 
             _slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder,
-                Settings.Default.DistChartVwSidePanelWidth,
-                newWidth => Settings.Default.DistChartVwSidePanelWidth = newWidth);
+                Properties.Settings.Default.DistChartVwSidePanelWidth,
+                newWidth => Properties.Settings.Default.DistChartVwSidePanelWidth = newWidth);
 
             // For the code scanner to work, the control (parameter 4 in GetString) cannot
             // refer to a property, it has to refer to the actual object. Therefore, create
@@ -344,16 +342,16 @@ namespace SIL.Pa.UI.Views
         private void LoadSettings()
         {
             ptrnBldrComponent.LoadSettings(Name,
-                Settings.Default.DistributionChartsIPACharExplorerExpandedStates);
+                Properties.Settings.Default.DistributionChartsIPACharExplorerExpandedStates);
 
-            if (Settings.Default.DistChartVwSidePanelDocked)
+            if (Properties.Settings.Default.DistChartVwSidePanelDocked)
                 btnDock_Click(null, null);
             else
                 btnAutoHide_Click(null, null);
 
             OnViewDocked(this);
             _initialDock = true;
-            ResultViewManger.RecordViewOn = Settings.Default.DistChartVwrRcordPaneVisible;
+            ResultViewManger.RecordViewOn = Properties.Settings.Default.DistChartVwrRcordPaneVisible;
 
             // Hide the record view pane until the first search, at which time the value of
             // m_histogramOn will determine whether or not to show the record view pane.
@@ -406,13 +404,13 @@ namespace SIL.Pa.UI.Views
         /// ------------------------------------------------------------------------------------
         public void SaveSettings()
         {
-            Settings.Default.DistChartVwSidePanelDocked = _slidingPanel.SlideFromLeft ?
+            Properties.Settings.Default.DistChartVwSidePanelDocked = _slidingPanel.SlideFromLeft ?
                 !splitOuter.Panel1Collapsed : !splitOuter.Panel2Collapsed;
 
             ptrnBldrComponent.SaveSettings(Name, charExplorerStates =>
-                Settings.Default.DistributionChartsIPACharExplorerExpandedStates = charExplorerStates);
+                Properties.Settings.Default.DistributionChartsIPACharExplorerExpandedStates = charExplorerStates);
 
-            Settings.Default.DistChartVwrRcordPaneVisible = ResultViewManger.RecordViewOn;
+            Properties.Settings.Default.DistChartVwrRcordPaneVisible = ResultViewManger.RecordViewOn;
 
             try
             {
@@ -421,16 +419,16 @@ namespace SIL.Pa.UI.Views
                 // .Net framework that I haven't been able to make sense of. Anyway, if an
                 // exception is thrown, no big deal, the splitter distances will just be set
                 // to their default values.
-                Settings.Default.DistChartVwSplitRatio1 =
+                Properties.Settings.Default.DistChartVwSplitRatio1 =
                     splitOuter.SplitterDistance / (float)splitOuter.Width;
 
-                Settings.Default.DistChartVwSplitRatio2 =
+                Properties.Settings.Default.DistChartVwSplitRatio2 =
                     splitResults.SplitterDistance / (float)splitResults.Height;
 
-                Settings.Default.DistChartVwSplitRatio3 =
+                Properties.Settings.Default.DistChartVwSplitRatio3 =
                     splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
 
-                Settings.Default.DistChartVwSplitRatio4 =
+                Properties.Settings.Default.DistChartVwSplitRatio4 =
                     splitChart.SplitterDistance / (float)splitChart.Height;
             }
             catch { }
@@ -467,13 +465,13 @@ namespace SIL.Pa.UI.Views
                     // exception is thrown, no big deal, the splitter distances will just be set
                     // to their default values.
                     splitOuter.SplitterDistance = (int)(splitOuter.Width *
-                        Settings.Default.DistChartVwSplitRatio1);
+                        Properties.Settings.Default.DistChartVwSplitRatio1);
                     splitResults.SplitterDistance = (int)(splitResults.Height *
-                        Settings.Default.DistChartVwSplitRatio2);
+                        Properties.Settings.Default.DistChartVwSplitRatio2);
                     splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height *
-                        Settings.Default.DistChartVwSplitRatio3);
+                        Properties.Settings.Default.DistChartVwSplitRatio3);
                     splitChart.SplitterDistance = (int)(splitChart.Height *
-                        Settings.Default.DistChartVwSplitRatio4);
+                        Properties.Settings.Default.DistChartVwSplitRatio4);
                 }
                 catch { }
 
@@ -659,7 +657,7 @@ namespace SIL.Pa.UI.Views
                 if (item != null)
                 {
                     _grid.InsertTextInCell((
-                        item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
+                        item.Pattern == null || Properties.Settings.Default.ShowClassNamesInSearchPatterns ?
                         _openClass + item.Text + _closeClass : item.Pattern));
                 }
             }
@@ -699,7 +697,7 @@ namespace SIL.Pa.UI.Views
             else if (e.Item is ClassListViewItem)
             {
                 var item = e.Item as ClassListViewItem;
-                dragText = (item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
+                dragText = (item.Pattern == null || Properties.Settings.Default.ShowClassNamesInSearchPatterns ?
                     _openClass + item.Text + _closeClass : item.Pattern);
             }
 
@@ -1530,7 +1528,7 @@ namespace SIL.Pa.UI.Views
                 "{0}-{1}DistributionChart.html");
 
             return Export(ResultViewManger.HTMLExport, fmt, App.kstidFileTypeHTML, "html",
-                Settings.Default.OpenHtmlDistChartAfterExport, DistributionChartExporter.ToHtml);
+                Properties.Settings.Default.OpenHtmlDistChartAfterExport, DistributionChartExporter.ToHtml);
         }
 
         /// ------------------------------------------------------------------------------------
@@ -1584,7 +1582,7 @@ namespace SIL.Pa.UI.Views
                 "{0}-{1}DistributionChart-(Word).xml");
 
             return Export(ResultViewManger.WordXmlExport, fmt, App.kstidFileTypeWordXml, "xml",
-                Settings.Default.OpenWordXmlDistChartAfterExport, DistributionChartExporter.ToWordXml);
+                Properties.Settings.Default.OpenWordXmlDistChartAfterExport, DistributionChartExporter.ToWordXml);
         }
 
         /// ------------------------------------------------------------------------------------
@@ -1594,7 +1592,7 @@ namespace SIL.Pa.UI.Views
                 "{0}-{1}DistributionChart-(XLingPaper).xml");
 
             return Export(ResultViewManger.XLingPaperExport, fmt, App.kstidFileTypeXLingPaper, "xml",
-                Settings.Default.OpenXLingPaperDistChartAfterExport, DistributionChartExporter.ToXLingPaper);
+                Properties.Settings.Default.OpenXLingPaperDistChartAfterExport, DistributionChartExporter.ToXLingPaper);
         }
 
         /// ------------------------------------------------------------------------------------

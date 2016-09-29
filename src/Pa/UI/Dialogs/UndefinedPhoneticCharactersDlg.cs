@@ -13,7 +13,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -254,8 +253,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			Settings.Default.UndefinedPhoneticCharactersDlg =
-				App.InitializeForm(this, Settings.Default.UndefinedPhoneticCharactersDlg);
+			Properties.Settings.Default.UndefinedPhoneticCharactersDlg =
+				App.InitializeForm(this, Properties.Settings.Default.UndefinedPhoneticCharactersDlg);
 			
 			base.OnLoad(e);
 		}
@@ -265,14 +264,14 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnShown(e);
 
-			if (Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc > 0)
-				splitContainer1.SplitterDistance = Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc;
+			if (Properties.Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc > 0)
+				splitContainer1.SplitterDistance = Properties.Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc;
 
-			if (Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid != null)
-				Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid.InitializeGrid(m_gridChars);
+			if (Properties.Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid != null)
+				Properties.Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid.InitializeGrid(m_gridChars);
 
-			if (Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid != null)
-				Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid.InitializeGrid(m_gridWhere);
+			if (Properties.Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid != null)
+				Properties.Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid.InitializeGrid(m_gridWhere);
 
 			m_gridChars.AutoResizeColumnHeadersHeight();
 			m_gridChars.ColumnHeadersHeight += 4;
@@ -291,9 +290,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid = GridSettings.Create(m_gridChars);
-			Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid = GridSettings.Create(m_gridWhere);
-			Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc = splitContainer1.SplitterDistance;	
+			Properties.Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid = GridSettings.Create(m_gridChars);
+			Properties.Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid = GridSettings.Create(m_gridWhere);
+			Properties.Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc = splitContainer1.SplitterDistance;	
 
 			if (m_project != null)
 			{

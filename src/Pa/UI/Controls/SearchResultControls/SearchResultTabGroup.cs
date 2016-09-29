@@ -15,9 +15,7 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SilTools;
 using SilTools.Controls;
 
@@ -155,7 +153,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			using (Graphics g = CreateGraphics())
 			{
-				int extraTabHeight = Settings.Default.SearchVwExtraSearchTabHeight;
+				int extraTabHeight = Properties.Settings.Default.SearchVwExtraSearchTabHeight;
 
 				const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 					TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;

@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Xml.Serialization;
 using L10NSharp;
-using Palaso.IO;
+using SIL.IO;
 using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks

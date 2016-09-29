@@ -14,7 +14,6 @@ using System.Windows.Forms;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -109,7 +108,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.FwDataSourcePropertiesDlgGrid = GridSettings.Create(m_grid);
+			Properties.Settings.Default.FwDataSourcePropertiesDlgGrid = GridSettings.Create(m_grid);
 			base.SaveSettings();
 		}
 		
@@ -144,7 +143,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Remove all the old mappings associated with mappable fields in order to make
 			// room for the new mappings.
-			foreach (var oldMapping in Settings.Default.Fw6FieldsMappableInPropsDlg.Cast<string>()
+			foreach (var oldMapping in Properties.Settings.Default.Fw6FieldsMappableInPropsDlg.Cast<string>()
 				.Select(fname => m_dataSource.FieldMappings.SingleOrDefault(m => m.PaFieldName == fname))
 				.Where(oldMapping => oldMapping != null))
 			{

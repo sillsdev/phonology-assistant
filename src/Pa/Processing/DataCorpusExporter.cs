@@ -9,7 +9,6 @@
 // 
 using System.Windows.Forms;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.Processing
@@ -27,7 +26,7 @@ namespace SIL.Pa.Processing
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
-				Settings.Default.AppThatOpensHtml, Pipeline.ProcessType.ExportToXHTML);
+				Properties.Settings.Default.AppThatOpensHtml, Pipeline.ProcessType.ExportToXHTML);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -35,7 +34,7 @@ namespace SIL.Pa.Processing
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.WordXml, grid, openAfterExport,
-				Settings.Default.AppThatOpensWordXml, Pipeline.ProcessType.ExportToWord);
+				Properties.Settings.Default.AppThatOpensWordXml, Pipeline.ProcessType.ExportToWord);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -43,7 +42,7 @@ namespace SIL.Pa.Processing
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, grid,
-				openAfterExport, Settings.Default.AppThatOpensXLingPaperXML,
+				openAfterExport, Properties.Settings.Default.AppThatOpensXLingPaperXML,
 				new[] { Pipeline.ProcessType.ExportToXLingPaper });
 		}
 
@@ -64,7 +63,7 @@ namespace SIL.Pa.Processing
 			var exporter = new DataCorpusExporter(project, outputFileName, outputFormat, grid);
 
 			bool result =
-				exporter.InternalProcess(Settings.Default.KeepTempDataCorpusExportFile, pipeline);
+				exporter.InternalProcess(Properties.Settings.Default.KeepTempDataCorpusExportFile, pipeline);
 
 			if (result && openAfterExport)
 				CallAppToExportedFile(appToOpenOutput, outputFileName);

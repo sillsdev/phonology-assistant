@@ -16,10 +16,9 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using L10NSharp;
 using Microsoft.Win32;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 
@@ -267,7 +266,7 @@ namespace SIL.Pa.DataSource
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
 			var url = (recEntry.DataSource.Type == DataSourceType.FW ?
-				FwDBAccessInfo.JumpUrl : Settings.Default.Fw7JumpUrlFormat);
+				FwDBAccessInfo.JumpUrl : Properties.Settings.Default.Fw7JumpUrlFormat);
 
 			if (recEntry.DataSource.Type == DataSourceType.FW)
 			{

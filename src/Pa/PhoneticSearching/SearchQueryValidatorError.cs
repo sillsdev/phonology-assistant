@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 
 namespace SIL.Pa.PhoneticSearching
 {

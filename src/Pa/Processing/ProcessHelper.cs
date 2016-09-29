@@ -20,9 +20,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using L10NSharp;
-using Palaso.IO;
+using SIL.IO;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.Processing
@@ -47,9 +46,9 @@ namespace SIL.Pa.Processing
 		{
 			var path = defaultPath;
 
-			if (!string.IsNullOrEmpty(Settings.Default.TempProcessingFilesFolder))
+			if (!string.IsNullOrEmpty(Properties.Settings.Default.TempProcessingFilesFolder))
 			{
-				path = Path.Combine(project.Folder, Settings.Default.TempProcessingFilesFolder);
+				path = Path.Combine(project.Folder, Properties.Settings.Default.TempProcessingFilesFolder);
 
 				if (!Directory.Exists(path))
 					Directory.CreateDirectory(path);

@@ -8,7 +8,6 @@
 #endregion
 // 
 using System;
-using System.Collections;
 using System.Data;
 using System.Linq;
 using System.Collections.Generic;
@@ -18,7 +17,6 @@ using L10NSharp;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 using SilTools.Controls;
@@ -89,10 +87,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_project = project;
 
-			//pnlExpressionMatch.ColorTop = Settings.Default.GradientPanelTopColor;
-			//pnlExpressionMatch.ColorBottom = Settings.Default.GradientPanelBottomColor;
-			//lblExpressionMatchMsgPart1.ForeColor = Settings.Default.GradientPanelTextColor;
-			//lblExpressionMatchMsgPart2.ForeColor = Settings.Default.GradientPanelTextColor;
+			//pnlExpressionMatch.ColorTop = Properties.Settings.Default.GradientPanelTopColor;
+			//pnlExpressionMatch.ColorBottom = Properties.Settings.Default.GradientPanelBottomColor;
+			//lblExpressionMatchMsgPart1.ForeColor = Properties.Settings.Default.GradientPanelTextColor;
+			//lblExpressionMatchMsgPart2.ForeColor = Properties.Settings.Default.GradientPanelTextColor;
 
 			m_filterDropDown = new ExpressionValueDropDownListBox(m_project);
 			BuildFiltersGrid();
@@ -220,8 +218,8 @@ namespace SIL.Pa.UI.Dialogs
 				// .Net framework that I haven't been able to make sense of. Anyway, if an
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
-				if (Settings.Default.FiltersDlgSplitLoc > 0)
-					splitFilters.SplitterDistance = Settings.Default.FiltersDlgSplitLoc;
+				if (Properties.Settings.Default.FiltersDlgSplitLoc > 0)
+					splitFilters.SplitterDistance = Properties.Settings.Default.FiltersDlgSplitLoc;
 			}
 			catch { }
 
@@ -262,9 +260,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.FiltersDlgFiltersGrid = GridSettings.Create(m_gridFilters);
-			Settings.Default.FiltersDlgExpressionsGrid = GridSettings.Create(m_gridExpressions);
-			Settings.Default.FiltersDlgSplitLoc = splitFilters.SplitterDistance;
+			Properties.Settings.Default.FiltersDlgFiltersGrid = GridSettings.Create(m_gridFilters);
+			Properties.Settings.Default.FiltersDlgExpressionsGrid = GridSettings.Create(m_gridExpressions);
+			Properties.Settings.Default.FiltersDlgSplitLoc = splitFilters.SplitterDistance;
 			base.SaveSettings();
 		}
 
@@ -347,8 +345,8 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridFilters.AutoResizeColumnHeadersHeight();
 			m_gridFilters.ColumnHeadersHeight += 4;
 
-			if (Settings.Default.FiltersDlgFiltersGrid != null)
-				Settings.Default.FiltersDlgFiltersGrid.InitializeGrid(m_gridFilters);
+			if (Properties.Settings.Default.FiltersDlgFiltersGrid != null)
+				Properties.Settings.Default.FiltersDlgFiltersGrid.InitializeGrid(m_gridFilters);
 
 			m_gridFilters.IsDirty = false;
 		}
@@ -452,8 +450,8 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridExpressions.AutoResizeColumnHeadersHeight();
 			m_gridExpressions.ColumnHeadersHeight += 4;
 
-			if (Settings.Default.FiltersDlgExpressionsGrid != null)
-				Settings.Default.FiltersDlgExpressionsGrid.InitializeGrid(m_gridExpressions);
+			if (Properties.Settings.Default.FiltersDlgExpressionsGrid != null)
+				Properties.Settings.Default.FiltersDlgExpressionsGrid.InitializeGrid(m_gridExpressions);
 	
 			m_gridExpressions.IsDirty = false;
 		}

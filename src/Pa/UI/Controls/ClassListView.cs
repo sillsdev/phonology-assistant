@@ -14,7 +14,6 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -341,7 +340,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				try
 				{
-					var width = (int)Settings.Default[parentFormName + "ClassListViewColWidth" + col.Index];
+					var width = (int)Properties.Settings.Default[parentFormName + "ClassListViewColWidth" + col.Index];
 					if (width > 0)
 						col.Width = width;
 				}
@@ -350,13 +349,13 @@ namespace SIL.Pa.UI.Controls
 
 			try
 			{
-				m_sortColumn = (int)Settings.Default[parentFormName + "ClassListViewSortedColumn"];
+				m_sortColumn = (int)Properties.Settings.Default[parentFormName + "ClassListViewSortedColumn"];
 			}
 			catch { }
 
 			try
 			{
-				m_sortOrder = (SortOrder)Settings.Default[parentFormName + "ClassListViewSortOrder"];
+				m_sortOrder = (SortOrder)Properties.Settings.Default[parentFormName + "ClassListViewSortOrder"];
 			}
 			catch
 			{
@@ -383,24 +382,24 @@ namespace SIL.Pa.UI.Controls
 			{
 				try
 				{
-					Settings.Default[parentFormName + "ClassListViewColWidth" + col.Index] = col.Width;
+					Properties.Settings.Default[parentFormName + "ClassListViewColWidth" + col.Index] = col.Width;
 				}
 				catch { }
 			}
 
 			try
 			{
-				Settings.Default[parentFormName + "ClassListViewSortedColumn"] = m_sortColumn;
+				Properties.Settings.Default[parentFormName + "ClassListViewSortedColumn"] = m_sortColumn;
 			}
 			catch { }
 
 			try
 			{
-				Settings.Default[parentFormName + "ClassListViewSortOrder"] = m_sortOrder;
+				Properties.Settings.Default[parentFormName + "ClassListViewSortOrder"] = m_sortOrder;
 			}
 			catch { }
 			
-			Settings.Default.Save();
+			Properties.Settings.Default.Save();
 		}
 
 		#endregion

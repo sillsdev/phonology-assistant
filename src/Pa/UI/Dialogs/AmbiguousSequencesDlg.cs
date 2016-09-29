@@ -13,7 +13,6 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -59,7 +58,7 @@ namespace SIL.Pa.UI.Dialogs
 				row.Cells["cvpattern"].Style.Font = App.PhoneticFont;
 			}
 
-			_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
+			_grid.AdjustGridRows(Properties.Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 			App.AddMediatorColleague(this);
 		}
 
@@ -173,10 +172,10 @@ namespace SIL.Pa.UI.Dialogs
 				_grid.CurrentCell = _grid[0, prevRow];
 			}
 
-			if (Settings.Default.AmbiguousSequencesDlgGrid != null)
-				Settings.Default.AmbiguousSequencesDlgGrid.InitializeGrid(_grid);
+			if (Properties.Settings.Default.AmbiguousSequencesDlgGrid != null)
+				Properties.Settings.Default.AmbiguousSequencesDlgGrid.InitializeGrid(_grid);
 
-			_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
+			_grid.AdjustGridRows(Properties.Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 			_grid.IsDirty = false;
 		}
 
@@ -190,7 +189,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.AmbiguousSequencesDlgGrid = GridSettings.Create(_grid);
+			Properties.Settings.Default.AmbiguousSequencesDlgGrid = GridSettings.Create(_grid);
 			base.SaveSettings();
 		}
 
@@ -318,7 +317,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridRowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
 		{
-			_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
+			_grid.AdjustGridRows(Properties.Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 		}
 
 		/// ------------------------------------------------------------------------------------
