@@ -165,6 +165,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unofficial.Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="L10NSharp">
       <HintPath>..\..\DistFiles\Windows\L10NSharp.dll</HintPath>
     </Reference>
@@ -194,9 +198,6 @@
       <Name>System.XML</Name>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Ionic.Zip, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c">
-      <HintPath>..\..\DistFiles\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
@@ -1096,6 +1097,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ImportantClasses.cd" />
+    <None Include="packages.config" />
     <None Include="Resources\Search Watermark.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1228,6 +1230,7 @@
     <EmbeddedResource Include="Model\Migration\AddRhymeToDistribution.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0350.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0351.xslt" />
+    <Content Include="Ionic.Zip.xml" />
     <Content Include="pa.ico" />
     <None Include="Resources\CloseTab.png" />
     <None Include="Resources\DropDownArrowWithPadding.png" />

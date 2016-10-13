@@ -1,13 +1,11 @@
 Output/*
 */bin/*
 */obj/*
-src/DisablePASplashScreen/obj/*
-src/Pa/obj/*
-src/PATests/obj/*
-src/PATests/bin/*
-src/PaToFdoBrowser/obj/*
-src/SilTools/obj/*
+src/*/obj/*
+src/*/bin/*
 Release/*
+packages/*
+*/NuGet.exe
 *\.suo
 *\.user
 *\.cache
