@@ -3,6 +3,8 @@ Output/*
 */obj/*
 src/*/obj/*
 src/*/bin/*
+Lib/SIL.*
+Lib/L10N*
 Release/*
 packages/*
 */NuGet.exe

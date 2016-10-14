@@ -169,14 +169,17 @@
       <HintPath>..\..\packages\Unofficial.Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="L10NSharp">
-      <HintPath>..\..\DistFiles\Windows\L10NSharp.dll</HintPath>
+    <Reference Include="L10NSharp, Version=2.0.51.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\L10NSharp.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Core">
-      <HintPath>..\..\DistFiles\Windows\SIL.Core.dll</HintPath>
+    <Reference Include="SIL.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SIL.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Windows.Forms">
-      <HintPath>..\..\DistFiles\Windows\SIL.Windows.Forms.dll</HintPath>
+    <Reference Include="SIL.Windows.Forms, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SIL.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

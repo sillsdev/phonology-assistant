@@ -77,7 +77,7 @@ cd -
 #     URL: http://build.palaso.org/viewType.html?buildTypeId=bt324
 #     clean: false
 #     revision: phonologyassistant.tcbuildtag
-#     paths: {"L10NSharp.dll"=>"Lib", "SIL.Core.dll"=>"Lib", "SIL.Windows.Forms.dll"=>"Lib"}
+#     paths: {"L10NSharp.dll"=>"Lib", "L10NSharp.pdb"=>"Lib", "SIL.Core.dll"=>"Lib", "SIL.Core.dll.config"=>"Lib", "SIL.Core.pdb"=>"Lib", "SIL.Windows.Forms.dll"=>"Lib", "SIL.Windows.Forms.dll.config"=>"Lib", "SIL.Windows.Forms.pdb"=>"Lib"}
 #     VCS: https://github.com/sillsdev/libpalaso.git [master]
 
 # make sure output directories exist
@@ -85,6 +85,11 @@ mkdir -p ../Lib
 
 # download artifact dependencies
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt324/phonologyassistant.tcbuildtag/L10NSharp.dll ../Lib/L10NSharp.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/bt324/phonologyassistant.tcbuildtag/L10NSharp.pdb ../Lib/L10NSharp.pdb
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt324/phonologyassistant.tcbuildtag/SIL.Core.dll ../Lib/SIL.Core.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/bt324/phonologyassistant.tcbuildtag/SIL.Core.dll.config ../Lib/SIL.Core.dll.config
+copy_auto http://build.palaso.org/guestAuth/repository/download/bt324/phonologyassistant.tcbuildtag/SIL.Core.pdb ../Lib/SIL.Core.pdb
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt324/phonologyassistant.tcbuildtag/SIL.Windows.Forms.dll ../Lib/SIL.Windows.Forms.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/bt324/phonologyassistant.tcbuildtag/SIL.Windows.Forms.dll.config ../Lib/SIL.Windows.Forms.dll.config
+copy_auto http://build.palaso.org/guestAuth/repository/download/bt324/phonologyassistant.tcbuildtag/SIL.Windows.Forms.pdb ../Lib/SIL.Windows.Forms.pdb
 # End of script
