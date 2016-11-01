@@ -8,7 +8,6 @@
 #endregion
 // 
 using System.ComponentModel;
-using System.Diagnostics.Eventing.Reader;
 using System.Windows.Forms;
 using L10NSharp;
 using SilTools;
