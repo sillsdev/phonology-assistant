@@ -630,9 +630,11 @@ namespace SIL.Pa
         {
             get
             {
+				// FIXME - splash screen currently not working on any mono 4.6
                 // FIXME - splash screen makes PA not open in Mono Windows; ok in Mono Linux and .NET Windows
                 bool UnixLike = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX);
-                if (Type.GetType("Mono.Runtime") != null && !UnixLike) // running Mono Windows (you may ask, "Why would someone do that?")
+				if (Type.GetType("Mono.Runtime") != null)
+				//if (!UnixLike) // running Mono Windows (you may ask, "Why would someone do that?")
                     return false;
                 else
                     return (Properties.Settings.Default.ShowSplashScreen &&
