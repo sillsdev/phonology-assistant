@@ -14,10 +14,9 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
 using L10NSharp;
-using Palaso.IO;
+using SIL.IO;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSourceClasses.FieldWorks;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -376,15 +375,15 @@ namespace SIL.Pa.Model
                     }
                     if (list.All(f => f.Name != mFieldValue))
                         list.Add(fd);
-                    if (!Settings.Default.DefaultVisibleFields.Contains(fd.Name))
-                        Settings.Default.DefaultVisibleFields.Add(fd.Name);
+                    if (!Properties.Settings.Default.DefaultVisibleFields.Contains(fd.Name))
+                        Properties.Settings.Default.DefaultVisibleFields.Add(fd.Name);
                 }
                
             }
             if (list.All(f => f.Name != kPhoneticSourceFieldName))
                 list.Add(new PaField(kPhoneticSourceFieldName, default(FieldType)));
-            if (!Settings.Default.DefaultVisibleFields.Contains(kPhoneticSourceFieldName))
-                Settings.Default.DefaultVisibleFields.Add(kPhoneticSourceFieldName);
+            if (!Properties.Settings.Default.DefaultVisibleFields.Contains(kPhoneticSourceFieldName))
+                Properties.Settings.Default.DefaultVisibleFields.Add(kPhoneticSourceFieldName);
         }
 
         /// ------------------------------------------------------------------------------------

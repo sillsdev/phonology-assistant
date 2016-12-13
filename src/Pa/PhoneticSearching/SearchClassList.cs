@@ -11,9 +11,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using Palaso.IO;
+using SIL.IO;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.PhoneticSearching
@@ -173,11 +172,11 @@ namespace SIL.Pa.PhoneticSearching
 			foreach (var srchClass in this)
 			{
 				var className = App.kOpenClassBracket + srchClass.Name + App.kCloseClassBracket;
-				var oldText = (Settings.Default.ShowClassNamesInSearchPatterns ? srchClass.Pattern : className);
+				var oldText = (Properties.Settings.Default.ShowClassNamesInSearchPatterns ? srchClass.Pattern : className);
 
 				if (tabText.Contains(oldText))
 				{
-					var newText = (Settings.Default.ShowClassNamesInSearchPatterns ? className : srchClass.Pattern);
+					var newText = (Properties.Settings.Default.ShowClassNamesInSearchPatterns ? className : srchClass.Pattern);
 					return tabText.Replace(oldText, newText);
 				}
 			}

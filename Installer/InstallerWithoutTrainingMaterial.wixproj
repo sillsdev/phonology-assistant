@@ -7,7 +7,7 @@
     <ProjectGuid>{50f62de8-5f1f-46c2-9a03-582f4ff79897}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>Pa-Setup %28without training%29</OutputName>
-    <BuildNumber>354</BuildNumber>
+    <BuildNumber>362</BuildNumber>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -56,7 +56,8 @@
     <PreBuildEvent>REM === The next two lines require "heat" to be installed. Heat is installed with the Windows Installer XML (WiX) toolset ===
 rem heat dir "$(SolutionDir)DistFiles\Processing" -cg ProcessingFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Processing_Location -o $(ProjectDir)Files_Processing.wxs
 "$(WixExtDir)heat" dir "$(SolutionDir)DistFiles\Configuration" -cg ConfigurationFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Configuration_Location -o $(ProjectDir)Files_Configuration.wxs</PreBuildEvent>
-    <PostBuildEvent>sign /d "Phonlogy Assistant $(BuildNumber)" "$(SolutionDir)Output\$(OutputName).msi"
+    <PostBuildEvent>copy "$(SolutionDir)Output\$(OutputName).msi" "$(SolutionDir)Output\$(OutputName)-$(BuildNumber).msi"
+      del "$(SolutionDir)Output\$(OutputName).msi"
     </PostBuildEvent>
   </PropertyGroup>
 </Project>

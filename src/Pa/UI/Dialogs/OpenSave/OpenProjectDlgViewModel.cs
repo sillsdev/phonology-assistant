@@ -15,10 +15,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using L10NSharp;
-using Palaso.Progress;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Windows.Forms.Miscellaneous;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -65,10 +63,10 @@ namespace SIL.Pa.UI.Dialogs
 				}
 			}
 
-			if (Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg == null)
-				Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg = new StringCollection();
+			if (Properties.Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg == null)
+				Properties.Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg = new StringCollection();
 
-			foreach (var prjFile in Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Cast<string>()
+			foreach (var prjFile in Properties.Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Cast<string>()
 				.Where(f => File.Exists(f) && ShouldAddProjectFileToAvailableList(f)))
 			{
 				yield return prjFile;
@@ -142,10 +140,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			int savePrjCount = GetProjectFileCount();
 
-			if (Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Count == 0)
+			if (Properties.Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Count == 0)
 				return false;
 
-			Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Clear();
+			Properties.Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Clear();
 			RefreshAvailableProjectsList();
 			return (savePrjCount != GetProjectFileCount());
 		}
@@ -162,7 +160,7 @@ namespace SIL.Pa.UI.Dialogs
 
 				var fmt = LocalizationManager.GetString("DialogBoxes.OpenProjectDlg.SelectSpecificProjectOpenFileDialogText", "Open Project File");
 
-				var initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? string.Empty);
+				var initialDir = (Properties.Settings.Default.LastFolderForOpenProjectDlg ?? string.Empty);
 				if (!Directory.Exists(initialDir))
 					initialDir = App.ProjectFolder;
 
@@ -173,16 +171,16 @@ namespace SIL.Pa.UI.Dialogs
 				{
 					var path = Path.GetDirectoryName(filenames[0]);
 					if (!path.Equals(App.ProjectFolder, StringComparison.Ordinal) &&
-						!Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Contains(filenames[0]))
+						!Properties.Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Contains(filenames[0]))
 					{
-						Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Add(filenames[0]);
+						Properties.Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Add(filenames[0]);
 					}
 
 					var prjInfo = PaProjectLite.Create(filenames[0]);
 
 					if (prjInfo != null)
 					{
-						Settings.Default.LastFolderForOpenProjectDlg = path;
+						Properties.Settings.Default.LastFolderForOpenProjectDlg = path;
 						SelectedProject = prjInfo;
 						return true;
 					}

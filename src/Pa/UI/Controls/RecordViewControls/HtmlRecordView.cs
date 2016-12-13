@@ -15,7 +15,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -173,7 +172,7 @@ namespace SIL.Pa.UI.Controls
 			bldr.Append(".field { font-weight: bold; padding-left: 10px; padding-right: 10px; ");
 			bldr.AppendFormat("font-size: {0}pt; font-family: '{1}'; color: #{2}; }}",
 				(int)FontHelper.UIFont.SizeInPoints, FontHelper.UIFont.Name,
-				(Settings.Default.RecordViewFieldLabelColor.ToArgb() & 0x00FFFFFF).ToString("x"));
+				(Properties.Settings.Default.RecordViewFieldLabelColor.ToArgb() & 0x00FFFFFF).ToString("x"));
 
 			foreach (var field in fieldsToDisplay)
 			{

@@ -7,7 +7,7 @@
     <ProjectGuid>{b7e79978-c573-4f3f-9ecd-f38f65f515db}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>Pa-Setup</OutputName>
-    <BuildNumber>354</BuildNumber>
+    <BuildNumber>362</BuildNumber>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -15,8 +15,10 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\Output\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug</DefineConstants>
+    <DefineConstants>Debug;</DefineConstants>
     <VerboseOutput>True</VerboseOutput>
+    <WixVariables>
+    </WixVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\Output\</OutputPath>
@@ -62,7 +64,8 @@ del "$(SolutionDir)Output\Release\Transforms.zip"
 REM === The next two lines require "heat" to be installed. Heat is installed with the Windows Installer XML (WiX) toolset ===
 rem heat dir "$(SolutionDir)DistFiles\Processing" -cg ProcessingFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Processing_Location -o $(ProjectDir)Files_Processing.wxs
 "$(WixExtDir)heat" dir "$(SolutionDir)DistFiles\Configuration" -cg ConfigurationFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Configuration_Location -o $(ProjectDir)Files_Configuration.wxs</PreBuildEvent>
-    <PostBuildEvent>sign /d "Phonlogy Assistant $(BuildNumber)" "$(SolutionDir)Output\$(OutputName).msi"
+    <PostBuildEvent>copy "$(SolutionDir)Output\$(OutputName).msi" "$(SolutionDir)Output\$(OutputName)-$(BuildNumber).msi"
+      del "$(SolutionDir)Output\$(OutputName).msi"
     </PostBuildEvent>
   </PropertyGroup>
 </Project>

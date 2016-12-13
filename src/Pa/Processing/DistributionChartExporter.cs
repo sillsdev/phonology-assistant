@@ -13,7 +13,6 @@ using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.Processing
@@ -37,7 +36,7 @@ namespace SIL.Pa.Processing
 			DistributionGrid distChartGrid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, distChartGrid,
-				openAfterExport, Settings.Default.AppThatOpensHtml,
+				openAfterExport, Properties.Settings.Default.AppThatOpensHtml,
 				Pipeline.ProcessType.ExportToXHTML);
 		}
 
@@ -46,7 +45,7 @@ namespace SIL.Pa.Processing
 			DistributionGrid distChartGrid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.WordXml, distChartGrid,
-				openAfterExport, Settings.Default.AppThatOpensWordXml,
+				openAfterExport, Properties.Settings.Default.AppThatOpensWordXml,
 				Pipeline.ProcessType.ExportToWord);
 		}
 
@@ -55,7 +54,7 @@ namespace SIL.Pa.Processing
 			DistributionGrid distChartGrid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, distChartGrid,
-				openAfterExport, Settings.Default.AppThatOpensXLingPaperXML,
+				openAfterExport, Properties.Settings.Default.AppThatOpensXLingPaperXML,
 				new[] { Pipeline.ProcessType.ExportToXLingPaper });
 		}
 
@@ -76,7 +75,7 @@ namespace SIL.Pa.Processing
 			var exporter = new DistributionChartExporter(project, outputFileName, outputFormat, grid);
 
 			var result = exporter.InternalProcess(
-				Settings.Default.KeepTempDistributionChartExportFile, pipeline);
+				Properties.Settings.Default.KeepTempDistributionChartExportFile, pipeline);
 
 			if (result && openAfterExport)
 				CallAppToExportedFile(appToOpenOutput, outputFileName);

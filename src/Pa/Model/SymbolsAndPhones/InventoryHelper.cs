@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using SIL.Reporting;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -47,7 +48,7 @@ namespace SIL.Pa.Model
 			if (ih == null)
 			{
 				App.CloseSplashScreen();
-				Palaso.Reporting.ErrorReport.ReportFatalException(exception);
+				ErrorReport.ReportFatalException(exception);
 			}
 
 			IPASymbolCache = new IPASymbolCache();

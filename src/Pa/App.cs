@@ -17,12 +17,11 @@ using System.Reflection;
 using System.Windows.Forms;
 using L10NSharp;
 using L10NSharp.UI;
-using Palaso.IO;
-using Palaso.Reporting;
+using SIL.IO;
+using SIL.Reporting;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SIL.Pa.ResourceStuff;
 using SIL.Pa.UI.Views;
 using SilTools;
@@ -210,12 +209,12 @@ namespace SIL.Pa
                 InitializeProjectFolder();
 
             //// Upgrade the settings if we're running a newer version of the program.
-            //if (Settings.Default.SettingsVersion != Application.ProductVersion)
+            //if (Properties.Settings.Default.SettingsVersion != Application.ProductVersion)
             //{
             //    //see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
-            //    Settings.Default.Upgrade();
-            //    Settings.Default.SettingsVersion = Application.ProductVersion;
-            //    Settings.Default.Save();
+            //    Properties.Settings.Default.Upgrade();
+            //    Properties.Settings.Default.SettingsVersion = Application.ProductVersion;
+            //    Properties.Settings.Default.Save();
             //}
 
             PortableSettingsProvider.SettingsFileFolder = ProjectFolder;
@@ -230,10 +229,10 @@ namespace SIL.Pa
             var targetTmxFilePath = Path.Combine(kCompany, kProduct);
             CopyInstalledLocalizations(localizedStringFilesFolder);
 
-            string desiredUiLangId = Settings.Default.UserInterfaceLanguage;
+            string desiredUiLangId = Properties.Settings.Default.UserInterfaceLanguage;
 
             L10NMngr = LocalizationManager.Create(desiredUiLangId, "Pa", "Phonology Assistant", Application.ProductVersion, installedStringFileFolder, targetTmxFilePath, null, IssuesEmailAddress, "SIL.Pa");
-            //Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
+            //Properties.Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
             //GetUILanguage()
             LocalizeItemDlg.StringsLocalized += (() =>
             {
@@ -338,7 +337,7 @@ namespace SIL.Pa
         /// ------------------------------------------------------------------------------------
         private static string GetUILanguage()
         {
-            string langId = Settings.Default.UserInterfaceLanguage;
+            string langId = Properties.Settings.Default.UserInterfaceLanguage;
 
             // Specifying the UI language on the command-line trumps the one in
             // the settings file (i.e. the one set in the options dialog box).
@@ -631,18 +630,20 @@ namespace SIL.Pa
         {
             get
             {
+				// FIXME - splash screen currently not working on any mono 4.6
                 // FIXME - splash screen makes PA not open in Mono Windows; ok in Mono Linux and .NET Windows
                 bool UnixLike = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX);
-                if (Type.GetType("Mono.Runtime") != null && !UnixLike) // running Mono Windows (you may ask, "Why would someone do that?")
+				if (Type.GetType("Mono.Runtime") != null)
+				//if (!UnixLike) // running Mono Windows (you may ask, "Why would someone do that?")
                     return false;
                 else
-                    return (Settings.Default.ShowSplashScreen &&
+                    return (Properties.Settings.Default.ShowSplashScreen &&
                         (Control.ModifierKeys & Keys.Control) != Keys.Control);
             }
             set
             {
-                Settings.Default.ShowSplashScreen = value;
-                Settings.Default.Save();
+                Properties.Settings.Default.ShowSplashScreen = value;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -651,7 +652,7 @@ namespace SIL.Pa
         {
             if (ShouldShowSplashScreen)
             {
-                SplashScreen = new SplashScreen(true, VersionType.Beta);
+                SplashScreen = new SplashScreen(true, VersionType.Production);
                 SplashScreen.Show();
                 SplashScreen.Message = LocalizationManager.GetString(
                     "Miscellaneous.Messages.SplashScreenLoadingMsg", "Loading...");
@@ -742,8 +743,8 @@ namespace SIL.Pa
         {
             get
             {
-                return (string.IsNullOrEmpty(Settings.Default.WordBreakCharacters) ?
-                    " " : Settings.Default.WordBreakCharacters);
+                return (string.IsNullOrEmpty(Properties.Settings.Default.WordBreakCharacters) ?
+                    " " : Properties.Settings.Default.WordBreakCharacters);
             }
         }
 
@@ -935,7 +936,7 @@ namespace SIL.Pa
         {
             get
             {
-                var clr = Settings.Default.WordListGridColor;
+                var clr = Properties.Settings.Default.WordListGridColor;
                 return (clr != Color.Transparent && clr != Color.Empty ? clr :
                     ColorHelper.CalculateColor(SystemColors.WindowText, SystemColors.Window, 25));
             }
@@ -946,8 +947,8 @@ namespace SIL.Pa
         {
             get
             {
-                return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
-                    Settings.Default.GridRowSelectionForeColor);
+                return (Properties.Settings.Default.UseSystemColors ? SystemColors.WindowText :
+                    Properties.Settings.Default.GridRowSelectionForeColor);
             }
         }
 
@@ -956,8 +957,8 @@ namespace SIL.Pa
         {
             get
             {
-                return (Settings.Default.UseSystemColors ? ColorHelper.LightHighlight :
-                    Settings.Default.GridRowSelectionBackColor);
+                return (Properties.Settings.Default.UseSystemColors ? ColorHelper.LightHighlight :
+                    Properties.Settings.Default.GridRowSelectionBackColor);
             }
         }
 
@@ -966,8 +967,8 @@ namespace SIL.Pa
         {
             get
             {
-                return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
-                    Settings.Default.GridCellSelectionForeColor);
+                return (Properties.Settings.Default.UseSystemColors ? SystemColors.WindowText :
+                    Properties.Settings.Default.GridCellSelectionForeColor);
             }
         }
 
@@ -976,8 +977,8 @@ namespace SIL.Pa
         {
             get
             {
-                return (Settings.Default.UseSystemColors ? ColorHelper.LightLightHighlight :
-                    Settings.Default.GridCellSelectionBackColor);
+                return (Properties.Settings.Default.UseSystemColors ? ColorHelper.LightLightHighlight :
+                    Properties.Settings.Default.GridCellSelectionBackColor);
             }
         }
 
@@ -986,8 +987,8 @@ namespace SIL.Pa
         {
             get
             {
-                return (Settings.Default.UseSystemColors ? SystemColors.Control :
-                    Settings.Default.GridRowUnfocusedSelectionBackColor);
+                return (Properties.Settings.Default.UseSystemColors ? SystemColors.Control :
+                    Properties.Settings.Default.GridRowUnfocusedSelectionBackColor);
             }
         }
 
@@ -996,8 +997,8 @@ namespace SIL.Pa
         {
             get
             {
-                if (!Settings.Default.UseSystemColors)
-                    return Settings.Default.GridRowUnfocusedSelectionForeColor;
+                if (!Properties.Settings.Default.UseSystemColors)
+                    return Properties.Settings.Default.GridRowUnfocusedSelectionForeColor;
 
                 // It turns out the control color for the silver Windows XP theme is very close
                 // to the default color calculated for selected rows in PA word lists. Therefore,
@@ -1107,13 +1108,13 @@ namespace SIL.Pa
         public static int GetPlaybackSpeedForVwType(Type vwType)
         {
             if (vwType == typeof(DataCorpusVw))
-                return Settings.Default.DataCorpusVwPlaybackSpeed;
+                return Properties.Settings.Default.DataCorpusVwPlaybackSpeed;
 
             if (vwType == typeof(SearchVw))
-                return Settings.Default.SearchVwPlaybackSpeed;
+                return Properties.Settings.Default.SearchVwPlaybackSpeed;
 
             if (vwType == typeof(DistributionChartVw))
-                return Settings.Default.DistChartVwPlaybackSpeed;
+                return Properties.Settings.Default.DistChartVwPlaybackSpeed;
 
             return 100;
         }
@@ -1405,7 +1406,7 @@ namespace SIL.Pa
                 s_progressPercentFormat = LocalizationManager.GetString("PhoneticSearchingMessages.ProgressPercentageStatusBarFormat", "{0}%");
                 bar.Maximum = maxValue;
                 bar.Value = 0;
-                bar.Visible = Settings.Default.UseProgressBarInMainWindow;
+                bar.Visible = Properties.Settings.Default.UseProgressBarInMainWindow;
                 lblPct.Text = string.Format(s_progressPercentFormat, 0);
                 lblPct.Visible = (SplashScreen == null && !bar.Visible);
                 lblPct.Tag = 0;

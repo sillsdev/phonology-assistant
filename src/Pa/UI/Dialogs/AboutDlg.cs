@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System.IO;
 using L10NSharp;
 using L10NSharp.UI;
+using SIL.Reporting;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -107,7 +108,7 @@ namespace SIL.Pa.UI.Dialogs
 				var msg = LocalizationManager.GetString("DialogBoxes.AboutDlg.LoadingDialogInformation",
 					"There was an error trying to load information into the 'About' dialog box.");
 
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(err, msg);
+				ErrorReport.NotifyUserOfProblem(err, msg);
 			}
 		}
 
@@ -570,7 +571,7 @@ namespace SIL.Pa.UI.Dialogs
 				var msg = LocalizationManager.GetString("DialogBoxes.AboutDlg.EmailFailureMsg",
 					"There was an error trying to create an e-mail. It's possible an e-mail client has not been installed or configured.");
 				
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(err, msg);
+				ErrorReport.NotifyUserOfProblem(err, msg);
 			}
 		}
 
@@ -586,7 +587,7 @@ namespace SIL.Pa.UI.Dialogs
 				var msg = LocalizationManager.GetString("DialogBoxes.AboutDlg.GoingToWebsiteFailureMsg",
 					"There was an error trying to go to the website {0}.");
 				
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(err, msg, "http://phonologyassistant.sil.org");
+				ErrorReport.NotifyUserOfProblem(err, msg, "http://phonologyassistant.sil.org");
 			}
 		}
 

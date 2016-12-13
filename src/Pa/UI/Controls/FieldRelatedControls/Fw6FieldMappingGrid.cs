@@ -14,7 +14,6 @@ using L10NSharp;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -33,7 +32,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public Fw6FieldMappingGrid(PaDataSource ds, IEnumerable<PaField> projectFields) : this(ds)
 		{
-			var mappableFields = Settings.Default.Fw6FieldsMappableInPropsDlg.Cast<string>();
+			var mappableFields = Properties.Settings.Default.Fw6FieldsMappableInPropsDlg.Cast<string>();
 			m_potentialFields = projectFields.Where(f => mappableFields.Contains(f.Name));
 
 			m_mappings = (from fname in mappableFields

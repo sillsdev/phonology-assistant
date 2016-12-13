@@ -9,8 +9,8 @@
 // 
 using System.Xml.Serialization;
 using L10NSharp;
-using Palaso.IO;
-using Palaso.Reporting;
+using SIL.IO;
+using SIL.Reporting;
 using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks

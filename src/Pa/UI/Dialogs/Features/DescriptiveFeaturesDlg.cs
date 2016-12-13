@@ -7,7 +7,6 @@
 // </copyright> 
 #endregion
 // 
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -27,12 +26,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(System.EventArgs e)
 		{
-			if (Settings.Default.DescriptiveFeaturesDlgPhoneGrid != null)
-				Settings.Default.DescriptiveFeaturesDlgPhoneGrid.InitializeGrid(_gridPhones);
+			if (Properties.Settings.Default.DescriptiveFeaturesDlgPhoneGrid != null)
+				Properties.Settings.Default.DescriptiveFeaturesDlgPhoneGrid.InitializeGrid(_gridPhones);
 
-			_gridPhones.AdjustGridRows(Settings.Default.DescriptiveFeaturesDlgGridExtraRowHeight);
+			_gridPhones.AdjustGridRows(Properties.Settings.Default.DescriptiveFeaturesDlgGridExtraRowHeight);
 			
-			int savedLoc = Settings.Default.DescriptiveFeaturesDlgSplitLoc;
+			int savedLoc = Properties.Settings.Default.DescriptiveFeaturesDlgSplitLoc;
 			if (savedLoc > 0 && savedLoc >= _splitFeatures.Panel1MinSize)
 				_splitFeatures.SplitterDistance = savedLoc;
 
@@ -42,8 +41,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.DescriptiveFeaturesDlgPhoneGrid = GridSettings.Create(_gridPhones);
-			Settings.Default.DescriptiveFeaturesDlgSplitLoc = _splitFeatures.SplitterDistance;
+			Properties.Settings.Default.DescriptiveFeaturesDlgPhoneGrid = GridSettings.Create(_gridPhones);
+			Properties.Settings.Default.DescriptiveFeaturesDlgSplitLoc = _splitFeatures.SplitterDistance;
 			base.SaveSettings();
 		}
 

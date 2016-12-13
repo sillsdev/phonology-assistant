@@ -11,7 +11,6 @@ using System.IO;
 using System.Xml;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.Processing
@@ -79,7 +78,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override bool KeepTempFile
 		{
-			get { return Settings.Default.KeepTempCVChartBuilderFile; }
+			get { return Properties.Settings.Default.KeepTempCVChartBuilderFile; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -117,7 +116,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override void PostBuildProcess()
 		{
-			if (!Settings.Default.KeepTempCVChartBuilderFile && File.Exists(TempFileName))
+			if (!Properties.Settings.Default.KeepTempCVChartBuilderFile && File.Exists(TempFileName))
 				File.Delete(TempFileName);
 		}
 	}

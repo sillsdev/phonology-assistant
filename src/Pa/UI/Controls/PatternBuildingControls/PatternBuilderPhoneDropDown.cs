@@ -140,7 +140,7 @@ namespace SIL.Pa.UI.Controls
 			rc.Width--;
 			rc.Height--;
 
-			using (var pen = new Pen(Settings.Default.GradientPanelTopColor))
+			using (var pen = new Pen(Properties.Settings.Default.GradientPanelTopColor))
 				e.Graphics.DrawRectangle(pen, rc);
 		}
 

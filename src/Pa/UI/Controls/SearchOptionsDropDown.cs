@@ -17,7 +17,6 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -57,7 +56,7 @@ namespace SIL.Pa.UI.Controls
 			rbAllUncertainties.Font = FontHelper.UIFont;
             lnkOk.LinkClicked += delegate { Close(); };
 
-			int fontsize = Settings.Default.SearchOptionsDropDownPickerLabelFontSize;
+			int fontsize = Properties.Settings.Default.SearchOptionsDropDownPickerLabelFontSize;
 			if (fontsize > 0)
 			{
 				var fnt = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontsize);

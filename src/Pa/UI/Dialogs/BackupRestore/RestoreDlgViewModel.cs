@@ -16,11 +16,9 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Ionic.Zip;
 using L10NSharp;
-using Palaso.Progress;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
-using Palaso.UI.WindowsForms.Miscellaneous;
+using SIL.Windows.Forms.Miscellaneous;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -73,7 +71,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<string> GetBackupFiles()
 		{
-			var folder = Settings.Default.LastOtherBackupFolder;
+			var folder = Properties.Settings.Default.LastOtherBackupFolder;
 
 			if (folder != null && Directory.Exists(folder))
 			{
@@ -82,7 +80,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			folder = Path.Combine(App.ProjectFolder, "Backups");
-			if (folder != Settings.Default.LastOtherBackupFolder && Directory.Exists(folder))
+			if (folder != Properties.Settings.Default.LastOtherBackupFolder && Directory.Exists(folder))
 			{
 				foreach (var backupFile in Directory.GetFiles(folder, "*.pabackup"))
 					yield return backupFile;
@@ -90,7 +88,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Check the desktop
 			folder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-			if (folder != Settings.Default.LastOtherBackupFolder)
+			if (folder != Properties.Settings.Default.LastOtherBackupFolder)
 			{
 				foreach (var backupFile in Directory.GetFiles(folder, "*.pabackup"))
 					yield return backupFile;
@@ -98,7 +96,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Check the downloads folder
 			folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Downloads");
-			if (folder != Settings.Default.LastOtherBackupFolder && Directory.Exists(folder))
+			if (folder != Properties.Settings.Default.LastOtherBackupFolder && Directory.Exists(folder))
 			{
 				foreach (var backupFile in Directory.GetFiles(folder, "*.pabackup"))
 					yield return backupFile;

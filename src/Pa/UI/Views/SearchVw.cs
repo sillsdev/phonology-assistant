@@ -14,7 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.IO;
+using SIL.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -213,8 +213,8 @@ namespace SIL.Pa.UI.Views
             else
             {
                 m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter,
-                    splitResults, _recView, Settings.Default.SearchVwPlaybackSpeed,
-                    newSpeed => Settings.Default.SearchVwPlaybackSpeed = newSpeed);
+                    splitResults, _recView, Properties.Settings.Default.SearchVwPlaybackSpeed,
+                    newSpeed => Properties.Settings.Default.SearchVwPlaybackSpeed = newSpeed);
             }
 
             if (m_tmAdapter != null)
@@ -277,8 +277,8 @@ namespace SIL.Pa.UI.Views
             btnDock.Top = btnAutoHide.Top;
 
             m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder,
-                Settings.Default.SearchVwSidePanelWidth,
-                newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
+                Properties.Settings.Default.SearchVwSidePanelWidth,
+                newWidth => Properties.Settings.Default.SearchVwSidePanelWidth = newWidth);
 
             // For the code scanner to work, the control (parameter 4 in GetString) cannot
             // refer to a property, it has to refer to the actual object. Therefore, create
@@ -353,7 +353,7 @@ namespace SIL.Pa.UI.Views
         /// ------------------------------------------------------------------------------------
         public void SaveSettings()
         {
-            Settings.Default.SearchVwSidePanelDocked = m_slidingPanel.SlideFromLeft ?
+            Properties.Settings.Default.SearchVwSidePanelDocked = m_slidingPanel.SlideFromLeft ?
                 !splitOuter.Panel1Collapsed : !splitOuter.Panel2Collapsed;
 
             tvSavedPatterns.SaveSettings();
@@ -369,20 +369,20 @@ namespace SIL.Pa.UI.Views
                 File.Delete(path);
 
             ptrnBldrComponent.SaveSettings(Name, charExplorerStates =>
-                Settings.Default.SearchVwIPACharExplorerExpandedStates = charExplorerStates);
+                Properties.Settings.Default.SearchVwIPACharExplorerExpandedStates = charExplorerStates);
 
-            Settings.Default.SearchVwRecordPaneVisible = m_rsltVwMngr.RecordViewOn;
+            Properties.Settings.Default.SearchVwRecordPaneVisible = m_rsltVwMngr.RecordViewOn;
 
-            Settings.Default.SearchVwSplitRatio1 =
+            Properties.Settings.Default.SearchVwSplitRatio1 =
                 splitOuter.SplitterDistance / (float)splitOuter.Width;
 
-            Settings.Default.SearchVwSplitRatio2 =
+            Properties.Settings.Default.SearchVwSplitRatio2 =
                 splitResults.SplitterDistance / (float)splitResults.Height;
 
-            Settings.Default.SearchVwSplitRatio3 =
+            Properties.Settings.Default.SearchVwSplitRatio3 =
                 splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
 
-            Settings.Default.SearchVwSplitRatio4 =
+            Properties.Settings.Default.SearchVwSplitRatio4 =
                 splitSideBarInner.SplitterDistance / (float)splitSideBarInner.Height;
         }
 
@@ -409,16 +409,16 @@ namespace SIL.Pa.UI.Views
                     // exception is thrown, no big deal, the splitter distances will just be set
                     // to their default values.
                     splitOuter.SplitterDistance = (int)(splitOuter.Width *
-                        Settings.Default.SearchVwSplitRatio1);
+                        Properties.Settings.Default.SearchVwSplitRatio1);
 
                     splitResults.SplitterDistance = (int)(splitResults.Height *
-                        Settings.Default.SearchVwSplitRatio2);
+                        Properties.Settings.Default.SearchVwSplitRatio2);
 
                     splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height *
-                        Settings.Default.SearchVwSplitRatio3);
+                        Properties.Settings.Default.SearchVwSplitRatio3);
 
                     splitSideBarInner.SplitterDistance = (int)(splitSideBarInner.Height *
-                        Settings.Default.SearchVwSplitRatio4);
+                        Properties.Settings.Default.SearchVwSplitRatio4);
                 }
                 catch { }
 
@@ -469,9 +469,9 @@ namespace SIL.Pa.UI.Views
         /// ------------------------------------------------------------------------------------
         private void LoadSettings()
         {
-            ptrnBldrComponent.LoadSettings(Name, Settings.Default.SearchVwIPACharExplorerExpandedStates);
+            ptrnBldrComponent.LoadSettings(Name, Properties.Settings.Default.SearchVwIPACharExplorerExpandedStates);
 
-            if (Settings.Default.SearchVwSidePanelDocked)
+            if (Properties.Settings.Default.SearchVwSidePanelDocked)
                 HandleDockButtonClick(null, null);
             else
                 HandleAutoHideButtonClick(null, null);
@@ -479,7 +479,7 @@ namespace SIL.Pa.UI.Views
             OnViewDocked(this);
             m_initialDock = true;
             m_slidingPanel.LoadSettings();
-            m_rsltVwMngr.RecordViewOn = Settings.Default.SearchVwRecordPaneVisible;
+            m_rsltVwMngr.RecordViewOn = Properties.Settings.Default.SearchVwRecordPaneVisible;
 
             try
             {
@@ -740,15 +740,15 @@ namespace SIL.Pa.UI.Views
             Color clrTop;
             Color clrBottom;
 
-            if (Settings.Default.UseSystemColors)
+            if (Properties.Settings.Default.UseSystemColors)
             {
                 clrTop = ColorHelper.CalculateColor(SystemColors.Control, Color.White, 100);
                 clrBottom = ColorHelper.CalculateColor(SystemColors.ControlDark, Color.White, 75);
             }
             else
             {
-                clrTop = Settings.Default.TextPanelGradientTopColor;
-                clrBottom = Settings.Default.TextPanelGradientBottomColor;
+                clrTop = Properties.Settings.Default.TextPanelGradientTopColor;
+                clrBottom = Properties.Settings.Default.TextPanelGradientBottomColor;
             }
 
             PaintingHelper.DrawGradientBackground(e.Graphics, rc, clrTop, clrBottom);
@@ -895,7 +895,7 @@ namespace SIL.Pa.UI.Views
                 var item = lv.SelectedItems[0] as ClassListViewItem;
                 if (item != null)
                 {
-                    ptrnTextBox.Insert((item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
+                    ptrnTextBox.Insert((item.Pattern == null || Properties.Settings.Default.ShowClassNamesInSearchPatterns ?
                         App.kOpenClassBracket + item.Text + App.kCloseClassBracket : item.Pattern));
                 }
             }
@@ -936,7 +936,7 @@ namespace SIL.Pa.UI.Views
             else if (e.Item is ClassListViewItem)
             {
                 var item = e.Item as ClassListViewItem;
-                dragText = (item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
+                dragText = (item.Pattern == null || Properties.Settings.Default.ShowClassNamesInSearchPatterns ?
                     App.kOpenClassBracket + item.Text + App.kCloseClassBracket : item.Pattern);
             }
 
@@ -1006,7 +1006,7 @@ namespace SIL.Pa.UI.Views
 
             // If we've exceeded the number of queries to save in
             // the list then remove the last one.
-            if (lstRecentPatterns.Items.Count > Settings.Default.MaximumAllowedRecentlyUsedQueries)
+            if (lstRecentPatterns.Items.Count > Properties.Settings.Default.MaximumAllowedRecentlyUsedQueries)
                 lstRecentPatterns.Items.RemoveAt(lstRecentPatterns.Items.Count - 1);
 
             OnUpdateRemovePattern(null);
@@ -1282,10 +1282,10 @@ namespace SIL.Pa.UI.Views
             hlblSavedPatterns.Font = FontHelper.UIFont;
 
             lstRecentPatterns.Font = new Font(App.PhoneticFont.FontFamily,
-                Settings.Default.SearchVwRecentPatternsListFontSize);
+                Properties.Settings.Default.SearchVwRecentPatternsListFontSize);
 
             tvSavedPatterns.Font = new Font(App.PhoneticFont.FontFamily,
-                Settings.Default.SearchVwSavedPatternsListFontSize);
+                Properties.Settings.Default.SearchVwSavedPatternsListFontSize);
 
             //pnlCurrPattern.Invalidate();
             m_slidingPanel.RefreshFonts();

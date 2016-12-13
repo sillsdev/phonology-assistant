@@ -2,7 +2,7 @@
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
 <!--<?define Property_ProductVersion = "BUILD_SCRIPT_MUST_REPLACE_AT_RUNTIME" ?> -->
-<?define Property_ProductVersion = "3.5.4" ?>
+<?define Property_ProductVersion = "3.6.2" ?>
 <!--this is replaced at build time by the msbuild 'package' target -->
 <?define Property_ProductCode = "*" ?>
 <!-- auto-generate a new guid each time -->
@@ -72,7 +72,9 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
     <Media Id="1" Cabinet="pa.cab" EmbedCab="yes" CompressionLevel="high" />
 		<Icon Id="Pa.exe" SourceFile ="..\output\release\Pa.exe" />
 		<Property Id="ARPPRODUCTICON" Value="Pa.exe" />
-		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    <WixVariable Id="WixUIDialogBmp" Value="bannrbmp.bmp" />
+    <WixVariable Id="WixUIBannerBmp" Value="dlgbmp.bmp" />
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
 		<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONFOLDER" />
 		<UIRef Id="WixUI_InstallDir" />
     

@@ -15,12 +15,11 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp.UI;
-using Palaso.IO;
+using SIL.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -697,7 +696,7 @@ namespace SIL.Pa.UI.Views
                 return false;
 
             CVChartExporter.ToHtml(Project, ChartType, outputFileName, _chartGrid,
-                Settings.Default.OpenHtmlCVChartAfterExport);
+                Properties.Settings.Default.OpenHtmlCVChartAfterExport);
 
             return true;
         }
@@ -729,7 +728,7 @@ namespace SIL.Pa.UI.Views
                 return false;
 
             CVChartExporter.ToWordXml(Project, ChartType, outputFileName, _chartGrid,
-                Settings.Default.OpenWordXmlCVChartAfterExport);
+                Properties.Settings.Default.OpenWordXmlCVChartAfterExport);
 
             return true;
         }
@@ -744,7 +743,7 @@ namespace SIL.Pa.UI.Views
                 return false;
 
             CVChartExporter.ToXLingPaper(Project, ChartType, outputFileName, _chartGrid,
-                Settings.Default.OpenXLingPaperCVChartAfterExport);
+                Properties.Settings.Default.OpenXLingPaperCVChartAfterExport);
 
             return true;
         }

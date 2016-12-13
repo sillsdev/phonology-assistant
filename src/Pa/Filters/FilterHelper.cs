@@ -16,7 +16,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Palaso.IO;
+using SIL.IO;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;

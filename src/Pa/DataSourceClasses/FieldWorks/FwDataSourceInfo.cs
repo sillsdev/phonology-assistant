@@ -14,8 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using L10NSharp;
-using Palaso.Reporting;
-using SilTools;
+using SIL.Reporting;
 
 namespace SIL.Pa.DataSource.FieldWorks
 {

@@ -12,7 +12,6 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.DataSource.FieldWorks;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -62,7 +61,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnShown(e);
 
-			var loc = Settings.Default.FwProjectsDlgSplitLoc;
+			var loc = Properties.Settings.Default.FwProjectsDlgSplitLoc;
 			if (loc > 0 && loc >= splitContainer1.Panel1MinSize)
 				splitContainer1.SplitterDistance = loc;
 		}
@@ -70,7 +69,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.FwProjectsDlgSplitLoc = splitContainer1.SplitterDistance;
+			Properties.Settings.Default.FwProjectsDlgSplitLoc = splitContainer1.SplitterDistance;
 			base.SaveSettings();
 		}
 

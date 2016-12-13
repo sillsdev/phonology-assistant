@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -145,8 +144,8 @@ namespace SIL.Pa.UI.Controls
 		                bool matchBefore = (m_grid.SortOptions.AdvSortOrder[0] == 0);
 
 		                int numberPhonesToMatch = (matchBefore
-		                    ? Settings.Default.WordListGroupingPhonesToMatchBefore
-		                    : Settings.Default.WordListGroupingPhonesToMatchAfter);
+		                    ? Properties.Settings.Default.WordListGroupingPhonesToMatchBefore
+		                    : Properties.Settings.Default.WordListGroupingPhonesToMatchAfter);
 
 		                if (numberPhonesToMatch == 0)
 		                {

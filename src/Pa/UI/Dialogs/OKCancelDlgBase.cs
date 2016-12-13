@@ -12,8 +12,6 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
-using L10NSharp;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -71,7 +69,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				try
 				{
-					Settings.Default[Name] = App.InitializeForm(this, Settings.Default[Name] as FormSettings);
+					Properties.Settings.Default[Name] = App.InitializeForm(this, Properties.Settings.Default[Name] as FormSettings);
 				}
 				catch
 				{
@@ -351,7 +349,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected virtual void SaveSettings()
 		{
-			Settings.Default.Save();
+			Properties.Settings.Default.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -14,9 +14,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.DataSource.FieldWorks
 {
@@ -96,7 +95,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				return true;
 			}
 
-			foreach (var fname in Settings.Default.AllPossibleFw6Fields.Cast<string>())
+			foreach (var fname in Properties.Settings.Default.AllPossibleFw6Fields.Cast<string>())
 			{
 				var mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.Field.Name == fname);
 				var replace = string.Format("${0}Ws$", fname);

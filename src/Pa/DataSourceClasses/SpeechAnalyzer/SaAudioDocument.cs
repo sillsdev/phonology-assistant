@@ -14,6 +14,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using L10NSharp;
+using SIL.Reporting;
 using SilTools;
 
 namespace SIL.Pa.DataSource.Sa
@@ -152,7 +153,7 @@ namespace SIL.Pa.DataSource.Sa
 
 				if (e != null)
 				{
-					Palaso.Reporting.ErrorReport.ReportNonFatalException(e);
+					ErrorReport.ReportNonFatalException(e);
 					return null;
 				}
 

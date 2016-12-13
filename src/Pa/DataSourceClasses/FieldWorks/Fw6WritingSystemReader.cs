@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using L10NSharp;
-using Palaso.Reporting;
+using SIL.Reporting;
 
 namespace SIL.Pa.DataSource.FieldWorks
 {

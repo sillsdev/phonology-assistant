@@ -17,3 +17,12 @@ Pathway is licensed under MIT. See [LICENSE.md](https://github.com/sillsdev/phon
 
 [Issues](https://jira.sil.org/browse/PA)
 
+Development
+-----------
+After cloning the repo, install the dependencies with:
+
+`bash ./buildupdate.sh`
+
+Load Pa-Windows.sln and set the Configuration to Debug-Windows and the Platform to x86. Then build.
+
+The Unit tests can be run from the PaTests project.

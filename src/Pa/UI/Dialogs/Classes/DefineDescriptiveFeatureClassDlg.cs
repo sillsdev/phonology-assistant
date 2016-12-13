@@ -10,7 +10,6 @@
 using System;
 using L10NSharp;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.UI.Dialogs
@@ -38,22 +37,22 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool UseCompactConsonantView
 		{
-			get { return Settings.Default.DefineDescriptiveFeatureClassDlgUseCompactConsonantView; }
-			set { Settings.Default.DefineDescriptiveFeatureClassDlgUseCompactConsonantView = value; }
+			get { return Properties.Settings.Default.DefineDescriptiveFeatureClassDlgUseCompactConsonantView; }
+			set { Properties.Settings.Default.DefineDescriptiveFeatureClassDlgUseCompactConsonantView = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override bool UseCompactVowelView
 		{
-			get { return Settings.Default.DefineDescriptiveFeatureClassDlgUseCompactVowelView; }
-			set { Settings.Default.DefineDescriptiveFeatureClassDlgUseCompactVowelView = value; }
+			get { return Properties.Settings.Default.DefineDescriptiveFeatureClassDlgUseCompactVowelView; }
+			set { Properties.Settings.Default.DefineDescriptiveFeatureClassDlgUseCompactVowelView = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.DefineDescriptiveFeatureClassDlgSplit1Loc = _splitterCV.SplitterDistance;
-			Settings.Default.DefineDescriptiveFeatureClassDlgSplit2Loc = _splitterOuter.SplitterDistance;
+			Properties.Settings.Default.DefineDescriptiveFeatureClassDlgSplit1Loc = _splitterCV.SplitterDistance;
+			Properties.Settings.Default.DefineDescriptiveFeatureClassDlgSplit2Loc = _splitterOuter.SplitterDistance;
 			base.SaveSettings();
 		}
 
@@ -67,11 +66,11 @@ namespace SIL.Pa.UI.Dialogs
 				// .Net framework that I haven't been able to make sense of. Anyway, if an
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
-				if (Settings.Default.DefineDescriptiveFeatureClassDlgSplit2Loc > 0)
-					_splitterOuter.SplitterDistance = Settings.Default.DefineDescriptiveFeatureClassDlgSplit2Loc;
+				if (Properties.Settings.Default.DefineDescriptiveFeatureClassDlgSplit2Loc > 0)
+					_splitterOuter.SplitterDistance = Properties.Settings.Default.DefineDescriptiveFeatureClassDlgSplit2Loc;
 
-				if (Settings.Default.DefineDescriptiveFeatureClassDlgSplit1Loc > 0)
-					_splitterCV.SplitterDistance = Settings.Default.DefineDescriptiveFeatureClassDlgSplit1Loc;
+				if (Properties.Settings.Default.DefineDescriptiveFeatureClassDlgSplit1Loc > 0)
+					_splitterCV.SplitterDistance = Properties.Settings.Default.DefineDescriptiveFeatureClassDlgSplit1Loc;
 			}
 			catch { }
 

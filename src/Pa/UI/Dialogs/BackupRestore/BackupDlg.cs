@@ -12,8 +12,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using L10NSharp;
-using Palaso.Reporting;
-using SIL.Pa.Properties;
+using SIL.Reporting;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -48,15 +47,15 @@ namespace SIL.Pa.UI.Dialogs
 			
 			_linkViewExceptionDetails.Font = FontHelper.UIFont;
 
-			_checkBoxIncludeAudioFiles.Checked = Settings.Default.IncludeAudioFilesInPaBackups;
-			_checkBoxIncludeDataSources.Checked = Settings.Default.IncludeDataSourceFilesInPaBackups;
+			_checkBoxIncludeAudioFiles.Checked = Properties.Settings.Default.IncludeAudioFilesInPaBackups;
+			_checkBoxIncludeDataSources.Checked = Properties.Settings.Default.IncludeDataSourceFilesInPaBackups;
 
 			_radioDefaultFolder.Checked = true;
 
-			if (Settings.Default.LastOtherBackupFolder != null &&
-				Directory.Exists(Settings.Default.LastOtherBackupFolder))
+			if (Properties.Settings.Default.LastOtherBackupFolder != null &&
+				Directory.Exists(Properties.Settings.Default.LastOtherBackupFolder))
 			{
-				_radioOtherFolder.Checked = Settings.Default.BackupToOtherFolder;
+				_radioOtherFolder.Checked = Properties.Settings.Default.BackupToOtherFolder;
 			}
 		}
 
@@ -79,7 +78,7 @@ namespace SIL.Pa.UI.Dialogs
 			_radioOtherFolder.CheckedChanged += delegate { UpdateDisplay(); };
 			_radioDefaultFolder.CheckedChanged += delegate { UpdateDisplay(); };
 
-			var lastTargetBackupFolder = Settings.Default.LastOtherBackupFolder;
+			var lastTargetBackupFolder = Properties.Settings.Default.LastOtherBackupFolder;
 			_viewModel.OtherDestFolder =
 				(lastTargetBackupFolder != null && Directory.Exists(lastTargetBackupFolder) ? lastTargetBackupFolder : null);
 
@@ -109,20 +108,20 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			Settings.Default.BackupDlg = App.InitializeForm(this, Settings.Default.BackupDlg);
+			Properties.Settings.Default.BackupDlg = App.InitializeForm(this, Properties.Settings.Default.BackupDlg);
 			base.OnLoad(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			Settings.Default.LastOtherBackupFolder = _viewModel.OtherDestFolder;
-			Settings.Default.BackupToOtherFolder = _radioOtherFolder.Checked;
+			Properties.Settings.Default.LastOtherBackupFolder = _viewModel.OtherDestFolder;
+			Properties.Settings.Default.BackupToOtherFolder = _radioOtherFolder.Checked;
 
 			if (!_viewModel.GetAreAllDataSourcesFieldWorks())
 			{
-				Settings.Default.IncludeAudioFilesInPaBackups = _checkBoxIncludeAudioFiles.Checked;
-				Settings.Default.IncludeDataSourceFilesInPaBackups = _checkBoxIncludeDataSources.Checked;
+				Properties.Settings.Default.IncludeAudioFilesInPaBackups = _checkBoxIncludeAudioFiles.Checked;
+				Properties.Settings.Default.IncludeDataSourceFilesInPaBackups = _checkBoxIncludeDataSources.Checked;
 			}
 			
 			base.OnFormClosing(e);

@@ -15,7 +15,6 @@ using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SilTools;
 using SilTools.Controls;
 
@@ -199,13 +198,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void GetTabColors()
 		{
-			m_activeTabInactiveGroupBack1 = Settings.Default.SearchResultTabActiveIninactiveGroup1;
-			m_activeTabInactiveGroupBack2 = Settings.Default.SearchResultTabActiveIninactiveGroup1;
-			m_activeTabInactiveGroupFore = Settings.Default.SearchResultTabActiveIninactiveGroupForeColor;
-			m_activeTabBack = Settings.Default.SearchResultTabActiveBackColor;
-			m_activeTabFore = Settings.Default.SearchResultTabActiveForeColor;
-			m_inactiveTabBack = Settings.Default.SearchResultTabInactiveBackColor;
-			m_inactiveTabFore = Settings.Default.SearchResultTabInactiveForeColor;
+			m_activeTabInactiveGroupBack1 = Properties.Settings.Default.SearchResultTabActiveIninactiveGroup1;
+			m_activeTabInactiveGroupBack2 = Properties.Settings.Default.SearchResultTabActiveIninactiveGroup1;
+			m_activeTabInactiveGroupFore = Properties.Settings.Default.SearchResultTabActiveIninactiveGroupForeColor;
+			m_activeTabBack = Properties.Settings.Default.SearchResultTabActiveBackColor;
+			m_activeTabFore = Properties.Settings.Default.SearchResultTabActiveForeColor;
+			m_inactiveTabBack = Properties.Settings.Default.SearchResultTabInactiveBackColor;
+			m_inactiveTabFore = Properties.Settings.Default.SearchResultTabInactiveForeColor;
 		}
 
 		/// ------------------------------------------------------------------------------------

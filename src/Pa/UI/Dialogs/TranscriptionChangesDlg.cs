@@ -9,7 +9,6 @@
 // 
 using System;
 using System.Windows.Forms;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -40,7 +39,7 @@ namespace SIL.Pa.UI.Dialogs
 			pnlGrid.Controls.Add(m_transChangeCtrl);
 			
 			m_transChangeCtrl.Grid.AdjustGridRows(
-				Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
+				Properties.Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
 	
 			App.AddMediatorColleague(this);
 		}
@@ -115,7 +114,7 @@ namespace SIL.Pa.UI.Dialogs
 			DataGridViewRowsAddedEventArgs e)
 		{
 			m_transChangeCtrl.Grid.AdjustGridRows(
-				Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
+				Properties.Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
 		}
 
 		#region IxCoreColleague Members

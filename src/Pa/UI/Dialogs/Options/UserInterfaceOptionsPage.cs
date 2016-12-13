@@ -8,10 +8,8 @@
 #endregion
 // 
 using System.Globalization;
-using System.Linq;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -64,7 +62,7 @@ namespace SIL.Pa.UI.Dialogs
 		public override void Save()
 		{
 			var newLangId = ((CultureInfo)cboUILanguage.SelectedItem).Name;
-			Settings.Default.UserInterfaceLanguage = newLangId;
+			Properties.Settings.Default.UserInterfaceLanguage = newLangId;
 			LocalizationManager.SetUILanguage(newLangId, true);
 			PaFieldDisplayProperties.ResetDisplayNameCache();
 			App.MsgMediator.SendMessage("UserInterfaceLangaugeChanged", null);

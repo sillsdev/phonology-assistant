@@ -12,7 +12,6 @@ using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -33,9 +32,9 @@ namespace SIL.Pa.UI.Dialogs
 			_grid.Dock = DockStyle.Fill;
 			_panelFonts.Controls.Add(_grid);
 
-			if (Settings.Default.OptionsDlgFontGrid != null)
+			if (Properties.Settings.Default.OptionsDlgFontGrid != null)
 			{
-				Settings.Default.OptionsDlgFontGrid.InitializeGrid(_grid);
+				Properties.Settings.Default.OptionsDlgFontGrid.InitializeGrid(_grid);
 				_grid.ShowFontColumn(true);
 			}
 			else
@@ -91,7 +90,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public override void SaveSettings()
 		{
-			Settings.Default.OptionsDlgFontGrid = GridSettings.Create(_grid);
+			Properties.Settings.Default.OptionsDlgFontGrid = GridSettings.Create(_grid);
 			base.SaveSettings();
 		}
 	}

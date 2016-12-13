@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml;
-using System.Xml.Serialization;
-using L10NSharp;
-using Palaso.Reporting;
 // ---------------------------------------------------------------------------------------------
 #region // Copyright (c) 2005-2015, SIL International.
 // <copyright from='2005' to='2015' company='SIL International'>
@@ -15,10 +7,17 @@ using Palaso.Reporting;
 // </copyright> 
 #endregion
 // 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml;
+using System.Xml.Serialization;
+using L10NSharp;
+using SIL.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.DataSource
@@ -99,7 +98,7 @@ namespace SIL.Pa.DataSource
 				{
 					Type = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
 					FieldMappings = CreateDefaultSfmMappings(fields).ToList();
-					SfmRecordMarker = Settings.Default.DefaultSfmRecordMarker.Split(';')
+					SfmRecordMarker = Properties.Settings.Default.DefaultSfmRecordMarker.Split(';')
 						.SingleOrDefault(mkr => GetSfMarkers(false).Contains(mkr));
 				}
 			}
@@ -135,18 +134,18 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<FieldMapping> CreateDefaultSaMappings(IEnumerable<PaField> projectFields)
 		{
-			var defaultSaFields = Settings.Default.DefaultSaFields.Cast<string>().ToList();
+			var defaultSaFields = Properties.Settings.Default.DefaultSaFields.Cast<string>().ToList();
 
 			return from field in projectFields
 				   where defaultSaFields.Contains(field.Name)
-				   select new FieldMapping(field, Settings.Default.DefaultParsedSaFields);
+				   select new FieldMapping(field, Properties.Settings.Default.DefaultParsedSaFields);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<FieldMapping> CreateDefaultFw6Mappings(IEnumerable<PaField> projectFields)
 		{
 			var writingSystems = FwDataSourceInfo.GetWritingSystems();
-			var defaultFieldNames = Settings.Default.DefaultMappedFw6Fields.Cast<string>();
+			var defaultFieldNames = Properties.Settings.Default.DefaultMappedFw6Fields.Cast<string>();
 
 			// Add mappings for all the other fields.
 			return from field in projectFields.Where(f => defaultFieldNames.Contains(f.Name))
@@ -161,7 +160,7 @@ namespace SIL.Pa.DataSource
 		{
 			var prjFields = projectFields.ToArray();
 			var writingSystems = FwDataSourceInfo.GetWritingSystems().ToArray();
-			var defaultFieldNames = Settings.Default.DefaultMappedFw7Fields.Cast<string>()
+			var defaultFieldNames = Properties.Settings.Default.DefaultMappedFw7Fields.Cast<string>()
 				.Where(n => n != PaField.kAudioFileFieldName).ToList();
 
 			// Add a mapping for the phonetic field.
@@ -176,7 +175,7 @@ namespace SIL.Pa.DataSource
 
 			// Add mappings for all the other fields.
 			foreach (var mapping in prjFields.Where(f => defaultFieldNames.Contains(f.Name))
-				.Select(field => new FieldMapping(field, Settings.Default.ParsedFw7Fields.Cast<string>())))
+				.Select(field => new FieldMapping(field, Properties.Settings.Default.ParsedFw7Fields.Cast<string>())))
 			{
 				FieldMapping.CheckMappingsFw7WritingSystem(mapping, writingSystems);
 				yield return mapping;
@@ -186,7 +185,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<FieldMapping> CreateDefaultSfmMappings(IEnumerable<PaField> fields)
 		{
-			var defaultParsedFlds = Settings.Default.DefaultParsedSfmFields;
+			var defaultParsedFlds = Properties.Settings.Default.DefaultParsedSfmFields;
 
 			return from mkr in GetSfMarkers(true)
 				   let field = fields.FirstOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
@@ -212,9 +211,9 @@ namespace SIL.Pa.DataSource
 				// that cannot be mapped in the data source properties dialog box. This
 				// check should only be necessary the first time the project has been
 				// opened after having been migrated to version 3.3.0
-				foreach (var fname in Settings.Default.AllPossibleFw6Fields)
+				foreach (var fname in Properties.Settings.Default.AllPossibleFw6Fields)
 				{
-					if (!Settings.Default.Fw6FieldsMappableInPropsDlg.Contains(fname) &&
+					if (!Properties.Settings.Default.Fw6FieldsMappableInPropsDlg.Contains(fname) &&
 						!FieldMappings.Any(m => m.PaFieldName == fname))
 					{
 						FieldMappings.Add(new FieldMapping(
@@ -254,6 +253,8 @@ namespace SIL.Pa.DataSource
 						"Miscellaneous.Messages.DataSourceReading.ErrorReadingMarkersFromStandardFormatFileMsg",
 						"An error occurred while trying to read the source file '{0}'."));
 				}
+
+				m_markersInFile = new List<string>(); // prevent null pointer exceptions in other code
 			}
 
 			return m_markersInFile;

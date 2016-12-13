@@ -13,7 +13,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using L10NSharp;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -69,7 +68,7 @@ namespace SIL.Pa.Model
 		private static FieldDisplayPropsCache GetDefaultCache()
 		{
 			int displayIndex = 0;
-			var list = from string name in Settings.Default.DefaultVisibleFields
+			var list = from string name in Properties.Settings.Default.DefaultVisibleFields
 					   select new PaFieldDisplayProperties(name, true, true)
 							{ DisplayIndexInGrid = displayIndex, DisplayIndexInRecView = displayIndex++ };
 			
