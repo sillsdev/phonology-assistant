@@ -56,8 +56,8 @@
     <PreBuildEvent>REM === The next two lines require "heat" to be installed. Heat is installed with the Windows Installer XML (WiX) toolset ===
 rem heat dir "$(SolutionDir)DistFiles\Processing" -cg ProcessingFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Processing_Location -o $(ProjectDir)Files_Processing.wxs
 "$(WixExtDir)heat" dir "$(SolutionDir)DistFiles\Configuration" -cg ConfigurationFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Configuration_Location -o $(ProjectDir)Files_Configuration.wxs</PreBuildEvent>
-    <PostBuildEvent>copy "$(SolutionDir)Output\$(OutputName).msi" "$(SolutionDir)Output\$(OutputName)-$(BuildNumber).msi"
-      del "$(SolutionDir)Output\$(OutputName).msi"
-    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent />
   </PropertyGroup>
 </Project>
