@@ -652,7 +652,7 @@ namespace SIL.Pa
         {
             if (ShouldShowSplashScreen)
             {
-                SplashScreen = new SplashScreen(true, VersionType.Production);
+                SplashScreen = new SplashScreen(true, VersionType.Daily);
                 SplashScreen.Show();
                 SplashScreen.Message = LocalizationManager.GetString(
                     "Miscellaneous.Messages.SplashScreenLoadingMsg", "Loading...");
