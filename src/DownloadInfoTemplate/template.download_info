@@ -1,0 +1,17 @@
+{
+  "name": "_NAME_",
+  "version": "_VERSION_",
+  "date": "_DATE_",
+  "edition": "_EDITION_"
+  "platform": "_PLATFORM_",
+  "platform_version": "_PLATFORM-VERSION_",
+  "architecture": "_ARCHITECTURE_",
+  "stability": "_STABILITY_",
+  "nature": "_NATURE_"
+  "file": "_FILE_",
+  "md5": "_MD5_",
+  "type": "_TYPE_",
+  "build": "_BUILD_",
+  "compatible": "_COMPATIBLE_"
+}
+
