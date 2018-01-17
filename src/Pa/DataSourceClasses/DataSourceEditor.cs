@@ -339,9 +339,9 @@ namespace SIL.Pa.DataSource
 			if (saPath == null || !File.Exists(saPath))
 			{
 				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceEditing.AudioEditProblemMsg",
-					"Speech Analyzer 3.0.1 is required to edit audio data sources, but it " +
-					"is not installed. Please install Speech Analyzer 3.0.1 and try again.",
-					"Message displayed when SA 3.0.1 is not installed and the user is attempting to edit an audio file.");
+					"Speech Analyzer 3.1 is required to edit audio data sources, but it " +
+					"is not installed. Please install Speech Analyzer 3.1 and try again.",
+					"Message displayed when SA 3.1 is not installed and the user is attempting to edit an audio file.");
 
 				using (var dlg = new DownloadSaDlg(msg))
 					dlg.ShowDialog();

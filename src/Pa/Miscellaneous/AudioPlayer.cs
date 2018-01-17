@@ -2,11 +2,11 @@
 #region // Copyright (c) 2005-2015, SIL International.
 // <copyright from='2005' to='2015' company='SIL International'>
 //		Copyright (c) 2005-2015, SIL International.
-//    
+//
 //		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
-// </copyright> 
+// </copyright>
 #endregion
-// 
+//
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -194,7 +194,7 @@ namespace SIL.Pa
 		        soundFile = fileName.Replace(replaceFileName, "tempaudiofile");
 		        File.Copy(fileName, soundFile, true);
 		    }
-            
+
 		    // Make sure SA can be found.
 			string saLoc = GetSaPath();
 			if (saLoc == null)
@@ -221,7 +221,7 @@ namespace SIL.Pa
 			// Write the list file.
 			m_lstFile = Path.GetTempFileName();
 			File.AppendAllText(m_lstFile, saListFileContent);
-			
+
 			// Start SA.
 			Process prs = new Process();
 			prs.StartInfo.FileName = "\"" + saLoc + "\"";
@@ -257,7 +257,7 @@ namespace SIL.Pa
             {
                 saLoc = (saLoc.Substring(0, saLoc.LastIndexOf("\\")) + "\\SA.exe").Replace(@"file:///", "");
             }
-            else//Old version(3.0.1)
+            if (!File.Exists(saLoc))//Old version(3.0.1) and new MESA version
             {
                 regKey = Registry.LocalMachine.OpenSubKey(@"Software\SIL\Speech Analyzer");
                 saLoc = (regKey == null ? null : regKey.GetValue("Location", null) as string);
