@@ -29,7 +29,7 @@ namespace SIL.PaToFdoInterfaces
 	{
 		private static string s_fwInstallPath;
 		private static Assembly s_assembly;
-        private static string[] s_regKeyPaths = { @"Software\SIL\FieldWorks\8", @"Software\SIL\FieldWorks\7.0", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\8", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\7.0" };
+        private static string[] s_regKeyPaths = { @"Software\SIL\FieldWorks\9", @"Software\SIL\FieldWorks\8", @"Software\SIL\FieldWorks\7.0", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\9", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\8", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\7.0" };
 		private IPaLexicalInfo _lexEntryServer;
 
 		#region Construction and disposal Members
@@ -112,8 +112,9 @@ namespace SIL.PaToFdoInterfaces
 				{
 					try
 					{
-						// Load the assembly that links us to FieldWorks
-						s_assembly = Assembly.LoadFrom(Path.Combine(FwInstallPath, "FieldWorks.exe"));
+                        // Load the assembly that links us to FieldWorks
+                        //s_assembly = Assembly.LoadFrom(Path.Combine(FwInstallPath, "FieldWorks.exe"));
+                        s_assembly = Assembly.GetExecutingAssembly();
 					}
 					catch
 					{
@@ -174,11 +175,11 @@ namespace SIL.PaToFdoInterfaces
 		/// ------------------------------------------------------------------------------------
 		private void CreateLexEntryServer()
 		{
-			if (!IsFwLoaded)
-				throw new Exception("FieldWorks is not installed.");
+			//if (!IsFwLoaded)
+			//	throw new Exception("FieldWorks is not installed.");
 
-			if (FieldWorksAssembly == null)
-				throw new Exception("Error loading FieldWorks.exe");
+			//if (FieldWorksAssembly == null)
+			//	throw new Exception("Error loading FieldWorks.exe");
 
 			// Find a class type in the assembly that implements our desired interface.
 			var type = s_assembly.GetTypes().SingleOrDefault(x => x.GetInterface("IPaLexicalInfo") != null);
