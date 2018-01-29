@@ -29,7 +29,7 @@ namespace SIL.PaToFdoInterfaces
 	{
 		private static string s_fwInstallPath;
 		private static Assembly s_assembly;
-        private static string[] s_regKeyPaths = { @"Software\SIL\FieldWorks\8", @"Software\SIL\FieldWorks\7.0", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\8", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\7.0" };
+        private static string[] s_regKeyPaths = { @"Software\SIL\FieldWorks\9", @"Software\SIL\FieldWorks\8", @"Software\SIL\FieldWorks\7.0", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\9", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\8", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\7.0" };
 		private IPaLexicalInfo _lexEntryServer;
 
 		#region Construction and disposal Members
