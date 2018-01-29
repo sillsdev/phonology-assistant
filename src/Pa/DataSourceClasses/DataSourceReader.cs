@@ -69,7 +69,7 @@ namespace SIL.Pa.DataSource
 					ds.SkipLoadingBecauseOfProblem = true;
 					return;
 				}
-                if (!File.Exists(ds.FwDataSourceInfo.Name))
+                if (File.Exists(ds.FwDataSourceInfo.Name))
                 {
                     var oldProjectFolder = Path.GetDirectoryName(Path.GetDirectoryName(ds.FwDataSourceInfo.Name));
                     var newFwProjectFolder = Utils.FwProjectsPath;
