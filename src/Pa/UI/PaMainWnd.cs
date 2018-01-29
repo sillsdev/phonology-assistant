@@ -2,11 +2,11 @@
 #region // Copyright (c) 2005-2015, SIL International.
 // <copyright from='2005' to='2015' company='SIL International'>
 //		Copyright (c) 2005-2015, SIL International.
-//    
+//
 //		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
-// </copyright> 
+// </copyright>
 #endregion
-// 
+//
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -51,9 +51,9 @@ namespace SIL.Pa.UI
 		public PaMainWnd()
 		{
 			_doNotLoadLastProject = ((ModifierKeys & Keys.Shift) == Keys.Shift);
-			
+
 			App.InitializeSettingsFileLocation();
-			
+
 			// If the user knows enough to add an entry to the settings file to
 			// override the default UI font and the phonetic font, then use those.
 			if (Properties.Settings.Default.UIFont != null)
@@ -77,7 +77,7 @@ namespace SIL.Pa.UI
 			App.ReadAddOns();
 
 			InitializeComponent();
-			
+
 			Properties.Settings.Default.MainWindow = App.InitializeForm(this, Properties.Settings.Default.MainWindow);
 			InventoryHelper.Load();
 			Properties.Settings.Default.MRUList = MruFiles.Initialize(Properties.Settings.Default.MRUList);
@@ -141,7 +141,7 @@ namespace SIL.Pa.UI
 			{
 				var fmt = LocalizationManager.GetString("MainWindow.WindowTitle.WithProject","{0} - Phonology Assistant");
 				Text = string.Format(fmt, project.Name);
-			}            
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -172,10 +172,13 @@ namespace SIL.Pa.UI
 				App.MsgMediator.SendMessage("MainViewOpened", this);
 				return;
 			}
-			else if (!_doNotLoadLastProject)
+			else if (!_doNotLoadLastProject && Properties.Settings.Default.LoadLastProject)
 				LoadProject(Properties.Settings.Default.LastProjectLoaded);
 
 			App.CloseSplashScreen();
+
+			if (_project == null && Properties.Settings.Default.LoadExistingProject)
+				OnOpenProject("");
 
 			if (_project != null)
 			{
@@ -262,7 +265,7 @@ namespace SIL.Pa.UI
 				Properties.Settings.Default.LastProjectLoaded = projectFileName;
 
 				SetWindowText(project);
-	
+
 				// When there are already tabs it means there was a project loaded before
 				// the one just loaded. Therefore, save the current view so it may be
 				// restored after the tabs are loaded for the new project.
@@ -367,7 +370,7 @@ namespace SIL.Pa.UI
 				"Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+B)", null, tab);
 
 			vwTabGroup.AddTab(tab);
-			
+
 			if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)
 			{
 				this.Controls.Remove(vwTabGroup); // work-around for bug in Mono--POSSIBLY https://bugzilla.novell.com/show_bug.cgi?id=597582
@@ -455,7 +458,7 @@ namespace SIL.Pa.UI
 
 			// Close all the instances of SA that we started, if there are any.
 			DataSourceEditor.CloseSAInstances();
-			
+
 			TempRecordCache.Dispose();
 			vwTabGroup.CloseAllViews();
 			IsShuttingDown = false;
@@ -945,7 +948,7 @@ namespace SIL.Pa.UI
 
 		///// ------------------------------------------------------------------------------------
 		///// <summary>
-		///// 
+		/////
 		///// </summary>
 		///// ------------------------------------------------------------------------------------
 		//protected bool OnUpdateDefineAmbiguousItems(object args)
@@ -990,7 +993,7 @@ namespace SIL.Pa.UI
 			// TODO: Make this visible when PaXml is supported again.
 			itemProps.Visible = false;
 			itemProps.Update = true;
-			
+
 			//itemProps.Visible = true;
 			//itemProps.Text = string.Format(itemProps.OriginalText, Application.ProductName);
 			//itemProps.Enabled = (m_project != null && m_project.RecordCache != null);

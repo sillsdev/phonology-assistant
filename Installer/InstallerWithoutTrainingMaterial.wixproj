@@ -40,9 +40,15 @@
     <Compile Include="Files_Localizations.wxs" />
     <Compile Include="Files_Processing.wxs" />
     <Compile Include="Files_Training.wxs" />
+    <Compile Include="MyInstallDirDlg.wxs" />
+    <Compile Include="MyWixUI_InstallDir.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
     <WixExtension Include="WixUIExtension">
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>

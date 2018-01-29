@@ -3803,5 +3803,29 @@ namespace SIL.Pa.Properties {
                 this["ShowFullProjectFilePathsInOpenDlg"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LoadLastProject {
+            get {
+                return ((bool)(this["LoadLastProject"]));
+            }
+            set {
+                this["LoadLastProject"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LoadExistingProject {
+            get {
+                return ((bool)(this["LoadExistingProject"]));
+            }
+            set {
+                this["LoadExistingProject"] = value;
+            }
+        }
     }
 }
