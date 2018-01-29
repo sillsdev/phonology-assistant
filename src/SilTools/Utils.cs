@@ -492,13 +492,18 @@ namespace SilTools
 
 	    private static RegistryKey FwProgKey()
 	    {
-	        const string fw8RegPath = @"SIL\FieldWorks\8";
+	        const string fw9RegPath = @"SIL\FieldWorks\9";
+            const string fw8RegPath = @"SIL\FieldWorks\8";
 	        const string fw7RegPath = @"SIL\FieldWorks\7";
 	        const string sw = "SOFTWARE";
 	        const string wow = "Wow6432Node";
-	        var key = TryKey(Path.Combine(sw, fw8RegPath));
+	        var key = TryKey(Path.Combine(sw, fw9RegPath));
 	        if (key != null) return key;
-	        key = TryKey(Path.Combine(new[] {sw, wow, fw8RegPath}));
+	        key = TryKey(Path.Combine(new[] { sw, wow, fw9RegPath }));
+	        if (key != null) return key;
+	        key = TryKey(Path.Combine(sw, fw8RegPath));
+	        if (key != null) return key;
+            key = TryKey(Path.Combine(new[] {sw, wow, fw8RegPath}));
 	        if (key != null) return key;
 	        key = TryKey(Path.Combine(sw, fw7RegPath));
 	        if (key != null) return key;
