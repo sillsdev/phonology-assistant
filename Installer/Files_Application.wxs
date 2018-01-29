@@ -14,7 +14,7 @@
 					<File Id="DoulosSILR.ttf" Name="DoulosSILR.ttf" Source="..\DistFiles\DoulosSILR.ttf" TrueType="yes" KeyPath="yes" DiskId="1" />
 				</Component>
 			</Directory>
-        
+
       <Directory Id="ProgramFilesFolder" Name="PFiles">
 				<!--<Directory Id="ProgramDir" Name="Phonology Assistant">-->
 				<Directory Id="APPLICATIONFOLDER" Name="Phonology Assistant">
@@ -92,6 +92,7 @@
   <Fragment>
     <ComponentGroup Id="ApplicationFiles">
       <ComponentRef Id="AddShortcutDir"/>
+      <ComponentRef Id="SaveLoadLastProject"/>
       <ComponentRef Id="Pa.exe" />
       <ComponentRef Id="Pa.exe.config" />
       <ComponentRef Id="Pa.pdb" />
