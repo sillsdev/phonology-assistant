@@ -52,6 +52,12 @@
 					<Component Id="SIL.Windows.Forms.dll" Guid="{E1BBD0B7-9C4B-4477-82B0-F68A81B533A7}">
 						<File Id="SIL.Windows.Forms.dll" KeyPath="yes" Source="..\output\release\SIL.Windows.Forms.dll" />
 					</Component>
+					<Component Id="SIL.WritingSystems.dll" Guid="{ABDDF4A3-5FE2-4F89-9FF8-E107B796EB4B}">
+						<File Id="SIL.WritingSystems.dll" KeyPath="yes" Source="..\output\release\SIL.WritingSystems.dll" />
+					</Component>
+					<Component Id="Newtonsoft.Json.dll" Guid="{2A9E6DE8-D8A5-4027-9463-9B51A67FCB11}">
+						<File Id="Newtonsoft.Json.dll" KeyPath="yes" Source="..\output\release\Newtonsoft.Json.dll" />
+					</Component>
 					<Component Id="Pa.exe.config" Guid="{A77F3DC7-3E9E-40FD-9572-384BA8170609}">
 						<File Id="Pa.exe.config" KeyPath="yes" Source="..\output\release\Pa.exe.config" />
 					</Component>
@@ -102,6 +108,8 @@
       <ComponentRef Id="L10NSharp.dll" />
       <ComponentRef Id="SIL.Core.dll" />
       <ComponentRef Id="SIL.Windows.Forms.dll" />
+      <ComponentRef Id="SIL.WritingSystems.dll" />
+      <ComponentRef Id="Newtonsoft.Json.dll" />
       <ComponentRef Id="PaToFdoInterfaces.dll" />
       <ComponentRef Id="PaCompiledTransforms.dll" />
       <ComponentRef Id="SilTools.dll" />
