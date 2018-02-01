@@ -30,6 +30,7 @@ using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SIL.Pa.UI.Views;
 using SilTools;
+using SIL.WritingSystems;
 using AboutDlg = SIL.Pa.UI.Dialogs.AboutDlg;
 using Utils=SilTools.Utils;
 
@@ -63,6 +64,7 @@ namespace SIL.Pa.UI
 
 			LocalizeItemDlg.DefaultDisplayFont = FontHelper.UIFont;
 			App.InitializeLocalization();
+			Sldr.Initialize();
 			App.MinimumViewWindowSize = Properties.Settings.Default.MinimumViewWindowSize;
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = Properties.Settings.Default.ShowMsgWhenGatheringFwInfo;
 
@@ -827,7 +829,21 @@ namespace SIL.Pa.UI
 				}
 
 				if (!Properties.Settings.Default.OpenProjectsInNewWindowCheckedValue)
-					LoadProject(viewModel.SelectedProject.FilePath);
+				{
+					string projectPath;
+					if (viewModel.SelectedProject.DataSourceTypes == "New")
+					{
+						using (var sdlg = new ProjectSettingsDlg(_project))
+						{
+							sdlg.SetFieldWorksDefaults(viewModel.SelectedProject.FilePath);
+							if (sdlg.ShowDialog(this) != DialogResult.OK || !sdlg.ChangesWereMade)
+								return true;
+							projectPath = sdlg.Project.FileName;
+						}
+					}
+					else projectPath = viewModel.SelectedProject.FilePath;
+					LoadProject(projectPath);
+				}
 				else
 				{
 					using (var prs = new Process())
@@ -854,7 +870,7 @@ namespace SIL.Pa.UI
 				Utils.WaitCursors(false);
 
 				// Fully reload the project and blow away the previous project instance.
-				var project = PaProject.Load(_project.FileName, this);
+				var project = PaProject.Load(dlg.Project.FileName, this);
 				if (project != null)
 				{
 					// If there was a project loaded before this,

@@ -254,6 +254,7 @@
     <Compile Include="MessageBoxExtender.cs" />
     <Compile Include="MessageDispatcher.cs" />
     <Compile Include="PaintingHelper.cs" />
+    <Compile Include="ParseFwXml.cs" />
     <Compile Include="PortableSettingsProvider\FormSettings.cs" />
     <Compile Include="PortableSettingsProvider\GridSettings.cs" />
     <Compile Include="PortableSettingsProvider\MruFiles.cs" />
@@ -268,6 +269,8 @@
     <Compile Include="SettingsHandler.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="XmlHelper.cs" />
+    <Compile Include="XmlNullResolver.cs" />
+    <Compile Include="XmlParser.cs" />
     <Compile Include="XmlSerializationHelper.cs" />
     <Compile Include="Controls\CustomDropDownComboBox.Designer.cs">
       <DependentUpon>CustomDropDownComboBox.cs</DependentUpon>
