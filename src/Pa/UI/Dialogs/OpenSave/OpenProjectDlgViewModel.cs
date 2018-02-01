@@ -2,11 +2,11 @@
 #region // Copyright (c) 2005-2015, SIL International.
 // <copyright from='2005' to='2015' company='SIL International'>
 //		Copyright (c) 2005-2015, SIL International.
-//    
+//
 //		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
-// </copyright> 
+// </copyright>
 #endregion
-// 
+//
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Dialogs
 	public class OpenProjectDlgViewModel
 	{
 		private List<PaProjectLite> _availableProjects;
-		
+
 		[XmlIgnore]
 		public PaProjectLite SelectedProject { get; protected set; }
 
@@ -70,6 +70,12 @@ namespace SIL.Pa.UI.Dialogs
 				.Where(f => File.Exists(f) && ShouldAddProjectFileToAvailableList(f)))
 			{
 				yield return prjFile;
+			}
+
+			string fwProjects = Properties.Settings.Default.FieldWorksProjectsFolder;
+			foreach (var prjFile in new DirectoryInfo(fwProjects).GetFiles("*.fwdata", SearchOption.AllDirectories))
+			{
+				yield return prjFile.FullName;
 			}
 		}
 

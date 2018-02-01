@@ -5,6 +5,7 @@ src/*/obj/*
 src/*/bin/*
 Lib/SIL.*
 Lib/L10N*
+Lib/Newton*
 Release/*
 packages/*
 */NuGet.exe

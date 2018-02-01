@@ -2,16 +2,19 @@
 #region // Copyright (c) 2005-2015, SIL International.
 // <copyright from='2005' to='2015' company='SIL International'>
 //		Copyright (c) 2005-2015, SIL International.
-//    
+//
 //		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
-// </copyright> 
+// </copyright>
 #endregion
-// 
+//
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Xml.XPath;
 using SIL.Pa.DataSource;
 
 namespace SIL.Pa.Model
@@ -19,6 +22,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaProjectLite
 	{
+		private static readonly List<string> Sources = new List<string>();
 		[XmlIgnore]
 		public string Name { get; private set; }
 		[XmlIgnore]
@@ -31,8 +35,19 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static PaProjectLite Create(string prjFile)
 		{
-			try
+			if (prjFile.EndsWith(".fwdata") && !Sources.Contains(prjFile))
 			{
+				var prjInfo = new PaProjectLite()
+				{
+					Name = Path.GetFileNameWithoutExtension(prjFile),
+					DataSourceTypes = "New",
+					FilePath = prjFile,
+					Version = "7.0+"
+				};
+				return prjInfo;
+			}
+			try
+				{
 				var root = XElement.Load(prjFile);
 				if (root.Name.LocalName != "PaProject")
 					return null;
@@ -48,6 +63,9 @@ namespace SIL.Pa.Model
 					return null;
 
 				prjInfo.DataSourceTypes = GetDataSourceTypes(root);
+
+					var source = root.XPathSelectElement("//DataSourceFile[1]");
+				if (source != null) Sources.Add(source.Value.Trim());
 				return prjInfo;
 			}
 			catch

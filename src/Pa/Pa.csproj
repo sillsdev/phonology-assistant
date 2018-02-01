@@ -173,6 +173,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\L10NSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SIL.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\SIL.Core.dll</HintPath>
@@ -180,6 +184,9 @@
     <Reference Include="SIL.Windows.Forms, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\SIL.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.WritingSystems">
+      <HintPath>..\..\Lib\SIL.WritingSystems.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
