@@ -833,7 +833,24 @@ namespace SIL.Pa.UI
 					string projectPath;
 					if (viewModel.SelectedProject.DataSourceTypes == "New")
 					{
-						using (var sdlg = new ProjectSettingsDlg(_project))
+						// If there was a project loaded before this,
+						// then get rid of it to make way for the new one.
+						if (_project != null)
+						{
+							_project.EnsureSortOptionsSaved();
+							_project.Save();
+							vwTabGroup.CloseAllViews();
+							vwTabGroup.Visible = false;
+							_project.Dispose();
+
+							App.Project = _project = null;
+							Properties.Settings.Default.LastProjectLoaded = null;
+							SetWindowText(null);
+							EnableOptionsMenus(false);
+							EnableUndockMenu(false);
+							EnableFiltersMenu(false);
+						}
+						using (var sdlg = new ProjectSettingsDlg(null))
 						{
 							sdlg.SetFieldWorksDefaults(viewModel.SelectedProject.FilePath);
 							if (sdlg.ShowDialog(this) != DialogResult.OK || !sdlg.ChangesWereMade)
