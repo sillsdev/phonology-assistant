@@ -322,6 +322,15 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Open_Project.htm.
+        /// </summary>
+        public static string hidOpenProjectDlg {
+            get {
+                return ResourceManager.GetString("hidOpenProjectDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Phones_Class.htm.
         /// </summary>
         public static string hidPhoneticCharacterClassDlg {

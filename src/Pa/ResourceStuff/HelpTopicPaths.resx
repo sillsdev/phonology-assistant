@@ -360,4 +360,8 @@
     <value>User_Interface/Menus/View/Similar_Environments_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidOpenProjectDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Open_Project.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
 </root>
