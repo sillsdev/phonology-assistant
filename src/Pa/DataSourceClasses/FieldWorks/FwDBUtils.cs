@@ -454,7 +454,12 @@ namespace SIL.Pa.DataSource.FieldWorks
 				if (helper.Initialize(dsInfo.Name, dsInfo.Server,
 					Properties.Settings.Default.Fw7TimeToWaitForProcessStart, Properties.Settings.Default.Fw7TimeToWaitForDataLoad))
 				{
-					return helper.LexEntries.ToList();
+				    if (helper.LexEntries != null)
+				    {
+				        return helper.LexEntries.ToList();
+				    }
+
+				    return new List<IPaLexEntry>();
 				}
 			}
 

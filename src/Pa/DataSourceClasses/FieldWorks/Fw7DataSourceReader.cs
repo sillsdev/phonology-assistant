@@ -73,6 +73,10 @@ namespace SIL.Pa.DataSource.FieldWorks
         public void Read(RecordCache recCache)
         {
             var allLexEntries = FwDBUtils.GetLexEntriesFromFw7Project(m_fwDsInfo).ToArray();
+
+            if (allLexEntries == null)
+                return;
+
             m_worker.ReportProgress(allLexEntries.Length, m_dataSource.DisplayTextWhenReading);
             var customnames = m_customfield.FieldNames();
             foreach (var lxEntry in allLexEntries)

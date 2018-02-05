@@ -21,12 +21,13 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using SIL.LCModel;
 
 namespace SIL.PaToFdoInterfaces
 {
 	/// ----------------------------------------------------------------------------------------
-	public class PaFieldWorksHelper : IDisposable
-	{
+	public class PaFieldWorksHelper : IDisposable, ILcmDirectories
+    {
 		private static string s_fwInstallPath;
 		private static Assembly s_assembly;
         private static string[] s_regKeyPaths = { @"Software\SIL\FieldWorks\9", @"Software\SIL\FieldWorks\8", @"Software\SIL\FieldWorks\7.0", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\9", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\8", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\7.0" };
@@ -66,8 +67,43 @@ namespace SIL.PaToFdoInterfaces
 			get { return (FwInstallPath != null && Directory.Exists(FwInstallPath)); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public static string FwInstallPath
+	    public string ProjectsDirectory
+	    {
+	        get
+	        {
+	            var dataFolder = RegistrySettings.FallbackStringValue(@"SIL\FieldWorks\9", "ProjectsDir");
+	            if (!string.IsNullOrEmpty(dataFolder)) return dataFolder;
+	            dataFolder = RegistrySettings.FallbackStringValue(@"SIL\FieldWorks\8", "ProjectsDir");
+	            return dataFolder ?? @"C:\ProgramData\SIL\FieldWorks\Projects";
+	        }
+	    }
+
+	    const string TemplateFolder = "Templates";
+	    public string TemplateDirectory
+	    {
+	        get
+	        {
+	            var dataFolder = RegistrySettings.FallbackStringValue(@"SIL\FieldWorks\9", "RootCodeDir");
+	            if (!string.IsNullOrEmpty(dataFolder)) return Path.Combine(dataFolder, TemplateFolder);
+	            dataFolder = RegistrySettings.FallbackStringValue(@"SIL\FieldWorks\8", "RootCodeDir");
+	            return Path.Combine(dataFolder ?? @"C:\ProgramData\SIL\FieldWorks\Projects", TemplateFolder);
+	        }
+	    }
+
+	    public string BackupDirectory
+	    {
+	        get
+	        {
+	            var backupFolder = RegistrySettings.FallbackStringValue(@"SIL\FirleWorks\9\ProjectBackup", "DefaultBackupDirectory");
+	            if (!string.IsNullOrEmpty(backupFolder)) return backupFolder;
+	            backupFolder = RegistrySettings.FallbackStringValue(@"SIL\FirleWorks\8\ProjectBackup", "DefaultBackupDirectory");
+	            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+	            return backupFolder ?? Path.Combine(documents, "My FieldWorks", "Backups");
+	        }
+	    }
+
+        /// ------------------------------------------------------------------------------------
+        public static string FwInstallPath
 		{
 			get
 			{
@@ -112,9 +148,9 @@ namespace SIL.PaToFdoInterfaces
 				{
 					try
 					{
-						// Load the assembly that links us to FieldWorks
-						s_assembly = Assembly.LoadFrom(Path.Combine(FwInstallPath, "FieldWorks.exe"));
-					}
+                        // Load the current assembly
+                        s_assembly = Assembly.GetExecutingAssembly();
+                    }
 					catch
 					{
 						s_fwInstallPath = null;
@@ -174,14 +210,10 @@ namespace SIL.PaToFdoInterfaces
 		/// ------------------------------------------------------------------------------------
 		private void CreateLexEntryServer()
 		{
-			if (!IsFwLoaded)
-				throw new Exception("FieldWorks is not installed.");
+		    s_assembly = Assembly.GetExecutingAssembly();
 
-			if (FieldWorksAssembly == null)
-				throw new Exception("Error loading FieldWorks.exe");
-
-			// Find a class type in the assembly that implements our desired interface.
-			var type = s_assembly.GetTypes().SingleOrDefault(x => x.GetInterface("IPaLexicalInfo") != null);
+            // Find a class type in the assembly that implements our desired interface.
+            var type = s_assembly.GetTypes().SingleOrDefault(x => x.GetInterface("IPaLexicalInfo") != null);
 			_lexEntryServer = (IPaLexicalInfo)s_assembly.CreateInstance(type.FullName);
 		
 			if (_lexEntryServer == null)
