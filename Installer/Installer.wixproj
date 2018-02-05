@@ -64,8 +64,8 @@
     <PreBuildEvent>rd /s /q "$(SolutionDir)Output\Release\Training"
 md "$(SolutionDir)Output\Release\Training"
 del "$(SolutionDir)Output\Release\Transforms.zip"
-"$(SolutionDir)Lib\Zipper"  -o:"$(SolutionDir)Output\Release\Training\PaTrainingProjects.zip" "$(SolutionDir)DistFiles\Training Projects"
-"$(SolutionDir)Lib\Zipper"  -o:"$(SolutionDir)Output\Release\Transforms.zip" "$(SolutionDir)DistFiles\Processing\Transforms"
+"$(SolutionDir)Lib\zipper\Zipper"  -o:"$(SolutionDir)Output\Release\Training\PaTrainingProjects.zip" "$(SolutionDir)DistFiles\Training Projects"
+"$(SolutionDir)Lib\zipper\Zipper"  -o:"$(SolutionDir)Output\Release\Transforms.zip" "$(SolutionDir)DistFiles\Processing\Transforms"
 
 REM === The next two lines require "heat" to be installed. Heat is installed with the Windows Installer XML (WiX) toolset ===
 rem heat dir "$(SolutionDir)DistFiles\Processing" -cg ProcessingFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Processing_Location -o $(ProjectDir)Files_Processing.wxs
@@ -74,4 +74,7 @@ rem heat dir "$(SolutionDir)DistFiles\Processing" -cg ProcessingFiles -dr APPLIC
   <PropertyGroup>
     <PostBuildEvent />
   </PropertyGroup>
+  <Target Name="BeforeBuild">
+    <Exec Command="BuildStep.exe -v:1 -a:FileComponents --ApplicationFileName=Files_Application.wxs --BasePath=$(SolutionDir)Installer --ReleaseFolder=..\Output\Release" WorkingDirectory="$(SolutionDir)" />
+  </Target>
 </Project>

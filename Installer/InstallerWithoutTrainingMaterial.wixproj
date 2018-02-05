@@ -66,4 +66,7 @@ rem heat dir "$(SolutionDir)DistFiles\Processing" -cg ProcessingFiles -dr APPLIC
   <PropertyGroup>
     <PostBuildEvent />
   </PropertyGroup>
+  <Target Name="BeforeBuild">
+    <Exec Command="BuildStep.exe -v:1 -a:FileComponents --ApplicationFileName=Files_Application.wxs --BasePath=$(SolutionDir)Installer --ReleaseFolder=..\Output\Release" WorkingDirectory="$(SolutionDir)" />
+  </Target>
 </Project>
