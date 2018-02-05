@@ -120,7 +120,7 @@ namespace SIL.Pa.UI.Dialogs
                 FwDBUtils.StartSQLServer(true);
 
             mnuAddFw6DataSource.Enabled = FwDBUtils.IsSQLServerInstalled(false);
-            mnuAddFw7DataSource.Enabled = FwDBUtils.IsFw7Installed;
+            mnuAddFw7DataSource.Enabled = true;
 
             DialogResult = DialogResult.Cancel;
             m_dirty = _isProjectNew;

@@ -181,6 +181,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\SIL.Core.dll</HintPath>
     </Reference>
+    <Reference Include="SIL.LCModel, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="SIL.LCModel.Utils, Version=9.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SIL.LCModel.Utils.dll</HintPath>
+    </Reference>
     <Reference Include="SIL.Windows.Forms, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\SIL.Windows.Forms.dll</HintPath>
