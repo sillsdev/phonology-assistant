@@ -1321,8 +1321,10 @@
   </PropertyGroup>
   <Target Name="AfterBuild">
     <Copy SourceFiles="@(HelpFile)" DestinationFiles="@(HelpFile->'$(TargetDir)\%(Filename)%(Extension)')" />
+	<Copy SourceFiles="@(IcuFile)" DestinationFolder="$(TargetDir)" Condition="'$(Platform)' == 'x86' or '$(Platform)' == 'x64'" />
   </Target>
   <ItemGroup>
     <HelpFile Include="$(SolutionDir)\DistFiles\*.chm" />
+	<IcuFile Include="$(SolutionDir)\Lib\$(Platform)\*.dll" />
   </ItemGroup>
 </Project>
