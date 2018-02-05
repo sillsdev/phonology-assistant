@@ -8,7 +8,7 @@ ifndef bindst
 bindst=$(binsrc)/Output/Release
 endif
 ifndef BUILD_NUMBER
-BUILD_NUMBER=3.6.1.0
+BUILD_NUMBER=3.6.4.0
 endif
 ifndef Platform
 Platform=Any CPU

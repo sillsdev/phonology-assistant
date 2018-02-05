@@ -5,6 +5,7 @@ src/*/obj/*
 src/*/bin/*
 Lib/SIL.*
 Lib/L10N*
+Lib/Newton*
 Release/*
 packages/*
 */NuGet.exe
@@ -20,3 +21,6 @@ packages/*
 *SilTools.xml
 TestResult.xml
 PaTests.VisualState.xml
+PaPortable*
+\.vs*
+DownloadInfo*

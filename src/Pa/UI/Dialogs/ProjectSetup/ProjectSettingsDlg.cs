@@ -20,7 +20,9 @@ using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SilTools;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Windows.Forms.Miscellaneous;
+using SIL.WritingSystems;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -128,8 +130,8 @@ namespace SIL.Pa.UI.Dialogs
             UpdateButtonStates();
         }
 
-        /// ------------------------------------------------------------------------------------
-        protected override void Dispose(bool disposing)
+	    /// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
             {
@@ -139,7 +141,18 @@ namespace SIL.Pa.UI.Dialogs
             base.Dispose(disposing);
         }
 
-        /// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
+		public void SetFieldWorksDefaults(string fwProject)
+	    {
+		    txtProjName.Text = Path.GetFileNameWithoutExtension(fwProject);
+		    var isoCode = new ParseFwXml(fwProject).Code;
+		    txtLanguageCode.Text = isoCode;
+			txtLanguageName.Text = new WritingSystemDefinition(isoCode).Language.Name;
+			_dataSources.Add(new PaDataSource(PaField.GetDefaultFields(new Fw7CustomField(null)), new FwDataSourceInfo(fwProject, null, DataSourceType.FW7)));
+			LoadGrid(-1);
+	    }
+
+	    /// ------------------------------------------------------------------------------------
         protected override void OnStringsLocalized()
         {
             if (!_isProjectNew)

@@ -1419,8 +1419,8 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://downloads.sil.org/Speech%20Analyzer/Corporate%20Release/3.0.1/Speech%20Ana" +
-            "lyzer%203.0.1%20only.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://downloads.sil.org/Speech%20Analyzer/Corporate%20Release/3.1/SpeechAnalyzer" +
+            "3.1.msi")]
         public string SaDownloadLink {
             get {
                 return ((string)(this["SaDownloadLink"]));
@@ -1430,7 +1430,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("www.sil.org/computing/sa")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://software.sil.org/speech-analyzer/")]
         public string SaWebsiteLink {
             get {
                 return ((string)(this["SaWebsiteLink"]));
@@ -3801,6 +3801,42 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["ShowFullProjectFilePathsInOpenDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LoadLastProject {
+            get {
+                return ((bool)(this["LoadLastProject"]));
+            }
+            set {
+                this["LoadLastProject"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LoadExistingProject {
+            get {
+                return ((bool)(this["LoadExistingProject"]));
+            }
+            set {
+                this["LoadExistingProject"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\ProgramData\\SIL\\FieldWorks\\Projects")]
+        public string FieldWorksProjectsFolder {
+            get {
+                return ((string)(this["FieldWorksProjectsFolder"]));
+            }
+            set {
+                this["FieldWorksProjectsFolder"] = value;
             }
         }
     }

@@ -236,5 +236,10 @@ namespace SIL.Pa.UI.Dialogs
             }
             return base.ProcessCmdKey(ref message, keys);
         }
+
+		private void _buttonHelp_Click(object sender, EventArgs e)
+		{
+			App.ShowHelpTopic("hidOpenProjectDlg");
+		}
 	}
 }
