@@ -57,7 +57,12 @@ namespace SIL.Pa.Model.Migration
         private void MigrateLocalization()
         {
             var localizedStringFilesFolder = Path.Combine(App.ProjectFolder, App.kLocalizationsFolder);
-            var dirInfo = new DirectoryInfo(localizedStringFilesFolder);
+
+	        if (!Directory.Exists(localizedStringFilesFolder))
+		        return;
+
+
+	        var dirInfo = new DirectoryInfo(localizedStringFilesFolder);
             foreach (FileInfo fileInfo in dirInfo.GetFiles())
             {
                 var filepath = fileInfo.FullName;
