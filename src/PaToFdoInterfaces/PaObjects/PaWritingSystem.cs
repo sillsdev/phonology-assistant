@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SIL.LCModel.Core.WritingSystems;
 using SIL.LCModel;
+using SIL.LCModel.DomainServices;
 using SIL.Xml;
 
 namespace SIL.PaToFdoInterfaces
@@ -19,7 +20,7 @@ namespace SIL.PaToFdoInterfaces
 		/// collection of PaWritingSystem objects.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal static string GetWritingSystemsAsXml(ILcmServiceLocator svcloc)
+		internal static List<PaWritingSystem> GetWritingSystems(ILcmServiceLocator svcloc)
 		{
 			var wsList = new List<PaWritingSystem>();
 
@@ -32,8 +33,7 @@ namespace SIL.PaToFdoInterfaces
 					wsList.Add(new PaWritingSystem(ws, svcloc, isVern, isAnal));
 				}
 			}
-
-			return XmlSerializationHelper.SerializeToString(wsList);
+			return wsList;
 		}
 
 		/// ------------------------------------------------------------------------------------

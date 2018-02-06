@@ -30,24 +30,6 @@ namespace SIL.PaToFdoInterfaces
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads all the lexical entries from the specified service locator into a collection
-		/// of PaLexEntry objects and returns the collection in a serialized list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal static string GetAllAsXml(ILcmServiceLocator svcloc)
-		{
-			try
-			{
-				return XmlSerializationHelper.SerializeToString(GetAll(svcloc));
-			}
-			catch
-			{
-				return null;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public PaLexEntry()
 		{
 		}
