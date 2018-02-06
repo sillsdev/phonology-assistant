@@ -59,16 +59,6 @@ namespace SIL.Pa.DataSource
 			}
 			else if (ds.Type == DataSourceType.FW7)
 			{
-				if (!FwDBUtils.IsFw7Installed)
-				{
-					App.NotifyUserOfProblem(LocalizationManager.GetString(
-						"Miscellaneous.Messages.DataSourceReading.FieldWorks7NotInstalledMsg",
-						"FieldWorks 7.0 (or later) is not installed. It must be installed in order for Phonology Assistant to read the data source '{0}'. This data source will be skipped."),
-						ds.SourceFile);
-					
-					ds.SkipLoadingBecauseOfProblem = true;
-					return;
-				}
                 if (File.Exists(ds.FwDataSourceInfo.Name))
                 {
                     var oldProjectFolder = Path.GetDirectoryName(Path.GetDirectoryName(ds.FwDataSourceInfo.Name));
@@ -81,7 +71,7 @@ namespace SIL.Pa.DataSource
                     if (!File.Exists(ds.FwDataSourceInfo.Name))
                     {
                         App.NotifyUserOfProblem(LocalizationManager.GetString(
-                            "Miscellaneous.Messages.DataSourceReading.FieldWorks7DataMissingMsg", 
+                            "Miscellaneous.Messages.DataSourceReading.FieldWorks7DataMissingMsg",
                             "FieldWorks 7.0 (or later) data is missing. It must be acquired in order for Phonology Assistant to read the data source '{0}'. This data source will be skipped."),
                         ds.FwDataSourceInfo.Name);
 
