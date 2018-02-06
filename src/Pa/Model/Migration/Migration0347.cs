@@ -46,7 +46,11 @@ namespace SIL.Pa.Model.Migration
         private void MigrateLocalizationWord2003ToWord()
         {
             var localizedStringFilesFolder = Path.Combine(App.ProjectFolder, App.kLocalizationsFolder);
-            var dirInfo = new DirectoryInfo(localizedStringFilesFolder);
+
+	        if (!Directory.Exists(localizedStringFilesFolder))
+		        return;
+
+	        var dirInfo = new DirectoryInfo(localizedStringFilesFolder);
             foreach (FileInfo fileInfo in dirInfo.GetFiles())
             {
                 var filepath = fileInfo.FullName;
@@ -59,6 +63,10 @@ namespace SIL.Pa.Model.Migration
         private void MigrateToAddRhymeEtc()
         {
             var filepath = DistributionChart.GetFileForProject(_projectPathPrefix);
+
+	        if (!File.Exists(filepath))
+		        return;
+
             var error = TransformFile(filepath, "SIL.Pa.Model.Migration.AddRhymeToDistribution.xslt");
             if (error != null)
                 throw error;

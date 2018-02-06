@@ -38,7 +38,11 @@ namespace SIL.Pa.Model.Migration
         private void MigrateToAddRhymeEtc()
         {
             var filepath = DistributionChart.GetFileForProject(_projectPathPrefix);
-            var error = TransformFile(filepath, "SIL.Pa.Model.Migration.AddRhymeToDistribution.xslt");
+
+	        if (!File.Exists(filepath))
+		        return;
+
+	        var error = TransformFile(filepath, "SIL.Pa.Model.Migration.AddRhymeToDistribution.xslt");
             if (error != null)
                 throw error;
         }
