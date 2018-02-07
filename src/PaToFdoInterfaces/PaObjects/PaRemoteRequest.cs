@@ -9,6 +9,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using SIL.LCModel;
 
 namespace SIL.PaToFdoInterfaces
@@ -38,15 +39,15 @@ namespace SIL.PaToFdoInterfaces
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetWritingSystems()
+		public List<PaWritingSystem> GetWritingSystems()
 		{
-			return PaWritingSystem.GetWritingSystemsAsXml(cache.ServiceLocator);
+			return PaWritingSystem.GetWritingSystems(cache.ServiceLocator);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetLexEntries()
+		public List<PaLexEntry> GetLexEntries()
 		{
-			return PaLexEntry.GetAllAsXml(cache.ServiceLocator);
+			return PaLexEntry.GetAll(cache.ServiceLocator);
 		}
 
 		/// ------------------------------------------------------------------------------------

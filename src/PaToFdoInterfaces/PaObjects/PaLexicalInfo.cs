@@ -100,7 +100,7 @@ namespace SIL.PaToFdoInterfaces
             if (File.Exists(projectName))
                 projectPath = Path.Combine(dirs.ProjectsDirectory, projectName, projectName);
             else
-	            projectPath = Path.Combine(dirs.ProjectsDirectory, projectName, projectName + LcmFileHelper.ksFwDataXmlFileExtension); 
+	            projectPath = Path.Combine(dirs.ProjectsDirectory, projectName, projectName + LcmFileHelper.ksFwDataXmlFileExtension);
 
             var ui = new SilentLcmUI(SynchronizeInvoke);
 	        var settings = new LcmSettings {DisableDataMigration = false, UpdateGlobalWSStore = false};
@@ -198,19 +198,18 @@ namespace SIL.PaToFdoInterfaces
 		    PaRemoteRequest requestor = new PaRemoteRequest();
 		    LoadProject(name);
 		    requestor.cache = m_cache;
-		    
-		    string xml = requestor.GetWritingSystems();
-		    m_writingSystems = XmlSerializationHelper.DeserializeFromString<List<PaWritingSystem>>(xml);
+
+		    m_writingSystems = requestor.GetWritingSystems(); ;
 
 		    if (!loadOnlyWs)
 		    {
-                xml = requestor.GetLexEntries();
-		        if (!string.IsNullOrEmpty(xml))
-		            m_lexEntries = XmlSerializationHelper.DeserializeFromString<List<PaLexEntry>>(xml);
-		        else
-		            m_lexEntries = new List<PaLexEntry>();
+				List<PaLexEntry> entries = requestor.GetLexEntries();
+			    if (entries != null && entries.Count > 0)
+				    m_lexEntries = entries;
+			    else
+				    m_lexEntries = new List<PaLexEntry>();
 		    }
-	        
+
 		    foundFwProcess = true;
 		    return true;
         }
