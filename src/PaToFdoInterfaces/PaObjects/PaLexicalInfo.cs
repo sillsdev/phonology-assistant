@@ -98,7 +98,7 @@ namespace SIL.PaToFdoInterfaces
 	        var projectPath = string.Empty;
 
             if (File.Exists(projectName))
-                projectPath = Path.Combine(dirs.ProjectsDirectory, projectName, projectName);
+                projectPath = projectName;
             else
 	            projectPath = Path.Combine(dirs.ProjectsDirectory, projectName, projectName + LcmFileHelper.ksFwDataXmlFileExtension);
 
