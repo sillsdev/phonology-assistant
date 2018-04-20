@@ -112,6 +112,7 @@
       <ComponentRef Id="SIL.Core.dll" />
       <ComponentRef Id="SIL.Windows.Forms.dll" />
       <ComponentRef Id="SIL.WritingSystems.dll" />
+      <ComponentRef Id="Spart.dll" />
       <ComponentRef Id="Newtonsoft.Json.dll" />
       <ComponentRef Id="PaToFdoInterfaces.dll" />
       <ComponentRef Id="PaCompiledTransforms.dll" />
