@@ -93,5 +93,6 @@ copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyA
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.Windows.Forms.pdb ../Lib/SIL.Windows.Forms.pdb
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.WritingSystems.dll ../Lib/SIL.WritingSystems.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.WritingSystems.pdb ../Lib/SIL.WritingSystems.pdb
+copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/Spart.dll ../Lib/Spart.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/Newtonsoft.Json.dll ../Lib/Newtonsoft.Json.dll
 # End of script
