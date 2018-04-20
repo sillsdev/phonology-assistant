@@ -3827,17 +3827,5 @@ namespace SIL.Pa.Properties {
                 this["LoadExistingProject"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\ProgramData\\SIL\\FieldWorks\\Projects")]
-        public string FieldWorksProjectsFolder {
-            get {
-                return ((string)(this["FieldWorksProjectsFolder"]));
-            }
-            set {
-                this["FieldWorksProjectsFolder"] = value;
-            }
-        }
     }
 }

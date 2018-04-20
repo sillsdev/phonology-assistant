@@ -55,6 +55,9 @@
 					<Component Id="SIL.WritingSystems.dll" Guid="{ABDDF4A3-5FE2-4F89-9FF8-E107B796EB4B}">
 						<File Id="SIL.WritingSystems.dll" KeyPath="yes" Source="..\output\release\SIL.WritingSystems.dll" />
 					</Component>
+				    <Component Id="Spart.dll" Guid="{DBF2395C-105F-40D1-9ECE-366FCEEE5EC2}">
+				      <File Id="Spart.dll" KeyPath="yes" Source="..\output\release\Spart.dll" />
+				    </Component>
 					<Component Id="Newtonsoft.Json.dll" Guid="{2A9E6DE8-D8A5-4027-9463-9B51A67FCB11}">
 						<File Id="Newtonsoft.Json.dll" KeyPath="yes" Source="..\output\release\Newtonsoft.Json.dll" />
 					</Component>

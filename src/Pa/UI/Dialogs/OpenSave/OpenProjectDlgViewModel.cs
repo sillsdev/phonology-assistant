@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 using L10NSharp;
 using SIL.Windows.Forms.Miscellaneous;
 using SIL.Pa.Model;
+using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -72,10 +73,14 @@ namespace SIL.Pa.UI.Dialogs
 				yield return prjFile;
 			}
 
-			string fwProjects = Properties.Settings.Default.FieldWorksProjectsFolder;
-			foreach (var prjFile in new DirectoryInfo(fwProjects).GetFiles("*.fwdata", SearchOption.AllDirectories))
+			//string fwProjects = Properties.Settings.Default.FieldWorksProjectsFolder;
+			var fwProjects = Utils.FwProjectsPath;
+			if (fwProjects != null)
 			{
-				yield return prjFile.FullName;
+				foreach (var prjFile in new DirectoryInfo(fwProjects).GetFiles("*.fwdata", SearchOption.AllDirectories))
+				{
+					yield return prjFile.FullName;
+				}
 			}
 		}
 

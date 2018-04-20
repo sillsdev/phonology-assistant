@@ -91,7 +91,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.Runners.Net4.2.6.4\tools\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+    <Reference Include="SIL.Core">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\pathway\lib\SIL.Core.dll</HintPath>
     </Reference>
@@ -192,7 +192,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
