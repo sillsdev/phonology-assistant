@@ -41,6 +41,8 @@
     <ApplicationVersion>3.6.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Windows|AnyCPU' ">
     <OutputPath>..\..\Output\Debug-Windows\</OutputPath>
@@ -173,13 +175,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\L10NSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.DotNet.PlatformAbstractions.2.1.0\lib\net45\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=2.0.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.DependencyModel.2.0.4\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SIL.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\SIL.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Core.Desktop">
+      <HintPath>..\..\Lib\SIL.Core.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="SIL.LCModel, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="SIL.LCModel.Utils, Version=9.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -205,6 +215,9 @@
       <Name>System.Drawing</Name>
     </Reference>
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
@@ -1248,6 +1261,7 @@
     <EmbeddedResource Include="Model\Migration\AddRhymeToDistribution.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0350.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0351.xslt" />
+    <None Include="icu4c.readme.txt" />
     <Content Include="Ionic.Zip.xml" />
     <Content Include="pa.ico" />
     <None Include="Resources\CloseTab.png" />
@@ -1324,10 +1338,17 @@
   </PropertyGroup>
   <Target Name="AfterBuild">
     <Copy SourceFiles="@(HelpFile)" DestinationFiles="@(HelpFile->'$(TargetDir)\%(Filename)%(Extension)')" />
-	<Copy SourceFiles="@(IcuFile)" DestinationFolder="$(TargetDir)" Condition="'$(Platform)' == 'x86' or '$(Platform)' == 'x64'" />
+    <Copy SourceFiles="@(IcuFile)" DestinationFolder="$(TargetDir)" Condition="'$(Platform)' == 'x86' or '$(Platform)' == 'x64'" />
   </Target>
   <ItemGroup>
     <HelpFile Include="$(SolutionDir)\DistFiles\*.chm" />
-	<IcuFile Include="$(SolutionDir)\Lib\$(Platform)\*.dll" />
+    <IcuFile Include="$(SolutionDir)\Lib\$(Platform)\*.dll" />
   </ItemGroup>
+  <Import Project="..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets" Condition="Exists('..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Icu4c.Win.Min.59.1.7\build\Icu4c.Win.Min.targets'))" />
+  </Target>
 </Project>
