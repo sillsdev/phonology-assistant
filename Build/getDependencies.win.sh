@@ -76,7 +76,7 @@ cd -
 #     URL: http://build.palaso.org/viewType.html?buildTypeId=Libpalaso_PalasoWin32masterContinuous
 #     clean: false
 #     revision: phonologyAssistant.lastSuccessful
-#     paths: {"L10NSharp.dll"=>"Lib", "L10NSharp.pdb"=>"Lib", "SIL.Core.dll"=>"Lib", "SIL.Core.dll.config"=>"Lib", "SIL.Core.pdb"=>"Lib", "SIL.Windows.Forms.dll"=>"Lib", "SIL.Windows.Forms.dll.config"=>"Lib", "SIL.Windows.Forms.pdb"=>"Lib"}
+#     paths: {"L10NSharp.dll"=>"Lib", "L10NSharp.pdb"=>"Lib", "SIL.Core.dll"=>"Lib", "SIL.Core.dll.config"=>"Lib", "SIL.Core.pdb"=>"Lib", "SIL.Core.Desktop.dll"=>"Lib", "SIL.Core.Desktop.pdb"=>"Lib", "SIL.Windows.Forms.dll"=>"Lib", "SIL.Windows.Forms.dll.config"=>"Lib", "SIL.Windows.Forms.pdb"=>"Lib"}
 #     VCS: https://github.com/sillsdev/libpalaso.git [master]
 
 # make sure output directories exist
@@ -95,6 +95,8 @@ copy_auto https://build.palaso.org/guestAuth/repository/download/Libraries_Icu4c
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.dll ../Lib/SIL.Core.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.dll.config ../Lib/SIL.Core.dll.config
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.pdb ../Lib/SIL.Core.pdb
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.Desktop.dll ../Lib/SIL.Core.Desktop.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.Desktop.pdb ../Lib/SIL.Desktop.Core.pdb
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Lexicon.dll ../Lib/SIL.Lexicon.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Lexicon.pdb ../Lib/SIL.Lexicon.pdb
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Windows.Forms.dll ../Lib/SIL.Windows.Forms.dll

@@ -344,7 +344,7 @@ namespace SIL.Pa.UI.Dialogs
 
             // Find the phonetic writing system for the one selected by the user.
             var ws = m_datasource.FwDataSourceInfo.GetWritingSystems()
-                .Single(w => w.Name == cboPhoneticWritingSystem.SelectedItem as string);
+                .First(w => w.Name == cboPhoneticWritingSystem.SelectedItem as string);
 
             m_phoneticMapping.FwWsId = ws.Id;
 
