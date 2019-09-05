@@ -3818,7 +3818,7 @@ padrão ou escolha uma da lista</seg>
         <seg>&amp;Where character U+{0:X4} is found</seg>
       </tuv>
       <tuv xml:lang="pt">
-        <seg>Onde o caráter U+{X4} é encontrado</seg>
+        <seg>Onde o caráter U+{0:X4} é encontrado</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.UndefinedPhoneticCharactersDlg.WindowTitle">
