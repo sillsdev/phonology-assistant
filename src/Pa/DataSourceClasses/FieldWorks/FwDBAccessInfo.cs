@@ -63,7 +63,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (s_dbAccessInfo == null)
 			{
 				// Find the file that contains information about connecting to an FW database.
-				s_accessInfoFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "FwDBAccessInfo.xml");
+				s_accessInfoFile = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, "FwDBAccessInfo.xml");
 				s_dbAccessInfo = XmlSerializationHelper.DeserializeFromFile<FwDBAccessInfo>(s_accessInfoFile);
 			}
 

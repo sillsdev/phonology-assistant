@@ -149,7 +149,7 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				return FileLocator.GetFileDistributedWithApplication(
+				return FileLocationUtilities.GetFileDistributedWithApplication(
 					App.ConfigFolderName, "default.DistinctiveFeatures.xml");
 			}
 		}

@@ -79,7 +79,7 @@ namespace SIL.Pa.Model
             FilterHelper = new FilterHelper(this);
             CIEOptions = new CIEOptions();
             Exception error;
-            var defaultProjectFileName = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultProject.xml");
+            var defaultProjectFileName = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultProject.xml");
             using (var defaultProject = XmlSerializationHelper.DeserializeFromFile<PaProject>(defaultProjectFileName, out error))
             {
                 if (error == null)
@@ -675,7 +675,7 @@ namespace SIL.Pa.Model
             // Copy the default dist. Chart definitions to the project's dist. Chart def. file.
             try
             {
-                var srcPath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
+                var srcPath = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
                 var destPath = DistributionChart.GetFileForProject(ProjectPathFilePrefix);
                 File.Copy(srcPath, destPath);
             }

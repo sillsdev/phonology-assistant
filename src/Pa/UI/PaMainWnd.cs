@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
@@ -62,7 +63,7 @@ namespace SIL.Pa.UI
 			if (Properties.Settings.Default.PhoneticFont != null)
 				App.PhoneticFont = Properties.Settings.Default.PhoneticFont;
 
-			LocalizeItemDlg.DefaultDisplayFont = FontHelper.UIFont;
+			LocalizeItemDlg<TMXDocument>.DefaultDisplayFont = FontHelper.UIFont;
 			App.InitializeLocalization();
 			Sldr.Initialize();
 			App.MinimumViewWindowSize = Properties.Settings.Default.MinimumViewWindowSize;
@@ -130,7 +131,7 @@ namespace SIL.Pa.UI
 			var tph = new TrainingProjectsHelper();
 			tph.Setup();
 
-			LocalizeItemDlg.StringsLocalized += () => SetWindowText(_project);
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += () => SetWindowText(_project);
 			SetWindowText(_project);
 		}
 

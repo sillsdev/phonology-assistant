@@ -50,7 +50,7 @@ namespace SIL.Pa.PhoneticSearching
 		public static SearchQueryGroupList LoadDefaults(PaProject project)
 		{
 			return InternalLoad(project,
-				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSearchQueries.xml"));
+				FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSearchQueries.xml"));
 		}
 
 		/// ------------------------------------------------------------------------------------

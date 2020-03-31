@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Views
 			if (m_tmAdapter != null)
 			{
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
-				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+				var defs = new[] { FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName,
 					"DataCorpusTMDefinition.xml") };
 				
 				m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);

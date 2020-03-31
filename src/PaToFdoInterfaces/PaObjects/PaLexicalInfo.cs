@@ -92,7 +92,7 @@ namespace SIL.PaToFdoInterfaces
 
 	    public void LoadProject(string projectName)
 	    {
-	        SIL.LCModel.Core.Text.Icu.InitIcuDataDir();
+	        LCModel.Core.Text.CustomIcu.InitIcuDataDir();
 	        if (!Sldr.IsInitialized) Sldr.Initialize(true);
 	        var dirs = new PaFieldWorksHelper();
 	        var projectPath = string.Empty;

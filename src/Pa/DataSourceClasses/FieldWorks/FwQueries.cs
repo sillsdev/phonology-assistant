@@ -106,7 +106,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		private static bool CheckForShortNameFile(string dbName, string machineName, string filename)
 		{
 			// Find the file that contains the queries.
-			var queryFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, filename);
+			var queryFile = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, filename);
 			
 			if (!File.Exists(queryFile))
 			{
@@ -132,7 +132,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		private static FwQueries Load(string filename)
 		{
 			// Find the file that contains the queries.
-			var queryFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, filename);
+			var queryFile = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, filename);
 			var fwqueries = XmlSerializationHelper.DeserializeFromFile<FwQueries>(queryFile);
 
 			if (fwqueries != null)

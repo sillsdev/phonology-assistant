@@ -48,7 +48,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			try
 			{
-				var filename = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+				var filename = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName,
 					"NormalizationExceptions.xml");
 
 				s_exceptionsList = XmlSerializationHelper.DeserializeFromFile<List<NormalizationException>>(filename);

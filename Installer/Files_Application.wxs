@@ -30,6 +30,30 @@
                 </Component>
               </Directory>
             </Directory>
+            <Directory Id="lib" Name="lib">
+              <Directory Id="win_x64" Name="win-x64">
+                <Component Id="icudt59.dll" Guid="E70DA68B-7F61-4B76-A3A3-6E134778AF64">
+                  <File Id="icudt59.dll" Name="icudt59.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\lib\win-x64\icudt59.dll" />
+                </Component>
+                <Component Id="icuin59.dll" Guid="09227350-9F12-43DB-A265-2A5D4352C096">
+                  <File Id="icuin59.dll" Name="icuin59.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\lib\win-x64\icuin59.dll" />
+                </Component>
+                <Component Id="icuuc59.dll" Guid="48716482-C454-4680-B519-D7AAC1EC8329">
+                  <File Id="icuuc59.dll" Name="icuuc59.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\lib\win-x64\icuuc59.dll" />
+                </Component>
+              </Directory>
+              <Directory Id="win_x86" Name="win-x86">
+                <Component Id="icudt59.dll2" Guid="7C7A1B2A-3B39-4850-A10A-BF75117791C4">
+                  <File Id="icudt59.dll2" Name="icudt59.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\lib\win-x86\icudt59.dll" />
+                </Component>
+                <Component Id="icuin59.dll2" Guid="4906BC79-94D3-4E3B-8AB9-375993B50140">
+                  <File Id="icuin59.dll2" Name="icuin59.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\lib\win-x86\icuin59.dll" />
+                </Component>
+                <Component Id="icuuc59.dll2" Guid="808A7A30-CE90-4C12-98DA-77CA017341D4">
+                  <File Id="icuuc59.dll2" Name="icuuc59.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\lib\win-x86\icuuc59.dll" />
+                </Component>
+              </Directory>
+            </Directory>
             <Directory Id="training" Name="Training" />
             <Component Id="disablepasplashscreen.exe" Guid="0EE47CCE-87AA-44CE-BBB2-1840A5B4ACCF">
               <File Id="disablepasplashscreen.exe" Name="DisablePASplashScreen.exe" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\DisablePASplashScreen.exe" />
@@ -45,6 +69,9 @@
             </Component>
             <Component Id="icu.net.dll" Guid="985591A4-A3CD-4F7E-B105-C259778841A9">
               <File Id="icu.net.dll" Name="icu.net.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\icu.net.dll" />
+            </Component>
+            <Component Id="icu.net.dll.config" Guid="91809FF3-039E-4460-94A5-ACFB32CE521C">
+              <File Id="icu.net.dll.config" Name="icu.net.dll.config" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\icu.net.dll.config" />
             </Component>
             <Component Id="icudt54.dll" Guid="4E7AFB93-A4E1-4445-8922-45E2A2DA2748">
               <File Id="icudt54.dll" Name="icudt54.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\icudt54.dll" />
@@ -67,11 +94,20 @@
             <Component Id="l10nsharp.pdb" Guid="2E9BD914-A284-4BAE-8FFC-23C29E09F24E">
               <File Id="l10nsharp.pdb" Name="L10NSharp.pdb" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\L10NSharp.pdb" />
             </Component>
+            <Component Id="microsoft.dotnet.platformabstractions.dll" Guid="F10C9944-F6E9-404D-878B-D9FDFA8B2809">
+              <File Id="microsoft.dotnet.platformabstractions.dll" Name="Microsoft.DotNet.PlatformAbstractions.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\Microsoft.DotNet.PlatformAbstractions.dll" />
+            </Component>
+            <Component Id="microsoft.extensions.dependencymodel.dll" Guid="52D28EDA-F215-49E0-9346-06B0BDE06998">
+              <File Id="microsoft.extensions.dependencymodel.dll" Name="Microsoft.Extensions.DependencyModel.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\Microsoft.Extensions.DependencyModel.dll" />
+            </Component>
             <Component Id="microsoft.practices.servicelocation.dll" Guid="AF1417D1-334A-4B80-A079-79722F39E1AE">
               <File Id="microsoft.practices.servicelocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\Microsoft.Practices.ServiceLocation.dll" />
             </Component>
             <Component Id="newtonsoft.json.dll" Guid="8187B5C7-2669-45F6-AD6B-A85F1DE24AC8">
               <File Id="newtonsoft.json.dll" Name="Newtonsoft.Json.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="newtonsoft.json.xml" Guid="8A52643E-3B0A-4116-B7BD-30224AB140A7">
+              <File Id="newtonsoft.json.xml" Name="Newtonsoft.Json.xml" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\Newtonsoft.Json.xml" />
             </Component>
             <Component Id="nhunspell.dll" Guid="E495387D-F2EF-4E1A-AFFC-9D8C4DC4AE0D">
               <File Id="nhunspell.dll" Name="NHunspell.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\NHunspell.dll" />
@@ -88,6 +124,9 @@
             <Component Id="patofdointerfaces.dll" Guid="58EBAA48-2A20-40BB-83C9-783AFA2188B3">
               <File Id="patofdointerfaces.dll" Name="PaToFdoInterfaces.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\PaToFdoInterfaces.dll" />
             </Component>
+            <Component Id="patofdointerfaces.dll.config" Guid="5F41218A-5D1C-43DC-921A-D8902FBDED27">
+              <File Id="patofdointerfaces.dll.config" Name="PaToFdoInterfaces.dll.config" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\PaToFdoInterfaces.dll.config" />
+            </Component>
             <Component Id="patofdointerfaces.pdb" Guid="CE712885-3133-4DE0-8F33-629922A07BCC">
               <File Id="patofdointerfaces.pdb" Name="PaToFdoInterfaces.pdb" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\PaToFdoInterfaces.pdb" />
             </Component>
@@ -97,8 +136,14 @@
             <Component Id="protobuf_net.dll" Guid="1F6EA95D-F01E-4C0B-AB85-C5D77ED2EB4D">
               <File Id="protobuf_net.dll" Name="protobuf-net.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\protobuf-net.dll" />
             </Component>
+            <Component Id="sil.core.desktop.dll" Guid="3C6FE08C-E999-4A9E-B380-884C8D32FDAF">
+              <File Id="sil.core.desktop.dll" Name="SIL.Core.Desktop.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.Core.Desktop.dll" />
+            </Component>
             <Component Id="sil.core.dll" Guid="07611060-2923-42EC-A291-9F9C84BAF505">
               <File Id="sil.core.dll" Name="SIL.Core.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.Core.dll" />
+            </Component>
+            <Component Id="sil.core.dll.config" Guid="45A8EEE1-851A-4481-8B0C-19B335BFF27B">
+              <File Id="sil.core.dll.config" Name="SIL.Core.dll.config" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.Core.dll.config" />
             </Component>
             <Component Id="sil.core.pdb" Guid="6CD2B30C-7471-46E9-ABB9-E6617EBA1186">
               <File Id="sil.core.pdb" Name="SIL.Core.pdb" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.Core.pdb" />
@@ -106,11 +151,17 @@
             <Component Id="sil.lcmodel.core.dll" Guid="04AAD354-738D-4601-B7E6-61F1458749D1">
               <File Id="sil.lcmodel.core.dll" Name="SIL.LCModel.Core.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.LCModel.Core.dll" />
             </Component>
+            <Component Id="sil.lcmodel.core.dll.config" Guid="14E33D81-0473-4783-B925-B96AE73DA7AD">
+              <File Id="sil.lcmodel.core.dll.config" Name="SIL.LCModel.Core.dll.config" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.LCModel.Core.dll.config" />
+            </Component>
             <Component Id="sil.lcmodel.core.pdb" Guid="F96EA6C8-4E25-498E-BB0E-9BA75971492C">
               <File Id="sil.lcmodel.core.pdb" Name="SIL.LCModel.Core.pdb" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.LCModel.Core.pdb" />
             </Component>
             <Component Id="sil.lcmodel.dll" Guid="4FF2AE6D-3A9D-4E54-B3A1-AE31A702D690">
               <File Id="sil.lcmodel.dll" Name="SIL.LCModel.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.LCModel.dll" />
+            </Component>
+            <Component Id="sil.lcmodel.dll.config" Guid="13BA9232-BAA2-4F17-A894-7F4B2C002AA0">
+              <File Id="sil.lcmodel.dll.config" Name="SIL.LCModel.dll.config" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.LCModel.dll.config" />
             </Component>
             <Component Id="sil.lcmodel.pdb" Guid="FA5ACEAD-F5BA-4830-B004-B72D6449CC6A">
               <File Id="sil.lcmodel.pdb" Name="SIL.LCModel.pdb" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.LCModel.pdb" />
@@ -130,6 +181,9 @@
             <Component Id="sil.windows.forms.dll" Guid="E5C63F03-BE5F-41CF-93C6-E45BB3DDF74E">
               <File Id="sil.windows.forms.dll" Name="SIL.Windows.Forms.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.Windows.Forms.dll" />
             </Component>
+            <Component Id="sil.windows.forms.dll.config" Guid="915DD1BA-5DC5-4E54-92BE-E2F5A360D2FC">
+              <File Id="sil.windows.forms.dll.config" Name="SIL.Windows.Forms.dll.config" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.Windows.Forms.dll.config" />
+            </Component>
             <Component Id="sil.windows.forms.pdb" Guid="926FFEBF-B799-47DB-A499-BD89ADA0B2C5">
               <File Id="sil.windows.forms.pdb" Name="SIL.Windows.Forms.pdb" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\SIL.Windows.Forms.pdb" />
             </Component>
@@ -148,6 +202,9 @@
             <Component Id="structuremap.dll" Guid="877E2952-5B2A-4F82-B823-55EB17C83792">
               <File Id="structuremap.dll" Name="StructureMap.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\StructureMap.dll" />
             </Component>
+            <Component Id="system.runtime.interopservices.runtimeinformation.dll" Guid="2BB4A8F9-AC43-4CBE-94B6-49B309F55B4B">
+              <File Id="system.runtime.interopservices.runtimeinformation.dll" Name="System.Runtime.InteropServices.RuntimeInformation.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\System.Runtime.InteropServices.RuntimeInformation.dll" />
+            </Component>
             <Component Id="tools.dll" Guid="F6A0646C-2C2C-4EF8-9652-F0812942C84C">
               <File Id="tools.dll" Name="Tools.dll" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\Tools.dll" />
             </Component>
@@ -164,11 +221,18 @@
       <ComponentRef Id="Transforms.zip" />
       <ComponentRef Id="Pa.exe" />
       <ComponentRef Id="extractcustomfields.xsl" />
+      <ComponentRef Id="icudt59.dll" />
+      <ComponentRef Id="icuin59.dll" />
+      <ComponentRef Id="icuuc59.dll" />
+      <ComponentRef Id="icudt59.dll2" />
+      <ComponentRef Id="icuin59.dll2" />
+      <ComponentRef Id="icuuc59.dll2" />
       <ComponentRef Id="disablepasplashscreen.exe" />
       <ComponentRef Id="disablepasplashscreen.exe.config" />
       <ComponentRef Id="disablepasplashscreen.pdb" />
       <ComponentRef Id="icsharpcode.sharpziplib.dll" />
       <ComponentRef Id="icu.net.dll" />
+      <ComponentRef Id="icu.net.dll.config" />
       <ComponentRef Id="icudt54.dll" />
       <ComponentRef Id="icuin54.dll" />
       <ComponentRef Id="icutu54.dll" />
@@ -176,33 +240,43 @@
       <ComponentRef Id="ionic.zip.dll" />
       <ComponentRef Id="l10nsharp.dll" />
       <ComponentRef Id="l10nsharp.pdb" />
+      <ComponentRef Id="microsoft.dotnet.platformabstractions.dll" />
+      <ComponentRef Id="microsoft.extensions.dependencymodel.dll" />
       <ComponentRef Id="microsoft.practices.servicelocation.dll" />
       <ComponentRef Id="newtonsoft.json.dll" />
+      <ComponentRef Id="newtonsoft.json.xml" />
       <ComponentRef Id="nhunspell.dll" />
       <ComponentRef Id="pa.exe.config" />
       <ComponentRef Id="pa.pdb" />
       <ComponentRef Id="pacompiledtransforms.dll" />
       <ComponentRef Id="patofdointerfaces.dll" />
+      <ComponentRef Id="patofdointerfaces.dll.config" />
       <ComponentRef Id="patofdointerfaces.pdb" />
       <ComponentRef Id="phonology_assistant_help.chm" />
       <ComponentRef Id="protobuf_net.dll" />
+      <ComponentRef Id="sil.core.desktop.dll" />
       <ComponentRef Id="sil.core.dll" />
+      <ComponentRef Id="sil.core.dll.config" />
       <ComponentRef Id="sil.core.pdb" />
       <ComponentRef Id="sil.lcmodel.core.dll" />
+      <ComponentRef Id="sil.lcmodel.core.dll.config" />
       <ComponentRef Id="sil.lcmodel.core.pdb" />
       <ComponentRef Id="sil.lcmodel.dll" />
+      <ComponentRef Id="sil.lcmodel.dll.config" />
       <ComponentRef Id="sil.lcmodel.pdb" />
       <ComponentRef Id="sil.lcmodel.utils.dll" />
       <ComponentRef Id="sil.lcmodel.utils.pdb" />
       <ComponentRef Id="sil.lexicon.dll" />
       <ComponentRef Id="sil.lexicon.pdb" />
       <ComponentRef Id="sil.windows.forms.dll" />
+      <ComponentRef Id="sil.windows.forms.dll.config" />
       <ComponentRef Id="sil.windows.forms.pdb" />
       <ComponentRef Id="sil.writingsystems.dll" />
       <ComponentRef Id="sil.writingsystems.pdb" />
       <ComponentRef Id="siltools.dll" />
       <ComponentRef Id="siltools.pdb" />
       <ComponentRef Id="structuremap.dll" />
+      <ComponentRef Id="system.runtime.interopservices.runtimeinformation.dll" />
       <ComponentRef Id="tools.dll" />
     </ComponentGroup>
   </Fragment>

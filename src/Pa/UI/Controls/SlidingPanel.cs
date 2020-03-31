@@ -13,6 +13,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Threading;
 using System.Windows.Forms;
+using L10NSharp.TMXUtils;
+using L10NSharp.UI;
 using SilTools.Controls;
 using SilTools;
 
@@ -72,7 +74,7 @@ namespace SIL.Pa.UI.Controls
 			m_owningContainer.ResumeLayout(false);
 			ResumeLayout(false);
 
-			L10NSharp.UI.LocalizeItemDlg.StringsLocalized += ResizeTab;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += ResizeTab;
 		}
 
 		/// ------------------------------------------------------------------------------------
