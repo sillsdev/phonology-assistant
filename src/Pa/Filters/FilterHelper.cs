@@ -59,7 +59,7 @@ namespace SIL.Pa.Filters
 				Filters = XmlSerializationHelper.DeserializeFromFile<List<Filter>>(filename, "filters");
 			else
 			{
-                var defaultFilterFileName = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFilters.xml");
+                var defaultFilterFileName = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFilters.xml");
                 Filters = XmlSerializationHelper.DeserializeFromFile<List<Filter>>(defaultFilterFileName, "filters");
             }
 

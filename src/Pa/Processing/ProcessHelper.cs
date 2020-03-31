@@ -32,7 +32,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		public static string ProcessFile
 		{
-			get { return FileLocator.GetFileDistributedWithApplication(App.ProcessingFolderName, "Processing.xml"); }
+			get { return FileLocationUtilities.GetFileDistributedWithApplication(App.ProcessingFolderName, "Processing.xml"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		public static Pipeline CreatePipeline(Pipeline.ProcessType prsType)
 		{
-			var processingFolder = FileLocator.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
+			var processingFolder = FileLocationUtilities.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
 			return Pipeline.Create(prsType, ProcessFile, processingFolder);
 		}
 
@@ -82,7 +82,7 @@ namespace SIL.Pa.Processing
 		private static void IfNecessaryUpgradeFilesThatMakePrettyHTMLExports(string fileTypeExtension)
 		{
 			var processingFolder =
-				FileLocator.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
+				FileLocationUtilities.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
 
 			foreach (var filename in Directory.GetFiles(processingFolder, fileTypeExtension))
 			{
@@ -179,7 +179,7 @@ namespace SIL.Pa.Processing
 			writer.WriteStartElement("li");
 			writer.WriteAttributeString("class", "programConfigurationFolder");
 
-			var path = FileLocator.GetDirectoryDistributedWithApplication(App.ConfigFolderName);
+			var path = FileLocationUtilities.GetDirectoryDistributedWithApplication(App.ConfigFolderName);
 			writer.WriteString(TerminateFolderPath(path));
 			writer.WriteEndElement();
 

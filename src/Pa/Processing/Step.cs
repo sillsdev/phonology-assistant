@@ -112,7 +112,7 @@ namespace SIL.Pa.Processing
 		public MemoryStream Transform(MemoryStream inputStream)
 		{
 			var readerSettings = new XmlReaderSettings();
-			readerSettings.ProhibitDtd = false; // If true, it throws an exception if there is a DTD.
+			readerSettings.DtdProcessing = DtdProcessing.Ignore; // If true, it throws an exception if there is a DTD.
 			readerSettings.ValidationType = ValidationType.None;
 			var inputXML = XmlReader.Create(inputStream, readerSettings);
 

@@ -305,7 +305,7 @@ namespace SIL.Pa.Model
         /// ------------------------------------------------------------------------------------
         public static List<PaField> GetDefaultFields()
         {
-            var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFields.xml");
+            var path = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFields.xml");
             return EnsureListContainsCalculatedFields(LoadFields(path, "DefaultPaFields")).ToList();
         }
 
@@ -323,7 +323,7 @@ namespace SIL.Pa.Model
 
         public static List<PaField> GetDefaultFields(Fw7CustomField customField)
         {
-            var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFields.xml");
+            var path = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFields.xml");
             return EnsureListContainsCalculatedFields(LoadFields(path, "DefaultPaFields", customField)).ToList();
         }
 

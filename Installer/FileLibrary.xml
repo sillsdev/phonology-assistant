@@ -44,4 +44,21 @@
   <File Path="Tools.dll" ComponentGuid="F6A0646C-2C2C-4EF8-9652-F0812942C84C" />
   <File Path="Training\PaTrainingProjects.zip" ComponentGuid="AD57CAA3-24F9-4ECA-879C-7FF07799CB64" />
   <File Path="Transforms.zip" ComponentGuid="12A34F2C-C751-4E36-904D-D688C132109A" />
+  <File Path="icu.net.dll.config" ComponentGuid="91809FF3-039E-4460-94A5-ACFB32CE521C" />
+  <File Path="PaToFdoInterfaces.dll.config" ComponentGuid="5F41218A-5D1C-43DC-921A-D8902FBDED27" />
+  <File Path="SIL.Core.Desktop.dll" ComponentGuid="3C6FE08C-E999-4A9E-B380-884C8D32FDAF" />
+  <File Path="SIL.Core.dll.config" ComponentGuid="45A8EEE1-851A-4481-8B0C-19B335BFF27B" />
+  <File Path="SIL.LCModel.Core.dll.config" ComponentGuid="14E33D81-0473-4783-B925-B96AE73DA7AD" />
+  <File Path="SIL.LCModel.dll.config" ComponentGuid="13BA9232-BAA2-4F17-A894-7F4B2C002AA0" />
+  <File Path="lib\win-x64\icudt59.dll" ComponentGuid="E70DA68B-7F61-4B76-A3A3-6E134778AF64" />
+  <File Path="lib\win-x64\icuin59.dll" ComponentGuid="09227350-9F12-43DB-A265-2A5D4352C096" />
+  <File Path="lib\win-x64\icuuc59.dll" ComponentGuid="48716482-C454-4680-B519-D7AAC1EC8329" />
+  <File Path="lib\win-x86\icudt59.dll" ComponentGuid="7C7A1B2A-3B39-4850-A10A-BF75117791C4" />
+  <File Path="lib\win-x86\icuin59.dll" ComponentGuid="4906BC79-94D3-4E3B-8AB9-375993B50140" />
+  <File Path="lib\win-x86\icuuc59.dll" ComponentGuid="808A7A30-CE90-4C12-98DA-77CA017341D4" />
+  <File Path="Microsoft.DotNet.PlatformAbstractions.dll" ComponentGuid="F10C9944-F6E9-404D-878B-D9FDFA8B2809" />
+  <File Path="Microsoft.Extensions.DependencyModel.dll" ComponentGuid="52D28EDA-F215-49E0-9346-06B0BDE06998" />
+  <File Path="Newtonsoft.Json.xml" ComponentGuid="8A52643E-3B0A-4116-B7BD-30224AB140A7" />
+  <File Path="SIL.Windows.Forms.dll.config" ComponentGuid="915DD1BA-5DC5-4E54-92BE-E2F5A360D2FC" />
+  <File Path="System.Runtime.InteropServices.RuntimeInformation.dll" ComponentGuid="2BB4A8F9-AC43-4CBE-94B6-49B309F55B4B" />
 </FileLibrary>

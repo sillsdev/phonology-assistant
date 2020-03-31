@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
+using L10NSharp.TMXUtils;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -36,7 +37,7 @@ namespace SIL.Pa.UI.Dialogs
 				btnHelp.TabIndex = 1003;
 			}
 
-			L10NSharp.UI.LocalizeItemDlg.StringsLocalized += OnStringsLocalized;
+			L10NSharp.UI.LocalizeItemDlg<TMXDocument>.StringsLocalized += OnStringsLocalized;
 		}
 
 		///// ------------------------------------------------------------------------------------

@@ -11,6 +11,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -39,7 +40,7 @@ namespace SIL.Pa.UI.Dialogs
 			_textBoxMembers.Font = FontHelper.UIFont;
 			_labelMembers.Font = FontHelper.UIFont;
 
-			LocalizeItemDlg.StringsLocalized += SetLocalizedTexts;
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += SetLocalizedTexts;
 			SetLocalizedTexts();
 		}
 

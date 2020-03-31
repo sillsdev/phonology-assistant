@@ -75,7 +75,7 @@ namespace SIL.Pa.PhoneticSearching
 		public static SearchClassList LoadDefaults(PaProject project)
 		{
 			return InternalLoad(project,
-				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSearchClasses.xml"));
+				FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSearchClasses.xml"));
 		}
 
 		/// ------------------------------------------------------------------------------------
