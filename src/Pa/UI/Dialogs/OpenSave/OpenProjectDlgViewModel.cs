@@ -72,12 +72,15 @@ namespace SIL.Pa.UI.Dialogs
 				yield return prjFile;
 			}
 
-			string fwProjects = Properties.Settings.Default.FieldWorksProjectsFolder;
-			foreach (var prjFile in new DirectoryInfo(fwProjects).GetFiles("*.fwdata", SearchOption.AllDirectories))
+			var defaultFwProjectsFolder = Properties.Settings.Default.FieldWorksProjectsFolder;
+			if (Directory.Exists(defaultFwProjectsFolder))
 			{
-				yield return prjFile.FullName;
+				foreach (var prjFile in new DirectoryInfo(defaultFwProjectsFolder).GetFiles("*.fwdata", SearchOption.AllDirectories))
+				{
+					yield return prjFile.FullName;
+				}
 			}
-		}
+        }
 
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldAddProjectFileToAvailableList(string prjFilePath)
