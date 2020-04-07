@@ -225,7 +225,7 @@ namespace SIL.Pa
         /// ------------------------------------------------------------------------------------
         public static void InitializeLocalization()
         {
-            var installedStringFileFolder = FileLocationUtilities.GetFileDistributedWithApplication("Localizations");
+            var installedStringFileFolder = FileLocationUtilities.GetDirectoryDistributedWithApplication("Localizations");
             var localizedStringFilesFolder = Path.Combine(GetAllUserPath(), kLocalizationsFolder);
             var targetTmxFilePath = Path.Combine(kCompany, kProduct);
             CopyInstalledLocalizations(localizedStringFilesFolder);
