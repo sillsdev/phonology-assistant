@@ -118,7 +118,12 @@ namespace SIL.Pa.UI.Dialogs
 		protected override bool SaveChanges()
 		{
 			foreach (var pageContent in GetTabPageContents())
-				pageContent.Save();
+			{
+				if (pageContent.IsDirty)
+				{
+					pageContent.Save();
+				}
+			}
 
 			m_project.Save();
 			Properties.Settings.Default.Save();
