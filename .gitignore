@@ -6,7 +6,6 @@ src/*/bin/*
 Lib/SIL.*
 Lib/L10N*
 Lib/Newton*
-Lib/Hun*
 Lib/IDL*
 Lib/Icu*
 Lib/Kernel*
@@ -17,6 +16,7 @@ Lib/Microsoft*
 Lib/NHun*
 Lib/NVel*
 Lib/protobuf*
+Lib/Spart*
 Lib/Struct*
 Lib/Styles.dtd
 Lib/Templ*

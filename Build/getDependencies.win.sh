@@ -87,6 +87,7 @@ copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/L10NSharp.pdb ../Lib/L10NSharp.pdb
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/icu.net.dll ../Lib/icu.net.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/icu.net.dll.config ../Lib/icu.net.dll.config
+copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/Spart.dll ../Lib/Spart.dll
 mkdir -p ../Lib/x86
 copy_auto https://build.palaso.org/guestAuth/repository/download/Libraries_Icu4cWin32FieldWorksContinuous/.lastSuccessful/icudt54.dll ../Lib/x86/icudt54.dll
 copy_auto https://build.palaso.org/guestAuth/repository/download/Libraries_Icu4cWin32FieldWorksContinuous/.lastSuccessful/icuin54.dll ../Lib/x86/icuin54.dll

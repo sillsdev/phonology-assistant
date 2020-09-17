@@ -24,7 +24,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			lblUILanguage.Font = FontHelper.UIFont;
 			cboUILanguage.Font = FontHelper.UIFont;
-			cboUILanguage.SelectedItem = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);
+			cboUILanguage.SelectedItem = LocalizationManager.UILanguageId;
 			_linkShowLocalizationDialogBox.Font = FontHelper.UIFont;
 
 			_linkShowLocalizationDialogBox.LinkClicked += delegate
@@ -54,14 +54,14 @@ namespace SIL.Pa.UI.Dialogs
 				if (cboUILanguage.SelectedItem == null)
 					return false;
 
-				return (LocalizationManager.UILanguageId != ((CultureInfo)cboUILanguage.SelectedItem).Name);
+				return LocalizationManager.UILanguageId != cboUILanguage.SelectedLanguage;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override void Save()
 		{
-			var newLangId = ((CultureInfo)cboUILanguage.SelectedItem).Name;
+			var newLangId = cboUILanguage.SelectedLanguage;
 			Properties.Settings.Default.UserInterfaceLanguage = newLangId;
 			LocalizationManager.SetUILanguage(newLangId, true);
 			PaFieldDisplayProperties.ResetDisplayNameCache();
