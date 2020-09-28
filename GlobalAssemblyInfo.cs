@@ -5,7 +5,7 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyCompany("SIL")]
 [assembly: AssemblyProduct("Phonology Assistant")]
-[assembly: AssemblyCopyright("Copyright © 2008-2018 SIL International")]
+[assembly: AssemblyCopyright("Copyright © 2008-2020 SIL International")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

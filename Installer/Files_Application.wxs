@@ -58,8 +58,12 @@
             <Component Id="disablepasplashscreen.exe" Guid="0EE47CCE-87AA-44CE-BBB2-1840A5B4ACCF">
               <File Id="disablepasplashscreen.exe" Name="DisablePASplashScreen.exe" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\DisablePASplashScreen.exe" />
             </Component>
+            <Component Id="Spart.dll" Guid="{DBF2395C-105F-40D1-9ECE-366FCEEE5EC2}">
+              <File Id="Spart.dll" KeyPath="yes" Source="..\output\release\Spart.dll" />
+            </Component>
             <Component Id="disablepasplashscreen.exe.config" Guid="BD429137-8747-4124-8854-A2A790FF4BE1">
               <File Id="disablepasplashscreen.exe.config" Name="DisablePASplashScreen.exe.config" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\DisablePASplashScreen.exe.config" />
+
             </Component>
             <Component Id="disablepasplashscreen.pdb" Guid="406FA8A0-43F4-4141-9DEA-AFE0E3DD170D">
               <File Id="disablepasplashscreen.pdb" Name="DisablePASplashScreen.pdb" Checksum="yes" KeyPath="yes" DiskId="1" Source="..\Output\Release\DisablePASplashScreen.pdb" />
@@ -217,6 +221,7 @@
     <ComponentGroup Id="ApplicationFiles">
       <ComponentRef Id="AddShortcutDir" />
       <ComponentRef Id="SaveLoadLastProject" />
+      <ComponentRef Id="Spart.dll" />
       <ComponentRef Id="DoulosSILR.ttf" />
       <ComponentRef Id="Transforms.zip" />
       <ComponentRef Id="Pa.exe" />

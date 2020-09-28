@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 using L10NSharp;
 using SIL.Windows.Forms.Miscellaneous;
 using SIL.Pa.Model;
+using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -72,7 +73,7 @@ namespace SIL.Pa.UI.Dialogs
 				yield return prjFile;
 			}
 
-			var defaultFwProjectsFolder = Properties.Settings.Default.FieldWorksProjectsFolder;
+			var defaultFwProjectsFolder = Utils.FwProjectsPath;
 			if (Directory.Exists(defaultFwProjectsFolder))
 			{
 				foreach (var prjFile in new DirectoryInfo(defaultFwProjectsFolder).GetFiles("*.fwdata", SearchOption.AllDirectories))

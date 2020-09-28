@@ -476,53 +476,60 @@ namespace SilTools
 
         /// ------------------------------------------------------------------------------------
         /// <summary>
-	    /// Gets the location of the FieldWorks projects on the current machine. When restoring 
+	    /// Gets the location of the FieldWorks projects on the current machine. When restoring
         /// a PA Project, the datasource may point to another location on the source machine.
 	    /// </summary>
         /// ------------------------------------------------------------------------------------
-        public static string FwProjectsPath
-	    {
-            get
-            {
-                const string projectsDirValueName = "ProjectsDir";
-                var key = FwProgKey();
-                return key == null ? null : key.GetValue(projectsDirValueName).ToString();
-            }
-	    }
+        public static string FwProjectsPath => FwProgKeyValue("ProjectsDir");
 
-	    private static RegistryKey FwProgKey()
+		private static string FwProgKeyValue(string name)
 	    {
 	        const string fw9RegPath = @"SIL\FieldWorks\9";
             const string fw8RegPath = @"SIL\FieldWorks\8";
 	        const string fw7RegPath = @"SIL\FieldWorks\7";
 	        const string sw = "SOFTWARE";
 	        const string wow = "Wow6432Node";
-	        var key = TryKey(Path.Combine(sw, fw9RegPath));
-	        if (key != null) return key;
-	        key = TryKey(Path.Combine(new[] { sw, wow, fw9RegPath }));
-	        if (key != null) return key;
-	        key = TryKey(Path.Combine(sw, fw8RegPath));
-	        if (key != null) return key;
-            key = TryKey(Path.Combine(new[] {sw, wow, fw8RegPath}));
-	        if (key != null) return key;
-	        key = TryKey(Path.Combine(sw, fw7RegPath));
-	        if (key != null) return key;
-	        key = TryKey(Path.Combine(new[] {sw, wow, fw7RegPath}));
-	        return key;
+	        var val = TryKeyName(Path.Combine(sw, fw9RegPath), name);
+	        if (val != null) return val;
+	        val = TryKeyName(Path.Combine(new[] { sw, wow, fw9RegPath }), name);
+	        if (val != null) return val;
+	        val = TryKeyName(Path.Combine(sw, fw8RegPath), name);
+	        if (val != null) return val;
+            val = TryKeyName(Path.Combine(new[] {sw, wow, fw8RegPath}), name);
+	        if (val != null) return val;
+	        val = TryKeyName(Path.Combine(sw, fw7RegPath), name);
+	        if (val != null) return val;
+	        val = TryKeyName(Path.Combine(new[] {sw, wow, fw7RegPath}), name);
+	        return val;
 	    }
 
-	    private static RegistryKey TryKey(string tryKey)
+	    private static string TryKeyName(string tryKey, string name)
 	    {
-	        RegistryKey key;
+		    string val = null;
+		    try
+		    {
+			    using (var key = Registry.CurrentUser.OpenSubKey(tryKey))
+			    {
+				    if (key != null) val = key.GetValue(name)?.ToString();
+				    if (!string.IsNullOrEmpty(val)) return val;
+			    }
+		    }
+		    catch (Exception)
+		    {
+			    // ignore failures, return null
+		    }
 	        try
-	        {
-	            key = Registry.LocalMachine.OpenSubKey(tryKey);
-	        }
+			{
+		        using (var key = Registry.LocalMachine.OpenSubKey(tryKey))
+		        {
+			        if (key != null) val = key.GetValue(name)?.ToString();
+		        }
+			}
 	        catch (Exception)
 	        {
-	            key = null;
+				// ignore failures, return null
 	        }
-	        return key;
+	        return val;
 	    }
 
 	    /// ------------------------------------------------------------------------------------
