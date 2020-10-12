@@ -2,13 +2,11 @@ phonology-assistant
 ===================
 Phonology Assistant is a discovery tool. Provided with a corpus of phonetic data, it automatically charts the sounds and through its searching capabilities, helps a user discover and test the rules of sound in a language.
 
-[Stable Release](http://www.sil.org/resources/software_fonts/phonology-assistant)
-
-[web site](http://phonologyassistant.sil.org/)
+[web site](https://software.sil.org/phonologyassistant/)
 
 License
 -------
-Pathway is licensed under MIT. See [LICENSE.md](https://github.com/sillsdev/phonology-assistant/blob/master/LICENSE)
+Phonology Assistant is licensed under MIT. See [LICENSE.md](https://github.com/sillsdev/phonology-assistant/blob/master/LICENSE)
 
 
 [Binaries](http://build.palaso.org/project.html?projectId=project17&tab=projectOverview&guest=1)
@@ -25,4 +23,4 @@ After cloning the repo, install the dependencies with:
 
 Load Pa-Windows.sln and set the Configuration to Debug-Windows and the Platform to x86. Then build.
 
-The Unit tests can be run from the PaTests project.
+The Unit tests can be run from the PaTests project and work with ReSharper.
