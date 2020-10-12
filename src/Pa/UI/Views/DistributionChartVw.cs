@@ -151,7 +151,7 @@ namespace SIL.Pa.UI.Views
 
             _tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
-            var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+            var defs = new[] { FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName,
 				"DistributionChartsTMDefinition.xml") };
 
             _tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
@@ -793,7 +793,7 @@ namespace SIL.Pa.UI.Views
 
         private void RestoreDefaultChartsItem()
         {
-            var defaultChartFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+            var defaultChartFile = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName,
                 "DefaultDistributionCharts.xml");
             var defaultChart = XmlSerializationHelper.DeserializeFromFile<List<DistributionChart>>(defaultChartFile,
                 "distributionCharts");
@@ -1385,7 +1385,7 @@ namespace SIL.Pa.UI.Views
         /// ------------------------------------------------------------------------------------
         private void ResetCurrentChart(DistributionChart layoutToOverwrite)
         {
-            var defaultChartFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
+            var defaultChartFile = FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
             var defaultChart = XmlSerializationHelper.DeserializeFromFile<List<DistributionChart>>(defaultChartFile, "distributionCharts");
 
             ListViewItem item = null;

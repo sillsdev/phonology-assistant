@@ -95,6 +95,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\pathway\lib\SIL.Core.dll</HintPath>
     </Reference>
+    <Reference Include="SIL.Core.Desktop, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SIL.Core.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

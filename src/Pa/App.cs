@@ -16,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.IO;
 using SIL.Reporting;
@@ -224,21 +225,21 @@ namespace SIL.Pa
         /// ------------------------------------------------------------------------------------
         public static void InitializeLocalization()
         {
-            var installedStringFileFolder = FileLocator.GetDirectoryDistributedWithApplication("Localizations");
+            var installedStringFileFolder = FileLocationUtilities.GetDirectoryDistributedWithApplication("Localizations");
             var localizedStringFilesFolder = Path.Combine(GetAllUserPath(), kLocalizationsFolder);
             var targetTmxFilePath = Path.Combine(kCompany, kProduct);
             CopyInstalledLocalizations(localizedStringFilesFolder);
 
             string desiredUiLangId = Properties.Settings.Default.UserInterfaceLanguage;
 
-            L10NMngr = LocalizationManager.Create(desiredUiLangId, "Pa", "Phonology Assistant", Application.ProductVersion, installedStringFileFolder, targetTmxFilePath, null, IssuesEmailAddress, "SIL.Pa");
+            L10NMngr = LocalizationManager.Create(TranslationMemory.Tmx, desiredUiLangId, "Pa", "Phonology Assistant", Application.ProductVersion, installedStringFileFolder, targetTmxFilePath, null, IssuesEmailAddress, "SIL.Pa");
             //Properties.Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
             //GetUILanguage()
-            LocalizeItemDlg.StringsLocalized += (() =>
+            LocalizeItemDlg<TMXDocument>.StringsLocalized += () =>
             {
                 MsgMediator.SendMessage("StringsLocalized", L10NMngr);
                 PaFieldDisplayProperties.ResetDisplayNameCache();
-            });
+            };
         }
 
         public static void ShowL10NsharpDlg()
@@ -824,7 +825,7 @@ namespace SIL.Pa
         {
             get
             {
-                return FileLocator.GetFileDistributedWithApplication(
+                return FileLocationUtilities.GetFileDistributedWithApplication(
                     ConfigFolderName, kDefaultInventoryFileName);
             }
         }
@@ -1022,7 +1023,7 @@ namespace SIL.Pa
 
         #region Localization Manager Access methods
         /// ------------------------------------------------------------------------------------
-        public static LocalizationManager L10NMngr { get; set; }
+        public static ILocalizationManager L10NMngr { get; set; }
 
         ///// ------------------------------------------------------------------------------------
         //internal static void SaveOnTheFlyLocalizations()
@@ -1143,7 +1144,7 @@ namespace SIL.Pa
             {
                 //PrepareAdapterForLocalizationSupport(adapter);
 
-                var defs = new[] { FileLocator.GetFileDistributedWithApplication(ConfigFolderName,
+                var defs = new[] { FileLocationUtilities.GetFileDistributedWithApplication(ConfigFolderName,
 					"PaTMDefinition.xml") };
 
                 adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);

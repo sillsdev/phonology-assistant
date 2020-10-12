@@ -73,16 +73,15 @@ namespace SIL.Pa.UI.Dialogs
 				yield return prjFile;
 			}
 
-			//string fwProjects = Properties.Settings.Default.FieldWorksProjectsFolder;
-			var fwProjects = Utils.FwProjectsPath;
-			if (fwProjects != null)
+			var defaultFwProjectsFolder = Utils.FwProjectsPath;
+			if (Directory.Exists(defaultFwProjectsFolder))
 			{
-				foreach (var prjFile in new DirectoryInfo(fwProjects).GetFiles("*.fwdata", SearchOption.AllDirectories))
+				foreach (var prjFile in new DirectoryInfo(defaultFwProjectsFolder).GetFiles("*.fwdata", SearchOption.AllDirectories))
 				{
 					yield return prjFile.FullName;
 				}
 			}
-		}
+        }
 
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldAddProjectFileToAvailableList(string prjFilePath)

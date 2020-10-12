@@ -71,28 +71,42 @@ cd -
 # URL: http://build.palaso.org/viewType.html?buildTypeId=bt427
 # VCS: https://github.com/sillsdev/phonology-assistant.git [develop]
 # dependencies:
-# [0] build: palaso-win32-master Continuous (bt223)
+# [0] build: palaso-win32-master Continuous (Libpalaso_PalasoWin32masterContinuous)
 #     project: libpalaso
-#     URL: http://build.palaso.org/viewType.html?buildTypeId=bt223
+#     URL: http://build.palaso.org/viewType.html?buildTypeId=Libpalaso_PalasoWin32masterContinuous
 #     clean: false
-#     revision: phonologyAssistant.tcbuildtag
-#     paths: {"L10NSharp.dll"=>"Lib", "L10NSharp.pdb"=>"Lib", "SIL.Core.dll"=>"Lib", "SIL.Core.dll.config"=>"Lib", "SIL.Core.pdb"=>"Lib", "SIL.Windows.Forms.dll"=>"Lib", "SIL.Windows.Forms.dll.config"=>"Lib", "SIL.Windows.Forms.pdb"=>"Lib"}
+#     revision: phonologyAssistant.lastSuccessful
+#     paths: {"L10NSharp.dll"=>"Lib", "L10NSharp.pdb"=>"Lib", "SIL.Core.dll"=>"Lib", "SIL.Core.dll.config"=>"Lib", "SIL.Core.pdb"=>"Lib", "SIL.Core.Desktop.dll"=>"Lib", "SIL.Core.Desktop.pdb"=>"Lib", "SIL.Windows.Forms.dll"=>"Lib", "SIL.Windows.Forms.dll.config"=>"Lib", "SIL.Windows.Forms.pdb"=>"Lib"}
 #     VCS: https://github.com/sillsdev/libpalaso.git [master]
 
 # make sure output directories exist
 mkdir -p ../Lib
 
 # download artifact dependencies
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/L10NSharp.dll ../Lib/L10NSharp.dll
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/L10NSharp.pdb ../Lib/L10NSharp.pdb
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.Core.dll ../Lib/SIL.Core.dll
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.Core.dll.config ../Lib/SIL.Core.dll.config
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.Core.pdb ../Lib/SIL.Core.pdb
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.Windows.Forms.dll ../Lib/SIL.Windows.Forms.dll
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.Windows.Forms.dll.config ../Lib/SIL.Windows.Forms.dll.config
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.Windows.Forms.pdb ../Lib/SIL.Windows.Forms.pdb
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.WritingSystems.dll ../Lib/SIL.WritingSystems.dll
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/SIL.WritingSystems.pdb ../Lib/SIL.WritingSystems.pdb
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/L10NSharp.dll ../Lib/L10NSharp.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/L10NSharp.pdb ../Lib/L10NSharp.pdb
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/icu.net.dll ../Lib/icu.net.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/icu.net.dll.config ../Lib/icu.net.dll.config
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/Spart.dll ../Lib/Spart.dll
-copy_auto http://build.palaso.org/guestAuth/repository/download/bt223/phonologyAssistant.tcbuildtag/Newtonsoft.Json.dll ../Lib/Newtonsoft.Json.dll
+mkdir -p ../Lib/x86
+copy_auto https://build.palaso.org/guestAuth/repository/download/Libraries_Icu4cWin32FieldWorksContinuous/.lastSuccessful/icudt54.dll ../Lib/x86/icudt54.dll
+copy_auto https://build.palaso.org/guestAuth/repository/download/Libraries_Icu4cWin32FieldWorksContinuous/.lastSuccessful/icuin54.dll ../Lib/x86/icuin54.dll
+copy_auto https://build.palaso.org/guestAuth/repository/download/Libraries_Icu4cWin32FieldWorksContinuous/.lastSuccessful/icutu54.dll ../Lib/x86/icutu54.dll
+copy_auto https://build.palaso.org/guestAuth/repository/download/Libraries_Icu4cWin32FieldWorksContinuous/.lastSuccessful/icuuc54.dll ../Lib/x86/icuuc54.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.dll ../Lib/SIL.Core.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.dll.config ../Lib/SIL.Core.dll.config
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.pdb ../Lib/SIL.Core.pdb
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.Desktop.dll ../Lib/SIL.Core.Desktop.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Core.Desktop.pdb ../Lib/SIL.Desktop.Core.pdb
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Lexicon.dll ../Lib/SIL.Lexicon.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Lexicon.pdb ../Lib/SIL.Lexicon.pdb
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Windows.Forms.dll ../Lib/SIL.Windows.Forms.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Windows.Forms.dll.config ../Lib/SIL.Windows.Forms.dll.config
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.Windows.Forms.pdb ../Lib/SIL.Windows.Forms.pdb
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.WritingSystems.dll ../Lib/SIL.WritingSystems.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/SIL.WritingSystems.pdb ../Lib/SIL.WritingSystems.pdb
+copy_auto http://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoWin32masterContinuous/.lastSuccessful/Newtonsoft.Json.dll ../Lib/Newtonsoft.Json.dll
+copy_auto http://build.palaso.org/guestAuth/repository/download/Liblcm_LiblcmWin32masterContinuous/.lastSuccessful/LCM.zip ../Lib/LCM.zip
+cd ../Lib
+unzip LCM.zip
 # End of script

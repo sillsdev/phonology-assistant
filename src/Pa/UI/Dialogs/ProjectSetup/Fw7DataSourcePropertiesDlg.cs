@@ -15,6 +15,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -96,7 +97,7 @@ namespace SIL.Pa.UI.Dialogs
             InitializePhoneticAndAudioFieldInfo();
 
             m_dirty = false;
-            LocalizeItemDlg.StringsLocalized += InitializePronunciationCombo;
+            LocalizeItemDlg<TMXDocument>.StringsLocalized += InitializePronunciationCombo;
         }
 
         /// ------------------------------------------------------------------------------------
@@ -104,7 +105,7 @@ namespace SIL.Pa.UI.Dialogs
         {
             if (disposing && (components != null))
             {
-                LocalizeItemDlg.StringsLocalized -= InitializePronunciationCombo;
+                LocalizeItemDlg<TMXDocument>.StringsLocalized -= InitializePronunciationCombo;
                 components.Dispose();
             }
 
@@ -344,7 +345,7 @@ namespace SIL.Pa.UI.Dialogs
 
             // Find the phonetic writing system for the one selected by the user.
             var ws = m_datasource.FwDataSourceInfo.GetWritingSystems()
-                .Single(w => w.Name == cboPhoneticWritingSystem.SelectedItem as string);
+                .First(w => w.Name == cboPhoneticWritingSystem.SelectedItem as string);
 
             m_phoneticMapping.FwWsId = ws.Id;
 

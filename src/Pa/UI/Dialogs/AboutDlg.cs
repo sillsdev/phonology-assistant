@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.IO;
 using L10NSharp;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.Reporting;
 using SilTools;
@@ -69,7 +70,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			UpdateLabels();
 
-			LocalizeItemDlg.StringsLocalized += delegate { UpdateLabels(); };
+			LocalizeItemDlg<TMXDocument>.StringsLocalized += delegate { UpdateLabels(); };
 		}
 
 		/// ------------------------------------------------------------------------------------

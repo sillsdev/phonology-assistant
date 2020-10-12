@@ -14,6 +14,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using L10NSharp.TMXUtils;
 using L10NSharp.UI;
 using SIL.IO;
 using SIL.FieldWorks.Common.UIAdapters;
@@ -80,7 +81,7 @@ namespace SIL.Pa.UI.Views
             _splitOuter.Panel1.Controls.Add(_pnlGrid);
             Utils.WaitCursors(false);
 
-            LocalizeItemDlg.StringsLocalized += delegate { ReloadChart(); };
+            LocalizeItemDlg<TMXDocument>.StringsLocalized += delegate { ReloadChart(); };
         }
 
         /// ------------------------------------------------------------------------------------
@@ -276,7 +277,7 @@ namespace SIL.Pa.UI.Views
 
             if (_tmAdapter != null)
             {
-                var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+                var defs = new[] { FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName,
 					"CVChartsTMDefinition.xml") };
 
                 _tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);

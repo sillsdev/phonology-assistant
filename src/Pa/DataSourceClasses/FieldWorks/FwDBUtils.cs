@@ -332,12 +332,6 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 		#region Methods for FW7 and newer database formats.
 		/// ------------------------------------------------------------------------------------
-		public static bool IsFw7Installed
-		{
-			get { return PaFieldWorksHelper.IsFwLoaded; }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Displays a dialog box from which a user may choose an FW7 (or later) project.
 		/// </summary>
@@ -454,7 +448,12 @@ namespace SIL.Pa.DataSource.FieldWorks
 				if (helper.Initialize(dsInfo.Name, dsInfo.Server,
 					Properties.Settings.Default.Fw7TimeToWaitForProcessStart, Properties.Settings.Default.Fw7TimeToWaitForDataLoad))
 				{
-					return helper.LexEntries.ToList();
+				    if (helper.LexEntries != null)
+				    {
+				        return helper.LexEntries.ToList();
+				    }
+
+				    return new List<IPaLexEntry>();
 				}
 			}
 

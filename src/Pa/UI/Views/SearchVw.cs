@@ -221,7 +221,7 @@ namespace SIL.Pa.UI.Views
             {
                 m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
-                var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+                var defs = new[] { FileLocationUtilities.GetFileDistributedWithApplication(App.ConfigFolderName,
 					"SearchTMDefinition.xml") };
 
                 m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);

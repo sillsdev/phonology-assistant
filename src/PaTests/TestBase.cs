@@ -39,7 +39,7 @@ namespace SIL.Pa.TestUtils
 		[TestFixtureSetUp]
 		public virtual void FixtureSetup()
 		{
-			ErrorReport.IsOkToInteractWithUser = false;
+			//ErrorReport.IsOkToInteractWithUser = false;
 			InventoryHelper.Load();
 			App.IPASymbolCache.ClearUndefinedCharacterCollection();
 			ProjectInventoryBuilder.SkipProcessingForTests = true;
