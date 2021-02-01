@@ -61,24 +61,27 @@ namespace SIL.Pa.DataSource
 			{
                 if (File.Exists(ds.FwDataSourceInfo.Name))
                 {
-                    var oldProjectFolder = Path.GetDirectoryName(Path.GetDirectoryName(ds.FwDataSourceInfo.Name));
-                    var newFwProjectFolder = Utils.FwProjectsPath;
-                    if (newFwProjectFolder != null)
-                    {
-                        if (oldProjectFolder != null)
-                            ds.FwDataSourceInfo.Name = ds.FwDataSourceInfo.Name.Replace(oldProjectFolder, newFwProjectFolder).Replace(@"\\", @"\");
-                    }
-                    if (!File.Exists(ds.FwDataSourceInfo.Name))
-                    {
-                        App.NotifyUserOfProblem(LocalizationManager.GetString(
-                            "Miscellaneous.Messages.DataSourceReading.FieldWorks7DataMissingMsg",
-                            "FieldWorks 7.0 (or later) data is missing. It must be acquired in order for Phonology Assistant to read the data source '{0}'. This data source will be skipped."),
-                        ds.FwDataSourceInfo.Name);
+	                if (!File.Exists(ds.FwDataSourceInfo.Name))
+	                {
+		                var oldProjectFolder = Path.GetDirectoryName(Path.GetDirectoryName(ds.FwDataSourceInfo.Name));
+		                var newFwProjectFolder = Utils.FwProjectsPath;
+		                if (newFwProjectFolder != null)
+		                {
+			                if (oldProjectFolder != null)
+				                ds.FwDataSourceInfo.Name = ds.FwDataSourceInfo.Name.Replace(oldProjectFolder, newFwProjectFolder).Replace(@"\\", @"\");
+		                }
+		                if (!File.Exists(ds.FwDataSourceInfo.Name))
+		                {
+			                App.NotifyUserOfProblem(LocalizationManager.GetString(
+					                "Miscellaneous.Messages.DataSourceReading.FieldWorks7DataMissingMsg",
+					                "FieldWorks 7.0 (or later) data is missing. It must be acquired in order for Phonology Assistant to read the data source '{0}'. This data source will be skipped."),
+				                ds.FwDataSourceInfo.Name);
 
-                        ds.SkipLoadingBecauseOfProblem = true;
-                        return;
-                    }
-                }
+			                ds.SkipLoadingBecauseOfProblem = true;
+			                return;
+		                }
+	                }
+				}
 			}
 			else if (!File.Exists(ds.SourceFile))
 			{
