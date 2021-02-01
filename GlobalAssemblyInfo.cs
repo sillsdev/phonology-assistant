@@ -5,10 +5,10 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyCompany("SIL")]
 [assembly: AssemblyProduct("Phonology Assistant")]
-[assembly: AssemblyCopyright("Copyright © 2008-2020 SIL International")]
+[assembly: AssemblyCopyright("Copyright © 2008-2021 SIL International")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyFileVersion("4.0.2.1719")]
-[assembly: AssemblyVersion("4.0.2.1719")]
+[assembly: AssemblyFileVersion("4.0.3.1719")]
+[assembly: AssemblyVersion("4.0.3.1719")]
 
