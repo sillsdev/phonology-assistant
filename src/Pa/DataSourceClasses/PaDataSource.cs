@@ -674,9 +674,19 @@ namespace SIL.Pa.DataSource
 			if (Type == DataSourceType.FW7 && m_fwDataSourceInfo.IsMultiAccessProject)
 				return false;
 
-			var latestModification = (Type == DataSourceType.SA ?
-				SaAudioDocument.GetTranscriptionFileModifiedTime(SourceFile) :
-				File.GetLastWriteTimeUtc(SourceFile));
+			DateTime latestModification;
+
+			try
+			{
+				latestModification = (Type == DataSourceType.SA ?
+					SaAudioDocument.GetTranscriptionFileModifiedTime(SourceFile) :
+					File.GetLastWriteTimeUtc(SourceFile));
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				return false;
+			}
 
 			if (latestModification <= LastModification)
 				return false;
