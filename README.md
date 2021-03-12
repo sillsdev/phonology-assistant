@@ -17,9 +17,7 @@ Phonology Assistant is licensed under MIT. See [LICENSE.md](https://github.com/s
 
 Development
 -----------
-After cloning the repo, install the dependencies with:
-
-`bash ./buildupdate.sh`
+After cloning the repo, restore the nuGet packages.
 
 Load Pa-Windows.sln and set the Configuration to Debug-Windows and the Platform to x86. Then build.
 
