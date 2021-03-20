@@ -1,4 +1,5 @@
 cd %SolutionDir%
+copy DistFiles\Phonology_Assistant_Help.chm Output\Release\.
 BuildStep.exe -v:1 -a:FileComponents --ApplicationFileName=Files_Application.wxs --BasePath=%SolutionDir%Installer --ReleaseFolder=..\Output\Release
 rd /s /q "%SolutionDir%Output\Release\Training"
 md "%SolutionDir%Output\Release\Training"
