@@ -59,6 +59,17 @@ namespace SIL.PaToFdoInterfaces
 			}
 			m_lexEntries = null;
 			m_writingSystems = null;
+			// Write all data and dispose of the flex cache
+			try
+			{
+				m_cache?.ServiceLocator.GetInstance<IUndoStackManager>().StopSaveTimer();
+				m_cache?.ServiceLocator.GetInstance<IUndoStackManager>().Save();
+			}
+			finally
+			{
+				m_cache?.Dispose();
+				m_cache = null;
+			}
 			IsDisposed = true;
 		}
 		#endregion

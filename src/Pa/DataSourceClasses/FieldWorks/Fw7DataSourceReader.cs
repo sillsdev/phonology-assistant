@@ -63,7 +63,7 @@ namespace SIL.Pa.DataSource.FieldWorks
         /// ------------------------------------------------------------------------------------
         public void Dispose()
         {
-            m_worker = null;
+            m_worker?.Dispose();
             m_project = null;
             m_dataSource = null;
             m_fwDsInfo = null;

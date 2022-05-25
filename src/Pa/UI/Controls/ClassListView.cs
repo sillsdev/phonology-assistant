@@ -336,6 +336,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void LoadSettings(string parentFormName)
 		{
+			// Review: I (Jason Naylor) am wondering if LoadSettings and SaveSettings ever do anything except throw and ignore exceptions
 			foreach (ColumnHeader col in Columns)
 			{
 				try
