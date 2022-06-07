@@ -5598,6 +5598,30 @@
 			</features>
 			<order>70E2</order>
 		</symbolDefinition>
+		<symbolDefinition code="0348" literal="͈" IPA="657">
+			<name>Subscript double syllabicity mark</name>
+			<description>strong articulation</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>strong articulation</feature>
+			</features>
+			<order>7110</order>
+		</symbolDefinition>
+		<symbolDefinition code="0349" literal="͉" IPA="658">
+			<name>Subscript corner</name>
+			<description>weak articulation</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>weak articulation</feature>
+			</features>
+			<order>7111</order>
+		</symbolDefinition>
 		<symbolDefinition code="02B0" literal="ʰ" >
 			<name>Superscript h</name>
 			<description>voiceless glottal fricative</description>
