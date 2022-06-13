@@ -9,6 +9,6 @@ using System.Reflection;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyFileVersion("4.0.5.1761")]
-[assembly: AssemblyVersion("4.0.5.1761")]
+[assembly: AssemblyFileVersion("4.1.0.1772")]
+[assembly: AssemblyVersion("4.1.0.1772")]
 
