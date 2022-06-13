@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- for codes see: https://scriptsource.org/cms/scripts/page.php?item_id=entry_detail&uid=wlbaybzb9e-->
 <inventory>
 	<featureDefinitions class="descriptive">
 		<featureDefinition class="type" category="type" type="consonant">
@@ -4135,6 +4136,24 @@
 			</features>
 			<order>1877</order>
 		</symbolDefinition>
+		<symbolDefinition code="02EC" literal="ˬ" IPA="663">
+			<name>Left-sited subscript wedge</name>
+			<description>pre-voicing</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>true</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<order>3101</order>
+		</symbolDefinition>
+		<symbolDefinition code="02EC" literal="ˬ" IPA="664">
+			<name>Right-sited subscript wedge</name>
+			<description>post-voicing</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<order>3102</order>
+		</symbolDefinition>
 		<symbolDefinition code="02B0" literal="ʰ" super="h" IPA="404">
 			<name>Superscript H</name>
 			<description>aspirated</description>
@@ -4877,6 +4896,18 @@
 			</features>
 			<order>3450</order>
 		</symbolDefinition>
+		<symbolDefinition code="0346" literal="͆" IPA="651">
+			<name>Combining bridge above</name>
+			<description>Dentolabial</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>Dentolabial</feature>
+			</features>
+			<order>3461</order>
+		</symbolDefinition>
 		<symbolDefinition code="0347" literal="͇">
 			<name>Combining equals sign below</name>
 			<description>alveolar</description>
@@ -4888,6 +4919,90 @@
 				<feature>alveolar</feature>
 			</features>
 			<order>3350</order>
+		</symbolDefinition>
+		<symbolDefinition code="034A" literal="͊" IPA="654">
+			<name>Subscript slashed tilde</name>
+			<description>denasal</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>denasal</feature>
+			</features>
+			<order>3462</order>
+		</symbolDefinition>
+		<symbolDefinition code="034B" literal="͋" IPA="655">
+			<name>Combining homothetic above</name>
+			<description>nasal escape</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>nasal escape</feature>
+			</features>
+			<order>3463</order>
+		</symbolDefinition>
+		<symbolDefinition code="034C" literal="͌" IPA="656">
+			<name>Superscript double tilde</name>
+			<description>velopharyngeal friction</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>velopharyngeal friction</feature>
+			</features>
+			<order>3464</order>
+		</symbolDefinition>
+		<symbolDefinition code="034D" literal="͍" IPA="652">
+			<name>Subscript double arrow</name>
+			<description>labial spreading</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>labial spreading</feature>
+			</features>
+			<order>3460</order>
+		</symbolDefinition>
+		<symbolDefinition code="034E" literal="͎" IPA="660">
+			<name>Subscript upward arrowhead</name>
+			<description>whistled articulation</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>whistled articulation</feature>
+			</features>
+			<order>3465</order>
+		</symbolDefinition>
+		<symbolDefinition code="0354" literal="͔" ipa="681">
+			<name>Subscript left pointer</name>
+			<description>laterally offset to the right</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>true</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>laterally offset to the right</feature>
+			</features>
+			<order>3F02</order>
+		</symbolDefinition>
+		<symbolDefinition code="0355" literal="͕" ipa="682">
+			<name>Subscript right pointer</name>
+			<description>laterally offset to the left</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>true</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>laterally offset to the left</feature>
+			</features>
+			<order>3F03</order>
 		</symbolDefinition>
 		<symbolDefinition code="035C" literal="͜">
 			<name>Bottom tie bar</name>
@@ -4905,6 +5020,18 @@
 			<isBase>false</isBase>
 			<canPrecedeBase>true</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<order>3F00</order>
+		</symbolDefinition>
+		<symbolDefinition code="0362" literal="͡" IPA="674">
+			<name>Subscript right arrow</name>
+			<description>sliding articulation</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>true</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>sliding articulation</feature>
+			</features>
 			<order>3F00</order>
 		</symbolDefinition>
 		<symbolDefinition code="03B1" literal="α">
@@ -5597,6 +5724,42 @@
 				<feature>creaky voiced</feature>
 			</features>
 			<order>70E2</order>
+		</symbolDefinition>
+		<symbolDefinition code="033F" literal="̰" IPA="680">
+			<name>Superscript equal sign</name>
+			<description>unaspirated</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>unaspirated</feature>
+			</features>
+			<order>70E3</order>
+		</symbolDefinition>
+		<symbolDefinition code="0348" literal="͈" IPA="657">
+			<name>Subscript double syllabicity mark</name>
+			<description>strong articulation</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>strong articulation</feature>
+			</features>
+			<order>7110</order>
+		</symbolDefinition>
+		<symbolDefinition code="0349" literal="͉" IPA="658">
+			<name>Subscript corner</name>
+			<description>weak articulation</description>
+			<type>diacritic</type>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>weak articulation</feature>
+			</features>
+			<order>7111</order>
 		</symbolDefinition>
 		<symbolDefinition code="02B0" literal="ʰ" >
 			<name>Superscript h</name>
